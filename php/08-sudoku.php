@@ -11,7 +11,7 @@ $init_arry=array(
     0,0,8,5,0,0,0,1,0,
     0,9,0,0,0,0,4,0,0
 );
-$message_log = '06-sudoku.log';
+$message_log = '09-sudoku.log';
 $message = '';
 $tmp_array=array();
 $known_number = 0;
