@@ -10,11 +10,21 @@ $init_arry=array(
     0,0,1,0,0,0,0,6,8,
     0,0,8,5,0,0,0,1,0,
     0,9,0,0,0,0,4,0,0
+    /*
+    0,0,0,9,0,0,8,0,0,
+    4,3,0,0,0,8,0,9,6,
+    0,0,9,0,0,6,5,7,3,
+    1,4,8,0,0,0,0,0,0,
+    0,0,7,2,0,5,1,0,0,
+    0,0,0,0,0,0,7,3,9,
+    2,1,4,6,0,0,3,0,0,
+    6,7,0,1,0,0,0,8,2,
+    0,0,5,0,0,7,0,0,0
+     */
 );
 $message_log = 'sudoku.log';
 $message = '';
 $tmp_array=array();
-$tmp_stack = array();
 $known_number = 0;
 
 foreach($init_arry as $key => $number)
@@ -26,6 +36,12 @@ foreach($init_arry as $key => $number)
         $tmp_array[$key]= "$number";
         $known_number++;
     }
+}
+
+if($known_number<17) {
+    $message .=  "No Result: \n";
+    file_put_contents($message_log, $message);
+    exit;
 }
 
 function calculate_same_rcb($tmp_key)
@@ -226,6 +242,7 @@ if(false == check_Matrix($tmp_array))
 }
 else
 {
+    $tmp_stack = array();
     do {
         $matrix_status = get_Matrix_Status($tmp_array);
         if('solved' == $matrix_status) {
