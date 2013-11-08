@@ -1,6 +1,5 @@
 #!/usr/local/bin/php
 <?php
-xdebug_start_trace();
 function recursion($a)
 {
     if ($a < 21) {
@@ -16,5 +15,7 @@ function factorial($number) {
         return ($number * factorial($number-1));
     }
 }
+xdebug_start_trace("trace.recursive.txt");
 recursion(0);
+xdebug_stop_trace();
 //echo factorial(20);
