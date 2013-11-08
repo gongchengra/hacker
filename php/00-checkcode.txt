@@ -1,0 +1,41 @@
+Namespace:
+A fully-qualified namespace and class must have the following structure \<Vendor Name>\(<Namespace>\)*<Class Name>
+Each namespace must have a top-level namespace ("Vendor Name").
+Each namespace can have as many sub-namespaces as it wishes.
+Each namespace separator is converted to a DIRECTORY_SEPARATOR when loading from the file system.
+Each _ character in the CLASS NAME is converted to a DIRECTORY_SEPARATOR. The _ character has no special meaning in the namespace.
+The fully-qualified namespace and class is suffixed with .php when loading from the file system.
+Alphabetic characters in vendor names, namespaces, and class names may be of any combination of lower case and upper case.
+
+Basic Coding Standard:
+Files MUST use only <?php and <?= tags.
+All PHP files MUST use the Unix LF (linefeed) line ending.
+All PHP files MUST end with a single blank line.
+The closing ?> tag MUST be omitted from files containing only PHP.
+Files MUST use only UTF-8 without BOM for PHP code.
+Files SHOULD either declare symbols (classes, functions, constants, etc.) or cause side-effects (e.g. generate output, change .ini settings, etc.) but SHOULD NOT do both.
+Namespaces and classes MUST follow PSR-0.
+Class names MUST be declared in StudlyCaps.
+Class constants MUST be declared in all upper case with underscore separators.
+Method names MUST be declared in camelCase.
+Variables should be declared at the top of the class before any method declarations.
+Functions and methods should be named using camelCase with first letter lowercase.
+
+Coding Style Guide:
+Code MUST use 4 spaces for indenting, not tabs.
+There MUST NOT be a hard limit on line length; the soft limit MUST be 120 characters; lines SHOULD be 80 characters or less.
+There MUST be one blank line after the namespace declaration, and there MUST be one blank line after the block of use declarations.
+Opening braces for classes MUST go on the next line, and closing braces MUST go on the next line after the body.
+Opening braces for methods MUST go on the next line, and closing braces MUST go on the next line after the body.
+Visibility MUST be declared on all properties and methods; abstract and final MUST be declared before the visibility; static MUST be declared after the visibility.
+Control structure keywords MUST have one space after them; method and function calls MUST NOT.
+Opening braces for control structures MUST go on the same line, and closing braces MUST go on the next line after the body.
+Opening parentheses for control structures MUST NOT have a space after them, and closing parentheses for control structures MUST NOT have a space before.
+Control statement condition must have single space before and after parenthesis.
+Operators inside of parenthesis should be separated by spaces.
+Opening brace is on the same line, closing brace is on a new line.
+Always use braces for single line statements.
+The structure body MUST be indented once
+Always use elseif instead of else if.
+All PHP types and values should be used lowercase. That includes true, false, null and array.
+

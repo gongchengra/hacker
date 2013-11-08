@@ -98,7 +98,7 @@ function delete_duplicate_value($tmp_array)
 function fill_Cells_With_One_Possibility($tmp_array)
 {
     do{
-       $found_flag = false;
+        $found_flag = false;
         foreach($tmp_array as $tmp_key => $tmp_val) {
             $tmp_val_array = str_split($tmp_val);
             foreach($tmp_val_array as $val)
@@ -206,75 +206,73 @@ foreach ($tmp_array as $key => $value)
     $walk[$key] = 0;
     $count_ball[$key] = strlen($value);
 }
-//if(0)
-//{
-    do{
-        $copy_tmp_array_numbers = $tmp_array_numbers;
-        $tmp_matrix = array();
-        foreach($walk as $k => $v)
-        {
-            if(0 == $copy_tmp_array_numbers[$k][$v])
-            {
-                continue 2;
-            }
-            $tmp_matrix[$k] = $copy_tmp_array_numbers[$k][$v];
-            $row_column_block = calculate_same_rcb($k);
-            $same_row_array = $row_column_block['row'];
-            $same_column_array = $row_column_block['column'];
-            $same_block_array = $row_column_block['block'];
-            foreach ($same_row_array as $same_row_key) {
-                if($k != $same_row_key && count($copy_tmp_array_numbers[$same_row_key]) > 1 
-                    && false != array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key]))
-                {
-                    $copy_tmp_array_numbers[array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key])] = 0;
-                }
-            }
-            foreach ($same_column_array as $same_column_key) {
-                if($k != $same_column_key && count($copy_tmp_array_numbers[$same_column_key]) > 1 
-                    && false != array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key]))
-                {
-                    $copy_tmp_array_numbers[array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key])] = 0;
-                }
-            }
-            foreach ($same_block_array as $same_block_key) {
-                if($k != $same_block_key && count($copy_tmp_array_numbers[$same_block_key]) > 1 
-                    && false != array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key]))
-                {
-                    $copy_tmp_array_numbers[array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key])] = 0;
-                }
-            }
-        }
-        echo join('',$walk)."\n";
-        //    foreach($tmp_matrix as $key => $value)
-        //    {
-        //        echo $value.' ';
-        //        if(0 == ($key+1)%9) echo "\n";
-        //    }
-        if(true == check_Matrix($tmp_matrix))
-        {
-            foreach($tmp_matrix as $key => $value)
-            {
-                $message .= $value.' ';
-                if(0 == ($key+1)%9) $message .= "\n";
-            }
-            file_put_contents($message_log, $message);
-            exit;
-        }
-        $walk[0]++;
-        foreach($walk as $kk => $vv) {
-            if($walk[$kk] == $count_ball[$kk]) {
-                $walk[$kk] = 0;
-                $walk[$kk+1] ++;
-            }
-        }
-        //}while($walk[0] < 4);
-    }while($walk[80] < $count_ball[80]);
-
-    $message .=  "Final Result: \n";
-    foreach($tmp_array as $key => $value)
+do{
+    $copy_tmp_array_numbers = $tmp_array_numbers;
+    $tmp_matrix = array();
+    foreach($walk as $k => $v)
     {
-        $message .= $value.' ';
-        if(0 == $key%9) $message .= "\n";
+        if(0 == $copy_tmp_array_numbers[$k][$v])
+        {
+            continue 2;
+        }
+        $tmp_matrix[$k] = $copy_tmp_array_numbers[$k][$v];
+        $row_column_block = calculate_same_rcb($k);
+        $same_row_array = $row_column_block['row'];
+        $same_column_array = $row_column_block['column'];
+        $same_block_array = $row_column_block['block'];
+        foreach ($same_row_array as $same_row_key) {
+            if($k != $same_row_key && count($copy_tmp_array_numbers[$same_row_key]) > 1 
+                && false != array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key]))
+            {
+                $copy_tmp_array_numbers[array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key])] = 0;
+            }
+        }
+        foreach ($same_column_array as $same_column_key) {
+            if($k != $same_column_key && count($copy_tmp_array_numbers[$same_column_key]) > 1 
+                && false != array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key]))
+            {
+                $copy_tmp_array_numbers[array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key])] = 0;
+            }
+        }
+        foreach ($same_block_array as $same_block_key) {
+            if($k != $same_block_key && count($copy_tmp_array_numbers[$same_block_key]) > 1 
+                && false != array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key]))
+            {
+                $copy_tmp_array_numbers[array_search($tmp_matrix[$k],$copy_tmp_array_numbers[$same_row_key])] = 0;
+            }
+        }
     }
-    file_put_contents($message_log, $message);
-//}
+    echo join('',$walk)."\n";
+    //    foreach($tmp_matrix as $key => $value)
+    //    {
+    //        echo $value.' ';
+    //        if(0 == ($key+1)%9) echo "\n";
+    //    }
+    if(true == check_Matrix($tmp_matrix))
+    {
+        foreach($tmp_matrix as $key => $value)
+        {
+            $message .= $value.' ';
+            if(0 == ($key+1)%9) $message .= "\n";
+        }
+        file_put_contents($message_log, $message);
+        exit;
+    }
+    $walk[0]++;
+    foreach($walk as $kk => $vv) {
+        if($walk[$kk] == $count_ball[$kk]) {
+            $walk[$kk] = 0;
+            $walk[$kk+1] ++;
+        }
+    }
+    //}while($walk[0] < 4);
+}while($walk[80] < $count_ball[80]);
+
+$message .=  "Final Result: \n";
+foreach($tmp_array as $key => $value)
+{
+    $message .= $value.' ';
+    if(0 == $key%9) $message .= "\n";
+}
+file_put_contents($message_log, $message);
+

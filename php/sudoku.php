@@ -1,6 +1,6 @@
 #!/usr/local/bin/php
 <?php
-$init_arry=array(
+$initArray = array(
     8,0,0,0,0,0,0,0,0,
     0,0,3,6,0,0,0,0,0,
     0,7,0,0,9,0,2,0,0,
@@ -11,168 +11,158 @@ $init_arry=array(
     0,0,8,5,0,0,0,1,0,
     0,9,0,0,0,0,4,0,0
 );
-$message_log = 'sudoku.log';
+$messageLog = 'sudoku.log';
 $message = '';
-$tmp_array=array();
-$tmp_stack = array();
-$known_number = 0;
+$tmpArray = array();
+$tmpStack = array();
 
-foreach ($init_arry as $key => $number) {
-    if (0 == $number) {
-        $tmp_array[$key] = "123456789";
+foreach ($initArry as $key => $val) {
+    if (0 == $val) {
+        $tmpArray[$key] = "123456789";
     } else {
-        $tmp_array[$key]= "$number";
-        $known_number++;
+        $tmpArray[$key]= "$val";
     }
 }
 
-function calculate_same_rcb($tmp_key)
-{
-    $row_number = intval($tmp_key / 9);
-    $column_number = $tmp_key % 9;
-    $same_row_array = array();
-    $same_column_array = array();
-    $same_block_array = array();
-    for($counter=0; $counter < 9; $counter++) {
-        $same_row = $row_number * 9 + $counter;
-        $same_row_array[$counter] = $same_row;
-        $same_column = $counter * 9 + $column_number;
-        $same_column_array[$counter] = $same_column;
-        $same_block = intval($row_number / 3 ) * 3 * 9 + intval($tmp_key % 9 / 3) * 3;
-        $same_block += intval($counter / 3) * 9 + $counter % 3;
-        $same_block_array[$counter] = $same_block;
+function calculateSameRcb($tmpKey) {
+    $rowNumber = intval($tmpKey / 9);
+    $columnNumber = $tmpKey % 9;
+    $sameRowArray = array();
+    $sameColumnArray = array();
+    $sameBlockArray = array();
+    for ($counter = 0; $counter < 9; $counter++) {
+        $sameRow = $rowNumber * 9 + $counter;
+        $sameRowArray[$counter] = $sameRow;
+        $sameColumn = $counter * 9 + $columnNumber;
+        $sameColumnArray[$counter] = $sameColumn;
+        $sameBlock = intval($rowNumber / 3) * 3 * 9 + intval($tmpKey % 9 / 3) * 3;
+        $sameBlock += intval($counter / 3) * 9 + $counter % 3;
+        $sameBlockArray[$counter] = $sameBlock;
     }
-    $row_column_block['row'] = $same_row_array;
-    $row_column_block['column'] = $same_column_array;
-    $row_column_block['block'] = $same_block_array;
-    return $row_column_block;
+    $rowColumnBlock['row'] = $sameRowArray;
+    $rowColumnBlock['column'] = $sameColumnArray;
+    $rowColumnBlock['block'] = $sameBlockArray;
+    return $rowColumnBlock;
 }
 
-function delete_duplicate_value($tmp_array)
-{
+function deleteDuplicateValue($tmpArray) {
     do {
-        $delete_flag = false;
-        foreach ($tmp_array as $tmp_key => $tmp_val) {
-            if (strlen($tmp_val) == 1) {
-                $row_column_block = calculate_same_rcb($tmp_key);
-                $same_row_array = $row_column_block['row'];
-                $same_column_array = $row_column_block['column'];
-                $same_block_array = $row_column_block['block'];
-                foreach ($same_row_array as $same_row_key) {
-                    if ($same_row_key != $tmp_key && strlen($tmp_array[$same_row_key]) > 1
-                        && false !== strpos($tmp_array[$same_row_key], $tmp_array[$tmp_key])) {
-                        $tmp_array[$same_row_key] = str_replace($tmp_array[$tmp_key],'',$tmp_array[$same_row_key]);
-//                        echo "deleted ". $tmp_array["$tmp_key"]. " from ". $same_row_key. " due to value in ". $tmp_key. "\n";
-                        $delete_flag = true;
+        $deleteFlag = false;
+        foreach ($tmpArray as $tmpKey => $tmpVal) {
+            if (strlen($tmpVal) == 1) {
+                $rowColumnBlock = calculateSameRcb($tmpKey);
+                $sameRowArray = $rowColumnBlock['row'];
+                $sameColumnArray = $rowColumnBlock['column'];
+                $sameBlockArray = $rowColumnBlock['block'];
+                foreach ($sameRowArray as $sameRowKey) {
+                    if ($sameRowKey != $tmpKey && strlen($tmpArray[$sameRowKey]) > 1
+                        && false !== strpos($tmpArray[$sameRowKey], $tmpArray[$tmpKey])) {
+                        $tmpArray[$sameRowKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameRowKey]);
+                        $deleteFlag = true;
                     }
                 }
-                foreach ($same_column_array as $same_column_key) {
-                    if ($same_column_key != $tmp_key && strlen($tmp_array[$same_column_key]) > 1
-                        && false !== strpos($tmp_array[$same_column_key], $tmp_array[$tmp_key])) {
-                        $tmp_array[$same_column_key] = str_replace($tmp_array[$tmp_key],'',$tmp_array[$same_column_key]);
-//                        echo "deleted ". $tmp_array["$tmp_key"]. " from ". $same_column_key. " due to value in ". $tmp_key. "\n";
-                        $delete_flag = true;
+                foreach ($sameColumnArray as $sameColumnKey) {
+                    if ($sameColumnKey != $tmpKey && strlen($tmpArray[$sameColumnKey]) > 1
+                        && false !== strpos($tmpArray[$sameColumnKey], $tmpArray[$tmpKey])) {
+                        $tmpArray[$sameColumnKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameColumnKey]);
+                        $deleteFlag = true;
                     }
                 }
-                foreach ($same_block_array as $same_block_key) {
-                    if ($same_block_key != $tmp_key && strlen($tmp_array[$same_block_key]) > 1
-                        && false !== strpos($tmp_array[$same_block_key], $tmp_array[$tmp_key])) {
-                        $tmp_array[$same_block_key] = str_replace($tmp_array[$tmp_key],'',$tmp_array[$same_block_key]);
-//                        echo "deleted ". $tmp_array["$tmp_key"]. " from ". $same_block_key. " due to value in ". $tmp_key. "\n";
-                        $delete_flag = true;
+                foreach ($sameBlockArray as $sameBlockKey) {
+                    if ($sameBlockKey != $tmpKey && strlen($tmpArray[$sameBlockKey]) > 1
+                        && false !== strpos($tmpArray[$sameBlockKey], $tmpArray[$tmpKey])) {
+                        $tmpArray[$sameBlockKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameBlockKey]);
+                        $deleteFlag = true;
                     }
                 }
             }
         }
-    } while (false != $delete_flag);
-    return $tmp_array;
+    } while (false != $deleteFlag);
+    return $tmpArray;
 }
 
-function fill_Cells_With_One_Possibility($tmp_array)
-{
+function fillCellsWithOnePossibility($tmpArray) {
     do {
-       $found_flag = false;
-        foreach ($tmp_array as $tmp_key => $tmp_val) {
-            $tmp_val_array = str_split($tmp_val);
-            foreach ($tmp_val_array as $val) {
-                $row_column_block = calculate_same_rcb($tmp_key);
-                $same_row_array = $row_column_block['row'];
-                $same_column_array = $row_column_block['column'];
-                $same_block_array = $row_column_block['block'];
-                $row_counter = 0;
-                foreach ($same_row_array as $same_row_key) {
-                    if (false !== strpos($tmp_array[$same_row_key], $val)) {
-                        $row_counter++;
-                        $remember_row = $same_row_key;
+       $foundFlag = false;
+        foreach ($tmpArray as $tmpKey => $tmpVal) {
+            if(strlen($tmpVal) > 1)
+            {
+                $tmpValArray = str_split($tmpVal);
+                foreach ($tmpValArray as $val) {
+                    $rowColumnBlock = calculateSameRcb($tmpKey);
+                    $sameRowArray = $rowColumnBlock['row'];
+                    $sameColumnArray = $rowColumnBlock['column'];
+                    $sameBlockArray = $rowColumnBlock['block'];
+                    $rowCounter = 0;
+                    foreach ($sameRowArray as $sameRowKey) {
+                        if (false !== strpos($tmpArray[$sameRowKey], $val)) {
+                            $rowCounter++;
+                            $rememberRow = $sameRowKey;
+                        }
                     }
-                }
-                if (1 == $row_counter && strlen($tmp_array[$remember_row]) > 1) {
-                    $tmp_array[$remember_row] = "$val";
-//                    echo 'tmp_key '. $tmp_key. ' same_row '. $remember_row. ' '. $val. "\n";
-                    $found_flag = true;
-                }
-                $column_counter = 0;
-                foreach ($same_column_array as $same_column_key) {
-                    if (false !== strpos($tmp_array[$same_column_key], $val)) {
-                        $column_counter++;
-                        $remember_column = $same_column_key;
+                    if (1 == $rowCounter && strlen($tmpArray[$rememberRow]) > 1) {
+                        $tmpArray[$rememberRow] = "$val";
+                        $foundFlag = true;
                     }
-                }
-                if (1 == $column_counter && strlen($tmp_array[$remember_column]) > 1) {
-                    $tmp_array[$remember_column] = "$val";
-//                    echo 'tmp_key '. $tmp_key. ' same_column '. $remember_column. ' '. $val. "\n";
-                    $found_flag = true;
-                }
-                $block_counter = 0;
-                foreach ($same_block_array as $same_block_key) {
-                    if (false !== strpos($tmp_array[$same_block_key], $val)) {
-                        $block_counter++;
-                        $remember_block = $same_block_key;
+                    $columnCounter = 0;
+                    foreach ($sameColumnArray as $sameColumnKey) {
+                        if (false !== strpos($tmpArray[$sameColumnKey], $val)) {
+                            $columnCounter++;
+                            $rememberColumn = $sameColumnKey;
+                        }
                     }
-                }
-                if (1 == $block_counter && strlen($tmp_array[$remember_block]) > 1) {
-                    $tmp_array[$remember_block] = "$val";
-//                    echo 'tmp_key '. $tmp_key. ' same_block '. $remember_block. ' '. $val. "\n";
-                    $found_flag = true;
+                    if (1 == $columnCounter && strlen($tmpArray[$rememberColumn]) > 1) {
+                        $tmpArray[$rememberColumn] = "$val";
+                        $foundFlag = true;
+                    }
+                    $blockCounter = 0;
+                    foreach ($sameBlockArray as $sameBlockKey) {
+                        if (false !== strpos($tmpArray[$sameBlockKey], $val)) {
+                            $blockCounter++;
+                            $remember_block = $sameBlockKey;
+                        }
+                    }
+                    if (1 == $blockCounter && strlen($tmpArray[$remember_block]) > 1) {
+                        $tmpArray[$remember_block] = "$val";
+                        $foundFlag = true;
+                    }
                 }
             }
         }
-    } while (false != $found_flag);
-    return $tmp_array;
+    } while (false != $foundFlag);
+    return $tmpArray;
 }
 
-function simplify_Matrix($tmp_array)
-{
+function simplifyArray($tmpArray) {
     do {
-        $before_simplify = $tmp_array;
-        $tmp_array = delete_duplicate_value($tmp_array);
-        $tmp_array = fill_Cells_With_One_Possibility($tmp_array);
-        $after_simplify = $tmp_array;
-    } while ($before_simplify != $after_simplify);
-    return $tmp_array;
+        $beforeSimplify = $tmpArray;
+        $tmpArray = deleteDuplicateValue($tmpArray);
+        $tmpArray = fillCellsWithOnePossibility($tmpArray);
+        $afterSimplify = $tmpArray;
+    } while ($beforeSimplify != $afterSimplify);
+    return $tmpArray;
 }
 
-function check_Matrix($matrix)
-{
-    foreach ($matrix as $tmp_key => $tmp_val) {
-        $row_column_block = calculate_same_rcb($tmp_key);
-        $same_row_array = $row_column_block['row'];
-        $same_column_array = $row_column_block['column'];
-        $same_block_array = $row_column_block['block'];
-        if (strlen($tmp_val) == 1)
+function checkArray($tmpArray) {
+    foreach ($tmpArray as $tmpKey => $tmpVal) {
+        $rowColumnBlock = calculateSameRcb($tmpKey);
+        $sameRowArray = $rowColumnBlock['row'];
+        $sameColumnArray = $rowColumnBlock['column'];
+        $sameBlockArray = $rowColumnBlock['block'];
+        if (strlen($tmpVal) == 1)
         {
-            foreach ($same_row_array as $same_row_key) {
-                if ($tmp_key != $same_row_key && 1 == strlen($matrix[$same_row_key]) && $tmp_val == $matrix[$same_row_key]) {
+            foreach ($sameRowArray as $sameRowKey) {
+                if ($tmpKey != $sameRowKey && 1 == strlen($tmpArray[$sameRowKey]) && $tmpVal == $tmpArray[$sameRowKey]) {
                     return false;
                 }
             }
-            foreach ($same_column_array as $same_column_key) {
-                if ($tmp_key != $same_column_key && 1 == strlen($matrix[$same_column_key]) && $tmp_val == $matrix[$same_column_key]) {
+            foreach ($sameColumnArray as $sameColumnKey) {
+                if ($tmpKey != $sameColumnKey && 1 == strlen($tmpArray[$sameColumnKey]) && $tmpVal == $tmpArray[$sameColumnKey]) {
                     return false;
                 }
             }
-            foreach ($same_block_array as $same_block_key) {
-                if ($tmp_key != $same_block_key && 1 == strlen($matrix[$same_block_key]) && $tmp_val == $matrix[$same_block_key]) {
+            foreach ($sameBlockArray as $sameBlockKey) {
+                if ($tmpKey != $sameBlockKey && 1 == strlen($tmpArray[$sameBlockKey]) && $tmpVal == $tmpArray[$sameBlockKey]) {
                     return false;
                 }
             }
@@ -181,117 +171,110 @@ function check_Matrix($matrix)
     return true;
 }
 
-function get_Matrix_Status($tmp_array)
-{
-    $known_number = 0;
-    foreach ($tmp_array as $tmp_key => $tmp_val) {
-        if (0 == strlen($tmp_val)) {
+function getArrayStatus($tmpArray) {
+    $knownNumber = 0;
+    foreach ($tmpArray as $tmpKey => $tmpVal) {
+        if (0 == strlen($tmpVal)) {
             return 'error';
         }
-        if (1 == strlen($tmp_val)) {
-            $known_number++;
+        if (1 == strlen($tmpVal)) {
+            $knownNumber++;
         }
     }
-    if (81 == $known_number) {
+    if (81 == $knownNumber) {
         return 'solved';
     } else {
         return 'unsolved';
     }
 }
 
-function find_Lest_Unknown_Cell($tmp_array)
-{
-    $least_unknown_val = '123456789';
-    foreach ($tmp_array as $tmp_key => $tmp_val) {
-        if (strlen($tmp_val) > 1 && strlen($tmp_val) < strlen($least_unknown_val)) {
-            $least_unknown_key = $tmp_key;
-            $least_unknown_val = $tmp_val;
+function findLeastUnknownCell($tmpArray) {
+    $leastUnknownVal = '123456789';
+    foreach ($tmpArray as $tmpKey => $tmpVal) {
+        if (strlen($tmpVal) > 1 && strlen($tmpVal) < strlen($leastUnknownVal)) {
+            $leastUnknownKey = $tmpKey;
+            $leastUnknownVal = $tmpVal;
         }
     }
-    $least_unknown_cell['key'] = $least_unknown_key;
-    $least_unknown_cell['val'] = $least_unknown_val;
-    return $least_unknown_cell;
+    $leastUnknownCell['key'] = $leastUnknownKey;
+    $leastUnknownCell['val'] = $leastUnknownVal;
+    return $leastUnknownCell;
 }
 
-$tmp_array = simplify_Matrix($tmp_array);
-if (false == check_Matrix($tmp_array))
-{
+$tmpArray = simplifyArray($tmpArray);
+if (false == checkArray($tmpArray)) {
     echo "No solution";
     $message .= "No solution";
-    file_put_contents($message_log, $message);
+    file_putContents($messageLog, $message);
     exit;
-} else
-{
+} else {
     do {
-        $matrix_status = get_Matrix_Status($tmp_array);
-        if ('solved' == $matrix_status) {
-            if (true == check_Matrix($tmp_array))
+        $tmpArrayStatus = getArrayStatus($tmpArray);
+        if ('solved' == $tmpArrayStatus) {
+            if (true == checkArray($tmpArray))
             {
-                foreach ($tmp_array as $key => $value) {
-                    $message .= $value.' ';
-                    if (0 == ($key+1)%9) $message .= "\n";
+                foreach ($tmpArray as $key => $value) {
+                    if (0 == ($key+1)%9) {
+                        $message .= $value."\n";
+                    } else {
+                        $message .= $value.' ';
+                    }
                 }
-                foreach ($tmp_array as $key => $value) {
-                    echo $value.' ';
-                    if (0 == ($key+1)%9) echo "\n";
+                foreach ($tmpArray as $key => $value) {
+                    if (0 == ($key+1)%9){
+                        echo $value."\n";
+                    } else {
+                        echo $value.' ';
+                    }
                 }
                 echo "\n";
             }
-            if (0 == count($tmp_stack)) {
+            if (0 == count($tmpStack)) {
                 break;
             } else {
-                $top_of_stack = array_pop($tmp_stack);
-                $tmp_array = array_pop($tmp_stack);
-                $top_of_stack_array = str_split($top_of_stack['val']);
-                $first_number_on_top_stack = array_shift($top_of_stack_array);
-                $tmp_array[$top_of_stack['key']] = $first_number_on_top_stack;
-                //echo 'assume '. $least_unknown_cell['key']. ' is '. $first_number_on_top_stack. "\n";
-                $tmp_array = simplify_Matrix($tmp_array);
-                if (count($top_of_stack_array) > 0)
+                $topOfStack = array_pop($tmpStack);
+                $tmpArray = array_pop($tmpStack);
+                $topOfStackArray = str_split($topOfStack['val']);
+                $firstNumberOnTopStack = array_shift($topOfStackArray);
+                $tmpArray[$topOfStack['key']] = $firstNumberOnTopStack;
+                //echo 'assume '. $leastUnknownCell['key']. ' is '. $firstNumberOnTopStack. "\n";
+                $tmpArray = simplifyArray($tmpArray);
+                if (count($topOfStackArray) > 0)
                 {
-                    $top_of_stack['val'] = join('',$top_of_stack_array);
-                    array_push($tmp_stack, $tmp_array);
-                    array_push($tmp_stack, $top_of_stack);
+                    $topOfStack['val'] = join('',$topOfStackArray);
+                    array_push($tmpStack, $tmpArray);
+                    array_push($tmpStack, $topOfStack);
                 }
-                //                $tmp_array = array_shift($tmp_stack);
-                //                $head_of_stack = array_shift($tmp_stack);
-                //                $tmp_array[$head_of_stack['key']] = $head_of_stack['val'];
             }
         }
-        if ('unsolved' == $matrix_status) {
-//            foreach ($tmp_array as $key => $value) {
-//                echo $value.' ';
-//                if (0 == ($key+1)%9) echo "\n";
-//            }
-            array_push($tmp_stack, $tmp_array);
-            $least_unknown_cell = find_Lest_Unknown_Cell($tmp_array);
-            //echo 'least_unknow_cell is '. $least_unknown_cell['key']. ' with value of '. $least_unknown_cell['val']. "\n";
-            $unknown_cell_array = str_split($least_unknown_cell['val']);
-            $first_number_in_unknown_cell = array_shift($unknown_cell_array);
-            $least_unknown_cell['val'] = join('',$unknown_cell_array);
-            array_push($tmp_stack,$least_unknown_cell);
-            $tmp_array[$least_unknown_cell['key']] = $first_number_in_unknown_cell;
-            //echo 'assume '. $least_unknown_cell['key']. ' is '. $first_number_in_unknown_cell. "\n";
-            $tmp_array = simplify_Matrix($tmp_array);
+        if ('unsolved' == $tmpArrayStatus) {
+            array_push($tmpStack, $tmpArray);
+            $leastUnknownCell = findLeastUnknownCell($tmpArray);
+            $unknownCellArray = str_split($leastUnknownCell['val']);
+            $firstNumberInUnknownCell = array_shift($unknownCellArray);
+            $leastUnknownCell['val'] = join('',$unknownCellArray);
+            array_push($tmpStack,$leastUnknownCell);
+            $tmpArray[$leastUnknownCell['key']] = $firstNumberInUnknownCell;
+            $tmpArray = simplifyArray($tmpArray);
         }
-        if ('error' == $matrix_status) {
-            if (0 == count($tmp_stack)) {
+        if ('error' == $tmpArrayStatus) {
+            if (0 == count($tmpStack)) {
                 $message .= "No solution";
                 break;
             } else {
-                $top_of_stack = array_pop($tmp_stack);
-                array_pop($tmp_stack);
-                $top_of_stack_array = str_split($top_of_stack['val']);
-                $first_number_on_top_stack = array_shift($top_of_stack_array);
-                $tmp_array[$top_of_stack['key']] = $first_number_on_top_stack;
-                $tmp_array = simplify_Matrix($tmp_array);
-                if (count($top_of_stack_array) > 0)
+                $topOfStack = array_pop($tmpStack);
+                array_pop($tmpStack);
+                $topOfStackArray = str_split($topOfStack['val']);
+                $firstNumberOnTopStack = array_shift($topOfStackArray);
+                $tmpArray[$topOfStack['key']] = $firstNumberOnTopStack;
+                $tmpArray = simplifyArray($tmpArray);
+                if (count($topOfStackArray) > 0)
                 {
-                    $top_of_stack['val'] = join('',$top_of_stack_array);
-                    array_push($tmp_stack, $top_of_stack);
+                    $topOfStack['val'] = join('',$topOfStackArray);
+                    array_push($tmpStack, $topOfStack);
                 }
             }
         }
     } while (1);
 }
-file_put_contents($message_log, $message);
+file_put_contents($messageLog, $message);
