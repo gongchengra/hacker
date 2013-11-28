@@ -5,10 +5,15 @@ learn how to be a hacker
 
 My plan:
 01. learn c
-    1. 语言   01.The_C_Programming_Language_中文版
-    2. 算法和数据结构  02.算法C语言实现01_04 02.算法C语言实现05 02.算法导论中文版
+
+    1. 语言 01.The_C_Programming_Language_中文版
+
+    2. 算法和数据结构 02.算法C语言实现01_04 02.算法C语言实现05 02.算法导论中文版
+
     3. 系统编程 03.UNIX网络编程第1卷  03.UNIX网络编程第2卷 03.UNIX环境高级编程中文版
+
     4. 系统设计 04.Unix编程艺术
+
 02. learn python
 03. learn lisp
 04. learn perl
