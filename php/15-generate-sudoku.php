@@ -1,16 +1,15 @@
 #!/usr/local/bin/php
 <?php
-//error_reporting( E_ALL&~E_NOTICE );
 $initArray = array(
-    8,0,0,0,0,0,0,0,0,
-    0,0,3,6,0,0,0,0,0,
-    0,7,0,0,9,0,2,0,0,
-    0,5,0,0,0,7,0,0,0,
-    0,0,0,0,4,5,7,0,0,
-    0,0,0,1,0,0,0,3,0,
-    0,0,1,0,0,0,0,6,8,
-    0,0,8,5,0,0,0,1,0,
-    0,9,0,0,0,0,4,0,0
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0
 );
 $messageLog = 'sudoku.log';
 $message = '';
@@ -20,8 +19,6 @@ $tmpStack = array();
 foreach ($initArray as $key => $val) {
     if (0 == $val) {
         $tmpArray[$key] = "123456789";
-    } else {
-        $tmpArray[$key]= "$val";
     }
 }
 
@@ -197,87 +194,30 @@ function findLeastUnknownCell($tmpArray) {
             $leastUnknownVal = $tmpVal;
         }
     }
-    if(isset($leastUnknownKey) && isset($leastUnknownVal)) {
-        $leastUnknownCell['key'] = $leastUnknownKey;
-        $leastUnknownCell['val'] = $leastUnknownVal;
-        return $leastUnknownCell;
-    }
+    $leastUnknownCell['key'] = $leastUnknownKey;
+    $leastUnknownCell['val'] = $leastUnknownVal;
+    return $leastUnknownCell;
 }
-
-$tmpArray = simplifyArray($tmpArray);
-if (false == checkArray($tmpArray)) {
-    echo "No solution";
-    $message .= "No solution";
-    file_putContents($messageLog, $message);
-    exit;
-} else {
+$settedNumber = 0;
+do {
+    $randomKey = rand(0,80);
+    echo $randomKey."\n";
     do {
-        $tmpArrayStatus = getArrayStatus($tmpArray);
-        if ('solved' == $tmpArrayStatus) {
-            if (true == checkArray($tmpArray))
-            {
-                foreach ($tmpArray as $key => $value) {
-                    if (0 == ($key+1)%9) {
-                        $message .= $value."\n";
-                    } else {
-                        $message .= $value.' ';
-                    }
-                }
-                foreach ($tmpArray as $key => $value) {
-                    if (0 == ($key+1)%9){
-                        echo $value."\n";
-                    } else {
-                        echo $value.' ';
-                    }
-                }
-                echo "\n";
-            }
-            if (0 == count($tmpStack)) {
-                break;
-            } else {
-                $topOfStack = array_pop($tmpStack);
-                $tmpArray = array_pop($tmpStack);
-                $topOfStackArray = str_split($topOfStack['val']);
-                $firstNumberOnTopStack = array_shift($topOfStackArray);
-                $tmpArray[$topOfStack['key']] = $firstNumberOnTopStack;
-                //echo 'assume '. $leastUnknownCell['key']. ' is '. $firstNumberOnTopStack. "\n";
-                $tmpArray = simplifyArray($tmpArray);
-                if (count($topOfStackArray) > 0)
-                {
-                    $topOfStack['val'] = join('',$topOfStackArray);
-                    array_push($tmpStack, $tmpArray);
-                    array_push($tmpStack, $topOfStack);
-                }
-            }
+        if (1 != strlen($tmpArray[$randomKey])) {
+            break;
+        } else {
+            $randomKey++;
         }
-        if ('unsolved' == $tmpArrayStatus) {
-            array_push($tmpStack, $tmpArray);
-            $leastUnknownCell = findLeastUnknownCell($tmpArray);
-            $unknownCellArray = str_split($leastUnknownCell['val']);
-            $firstNumberInUnknownCell = array_shift($unknownCellArray);
-            $leastUnknownCell['val'] = join('',$unknownCellArray);
-            array_push($tmpStack,$leastUnknownCell);
-            $tmpArray[$leastUnknownCell['key']] = $firstNumberInUnknownCell;
-            $tmpArray = simplifyArray($tmpArray);
+        if ($randomKey > 80) {
+            $randomKey = 0;
         }
-        if ('error' == $tmpArrayStatus) {
-            if (0 == count($tmpStack)) {
-                $message .= "No solution";
-                break;
-            } else {
-                $topOfStack = array_pop($tmpStack);
-                array_pop($tmpStack);
-                $topOfStackArray = str_split($topOfStack['val']);
-                $firstNumberOnTopStack = array_shift($topOfStackArray);
-                $tmpArray[$topOfStack['key']] = $firstNumberOnTopStack;
-                $tmpArray = simplifyArray($tmpArray);
-                if (count($topOfStackArray) > 0)
-                {
-                    $topOfStack['val'] = join('',$topOfStackArray);
-                    array_push($tmpStack, $topOfStack);
-                }
-            }
-        }
-    } while (1);
-}
+    } while (1 == strlen($tmpArray[$randomKey]));
+    $tmpArrayCell = str_split($tmpArray[$randomKey]);
+    shuffle($tmpArrayCell);
+    $tmpArray[$randomKey] = array_shift($tmpArrayCell);
+    echo "Set ". $randomKey. " As ". $tmpArray[$randomKey]. "\n";
+    $settedNumber++;
+    $tmpArray = deleteDuplicateValue($tmpArray);
+} while ($settedNumber<81);
+
 file_put_contents($messageLog, $message);
