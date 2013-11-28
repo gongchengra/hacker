@@ -4,7 +4,7 @@ hacker
 learn how to be a hacker
 
 My plan:
-# learn c #
+## learn c ##
 
     1. 语言 The_C_Programming_Language_中文版
 
@@ -14,10 +14,10 @@ My plan:
 
     4. 系统设计 Unix编程艺术
 
-# learn python #
-# learn lisp #
-# learn perl #
-# learn java #
+## learn python ##
+## learn lisp ##
+## learn perl ##
+## learn java ##
 
 1. Learn how to program.
 
