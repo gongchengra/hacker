@@ -3,6 +3,17 @@ hacker
 
 learn how to be a hacker
 
+My plan:
+01. learn c
+    1. 语言   01.The_C_Programming_Language_中文版
+    2. 算法和数据结构  02.算法C语言实现01_04 02.算法C语言实现05 02.算法导论中文版
+    3. 系统编程 03.UNIX网络编程第1卷  03.UNIX网络编程第2卷 03.UNIX环境高级编程中文版
+    4. 系统设计 04.Unix编程艺术
+02. learn python
+03. learn lisp
+04. learn perl
+05. learn java
+
 1. Learn how to program.
 
 This, of course, is the fundamental hacking skill. If you don't know any computer languages, I recommend starting with Python. It is cleanly designed, well documented, and relatively kind to beginners. Despite being a good first language, it is not just a toy; it is very powerful and flexible and well suited for large projects. I have written a more detailed evaluation of Python. Good tutorials are available at the Python web site.
