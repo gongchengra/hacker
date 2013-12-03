@@ -16,7 +16,10 @@ My plan:
     4. 系统设计 Unix编程艺术
 
 ## learn python ##
+
 ## learn lisp ##
+
 ## learn perl ##
+
 ## learn java ##
 

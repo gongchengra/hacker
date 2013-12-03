@@ -25,6 +25,7 @@ foreach ($initArray as $key => $val) {
     }
 }
 
+//calculte the index number arrays for same row, column and block for an given key
 function calculateSameRcb($tmpKey) {
     $rowNumber = intval($tmpKey / 9);
     $columnNumber = $tmpKey % 9;
@@ -46,6 +47,7 @@ function calculateSameRcb($tmpKey) {
     return $rowColumnBlock;
 }
 
+//delete duplicated values from the same row, column and block according to known number
 function deleteDuplicateValue($tmpArray) {
     do {
         $deleteFlag = false;
@@ -82,6 +84,8 @@ function deleteDuplicateValue($tmpArray) {
     return $tmpArray;
 }
 
+//if a special number can only exist in a special cell due to same row, column and block,
+//fill the cell with the number.
 function fillCellsWithOnePossibility($tmpArray) {
     do {
        $foundFlag = false;

@@ -38,7 +38,7 @@ foreach($init_arry as $key => $number)
     }
 }
 
-if($known_number<17) {
+if($known_number < 17) {
     $message .=  "No Result: \n";
     file_put_contents($message_log, $message);
     exit;
