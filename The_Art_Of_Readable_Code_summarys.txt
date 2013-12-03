@@ -1,0 +1,357 @@
+Key ideas:
+
+Code should be easy to understand.
+
+Code should be written to minimize the time it would take for someone else to understand it.
+
+Pack information into your names.
+
+It’s better to be clear and precise than to be cute.
+
+Actively scrutinize your names by asking yourself, “What other meanings could someone interpret from this name?”
+
+Consistent style is more important than the “right” style.
+
+The purpose of commenting is to help the reader know as much as the writer did.
+
+Don’t comment on facts that can be derived quickly from the code itself.
+
+Comments should have a high information-to-space ratio.
+
+Make all your conditionals, loops, and other changes to control flow as “natural” as possible—written in a way that doesn’t make the reader stop and reread your code.
+
+Instead of minimizing the number of lines, a better metric is to minimize the time needed for someone to understand it.
+
+Look at your code from a fresh perspective when you’re making changes. Step back and look at it as a whole.
+
+Break down your giant expressions into more digestible pieces.
+
+Beware of “clever” nuggets of code—they’re often confusing when others read the code later.
+
+Make your variable visible by as few lines of code as possible.
+
+The more places a variable is manipulated, the harder it is to reason about its current value.
+
+Code should be organized so that it’s doing only one task at a time.
+
+The most readable code is no code at all.
+
+Test code should be readable so that other coders are comfortable changing or adding tests.
+
+In general, you should pick the simplest set of inputs that completely exercise the code.
+
+Prefer clean and simple test values that still get the job done.
+
+Table of Contents:
+1 CODE SHOULD BE EASY TO UNDERSTAND
+What Makes Code “Better”?
+The Fundamental Theorem of Readability
+Is Smaller Always Better?
+Does Time-Till-Understanding Conflict with Other Goals?
+The Hard Part
+
+Part One SURFACE-LEVEL IMPROVEMENTS
+
+2 PACKING INFORMATION INTO NAMES
+Choose Specific Words
+Avoid Generic Names Like tmp and retval
+Prefer Concrete Names over Abstract Names
+Attaching Extra Information to a Name
+How Long Should a Name Be?
+Use Name Formatting to Convey Meaning
+Summary:
+The single theme for this chapter is: pack information into your names. By this, we mean
+that the reader can extract a lot of information just from reading the name.
+Here are some specific tips we covered:
+• Use specific words—for example, instead of Get , words like Fetch or Download might be
+better, depending on the context.
+• Avoid generic names like tmp and retval , unless there’s a specific reason to use them.
+• Use concrete names that describe things in more detail—the name ServerCanStart() is
+vague compared to CanListenOnPort() .
+• Attach important details to variable names—for example, append _ms to a variable
+whose value is in milliseconds or prepend raw_ to an unprocessed variable that needs
+escaping.
+• Use longer names for larger scopes—don’t use cryptic one- or two-letter names for
+variables that span multiple screens; shorter names are better for variables that span only
+a few lines.
+• Use capitalization, underscores, and so on in a meaningful way—for example, you
+can append “_” to class members to distinguish them from local variables.
+
+3 NAMES THAT CAN’T BE MISCONSTRUED
+Example: Filter()
+Example: Clip(text, length)
+Prefer min and max for (Inclusive) Limits
+Prefer first and last for Inclusive Ranges
+Prefer begin and end for Inclusive/Exclusive Ranges
+Naming Booleans
+Matching Expectations of Users
+Example: Evaluating Multiple Name Candidates
+Summary
+The best names are ones that can’t be misconstrued—the person reading your code will
+understand it the way you meant it, and no other way. Unfortunately, a lot of English words
+are ambiguous when it comes to programming, such as filter , length , and limit .
+Before you decide on a name, play devil’s advocate and imagine how your name might be
+misunderstood. The best names are resistant to misinterpretation.
+When it comes to defining an upper or lower limit for a value, max_ and min_ are good prefixes
+to use. For inclusive ranges, first and last are good. For inclusive/exclusive ranges, begin and
+end are best because they’re the most idiomatic.
+When naming a boolean, use words like is and has to make it clear that it’s a boolean. Avoid
+negated terms (e.g., disable_ssl ).
+Beware of users’ expectations about certain words. For example, users may expect get() or
+size() to be lightweight methods.
+
+4 AESTHETICS
+Why Do Aesthetics Matter?
+Rearrange Line Breaks to Be Consistent and Compact
+Use Methods to Clean Up Irregularity
+Use Column Alignment When Helpful
+Pick a Meaningful Order, and Use It Consistently
+Organize Declarations into Blocks
+Break Code into “Paragraphs”
+Personal Style versus Consistency
+Summary
+Everyone prefers to read code that’s aesthetically pleasing. By “formatting” your code in a
+consistent, meaningful way, you make it easier and faster to read.
+Here are specific techniques we discussed:
+• If multiple blocks of code are doing similar things, try to give them the same silhouette.
+• Aligning parts of the code into “columns” can make code easy to skim through.
+• If code mentions A, B, and C in one place, don’t say B, C, and A in another. Pick a
+meaningful order and stick with it.
+• Use empty lines to break apart large blocks into logical “paragraphs.”
+
+5 KNOWING WHAT TO COMMENT
+What NOT to Comment
+Recording Your Thoughts
+Put Yourself in the Reader’s Shoes
+Final Thoughts—Getting Over Writer’s Block
+Summary
+The purpose of a comment is to help the reader know what the writer knew when writing the
+code. This whole chapter is about realizing all the not-so-obvious nuggets of information you
+have about the code and writing those down.
+What not to comment:
+• Facts that can be quickly derived from the code itself.
+• “Crutch comments” that make up for bad code (such as a bad function name)—fix the
+code instead.
+Thoughts you should be recording include:
+• Insights about why code is one way and not another (“director commentary”).
+• Flaws in your code, by using markers like TODO: or XXX:.
+• The “story” for how a constant got its value.
+Put yourself in the reader’s shoes:
+• Anticipate which parts of your code will make readers say “Huh?” and comment those.
+• Document any surprising behavior an average reader wouldn’t expect.
+• Use “big picture” comments at the file/class level to explain how all the pieces fit together.
+• Summarize blocks of code with comments so that the reader doesn’t get lost in the details.
+
+6 MAKING COMMENTS PRECISE AND COMPACT
+Keep Comments Compact
+Avoid Ambiguous Pronouns
+Polish Sloppy Sentences
+Describe Function Behavior Precisely
+Use Input/Output Examples That Illustrate Corner Cases
+State the Intent of Your Code
+“Named Function Parameter” Comments
+Use Information-Dense Words
+Summary
+This chapter is about writing comments that pack as much information into as small a space
+as possible. Here are the specific tips:
+• Avoid pronouns like “it” and “this” when they can refer to multiple things.
+• Describe a function’s behavior with as much precision as is practical.
+• Illustrate your comments with carefully chosen input/output examples.
+• State the high-level intent of your code, rather than the obvious details.
+• Use inline comments (e.g., Function(/* arg = */ ... ) ) to explain mysterious function
+arguments.
+• Keep your comments brief by using words that pack a lot of meaning.
+
+Part Two SIMPLIFYING LOOPS AND LOGIC
+
+7 MAKING CONTROL FLOW EASY TO READ
+The Order of Arguments in Conditionals
+The Order of if/else Blocks
+The ?: Conditional Expression (a.k.a. “Ternary Operator”)
+Avoid do/while Loops
+Returning Early from a Function
+The Infamous goto
+Minimize Nesting
+Can You Follow the Flow of Execution?
+Summary
+There are a number of things you can do to make your code’s control flow easier to read.
+When writing a comparison ( while (bytes_expected > bytes_received) ), it’s better to put the
+changing value on the left and the more stable value on the right ( while (bytes_received <
+bytes_expected) ).
+You can also reorder the blocks of an if/else statement. Generally, try to handle the positive/
+easier/interesting case first. Sometimes these criteria conflict, but when they don’t, it’s a good
+rule of thumb to follow.
+Certain programming constructs, like the ternary operator ( : ? ), the do/while loop, and goto
+often result in unreadable code. It’s usually best not to use them, as clearer alternatives almost
+always exist.
+Nested code blocks require more concentration to follow along. Each new nesting requires
+more context to be “pushed onto the stack” of the reader. Instead, opt for more “linear” code
+to avoid deep nesting.
+Returning early can remove nesting and clean up code in general. “Guard statements”
+(handling simple cases at the top of the function) are especially useful.
+
+8 BREAKING DOWN GIANT EXPRESSIONS
+Explaining Variables
+Summary Variables
+Using De Morgan’s Laws
+Abusing Short-Circuit Logic
+Example: Wrestling with Complicated Logic
+Breaking Down Giant Statements
+Another Creative Way to Simplify Expressions
+Summary
+Giant expressions are hard to think about. This chapter showed a number of ways to break
+them down so the reader can digest them piece by piece.
+One simple technique is to introduce “explaining variables” that capture the value of some
+large subexpression. This approach has three benefits:
+• It breaks down a giant expression into pieces.
+• It documents the code by describing the subexpression with a succinct name.
+• It helps the reader identify the main “concepts” in the code.
+Another technique is to manipulate your logic using De Morgan’s laws—this technique can
+sometimes rewrite a boolean expression in a cleaner way (e.g., if (!(a && !b)) turns into if
+(!a || b) ).
+We showed an example where a complex logical condition was broken down into tiny
+statements like “ if (a < b) ... ”. In fact, all of the improved-code examples in this chapter had
+if statements with no more than two values inside them. This setup is ideal. It may not always
+seem possible to do this—sometimes it requires “negating” the problem or considering the
+opposite of your goal.
+Finally, even though this chapter is about breaking down individual expressions, these same
+techniques often apply to larger blocks of code, too. So be aggressive in breaking down complex
+logic wherever you see it.
+
+9 VARIABLES AND READABILITY
+Eliminating Variables
+Shrink the Scope of Your Variables
+Prefer Write-Once Variables
+A Final Example
+Summary
+This chapter is about how the variables in a program can quickly accumulate and become too
+much to keep track of. You can make your code easier to read by having fewer variables and
+making them as “lightweight” as possible. Specifically:
+• Eliminate variables that just get in the way. In particular, we showed a few examples
+of how to eliminate “intermediate result” variables by handling the result immediately.
+• Reduce the scope of each variable to be as small as possible. Move each variable to a
+place where the fewest lines of code can see it. Out of sight is out of mind.
+• Prefer write-once variables. Variables that are set only once (or const , final , or
+otherwise immutable) make code easier to understand.
+
+Part Three REORGANIZING YOUR CODE
+
+10 EXTRACTING UNRELATED SUBPROBLEMS
+Introductory Example: findClosestLocation()
+Pure Utility Code
+Other General-Purpose Code
+Create a Lot of General-Purpose Code
+Project-Specific Functionality
+Simplifying an Existing Interface
+Reshaping an Interface to Your Needs
+Taking Things Too Far
+Summary
+A simple way to think about this chapter is to separate the generic code from the project-
+specific code. As it turns out, most code is generic. By building a large set of libraries and
+helper functions to solve the general problems, what’s left will be a small core of what makes
+your program unique.
+The main reason this technique helps is that it lets the programmer focus on smaller, well-
+defined problems that are detached from the rest of your project. As a result, the solutions to
+those subproblems tend to be more thorough and correct. You might also be able to reuse
+them later.
+
+11 ONE TASK AT A TIME
+Tasks Can Be Small
+Extracting Values from an Object
+A Larger Example
+Summary
+This chapter illustrates a simple technique for organizing your code: do only one task at a
+time.
+If you have code that’s difficult to read, try to list all of the tasks it’s doing. Some of these tasks
+might easily become separate functions (or classes). Others might just become logical
+“paragraphs” within a single function. The exact details of how you separate these tasks isn’t
+as important as the fact that they’re separated. The hard part is accurately describing all the
+little things your program is doing.
+
+12 TURNING THOUGHTS INTO CODE
+Describing Logic Clearly
+Knowing Your Libraries Helps
+Applying This Method to Larger Problems
+Summary
+This chapter discussed the simple technique of describing your program in plain English and
+using that description to help you write more natural code. This technique is deceptively
+simple, but very powerful. Looking at the words and phrases used in your description can also
+help you identify which subproblems to break off.
+But this process of “saying things in plain English” is applicable outside of just writing code.
+For example, one college computer lab policy states that when a student needs help debugging
+his program, he first has to explain the problem to a dedicated teddy bear in the corner of the
+room. Surprisingly, just describing the problem aloud can often help the student figure out a
+solution. This technique is called “rubber ducking.”
+Another way to look at it is this: if you can't describe the problem or your design in words,
+something is probably missing or undefined. Getting a program (or any idea) into words can
+really force it into shape.
+
+13 WRITING LESS CODE
+Don’t Bother Implementing That Feature—You Won’t Need It
+Question and Break Down Your Requirements
+Keeping Your Codebase Small
+Be Familiar with the Libraries Around You
+Example: Using Unix Tools Instead of Coding
+Summary
+Adventure, excitement—a Jedi craves not these things.
+—Yoda
+This chapter is about writing as little new code as possible. Each new line of code needs to be
+tested, documented, and maintained. Further, the more code in your codebase, the “heavier”
+it gets and the harder it is to develop in.
+You can avoid writing new lines of code by:
+• Eliminating nonessential features from your product and not overengineering
+• Rethinking requirements to solve the easiest version of the problem that still gets the job
+done
+• Staying familiar with standard libraries by periodically reading through their entire APIs
+
+Part Four SELECTED TOPICS
+
+14 TESTING AND READABILITY
+Make Tests Easy to Read and Maintain
+What’s Wrong with This Test?
+Making This Test More Readable
+Making Error Messages Readable
+Choosing Good Test Inputs
+Naming Test Functions
+What Was Wrong with That Test?
+Test-Friendly Development
+Going Too Far
+Summary
+In test code, readability is still very important. If your tests are very readable, they will in turn
+be very writable, so people will add more of them. Also, if you design your real code to be easy
+to test, your code will have a better design overall.
+Here are specific points on how to improve your tests:
+• The top level of each test should be as concise as possible; ideally, each test input/output
+can be described in one line of code.
+• If your test fails, it should emit an error message that makes the bug easy to track down
+and fix.
+• Use the simplest test inputs that completely exercise your code.
+• Give your test functions a fully descriptive name so it’s clear what each is testing. Instead
+of Test1() , use a name like Test_<FunctionName>_<Situation> .
+And above all, make it easy to modify and add new tests.
+
+15 DESIGNING AND IMPLEMENTING A “MINUTE/HOUR COUNTER”
+The Problem
+Defining the Class Interface
+Attempt 1: A Naive Solution
+Attempt 2: Conveyor Belt Design
+Attempt 3: A Time-Bucketed Design
+Comparing the Three Solutions
+Summary
+Let’s review the steps we went through to get to the final MinuteHourCounter design. The process
+is typical of how other pieces of code evolve.
+First, we started by coding a naive solution. This helped us realize two design challenges: speed
+and memory use.
+Next, we tried a “conveyor belt” design. This design improved the speed and memory use but
+still wasn’t good enough for high-performance applications. Also, this design was very
+inflexible: adapting the code to handle other time intervals would be a lot of work.
+Our final design solved the previous problems by breaking things down into subproblems. Here
+are the three classes we created, in bottom-up order, and the subproblem each one solved:
+ConveyorQueue
+A maximum-length queue that can be “shifted” and maintains its total sum
+TrailingBucketCounter
+Moves the ConveyorQueue according to how much time has elapsed and maintains the count
+of a single (latest) time interval, with a given precision
+MinuteHourCounter
+Simply contains two TrailingBucketCounter s, one for the minute count and one for the
+hour count
