@@ -30,8 +30,12 @@ int main() {
     /* current input line */
     char lastchar;
     while ((len = getlines(line, MAXLINE)) > 0){
-        if(len >= 79) {
-            printf("%s", line);
+        while(len > 1 && (line[len-2] == ' ' || line[len-2] == '\t')) {
+            line[len-2] = '\n';
+            len--;
+        }
+        if(len > 1) {
+            printf("%d, %s", len, line);
         }
     }
     return 0;
