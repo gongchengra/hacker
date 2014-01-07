@@ -8,13 +8,13 @@ fib=function fib(num) {
 
 fib_iter = function fib_iter(num) {
     if(num < 2) {
-        return 1;
+        return num;
     } else {
         var i = 1;
         var sum = 0;
-        while(i < num) {
-            f1 = fib(i-2);
-            f2 = fib(i-1);
+        while(i <= num) {
+            f1 = fib_iter(i-2);
+            f2 = fib_iter(i-1);
             sum = f1 + f2;
             f1 = f2;
             f2 = sum;
