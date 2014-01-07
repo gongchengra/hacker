@@ -1,3 +1,6 @@
+//Author: gongchengra@gmail.com
+//Solve the problem in http://projecteuler.net/problem=4
+
 var isPalindromeNumber = function isPalindromeNumber(N) {
 	return (N).toString() === (N).toString().split("").reverse().join("");
 }
