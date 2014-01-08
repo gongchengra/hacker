@@ -1,5 +1,33 @@
-//Author: gongchengra@gmail.com
-//Solve the problem in http://projecteuler.net/problem=7
+var getPrimeNumbersLessthanN = function(N) {
+	var primeArray = new Int8Array(N);
+	for (var i = 0; i < primeArray.length; i++) {
+		primeArray[i] = 0;
+	}
+	for (var i = 0; i <= Math.sqrt(N); i++) {
+		if (primeArray[i] === 0) {
+			var tmp = i + 2;
+			for (var j = i + tmp; j < primeArray.length; j += tmp) {
+				primeArray[j] = 1;
+			}
+			tmp = 0;
+		}
+	}
+	var resultArray = [];
+	for (var i = 0; i < primeArray.length; i++) {
+		if (primeArray[i] === 0 && (i + 2 < N)) {
+			resultArray.push(i + 2);
+		}
+	}
+	return resultArray;
+}
+
+var calculateNthPrimeNumber = function(N) {
+	var intN = parseInt(N);
+	var maxNumber = Math.ceil(intN * Math.log(intN));
+	console.log(maxNumber);
+	console.log(getPrimeNumbersLessthanN(maxNumber).length);
+}
+
 var getFirstNPrimeNumbers = function(N) {
 	var resultArray = [];
 	var intN = parseInt(N);
@@ -39,5 +67,16 @@ var getFirstNPrimeNumbers = function(N) {
 	return resultArray;
 }
 
-console.log(getFirstNPrimeNumbers(10001)[10000]); //104743 
+var getPrimeFactorArray = function getPrimeFactorArray(N) {
+	var factorArray = [];
+	var primeArray = getPrimeNumbersLessthanN(N + 1);
+	for (var i = 0; i < primeArray.length; i++) {
+		if (N % primeArray[i] == 0) {
+			factorArray.push(primeArray[i]);
+			N = N / primeArray[i];
+		}
+	}
+	return factorArray;
+}
+
 
