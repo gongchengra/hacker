@@ -9,7 +9,6 @@ var getPrimeNumbersLessthanN = function(N) {
 			for (var j = i + tmp; j < primeArray.length; j += tmp) {
 				primeArray[j] = 1;
 			}
-			tmp = 0;
 		}
 	}
 	var resultArray = [];
@@ -51,10 +50,9 @@ var getFirstNPrimeNumbers = function(N) {
 		var sqrtMax = Math.sqrt(maxNumber);
 		for (var i = 0; i <= sqrtMax; i++) {
 			if (primeArray[i] === 0) {
-				for (var j = i + 2; j < maxNumber; j++) {
-					if ((j + 2) % (i + 2) === 0) {
-						primeArray[j] = 1;
-					}
+				var tmp = i + 2;
+				for (var j = i + tmp; j < primeArray.length; j += tmp) {
+					primeArray[j] = 1;
 				}
 			}
 		}
@@ -78,5 +76,4 @@ var getPrimeFactorArray = function getPrimeFactorArray(N) {
 	}
 	return factorArray;
 }
-
 
