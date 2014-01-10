@@ -62,3 +62,11 @@ var range = function range(start, end, step) {
 
 }
 
+var generateRandomNumberArray = function generateRandomNumberArray(N) {
+	var randomArray = [];
+	for (var i = 0; i < N; i++) {
+		randomArray[i] = Math.floor(Math.random() * N + 1);
+	}
+	return randomArray;
+};
+
