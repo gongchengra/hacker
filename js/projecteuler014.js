@@ -16,4 +16,54 @@ Which starting number, under one million, produces the longest chain?
 NOTE: Once the chain starts the terms are allowed to go above one million.
 */
 
-var 
+var calculateLengthOfCollatzSequence = function calculateLengthOfCollatzSequence (N) {
+    var length = 1;
+    while(N !== 1) {
+        length++;
+        if(N % 2== 0) {
+            N=N/2;
+        } else {
+            N= N*3 + 1;
+        }
+    }
+    return length;
+};
+
+var getMaxLengthOfCollatzSeqUnderN = function getMaxLengthOfCollatzSeqUnderN (N) {
+    var maxLength = 0;
+    var maxStartingNumber = 1;
+    for(var i = 1; i < N; i++) {
+        var iLength = calculateLengthOfCollatzSequence(i);
+        if(iLength > maxLength) {
+            maxStartingNumber = i;
+            maxLength = iLength;
+        }
+    }
+    return maxStartingNumber + ' ' + maxLength;
+};
+console.log(getMaxLengthOfCollatzSeqUnderN(13)); //var calculateLengthOfCollatzSequence = function calculateLengthOfCollatzSequence (N) {
+    var length = 1;
+    while(N !== 1) {
+        length++;
+        if(N % 2== 0) {
+            N=N/2;
+        } else {
+            N= N*3 + 1;
+        }
+    }
+    return length;
+};
+
+var getMaxLengthOfCollatzSeqUnderN = function getMaxLengthOfCollatzSeqUnderN (N) {
+    var maxLength = 0;
+    var maxStartingNumber = 1;
+    for(var i = 1; i < N; i++) {
+        var iLength = calculateLengthOfCollatzSequence(i);
+        if(iLength > maxLength) {
+            maxStartingNumber = i;
+            maxLength = iLength;
+        }
+    }
+    return maxStartingNumber + ' ' + maxLength;
+};
+console.log(getMaxLengthOfCollatzSeqUnderN(1000000)): //837799 525 
