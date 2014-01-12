@@ -46,7 +46,7 @@ var pow2toN = function pow2toN (N) {
             }
         }
     }
-    return resultArray;
+    return resultArray.join("");
 };
 
 var sumOfValueInArray = function sumOfValueInArray(inputArray) {
