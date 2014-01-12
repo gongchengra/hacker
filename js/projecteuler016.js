@@ -25,6 +25,30 @@ var pow2toN = function pow2toN (N) {
     return resultArray;
 };
 
+//a better version
+var pow2toN = function pow2toN (N) {
+    var resultArray = [];
+    resultArray[0] = 1;
+    for(var j = 0; j < N; j++) {
+        for(var i = 0; i < resultArray.length; i++) {
+            resultArray[i] *= 2;
+        }    
+        for(var i = 0; i < resultArray.length; i++) {    
+            if(resultArray[i] > 9) {
+                if(i === 0) {
+                    resultArray.unshift(0);
+                    resultArray[0]++;
+                    resultArray[1] %= 10;
+                } else {
+                    resultArray[i-1]++;
+                    resultArray[i] %= 10;
+                }
+            }
+        }
+    }
+    return resultArray;
+};
+
 var sumOfValueInArray = function sumOfValueInArray(inputArray) {
         return inputArray.reduce(
         function(pre, cur) {
