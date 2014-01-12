@@ -11,10 +11,14 @@ Evaluate the sum of all the amicable numbers under 10000.
 
 var getSumOfDivisorsOfN = function getSumOfDivisorsOfN(N) {
     var sumDivisor = 1;
-    for(var i=2; i< N; i++) {
+    for(var i=2; i*i < N; i++) {
         if(N % i == 0){
             sumDivisor += i;
+            sumDivisor += parseInt(N/i);
         }
+    }
+    if(i*i === N) {
+        sumDivisor += i;
     }
     return sumDivisor;
 }
