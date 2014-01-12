@@ -50,4 +50,4 @@ var getFistTriangleNumberWithNdivisors = function getFistTriangleNumberWithNdivi
     }
 }
 //console.log(getDivisorNumberOfN(calculateNthTriangleNumber(5)));
-console.log(getFistTriangleNumberWithNdivisors(500));
+console.log(getFistTriangleNumberWithNdivisors(500)); //76576500 
