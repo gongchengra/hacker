@@ -18,19 +18,19 @@
 //   What is the value of the first triangle number to have over five hundred divisors?
 //
 var calculateNthTriangleNumber = function calculateNthTriangleNumber(N) {
-	return (N + 1) * N / 2;
+    return (N + 1) * N / 2;
 }
 
 var getDivisorNumberOfN = function getDivisorNumberOfN(N) {
     var divisorNumber = 0;
     var sqrtN = Math.sqrt(N);
-    for(var i=1; i<sqrtN; i++) {
-        if(N % i == 0){
-        divisorNumber++;
+    for (var i = 1; i < sqrtN; i++) {
+        if (N % i == 0) {
+            divisorNumber++;
         }
     }
     divisorNumber *= 2;
-    if(N % sqrtN === 0) {
+    if (N % sqrtN === 0) {
         divisorNumber++;
     }
     return divisorNumber;
@@ -39,15 +39,17 @@ var getDivisorNumberOfN = function getDivisorNumberOfN(N) {
 var getFistTriangleNumberWithNdivisors = function getFistTriangleNumberWithNdivisors(N) {
     var i = 1;
     var iTriangleNumber = 0;
-    while(1) {
+    while (1) {
         //iTriangleNumber = calculateNthTriangleNumber(i);
         //a smarter way, no need to calculate everytime;
         iTriangleNumber += i;
-        if(getDivisorNumberOfN(iTriangleNumber) > N) {
+        if (getDivisorNumberOfN(iTriangleNumber) > N) {
             return iTriangleNumber;
         }
         i++;
     }
 }
-//console.log(getDivisorNumberOfN(calculateNthTriangleNumber(5)));
+
+console.log(getDivisorNumberOfN(calculateNthTriangleNumber(5)));
 console.log(getFistTriangleNumberWithNdivisors(500)); //76576500 
+
