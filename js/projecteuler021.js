@@ -11,13 +11,13 @@ Evaluate the sum of all the amicable numbers under 10000.
 
 var getSumOfDivisorsOfN = function getSumOfDivisorsOfN(N) {
     var sumDivisor = 1;
-    for(var i=2; i*i < N; i++) {
-        if(N % i == 0){
+    for (var i = 2; i * i < N; i++) {
+        if (N % i == 0) {
             sumDivisor += i;
-            sumDivisor += parseInt(N/i);
+            sumDivisor += parseInt(N / i);
         }
     }
-    if(i*i === N) {
+    if (i * i === N) {
         sumDivisor += i;
     }
     return sumDivisor;
@@ -29,8 +29,8 @@ var isAmicableNumbers = function isAmicableNumbers(N) {
 
 var getAmicableNumbersLtN = function getAmicableNumbersLtN(N) {
     var amicableArray = [];
-    for(var i = 2; i < N; i++) {
-        if(isAmicableNumbers(i) && getSumOfDivisorsOfN(i) != i) {
+    for (var i = 2; i < N; i++) {
+        if (isAmicableNumbers(i) && getSumOfDivisorsOfN(i) != i) {
             amicableArray.push(i);
         }
     }
@@ -39,8 +39,8 @@ var getAmicableNumbersLtN = function getAmicableNumbersLtN(N) {
 
 var getSumOfAmicableNumbersLtN = function getSumOfAmicableNumbersLtN(N) {
     var sum = 0;
-    for(var i = 2; i < N; i++) {
-        if(isAmicableNumbers(i) && getSumOfDivisorsOfN(i) != i) {
+    for (var i = 2; i < N; i++) {
+        if (isAmicableNumbers(i) && getSumOfDivisorsOfN(i) != i) {
             sum += i;
         }
     }
@@ -49,3 +49,4 @@ var getSumOfAmicableNumbersLtN = function getSumOfAmicableNumbersLtN(N) {
 
 console.log(getAmicableNumbersLtN(10000));
 console.log(getSumOfAmicableNumbersLtN(10000)); //31626
+

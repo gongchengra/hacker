@@ -5,18 +5,18 @@
 What is the sum of the digits of the number 2^1000?
 */
 
-var pow2toN = function pow2toN (N) {
+var pow2toN = function pow2toN(N) {
     var resultArray = [];
-    for(var i = 0; i< N-1; i++){
+    for (var i = 0; i < N - 1; i++) {
         resultArray[i] = 0;
     }
-    resultArray[N-1] = 1;
-    for(var j = 0; j < N; j++) {
-        for(i = 0; i< N; i++) {
-            if(resultArray[i] !== 0) {
+    resultArray[N - 1] = 1;
+    for (var j = 0; j < N; j++) {
+        for (i = 0; i < N; i++) {
+            if (resultArray[i] !== 0) {
                 resultArray[i] *= 2;
-                if(resultArray[i] > 9) {
-                    resultArray[i-1]++;
+                if (resultArray[i] > 9) {
+                    resultArray[i - 1]++;
                     resultArray[i] %= 10;
                 }
             }
@@ -26,21 +26,21 @@ var pow2toN = function pow2toN (N) {
 };
 
 //a better version
-var pow2toN = function pow2toN (N) {
+var pow2toN = function pow2toN(N) {
     var resultArray = [];
     resultArray[0] = 1;
-    for(var j = 0; j < N; j++) {
-        for(var i = 0; i < resultArray.length; i++) {
+    for (var j = 0; j < N; j++) {
+        for (var i = 0; i < resultArray.length; i++) {
             resultArray[i] *= 2;
-        }    
-        for(var i = 0; i < resultArray.length; i++) {    
-            if(resultArray[i] > 9) {
-                if(i === 0) {
+        }
+        for (var i = 0; i < resultArray.length; i++) {
+            if (resultArray[i] > 9) {
+                if (i === 0) {
                     resultArray.unshift(0);
                     resultArray[0]++;
                     resultArray[1] %= 10;
                 } else {
-                    resultArray[i-1]++;
+                    resultArray[i - 1]++;
                     resultArray[i] %= 10;
                 }
             }
@@ -50,10 +50,11 @@ var pow2toN = function pow2toN (N) {
 };
 
 var sumOfValueInArray = function sumOfValueInArray(inputArray) {
-        return inputArray.reduce(
-        function(pre, cur) {
-                return pre + cur;
-        });
+    return inputArray.reduce(
+    function(pre, cur) {
+        return pre + cur;
+    });
 }
 
 console.log(sumOfValueInArray(pow2toN(1000))); //1366
+

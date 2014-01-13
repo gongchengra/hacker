@@ -12,14 +12,16 @@ var inputArray = ["name.txt"];
 
 var getSumOfDigitalInString = function getSumOfDigitalInString(str) {
     var strArray = str.split("");
-    return strArray.reduce(function(pre,cur){
-        return pre+(cur.charCodeAt(0)-'A'.charCodeAt(0)+1);
-    },0);
+    return strArray.reduce(function(pre, cur) {
+        return pre + (cur.charCodeAt(0) - 'A'.charCodeAt(0) + 1);
+    },
+    0);
 }
 
 var sum = 0;
-inputArray.sort().forEach(function(elem, index, arr){
-    sum += (index+1)*getSumOfDigitalInString(elem);
+inputArray.sort().forEach(function(elem, index, arr) {
+    sum += (index + 1) * getSumOfDigitalInString(elem);
 });
 
-console.log(sum);//871198282 
+console.log(sum); //871198282 
+

@@ -7,16 +7,16 @@ A permutation is an ordered arrangement of objects. For example, 3124 is one pos
 
 What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 */
-var factorialArrayLtN = function factorialArrayLtN (N) {
+var factorialArrayLtN = function factorialArrayLtN(N) {
     var facArray = [];
     var intN = parseInt(N);
-    if(intN <= 1) {
+    if (intN <= 1) {
         return [1];
     } else {
         var product = 1;
         facArray.push(1);
-        for(var i=1; i< intN; i++) {
-            facArray.push(facArray[i-1]*i);
+        for (var i = 1; i < intN; i++) {
+            facArray.push(facArray[i - 1] * i);
         }
     }
     return facArray;
@@ -24,8 +24,8 @@ var factorialArrayLtN = function factorialArrayLtN (N) {
 
 var dividableByArray = function dividableByArray(N, inputArray) {
     var factorArray = [];
-    for(var i = inputArray.length - 1; i >= 0; i--) {
-        factorArray.push(parseInt(N/inputArray[i]));
+    for (var i = inputArray.length - 1; i >= 0; i--) {
+        factorArray.push(parseInt(N / inputArray[i]));
         N %= inputArray[i];
     }
     return factorArray;
@@ -43,3 +43,4 @@ Above result means:
 Thus, the 1000000 sort should be:
 2783915460
 */
+
