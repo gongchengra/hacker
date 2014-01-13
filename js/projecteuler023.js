@@ -12,13 +12,13 @@ Find the sum of all the positive integers which cannot be written as the sum of 
 
 var getSumOfDivisorsOfN = function getSumOfDivisorsOfN(N) {
     var sumDivisor = 1;
-    for(var i=2; i*i < N; i++) {
-        if(N % i == 0){
+    for (var i = 2; i * i < N; i++) {
+        if (N % i == 0) {
             sumDivisor += i;
-            sumDivisor += parseInt(N/i);
+            sumDivisor += parseInt(N / i);
         }
     }
-    if(i*i === N) {
+    if (i * i === N) {
         sumDivisor += i;
     }
     return sumDivisor;
@@ -26,31 +26,31 @@ var getSumOfDivisorsOfN = function getSumOfDivisorsOfN(N) {
 
 var getAbundantNumbersLtN = function getAbundantNumbersLtN(N) {
     var abundantArray = [];
-    for(var i = 1; i < N; i++) {
-        if(getSumOfDivisorsOfN(i) > i) {
+    for (var i = 1; i < N; i++) {
+        if (getSumOfDivisorsOfN(i) > i) {
             abundantArray.push(i);
         }
     }
     return abundantArray;
-} 
+}
 
 var abundantArray = getAbundantNumbersLtN(28123);
 
 var dividableBy2AbundantNo = function dividableBy2AbundantNo(N) {
-    for(var i = 0; i < abundantArray.length; i++) {
-        if(abundantArray[i] < N) {
-            if(abundantArray.indexOf(N-abundantArray[i]) !== -1){
-                return true; 
+    for (var i = 0; i < abundantArray.length; i++) {
+        if (abundantArray[i] < N) {
+            if (abundantArray.indexOf(N - abundantArray[i]) !== - 1) {
+                return true;
             }
         }
     }
     return false;
 }
 
-var sumOfUndividableNumberLtN = function sumOfUndividableNumberLtN(N){
+var sumOfUndividableNumberLtN = function sumOfUndividableNumberLtN(N) {
     var sum = 0;
-    for (var i = 1; i< N; i++) {
-        if(dividableBy2AbundantNo(i) === false) {
+    for (var i = 1; i < N; i++) {
+        if (dividableBy2AbundantNo(i) === false) {
             sum += i;
         }
     }
@@ -58,3 +58,4 @@ var sumOfUndividableNumberLtN = function sumOfUndividableNumberLtN(N){
 }
 
 console.log(sumOfUndividableNumberLtN(28124)); //4179871 
+
