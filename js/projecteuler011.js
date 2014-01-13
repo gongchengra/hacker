@@ -50,7 +50,7 @@ var inputArray =[
 ];
 
 var getLargestProductInMatrix = function getLargestProductInMatrix(inputArray, N) {
-	var oriArray = inputArray;
+    var oriArray = inputArray;
     var arrayLength = inputArray.length;
     var largestProduct = 0;
     var boundNumber = arrayLength - N;
@@ -62,46 +62,46 @@ var getLargestProductInMatrix = function getLargestProductInMatrix(inputArray, N
         for(j = 0; j <= boundNumber; j++){
             tmpProduct = 1;
             for(k = 0; k < N; k++){
-               tmpProduct *= oriArray[i][j + k];
+                tmpProduct *= oriArray[i][j + k];
             }
             if(tmpProduct > largestProduct){
                 largestProduct = tmpProduct;
             }
         }
-	}
+    }
     for (i = 0; i <= boundNumber; i++) {
         for(j = 0; j < arrayLength; j++){
             tmpProduct = 1;
             for(k = 0; k < N; k++){
-               tmpProduct *= oriArray[i + k][j];
+                tmpProduct *= oriArray[i + k][j];
             }
             if(tmpProduct > largestProduct){
                 largestProduct = tmpProduct;
             }
         }
-	}
+    }
     for (i = 0; i <= boundNumber; i++) {
         for(j = 0; j <= boundNumber; j++){
             tmpProduct = 1;
             for(k = 0; k < N; k++){
-               tmpProduct *= oriArray[i + k][j + k];
+                tmpProduct *= oriArray[i + k][j + k];
             }
             if(tmpProduct > largestProduct){
                 largestProduct = tmpProduct;
             }
         }
-	}
+    }
     for (i = N-1; i < arrayLength; i++) {
         for(j = 0; j <= boundNumber; j++){
             tmpProduct = 1;
             for(k = 0; k < N; k++){
-               tmpProduct *= oriArray[i - k][j + k];
+                tmpProduct *= oriArray[i - k][j + k];
             }
             if(tmpProduct > largestProduct){
                 largestProduct = tmpProduct;
             }
         }
-	}
+    }
     return largestProduct;
 }
 

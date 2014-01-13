@@ -1,7 +1,5 @@
-
 //Author: gongchengra@gmail.com
 //Solve the problem in http://projecteuler.net/problem=6
-
 var range = function range(start, end, step) {
     var range = [];
     var typeofStart = typeof start;
@@ -20,12 +18,12 @@ var range = function range(start, end, step) {
     typeof step == "undefined" && (step = 1);
 
     if (end < start) {
-        step = -step;
+        step = - step;
     }
 
     if (typeofStart == "number") {
 
-        while (step > 0 ? end >= start : end <= start) {
+        while (step > 0 ? end >= start: end <= start) {
             range.push(start);
             start += step;
         }
@@ -39,7 +37,7 @@ var range = function range(start, end, step) {
         start = start.charCodeAt(0);
         end = end.charCodeAt(0);
 
-        while (step > 0 ? end >= start : end <= start) {
+        while (step > 0 ? end >= start: end <= start) {
             range.push(String.fromCharCode(start));
             start += step;
         }
@@ -53,33 +51,30 @@ var range = function range(start, end, step) {
 }
 
 var sumOfSquare = function sumOfSquare(inputArray) {
-    return inputArray.reduce(function(pre, cur){
-        return pre + cur*cur;
+    return inputArray.reduce(function(pre, cur) {
+        return pre + cur * cur;
     });
 }
 
 var squareOfsum = function squareOfsum(inputArray) {
-    var sum = inputArray.reduce(function(pre, cur){
+    var sum = inputArray.reduce(function(pre, cur) {
         return pre + cur;
     });
     return sum * sum;
 }
 
-console.log(sumOfSquare(range(1,10))-squareOfsum(range(1,10)));//2640
-
-console.log(sumOfSquare(range(1,100))-squareOfsum(range(1,100)));//25164150 
-
+console.log(sumOfSquare(range(1, 10)) - squareOfsum(range(1, 10))); //2640
+console.log(sumOfSquare(range(1, 100)) - squareOfsum(range(1, 100))); //25164150 
 // smarter way: 
 // 1^2+2^2+...+n^2 = (2n+1)*(n+1)*n/6
 // 1+2+3+...+n = (n+1)*n/2
 var sumOfSquare = function sumOfSquare(N) {
-    return (2*N+1)*(N+1)*N/6; 
+    return (2 * N + 1) * (N + 1) * N / 6;
 }
 
 var squareOfsum = function squareOfsum(N) {
-   return ((N+1)*N/2)*((N+1)*N/2);
+    return ((N + 1) * N / 2) * ((N + 1) * N / 2);
 }
 
-console.log(sumOfSquare(100)-squareOfsum(100));
-
+console.log(sumOfSquare(100) - squareOfsum(100));
 
