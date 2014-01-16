@@ -6,7 +6,10 @@ var sumOf1squareToNsquare = function sumOf1squareToNsquare(N) {
     return (2 * N + 1) * (N + 1) * N / 6;
 }
 
-var sumOfLargeNumbers = function sumOfLargeNumbers(inputArray) {
+var sumOfLargeNumbers = function sumOfLargeNumbers(a, b) {
+    var inputArray = [];
+    inputArray.push(a.toString());
+    inputArray.push(b.toString());
     var resultArray = [];
     var maxLength = 0;
     inputArray.forEach(function(elem, index, array) {
@@ -27,9 +30,15 @@ var sumOfLargeNumbers = function sumOfLargeNumbers(inputArray) {
         resultArray.unshift(sumOfIthDigital % 10);
         carryIn = parseInt(sumOfIthDigital / 10);
     }
-    while (sumOfIthDigital !== 0) {
-        resultArray.unshift(sumOfIthDigital % 10);
-        sumOfIthDigital = parseInt(sumOfIthDigital / 10);
+    resultArray0 = carryIn;
+    if (resultArray0 > 9) {
+        resultArray[0] %= 10;
+        while (resultArray0 !== 0) {
+            resultArray.unshift(resultArray0 % 10);
+            resultArray0 = parseInt(resultArray0 / 10);
+        }
+    } else if (resultArray0 > 0) {
+        resultArray.unshift(resultArray0);
     }
     return resultArray.join("");
 }
