@@ -17,6 +17,10 @@
 // where |n| is the modulus/absolute value of n
 // e.g. |11| = 11 and |4| = 4
 // Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n = 0.
+//
+// when n = 0, formula becomes b, so b must be a prime.
+// when n = 1, formula becomes 1+a+b, so it must be a prime.
+
 var getPrimeNumbersLessthanN = function(N) {
     var primeArray = new Int8Array(N);
     for (var i = 0; i < primeArray.length; i++) {
@@ -45,19 +49,19 @@ var maxPrime = 2;
 var tmpPrime = 0;
 var tmpA = 0;
 var tmpB = 0;
-for (var a = - 999; a < 1000; a ++) {
+for (var a = - 999; a < 1000; a++) {
     for (var b = 0; b < bArray.length; b++) {
         var bVal = bArray[b];
         var i = 0;
-        if (i * i + a * i + bVal > 0 && primeArray.indexOf(1+a+bVal) !== -1) {
+        if (i * i + a * i + bVal > 0 && primeArray.indexOf(1 + a + bVal) !== - 1) {
             do {
                 var formula = i * i + a * i + bVal;
                 i++;
             } while (primeArray.indexOf(formula) !== - 1);
-//            console.log(a + ' ' + bVal + ' ' + ' ' + i + ' ' + formula);
+            //            console.log(a + ' ' + bVal + ' ' + ' ' + i + ' ' + formula);
             if (i > 1) {
                 tmpPrime = (i - 2) * (i - 2) + a * (i - 2) + bVal;
-//               console.log(tmpPrime);
+                //               console.log(tmpPrime);
                 if ((primeArray.indexOf(tmpPrime) !== - 1) && (tmpPrime > maxPrime)) {
                     maxPrime = tmpPrime;
                     tmpA = a;
@@ -70,4 +74,44 @@ for (var a = - 999; a < 1000; a ++) {
 }
 
 console.log(tmpA + ' ' + tmpB);
+
+// easier to understand.
+var isPrime = function isPrime(N) {
+    if (N < 2) {
+        return false;
+    }
+    for (var i = 2; i * i <= N; i++) {
+        if (N % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+var countMaxPrimes = function countMaxPrimes(a, b) {
+    var c = 0;
+    for (var n = 0;; n++) {
+        var p = n * (n + a) + b;
+        if (!isPrime(p)) break;
+        c++;
+    }
+    return c;
+}
+
+var m = 0;
+var ma, mb;
+
+for (var a = - 999; a <= 999; a++)
+for (var b = 2; b <= 999; b++) {
+    if(isPrime(b)){
+        var c = countMaxPrimes(a, b);
+        if (c > m) {
+            m = c;
+            ma = a;
+            mb = b;
+        }
+    }
+}
+
+console.log(ma + ' ' + mb);
 
