@@ -1,3 +1,15 @@
+var isPrime = function isPrime(N) {
+    if (N < 2) {
+        return false;
+    }
+    for (var i = 2; i * i <= N; i++) {
+        if (N % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
 var getPrimeNumbersLessthanN = function(N) {
     var primeArray = new Int8Array(N);
     for (var i = 0; i < primeArray.length; i++) {
@@ -76,4 +88,23 @@ var getPrimeFactorArray = function getPrimeFactorArray(N) {
     }
     return factorArray;
 }
+
+function f(a, b) {
+    return a - b;
+}
+
+var getPrimeFactorArrayAll = function getPrimeFactorArrayAll(N) {
+    var factorArray = [];
+    var primeArray = getPrimeNumbersLessthanN(N + 1);
+    while (N !== 1) {
+        for (var i = 0; i < primeArray.length; i++) {
+            if (N % primeArray[i] == 0) {
+                factorArray.push(primeArray[i]);
+                N = N / primeArray[i];
+            }
+        }
+    }
+    return factorArray.sort(f);
+}
+
 
