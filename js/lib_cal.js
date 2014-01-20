@@ -123,3 +123,6 @@ var findGCD = function findGCD(a, b) {
     return a;
 }
 
+var log10 = function log10(val) {
+  return Math.log(val) / Math.LN10;
+}

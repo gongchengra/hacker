@@ -33,27 +33,30 @@ var containsZero = function containsZero(N) {
     return nArray.indexOf('0') !== - 1;
 }
 
+var sumOfValueInArray = function sumOfValueInArray(inputArray) {
+    return inputArray.reduce(
+    function(pre, cur) {
+        return pre + cur;
+    });
+}
+
 var getPandigitalArray = function getPandigitalArray() {
-    var max = 987654321;
-    var sqrtMax = Math.sqrt(max);
     var resultArray = [];
-    var sum = 0;
-    for (var i = 2; i <= sqrtMax; i++) {
+    for (var i = 2; i <= 100; i++) {
         if (!isUniqNumber(i) || containsZero(i)) {
             continue;
         }
-        for (var j = i + 1; i * j <= max; j++) {
+        for (var j = i + 1; j <= 10000; j++) {
             if (!isUniqNumber(j) || containsZero(j)) {
                 continue;
             }
             if (isUniqNumber(i * j)) {
                 var tmpStr = i.toString().concat(j.toString()).concat((i * j).toString());
-                console.log(i + ' ' + j);
                 if (tmpStr.length === 9) {
-                    console.log(tmpStr);
-                    //                    console.log(isPandigital(tmpStr, 1, 9));
                     if (isPandigital(tmpStr, 1, 9)) {
-                        resultArray.push(i + ' ' + j + ' ' + i * j);
+                        if (resultArray.indexOf(i * j) === - 1) {
+                            resultArray.push(i * j);
+                        }
                         console.log(i + ' ' + j + ' ' + i * j);
                     }
                 }
@@ -63,5 +66,5 @@ var getPandigitalArray = function getPandigitalArray() {
     return resultArray;
 }
 
-console.log(getPandigitalArray());
+console.log(sumOfValueInArray(getPandigitalArray())); //45228
 
