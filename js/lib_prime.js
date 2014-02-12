@@ -10,7 +10,7 @@ var isPrime = function isPrime(N) {
     return true;
 }
 
-var getPrimeNumbersLessthanN = function(N) {
+var getPrimeNumbersLessthanN = function getPrimeNumbersLessthanN(N) {
     var primeArray = new Int8Array(N);
     for (var i = 0; i < primeArray.length; i++) {
         primeArray[i] = 0;
