@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 
 function getURLFromID($id, $idType, $file_type, $size = null) {
@@ -73,15 +73,21 @@ function explodeoArray($inputArray){
 //print_r(explodeoArray(readFileToString($argv[1])));
 
 
-$dorp_arry = explodeoArray(readFileToString($argv[1]));
+//$dorp_arry = explodeoArray(readFileToString($argv[1]));
+$dorp_arry = readFileToString($argv[1]);
 //$dorp_result_file = $argv[2];
 //$dorp_dtd_result = "";
 
-foreach($dorp_arry as $entityid => $dorpid){
+//foreach($dorp_arry as $entityid => $dorpid){
+foreach($dorp_arry as $dorpid){
     //    echo $dorp_id;
     $filetype = 'txt';
     echo getURLFromID($dorpid,'id','txt')."\n";
-//    $dorp_url = getURLFromID($dorpid,'id','txt');
+    $dorp_url = getURLFromID($dorpid,'id','txt');
+    $dorp_txt = file_get_contents($dorp_url);
+    $dorp_output =  $dorpid.".xml";
+    echo $dorp_output."\n";
+    file_put_contents($dorp_output,$dorp_txt);
     /*
     $dorp_head = file_get_contents($dorp_url, NULL, NULL, -1, 450);
     $match = preg_match('/<\!DOCTYPE[^>]*\>/', $dorp_head, $dorp_dtd);
