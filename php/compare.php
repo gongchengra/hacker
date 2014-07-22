@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 if($argc != 3 || in_array($argv[1], array('--help', '-help', '-h', '-?')))
 {
@@ -24,6 +24,7 @@ else
             if($val1 == $val2)
             {
                 $founded++;
+                echo $val1;
             }
             else
             {
@@ -32,7 +33,7 @@ else
         }
         if($flag==$size1)
         {
-            echo $val2 . ' is not in '. $argv[2]. "\n";
+//            echo $val2 . ' is not in '. $argv[2]. "\n";
         }
     }
     echo 'the size of '. $argv[1]. ' is '. $size1. "\n";
