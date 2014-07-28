@@ -3,40 +3,36 @@
 import sys
 import csv
 import xml.etree.ElementTree as ET
+#import xml.etree.cElementTree as ET
+#import lxml.etree as ET
 
 stylexml = ET.parse("ahiv_v1.xml")
 inputxml = ET.parse("chunk_0.xml")
-attributelist = stylexml.getroot()
-print attributelist.tag
+#root = stylexml.getroot()
+#attributelist = root[0][0][0]
+#print attributelist.tag, attributelist.attrib, attributelist.text
+#attributelist = root[0]
+#for child in attributelist:
+#    print child.tag, child.attrib
+#NS = 'http://alexanderstreetpress.com/ns/ontology/'
+#name = root.findall(".//{%s}met:attribute-property[@name = 'name']" % NS)
+#name = root.findall(".//{http://alexanderstreetpress.com/ns/ontology/}met:attribute-property[@name = 'name']")
+NS = {'met':'http://alexanderstreetpress.com/ns/ontology/'}
+#name = root.findall(".//met:attribute-property[@name = 'name']",namespaces = NS)
+#name = root.findall(".//met:attribute-definition",namespaces = NS)
+name = stylexml.iterfind('.//met:attribute-property[@name="name"]',namespaces = NS)
+#for elem in stylexml.iterfind('.//met:attribute-property[@name="name"]',namespaces = NS):
+#    print elem.tag, elem.attrib, elem.text
+idx = 0
+fieldlist = {}
+for elem in name:
+    fieldlist[idx] = elem.text
+    idx = idx +1
 
-#attributelist = chilkat.CkXml()
-#attributelist = stylexml.FirstChild()
-#for i in range(0, attributelist.get_NumChildren()):
-#    print(str(i) + ": " + attributelist.getChildTagByIndex(i) + " : " + attributelist.getChildContentByIndex(i))
-
-#print("NumChildren = " + str(attributelist.get_NumChildren()))
-#attributelist = attributelist.FirstChild()
-#print("NumChildren = " + str(attributelist.get_NumChildren()))
-#attributelist = attributelist.FirstChild()
-#print("NumChildren = " + str(attributelist.get_NumChildren()))
-#print attributelist.content()
-
-#searchStyleXml = chilkat.CkXml()
-#print searchStyleXml.SearchForAttribute(attributelist,"met:attribute-property","name","name")
-#print attributelist.getXml()
-#sys.stdout.write(xml.getXml())
-#with open(sys.argv[3], 'wb') as csvfile:
-#with open("chunk_0.xls", 'wb') as csvfile:
-#    outputxml = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-#    attributes = stylexml.FindChild("met:attribute-property")
-#    xBeginAfter = attributes.GetSelf()
-#    xSearch = attributes.GetSelf()
-#    success = xSearch.SearchForAttribute2(xBeginAfter,"met:attribute-property","name","name")
-#    while success == True:
-#        print(xSearch.content() + ": " + xSearch.getAttrValue("name"))
-#        xBeginAfter.CopyRef(xSearch)
-#        xSearch.CopyRef(attributes)
-#        success = xSearch.SearchForAttribute2(xBeginAfter,"met:attribute-property","name","name")
-
-
+root = inputxml.getroot()
+#print root[0][0]
+for docs in root:
+    for field in docs:
+        if(field.attrib['name'] == 'asp_community'):
+            print field.attrib, field.text
 
