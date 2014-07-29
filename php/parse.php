@@ -1,12 +1,27 @@
 #!/usr/bin/php
 <?php
 
+$style = new DOMDocument;
+//$style -> Load($argv[1]);
+$style -> Load("/home/gongcheng/asp/pharoscontent/cocoon/schema/products/tidy/ahiv_v1.xml");
+$definitions = $style -> getElementsByTagName('attribute-definition');
+$header[0] = 'object_id';
+$header[1] = 'object_subtype';
+foreach($definitions as $definition){
+    $properties = $definition -> getElementsByTagName('attribute-property');
+    foreach ($properties as $property){
+        if($property -> getAttribute("name") == 'name'){
+           $header[] = $property ->nodeValue;
+        }
+    }
+}
+$cells[0]=$header;
+
 $input = new DOMDocument;
 $output = new DOMDocument;
 $output -> formatOutput = true;
 $add = $output -> createElement('add');
 $output -> appendChild($add);
-//$output -> appendChild($output -> createElement('add'));
 
 for ($i = 1; $i < $argc; $i++) {
     //    echo "Argument $i is: " . $argv[$i] . "<br />\n";
@@ -29,13 +44,35 @@ for ($i = 1; $i < $argc; $i++) {
                 }
         }
         if($copy){
-            $copynode = $output -> importNode($doc, true);
+//            $copynode = $output -> importNode($doc, true);
 //            $output -> appendChild($copynode);
-            $add -> appendChild($copynode);
+//            $add -> appendChild($copynode);
+            for($column = 0; $column < count($header); $column++){
+                $row[$column] = ' ';
+            }
+            foreach ($fields as $field){
+                $columnNumber = array_search($field -> getAttribute("name"),$header);
+                if($columnNumber !== false){
+                    if($row[$columnNumber] == ' '){
+                        $row[$columnNumber] = $field -> nodeValue;
+                    }else{
+                        $row[$columnNumber] .= ';'. $field -> nodeValue;
+                    }
+                }
+            }
+            $cells[] = $row;
         }
     }
 }
-$output ->save('result.xml');
+
+$fp = fopen('/data/content/file.csv', 'w');
+//fputcsv($fp, $header);
+foreach($cells as $rows){
+    fputcsv($fp, $rows);
+}
+fclose($fp);
+
+//$output ->save('result.xml');
 //echo $output ->saveXml();
 //$elements = $dom->documentElement;
 //foreach ($elements ->childNodes AS $item) {
