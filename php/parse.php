@@ -65,7 +65,7 @@ for ($i = 1; $i < $argc; $i++) {
     }
 }
 
-$fp = fopen('/data/content/file.csv', 'w');
+$fp = fopen('file.csv', 'w');
 //fputcsv($fp, $header);
 foreach($cells as $rows){
     fputcsv($fp, $rows);
