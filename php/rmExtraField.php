@@ -1,13 +1,12 @@
 #!/usr/bin/php
 <?php
 
-$input = new DOMDocument;
-$output = new DOMDocument;
-$output -> formatOutput = true;
-$outputadd = $output -> createElement('add');
-$output -> appendChild($outputadd);
-
 for ($i = 1; $i < $argc; $i++) {
+    $input = new DOMDocument;
+    $output = new DOMDocument('1.0', 'utf-8');
+    $output -> formatOutput = true;
+    $outputadd = $output -> createElement('add');
+    $output -> appendChild($outputadd);
     $input -> Load($argv[$i]);
     $docs = $input -> getElementsByTagName('doc');
     foreach ($docs as $doc){
