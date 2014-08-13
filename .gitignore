@@ -4,3 +4,5 @@
 *.class
 ruby/heroku/
 ruby/ruby-sample/
+ruby/heroku-sample/
+ruby/heroku-static/
