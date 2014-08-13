@@ -2,3 +2,5 @@
 *.exe
 *.out
 *.class
+ruby/heroku/
+ruby/ruby-sample/
