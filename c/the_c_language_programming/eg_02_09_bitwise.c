@@ -28,6 +28,15 @@ void bin(unsigned n)
     /* step 2 */
     printf("%d", n % 2);
 }
+/* bitcount: count 1 bits in x */
+int bitcount(unsigned x)
+{
+    int b;
+    for (b = 0; x != 0; x >>= 1)
+        if (x & 01)
+            b++;
+    return b;
+}
 int main()
 {
     int n = 255*255;
@@ -37,7 +46,7 @@ int main()
     /*    printf("%s\n",byte_to_binary(1&2));*/
     /*    printf("%s\n",byte_to_binary(255*255));*/
 /*    bin(n);*/
-    bin(-1);
+/*    bin(-1);*/
     printf("\n");
     printf("The color: %s\n", "blue");
     printf("First number: %d\n", 12345);
@@ -46,5 +55,11 @@ int main()
     printf("Float number: %3.2f\n", 3.14159);
     printf("Hexadecimal: %x\n", 65025);
     printf("Octal: %o\n", n);
-    printf("Unsigned value: %u\n", 150);
+    printf("Unsigned value: %u\n", 255);
+    printf("Octal: %o\n", 255);
+    printf("There are %d 1 in %o\n", bitcount(255),255);
+    printf("Unsigned value: %u\n", 255>>2);
+    printf("Octal: %o\n", 255>>2);
+    printf("Unsigned value: %u\n", 255<<2);
+    printf("Octal: %o\n", 255<<2);
 }
