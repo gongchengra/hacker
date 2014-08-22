@@ -1,9 +1,14 @@
 #!/usr/bin/php
 <?php
+if($argc <2 || $argv[1] == ''|| $argv[1] == '-h'|| $argv[1] == '--help'){
+    echo "Usage: parse.php %collection% \n";
+    echo "Where %collection% is unitaccess code such as AHIV-V1 \n";
+    exit;
+}
 
+$parameters = $argv[1];
 $style = new DOMDocument;
-//$style -> Load($argv[1]);
-$style -> Load("/home/gongcheng/asp/pharoscontent/cocoon/schema/products/tidy/ahiv_v1.xml");
+$style -> Load("../schema/products/tidy/".str_replace('-','_',strtolower($parameters)).".xml");
 $definitions = $style -> getElementsByTagName('attribute-definition');
 $header[0] = 'object_id';
 $header[1] = 'object_subtype';
@@ -11,42 +16,29 @@ foreach($definitions as $definition){
     $properties = $definition -> getElementsByTagName('attribute-property');
     foreach ($properties as $property){
         if($property -> getAttribute("name") == 'name'){
-           $header[] = $property ->nodeValue;
+            $header[] = $property ->nodeValue;
         }
     }
 }
-$cells[0]=$header;
 
 $input = new DOMDocument;
-$output = new DOMDocument;
-$output -> formatOutput = true;
-$add = $output -> createElement('add');
-$output -> appendChild($add);
 
-for ($i = 1; $i < $argc; $i++) {
-    //    echo "Argument $i is: " . $argv[$i] . "<br />\n";
-    $input -> Load($argv[$i]);
+$fp = fopen("/data/content/dark_archives/".$parameters.".csv", 'w');
+fputcsv($fp, $header);
+foreach (new DirectoryIterator('/data/content/'.$parameters) as $fileInfo) {
+    if($fileInfo->isDot()) continue;
+    $input -> Load('/data/content/'.$parameters.'/'.$fileInfo);
     $docs = $input -> getElementsByTagName('doc');
-//    $domxpath = new DOMXPath($doc);
-//    $filtered = $domxpath->query("//[field='video_work'][@name='object_subtype']");
     foreach ($docs as $doc){
-//        echo $field -> nodeValue ."\n";
-//        echo $field -> getAttribute("name") ."\n";
         $copy = false;
         $fields = $doc -> getElementsByTagName('field');
         foreach ($fields as $field){
-//            echo $field -> getAttribute("name") ."\n";
             if($field -> getAttribute("name") == 'object_subtype' &&
                 $field -> nodeValue == 'video_work'){
                     $copy = true;
-//                    echo $field -> getAttribute("name") ."\n";
-//                    echo $field -> nodeValue ."\n";
                 }
         }
         if($copy){
-//            $copynode = $output -> importNode($doc, true);
-//            $output -> appendChild($copynode);
-//            $add -> appendChild($copynode);
             for($column = 0; $column < count($header); $column++){
                 $row[$column] = ' ';
             }
@@ -60,34 +52,9 @@ for ($i = 1; $i < $argc; $i++) {
                     }
                 }
             }
-            $cells[] = $row;
+            fputcsv($fp, $row);
         }
     }
 }
 
-$fp = fopen('file.csv', 'w');
-//fputcsv($fp, $header);
-foreach($cells as $rows){
-    fputcsv($fp, $rows);
-}
 fclose($fp);
-
-//$output ->save('result.xml');
-//echo $output ->saveXml();
-//$elements = $dom->documentElement;
-//foreach ($elements ->childNodes AS $item) {
-//  print $item->nodeName . " = " . $item->nodeValue . "<br>";
-//}
-//$div2 = $dom->getElementsByTagName('div2');
-//foreach($div2 as $div){
-//    echo $div->nodeValue ."\n";
-//    echo $div->getAttribute('dorpid')."\n";
-//    var_dump($div->attributes);
-//    print $div->normalize();
-//    foreach ($div->attributes as $attr) {
-//        $name = $attr->nodeName;
-//        $value = $attr->nodeValue;
-//        echo "Attribute '$name' :: '$value'<br />";
-//    }
-//}
-
