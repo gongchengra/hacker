@@ -1,5 +1,7 @@
 #!/usr/bin/php
 <?php
+// Got from following URL:
+// http://outlandish.com/blog/xml-to-json/
 function xmlToArray($xml, $options = array()) {
     $defaults = array(
         'namespaceSeparator' => ':',//you may want this to be something other than a colon
@@ -77,5 +79,8 @@ function xmlToArray($xml, $options = array()) {
     );
 }
 $xmlNode = simplexml_load_file($argv[1]);
-$arrayData = xmlToArray($xmlNode);
-echo json_encode($arrayData);
+$dorpid = $xmlNode->xpath("//*[@dorpid ='1003036413']");
+echo json_encode($dorpid);
+//$arrayData = xmlToArray($xmlNode);
+//print_r($arrayData);
+//echo json_encode($arrayData);
