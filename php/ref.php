@@ -1,7 +1,6 @@
 #!/usr/bin/php
 <?php
 
-require_once("xml2json.php");
 function getURLFromID($id, $idType, $file_type, $size = null) {
 
     $baseURL = 'http://asp6new.alexanderstreet.com/contents/dorp.content.aspx';
@@ -52,14 +51,17 @@ for ($i = 1; $i < $argc; $i++) {
             }
             $outputdoc -> appendChild($outputfield);
         }
-        $jsonContents = xml2json::transformXmlStringToJson(fetchXmlContent($xml_id));
-//       fetchXmlContent($xml_id);
-        $outputcontent = $output -> createElement('field',$jsonContents);
-        $domAttribute = $output ->createAttribute('name');
-        $domAttribute->value = 'content_en';
-        $outputcontent -> appendChild($domAttribute);
-        $outputdoc -> appendChild($outputcontent);
+        if(isset($dorp_id) && $dorp_id != $xml_id){
+            $xmlContent = simplexml_load_string(fetchXmlContent($xml_id));
+            $jsonContents = json_encode($xmlContent -> xpath("//*[@dorpid = '".$dorp_id."']"));
+            $outputcontent = $output -> createElement('field',$jsonContents);
+            $domAttribute = $output ->createAttribute('name');
+            $domAttribute->value = 'content_en';
+            $outputcontent -> appendChild($domAttribute);
+            $outputdoc -> appendChild($outputcontent);
+        }
     }
-    $output ->save($argv[$i]);
+//    $output ->save("/data/content/BAKR-V1-NEW/".$argv[$i]);
+    $output ->save("/data/content/BAKR-V1-NEW/test.xml");
     echo "Finished ".$argv[$i]."\n";
 }
