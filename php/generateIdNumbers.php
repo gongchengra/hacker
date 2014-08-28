@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 
 $areaNumber = file("/home/gongcheng/code/hacker/c/04_T2260_number_only.txt");
@@ -30,20 +30,27 @@ function howManyIds(){
     return $ids;
 }
 
-function random_value($array)
+function randArrayElement($array)
 {
     return $array[mt_rand(0, count($array) - 1)];
 }
 
-function rand_date($min_date='1920-01-01', $max_date='Today') {
+function randDate($min_date='1910-01-01', $max_date='Today') {
     /* Gets 2 dates as string, earlier and later date.
      *        Returns date in between them.
      *            */
 
     $min_epoch = strtotime($min_date);
     $max_epoch = strtotime($max_date);
-
     $rand_epoch = rand($min_epoch, $max_epoch);
+
+    $mid_epoch = strtotime('1974-01-01');
+    $dev_epoch = ($mid_epoch-$min_epoch)/4;
+
+    $tmp_epoch = normalRand($mid_epoch, $dev_epoch);
+    if($tmp_epoch > $min_epoch && $tmp_epoch < $max_epoch){
+        $rand_epoch = $tmp_epoch;
+    }
 
     return date('Ymd', $rand_epoch);
 }
@@ -63,15 +70,15 @@ function calculateVerifyNumber($input){
 
 function generateIdNumber($areaNumber){
     $idNumber ='';
-    $idNumber .= trim(random_value($areaNumber));
-    $idNumber .= rand_date();
+    $idNumber .= trim(randArrayElement($areaNumber));
+    $idNumber .= randDate();
     $idNumber .= str_pad(mt_rand(1,999),3,'0',STR_PAD_LEFT);
     $idNumber .= calculateVerifyNumber($idNumber);
     return $idNumber;
 }
 
-$fp = fopen('ids.txt', 'w');
-for($i = 0; $i < 1000000; $i++){
+$fp = fopen('normIds.txt', 'w');
+for($i = 0; $i < 10000; $i++){
     $n =howManyIds();
     $idNumbers = '';
     for($j=0;$j<$n;$j++){
