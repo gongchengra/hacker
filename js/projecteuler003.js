@@ -1,6 +1,9 @@
 // author: gongchengra@gmail.com
 // http://projecteuler.net/problem=3
-var getPrimeNumbersLessthanN = function(N) {
+// The prime factors of 13195 are 5, 7, 13 and 29.
+//
+// What is the largest prime factor of the number 600851475143 ?
+var getPrimeNumbersLessthanN = function getPrimeNumbersLessthanN(N) {
     var primeArray = new Int8Array(N);
     for (var i = 0; i < primeArray.length; i++) {
         primeArray[i] = 0;
