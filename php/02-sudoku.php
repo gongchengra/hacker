@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 $init_arry=array(
     0,0,0,0,0,0,0,0,0,/*数独初始化，其中0表示数字未给出*/
