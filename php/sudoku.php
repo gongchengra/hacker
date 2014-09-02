@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 //error_reporting( E_ALL&~E_NOTICE );
 $initArray = array(

@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 
 function getURLFromID($id, $idType, $file_type, $size = null) {
