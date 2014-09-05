@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 if($argc != 5 || in_array($argv[1], array('--help', '-help', '-h', '-?')))
 {

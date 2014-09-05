@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 $init_arry=array(
     8,0,0,0,0,0,0,0,0,

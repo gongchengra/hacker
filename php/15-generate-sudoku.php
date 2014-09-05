@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 $initArray = array(
     0,0,0,0,0,0,0,0,0,
