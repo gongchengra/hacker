@@ -1,7 +1,9 @@
 #!/usr/bin/php
 <?php
-$dom = new DOMDocument;
-$dom->Load($argv[1]);
-if ($dom->validate()) {
-    echo "This document is valid!\n";
+for ($i = 1; $i < $argc; $i++) {
+    $dom = new DOMDocument;
+    $dom->Load($argv[$i]);
+    if ($dom->validate()) {
+        echo "This document is valid!\n";
+    }
 }
