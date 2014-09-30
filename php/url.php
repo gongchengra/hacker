@@ -73,8 +73,8 @@ function explodeoArray($inputArray){
 //print_r(explodeoArray(readFileToString($argv[1])));
 
 
-//$dorp_arry = explodeoArray(readFileToString($argv[1]));
-$dorp_arry = readFileToString($argv[1]);
+$dorp_arry = explodeoArray(readFileToString($argv[1]));
+//$dorp_arry = readFileToString($argv[1]);
 //$dorp_result_file = $argv[2];
 //$dorp_dtd_result = "";
 

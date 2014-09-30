@@ -16,9 +16,11 @@ function getURLFromID($id, $idType, $file_type, $size = null) {
 }
 
 function fetchXmlContent($dorpid) {
-    $dorpFileName = "/tmp/tomcat7-tomcat7-tmp/".$dorpid.".xml";
+    //    $dorpFileName = "/tmp/tomcat7-tomcat7-tmp/".$dorpid.".xml";
+    $dorpFileName = "/tmp/bakr/".$dorpid.".xml";
     if(file_exists($dorpFileName)){
-        $dorp_txt = file_get_contents($dorpFileName);
+        //        $dorp_txt = file_get_contents($dorpFileName);
+        $dorp_txt = '';
         return $dorp_txt;
     }else{
         $dorp_url = getURLFromID($dorpid,'id','txt');
@@ -51,17 +53,21 @@ for ($i = 1; $i < $argc; $i++) {
             }
             $outputdoc -> appendChild($outputfield);
         }
-        if(isset($dorp_id) && $dorp_id != $xml_id){
-            $xmlContent = simplexml_load_string(fetchXmlContent($xml_id));
-            $jsonContents = json_encode($xmlContent -> xpath("//*[@dorpid = '".$dorp_id."']"));
-            $outputcontent = $output -> createElement('field',$jsonContents);
-            $domAttribute = $output ->createAttribute('name');
-            $domAttribute->value = 'content_en';
-            $outputcontent -> appendChild($domAttribute);
-            $outputdoc -> appendChild($outputcontent);
+//        if(isset($dorp_id) && $dorp_id != $xml_id){
+        if(isset($dorp_id)){
+            if(fetchXmlContent($xml_id) != ''){
+                $xmlContent = simplexml_load_string(fetchXmlContent($xml_id));
+//                $jsonContents = json_encode($xmlContent -> xpath("//*[@dorpid = '".$dorp_id."']"));
+                $jsonContents = json_encode($xmlContent);
+                $outputcontent = $output -> createElement('field',$jsonContents);
+                $domAttribute = $output ->createAttribute('name');
+                $domAttribute->value = 'content_en';
+                $outputcontent -> appendChild($domAttribute);
+                $outputdoc -> appendChild($outputcontent);
+            }
         }
     }
-//    $output ->save("/data/content/BAKR-V1-NEW/".$argv[$i]);
-    $output ->save("/data/content/BAKR-V1-NEW/test.xml");
+    $output ->save("/data/content/BAKR-V1-NEW/".$argv[$i]);
+//    $output ->save("/data/content/BAKR-V1-NEW/test.xml");
     echo "Finished ".$argv[$i]."\n";
 }
