@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-
+require('xmlParser.php');
 function getURLFromID($id, $idType, $file_type, $size = null) {
 
     $baseURL = 'http://asp6new.alexanderstreet.com/contents/dorp.content.aspx';
@@ -19,13 +19,14 @@ function fetchXmlContent($dorpid) {
     //    $dorpFileName = "/tmp/tomcat7-tomcat7-tmp/".$dorpid.".xml";
     $dorpFileName = "/tmp/bakr/".$dorpid.".xml";
     if(file_exists($dorpFileName)){
-        //        $dorp_txt = file_get_contents($dorpFileName);
-        $dorp_txt = '';
+                $dorp_txt = file_get_contents($dorpFileName);
+//        $dorp_txt = '';
         return $dorp_txt;
     }else{
-        $dorp_url = getURLFromID($dorpid,'id','txt');
-        $dorp_txt = file_get_contents($dorp_url);
-        file_put_contents($dorpFileName,$dorp_txt);
+//        $dorp_url = getURLFromID($dorpid,'id','txt');
+//        $dorp_txt = file_get_contents($dorp_url);
+//        file_put_contents($dorpFileName,$dorp_txt);
+        $dorp_txt = '';
         return $dorp_txt;
     }
 }
@@ -55,8 +56,13 @@ for ($i = 1; $i < $argc; $i++) {
         }
 //        if(isset($dorp_id) && $dorp_id != $xml_id){
         if(isset($dorp_id)){
+//            print $dorp_id."\n";
+//            print $xml_id."\n";
             if(fetchXmlContent($xml_id) != ''){
-                $xmlContent = simplexml_load_string(fetchXmlContent($xml_id));
+//                print fetchXmlContent($xml_id);
+//                $xmlContent = simplexml_load_string(fetchXmlContent($xml_id));
+                $xmlContent = xml2array(fetchXmlContent($xml_id), 1, 'attribute');
+                print $xmlContent;
 //                $jsonContents = json_encode($xmlContent -> xpath("//*[@dorpid = '".$dorp_id."']"));
                 $jsonContents = json_encode($xmlContent);
                 $outputcontent = $output -> createElement('field',$jsonContents);
