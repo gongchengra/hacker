@@ -1,31 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAXLENGTH 100
+#define RESULTLENGTH 300
+#define dc_base 256
 int main()
 {
     int i,j;
-    char string[256];
-    int result[512];
-    for(j=0;j<512;j++){
+    char flag=0;
+    char string[MAXLENGTH];
+    int result[RESULTLENGTH];
+    for(j=0;j<RESULTLENGTH;j++){
         result[j]=0;
     }
-    /*    long long encoding=0;*/
     printf("Enter string to encode:");
     scanf("%s",string);
-/*    printf("%s",string);*/
-    for(i=0;i<256 && string[i]!=0;i++){
+    /*    printf("%ld\n",sizeof(string)/sizeof(char));*/
+    /*    printf("%s",string);*/
+    for(i=0;i<MAXLENGTH && string[i]!='\0';i++){
+        for(j=0;j<RESULTLENGTH-1;j++){
+            result[j] = result[j] * dc_base;
+        }
         result[0] = result[0] + string[i];
-        for(j=0;j<512 && result[j] !=0;j++){
-            result[j] = result[j] * 256;
+        for(j=0;j<RESULTLENGTH-1;j++){
             if(result[j] > 9){
-                result[j+1] = result[j+1] + result[j] / 10;
+                result[j+1] = result[j+1] + (result[j] / 10);
                 result[j] = result[j] % 10;
             }
         }
     }
-    for(j=512;j>0;j--){
-        if(result[j] != 0){
-            printf("%d ", result[j]);
-        }
+    while(j>=0){
+        if(result[j]!=0) flag = 1;
+        if(flag == 1) printf("%d", result[j]);
+        j--;
     }
+    printf("\n");
     return 0;
 }
