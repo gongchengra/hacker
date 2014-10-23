@@ -1,7 +1,8 @@
 <?php
-xdebug_start_trace();
+//xdebug_start_trace();
+xdebug_start_trace("trace.log");
 function squareNumber($number) {
-  return $number * $numbr;
+  return $number * $number;
 }
 ?>
 <html>

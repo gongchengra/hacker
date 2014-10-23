@@ -15,7 +15,7 @@ function factorial($number) {
         return ($number * factorial($number-1));
     }
 }
-xdebug_start_trace("trace.recursive.txt");
-recursion(0);
+xdebug_start_trace("trace.log");
+recursion(20);
 xdebug_stop_trace();
-//echo factorial(20);
+echo factorial(20);
