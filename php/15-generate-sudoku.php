@@ -55,23 +55,23 @@ function deleteDuplicateValue($tmpArray) {
                 foreach ($sameRowArray as $sameRow => $sameRowKey) {
                     if ($sameRowKey != $tmpKey && isset($tmpArray[$sameRowKey]) && strlen($tmpArray[$sameRowKey]) > 1
                         && false !== strpos($tmpArray[$sameRowKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameRowKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameRowKey]);
-                        $deleteFlag = true;
-                    }
+                            $tmpArray[$sameRowKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameRowKey]);
+                            $deleteFlag = true;
+                        }
                 }
                 foreach ($sameColumnArray as $sameColumn => $sameColumnKey) {
                     if ($sameColumnKey != $tmpKey && isset($tmpArray[$sameColumnKey]) && strlen($tmpArray[$sameColumnKey]) > 1
                         && false !== strpos($tmpArray[$sameColumnKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameColumnKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameColumnKey]);
-                        $deleteFlag = true;
-                    }
+                            $tmpArray[$sameColumnKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameColumnKey]);
+                            $deleteFlag = true;
+                        }
                 }
                 foreach ($sameBlockArray as $sameBlock => $sameBlockKey) {
                     if ($sameBlockKey != $tmpKey && isset($tmpArray[$sameBlockKey]) && strlen($tmpArray[$sameBlockKey]) > 1
                         && false !== strpos($tmpArray[$sameBlockKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameBlockKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameBlockKey]);
-                        $deleteFlag = true;
-                    }
+                            $tmpArray[$sameBlockKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameBlockKey]);
+                            $deleteFlag = true;
+                        }
                 }
             }
         }
@@ -81,7 +81,7 @@ function deleteDuplicateValue($tmpArray) {
 
 function fillCellsWithOnePossibility($tmpArray) {
     do {
-       $foundFlag = false;
+        $foundFlag = false;
         foreach ($tmpArray as $tmpKey => $tmpVal) {
             if(strlen($tmpVal) > 1)
             {
@@ -201,7 +201,7 @@ function findLeastUnknownCell($tmpArray) {
 $settedNumber = 0;
 do {
     $randomKey = rand(0,80);
-    echo $randomKey."\n";
+    //    echo $randomKey."\n";
     do {
         if (1 != strlen($tmpArray[$randomKey])) {
             break;
@@ -215,9 +215,31 @@ do {
     $tmpArrayCell = str_split($tmpArray[$randomKey]);
     shuffle($tmpArrayCell);
     $tmpArray[$randomKey] = array_shift($tmpArrayCell);
-    echo "Set ". $randomKey. " As ". $tmpArray[$randomKey]. "\n";
+    //    echo "Set ". $randomKey. " As ". $tmpArray[$randomKey]. "\n";
     $settedNumber++;
     $tmpArray = deleteDuplicateValue($tmpArray);
-} while ($settedNumber<81);
+} while ($settedNumber<28);
+
+foreach ($tmpArray as $key => $value) {
+    if(strlen($value) > 1){
+        $value = 0;
+    }
+    if (0 == ($key+1)%9) {
+        $message .= $value.",\n";
+    } else {
+        $message .= $value.',';
+    }
+}
+foreach ($tmpArray as $key => $value) {
+    if(strlen($value) > 1){
+        $value = 0;
+    }
+    if (0 == ($key+1)%9){
+        echo $value.",\n";
+    } else {
+        echo $value.',';
+    }
+}
+echo "\n";
 
 file_put_contents($messageLog, $message);
