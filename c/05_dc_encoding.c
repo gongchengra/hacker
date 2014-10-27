@@ -8,10 +8,7 @@ int main()
     int i,j;
     char flag = 0;
     char string[MAX_LEN];
-    int result[RESULT_LEN];
-    for (j = 0;j < RESULT_LEN;j++) {
-        result[j] = 0;
-    }
+    int result[RESULT_LEN] = {0};
 
     fflush(stdin);
     printf("Enter string to encode(Less than 1000 characters):\n");
