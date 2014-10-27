@@ -12,11 +12,11 @@ int main()
     for (j = 0;j < RESULT_LEN;j++) {
         result[j] = 0;
     }
+
     fflush(stdin);
-    printf("Enter string to encode(Less than 1000 characters):");
+    printf("Enter string to encode(Less than 1000 characters):\n");
     fgets(string, sizeof(string), stdin);
-    /*    printf("%ld\n",sizeof(string)/sizeof(char));*/
-    /*    printf("%s",string);*/
+
     for (i = 0;i < MAX_LEN && string[i] != '\0';i++) {
         for (j = RESULT_LEN-1,flag=0;j >= 0;j--) {
             if (result[j] != 0) flag = 1;
@@ -30,10 +30,12 @@ int main()
             }
         }
     }
+
     for (j = RESULT_LEN-1,flag=0;j >= 0;j--) {
         if (result[j] != 0) flag = 1;
         if (flag == 1) printf("%d", result[j]);
     }
     printf("\n");
+
     return 0;
 }

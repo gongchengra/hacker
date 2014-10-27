@@ -212,7 +212,7 @@ $tmpArray = simplifyArray($tmpArray);
 if (false == checkArray($tmpArray)) {
     echo "No solution";
     $message .= "No solution";
-    file_putContents($messageLog, $message);
+    file_put_contents($messageLog, $message);
     exit;
 } else {
     do {
