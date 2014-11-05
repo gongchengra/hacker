@@ -1,82 +1,35 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
-#define Numbers 10000
+#define Numbers 1000000
 
-int getFirstNPrimeNumbers(int N) {
-	int resultArray[N];
-    int i,j;
-    int intN = N;
-    if(intN < 1) {
-        resultArray[0] = '0';
-    } else if (intN == 1) {
-        resultArray[0] = '2';
-    } else {
-        //According to Prime_number_theorem,
-        //the N prime number is approximately N*ln(N),
-        //in order to make sure we can get N numbers, we multiply by a factor 1.2
-        long maxNumber;
-        if(intN < 20) {
-            long maxNumber = ceil(3*intN*log(intN));
-        } else {
-            long maxNumber = ceil(1.2*intN*log(intN));
-        }
-        printf("%ld", maxNumber);
-        char primeArray[maxNumber];
-        for (i=0; i<maxNumber; i++) {
-            primeArray[i] = 't';
-        }
-        float sqrtMax = sqrt(maxNumber);
-        for(i=0;i<=sqrtMax;i++) {
-            if(primeArray[i] == 't') {
-                for(j=i+2;j<maxNumber;j++){
-                    if((j+2)%(i+2) == 0) {
-                        primeArray[j] = 'f';
-                    }
-                }
-            }
-        }
-        j = 0;
-        for(i=0;i<maxNumber,j<N;i++) {
-            if(primeArray[i] == 't') {
-                resultArray[j] = i+2;
-                j++;
+int *getPrimeNumbersLessthanN(int N, int *resultArray) {
+    char primeArray[Numbers]={0};
+    int i, j;
+    for (i = 2; i <= sqrt(N); i++) {
+        if (primeArray[i] == 0) {
+            for (j = i + i; j < N; j += i) {
+                primeArray[j] = 1;
             }
         }
     }
-    for(i=0;i<N;i++){
-        printf("%d ,", resultArray[i]);
+    for (i = 2,j = 0; i < N; i++) {
+        if (primeArray[i] == 0) {
+            resultArray[j] = i;
+            j++;
+        }
     }
+    return 0;
 }
 
-int main()
+int main(void)
 {
-    getFirstNPrimeNumbers(10);
-/*    int resultArray[Numbers];*/
-/*    int i,j;*/
-/*    long maxNumber = 1.2*Numbers*log(Numbers);*/
-/*    char primeArray[maxNumber];*/
-/*    float sqrtMax = sqrt(maxNumber);*/
-/*    for (i=0; i<maxNumber; i++) {*/
-/*        primeArray[i] = 't';*/
-/*    }*/
-/*    for(i=0;i<=sqrtMax;i++) {*/
-/*        if(primeArray[i] == 't') {*/
-/*            for(j=i+2;j<maxNumber;j++){*/
-/*                if((j+2)%(i+2) == 0) {*/
-/*                    primeArray[j] = 'f';*/
-/*                }*/
-/*            }*/
-/*        }*/
-/*    }*/
-/*    j = 0;*/
-/*    for(i=0;i<maxNumber,j< Numbers;i++) {*/
-/*        if(primeArray[i] == 't') {*/
-/*            resultArray[j] = i+2;*/
-/*            j++;*/
-/*        }*/
-/*    }*/
-/*    for(i=0;i<Numbers;i++){*/
-/*        printf("%d ,", resultArray[i]);*/
-/*    }*/
-/*    printf("\n");*/
+    unsigned int i;
+    int primes[Numbers]={0};
+    getPrimeNumbersLessthanN(1000000, primes);
+    for(i = 0; primes[i] != 0 && i < (sizeof(primes)/sizeof(int)); i++){
+        printf("%7d", primes[i]);
+        printf((i%10 == 9)?"\n":" ");
+    }
+    return 0;
 }
