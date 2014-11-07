@@ -3,8 +3,11 @@
 ;"hello, world" in assembly language for Linux
 ;
 ;to compile:
-;
-;nasm -f elf hello.asm
+;nasm -hf
+;for 32 bit system
+;nasm -f elf32 hello.asm
+;for 64 bit system
+;nasm -f elf64 hello.asm
 ;ld -s -o hello hello.o
 
 section	.text
