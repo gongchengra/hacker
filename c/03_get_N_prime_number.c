@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#define Numbers 5000000
+#define Numbers 1000000
 
 int getPrimeNumbersLessthanN(int N, int *resultArray) {
     char primeArray[Numbers]={0};
@@ -44,7 +44,7 @@ int main(void)
     unsigned int i;
     int primes[Numbers]={0};
     printf("The prime numbers less than 1000000 are listed: \n");
-    getPrimeNumbersLessthanN(5000000, primes);
+    getPrimeNumbersLessthanN(1000000, primes);
     for(i = 0; primes[i] != 0 && i < (sizeof(primes)/sizeof(int)); i++){
         printf("%7d", primes[i]);
         printf((i%10 == 9)?"\n":" ");
