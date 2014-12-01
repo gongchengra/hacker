@@ -7,8 +7,8 @@ function recursion($a)
         recursion($a + 1);
     }
 }
-function factorial($number) {
-
+function factorial($number)
+{
     if ($number < 2) {
         return 1;
     } else {

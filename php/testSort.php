@@ -8,31 +8,40 @@ if (PHP_SAPI == 'cli') {
 }
 error_reporting(E_ALL);
 
-function fillArray($s, $isBigInt = false) {
+function fillArray($s, $isBigInt = false)
+{
     $limit = $s;
     if ($isBigInt) {
         $limit = PHP_INT_MAX;
     }
     $a = array();
-    for ($i=0; $i<$s;$i++) {
+    for ($i = 0; $i<$s;$i++) {
         $a[] = rand(1, $limit);
     }
+
     return $a;
 }
 
-function printArray($a, $keys = null, $color = 'red') {
-    if (!is_null($keys)) foreach ($keys as $k) $a[$k] = "<span style='color: ".$color."'>".$a[$k]."</span>";
+function printArray($a, $keys = null, $color = 'red')
+{
+    if (!is_null($keys)) {
+        foreach ($keys as $k) {
+            $a[$k] = "<span style='color: ".$color."'>".$a[$k]."</span>";
+        }
+    }
     echo '[';
     echo implode(', ', $a);
     echo ']'.EOL;
 }
 
-function countingSort(&$a) {
+function countingSort(&$a)
+{
     $k = max($a);
     $c = array();
     $n = count($a);
-    for ($i = 0; $i <= $k; $i++)
+    for ($i = 0; $i <= $k; $i++) {
         $c[$i] = 0;
+    }
     for ($i = 0;$i < $n; $i++) {
         $c[$a[$i]]++;
     }
@@ -47,7 +56,8 @@ function countingSort(&$a) {
     }
 }
 
-function heapSort(&$a) {
+function heapSort(&$a)
+{
     $n = count($a);
     heapMake($a);
     printArray($a);
@@ -58,14 +68,16 @@ function heapSort(&$a) {
     }
 }
 
-function heapMake(&$a) {
+function heapMake(&$a)
+{
     $n = count($a);
     for ($i = ($n - 1); $i >= 0; $i--) {
         heapify($a, $i, $n);
     }
 }
 
-function heapify(&$a, $pos, $n) {
+function heapify(&$a, $pos, $n)
+{
     while (2 * $pos + 1 < $n) {
         $t = 2 * $pos +1;
         if (2 * $pos + 2 < $n && $a[2 * $pos + 2] >= $a[$t]) {
@@ -74,16 +86,15 @@ function heapify(&$a, $pos, $n) {
         if ($a[$pos] < $a[$t]) {
             list($a[$pos], $a[$t]) = array($a[$t], $a[$pos]);
             $pos = $t;
+        } else {
+            break;
         }
-        else break;
         printArray($a);
     }
 }
-
 
 $testarray = fillArray(6);
 printArray($testarray);
 //countingSort($testarray);
 heapSort($testarray);
 printArray($testarray);
-

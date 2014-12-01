@@ -1,12 +1,13 @@
 <?php
 // 冒泡排序
-function BubbleSort($arr) {
+function BubbleSort($arr)
+{
     // 获得数组总长度
     $num = count($arr);
     // 正向遍历数组
     for ($i = 1; $i < $num; $i++) {
         // 反向遍历
-        for ($j = $num - 1; $j >= $i ; $j--) {
+        for ($j = $num - 1; $j >= $i; $j--) {
             // 相邻两个数比较
             if ($arr[$j] < $arr[$j-1]) {
                 // 暂存较小的数
@@ -18,11 +19,13 @@ function BubbleSort($arr) {
             }
         }
     }
+
     return $arr;
 }
 
 // 交换法排序
-function ExchangeSort($arr){
+function ExchangeSort($arr)
+{
     $num = count($arr);
     // 遍历数组
     for ($i = 0;$i < $num - 1; $i++) {
@@ -39,11 +42,13 @@ function ExchangeSort($arr){
             }
         }
     }
+
     return $arr;
 }
 
 // 选择法排序
-function SelectSort($arr) {
+function SelectSort($arr)
+{
     // 获得数组总长度
     $num = count($arr);
     // 遍历数组
@@ -53,7 +58,7 @@ function SelectSort($arr) {
         // 暂存当前位置
         $iPos = $i;
         // 遍历当前位置以后的数据
-        for ($j = $i + 1;$j < $num; $j++){
+        for ($j = $i + 1;$j < $num; $j++) {
             // 如果有小于当前值的
             if ($arr[$j] < $iTemp) {
                 // 暂存最小值
@@ -67,11 +72,13 @@ function SelectSort($arr) {
         // 把当前值换成算好的值
         $arr[$i] = $iTemp;
     }
+
     return $arr;
 }
 
 // 插入法排序
-function InsertSort($arr){
+function InsertSort($arr)
+{
     $num = count($arr);
     // 遍历数组
     for ($i = 1;$i < $num; $i++) {
@@ -88,11 +95,13 @@ function InsertSort($arr){
         }
         $arr[$iPos+1] = $iTemp;
     }
+
     return $arr;
 }
 
 // 快速排序
-function QuickSort($arr){
+function QuickSort($arr)
+{
     $num = count($arr);
     $l = $r = 0;
     // 从索引的第二个开始遍历数组
@@ -106,10 +115,10 @@ function QuickSort($arr){
             // 否则装入右索引中(大于索引1的数据)
             $right[] = $arr[$i];
             $r++; //
-        }        
+        }
     }
     // 如果左索引有值 则对左索引排序
-    if($l > 1) {
+    if ($l > 1) {
         $left = QuickSort($left);
     }
     // 排序后的数组
@@ -121,9 +130,9 @@ function QuickSort($arr){
         $right = QuickSort($right);
     }
     // 根据右索引的长度再次增加数据
-    for($i = 0;$i < $r; $i++) {
+    for ($i = 0;$i < $r; $i++) {
         $new_arr[] = $right[$i];
     }
+
     return $new_arr;
 }
-?>

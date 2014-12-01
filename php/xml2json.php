@@ -2,19 +2,20 @@
 require_once 'JSON.php';
 
 // Internal program-specific Debug option.
-define ("DEBUG", false);
+define("DEBUG", false);
 // Maximum Recursion Depth that we can allow.
-define ("MAX_RECURSION_DEPTH_ALLOWED", 25);
+define("MAX_RECURSION_DEPTH_ALLOWED", 25);
 // An empty string
-define ("EMPTY_STR", "");
+define("EMPTY_STR", "");
 // SimpleXMLElement object property name for attributes
-define ("SIMPLE_XML_ELEMENT_OBJECT_PROPERTY_FOR_ATTRIBUTES", "@attributes");
+define("SIMPLE_XML_ELEMENT_OBJECT_PROPERTY_FOR_ATTRIBUTES", "@attributes");
 // SimpleXMLElement object name.
-define ("SIMPLE_XML_ELEMENT_PHP_CLASS", "SimpleXMLElement");
+define("SIMPLE_XML_ELEMENT_PHP_CLASS", "SimpleXMLElement");
 
-class xml2json {
-    public static function transformXmlStringToJson($xmlStringContents) {
-
+class xml2json
+{
+    public static function transformXmlStringToJson($xmlStringContents)
+    {
         $simpleXmlElementObject = simplexml_load_string($xmlStringContents);
 
         if ($simpleXmlElementObject == null) {
@@ -33,7 +34,6 @@ class xml2json {
         $array1 = xml2json::convertSimpleXmlElementObjectIntoArray($simpleXmlElementObject);
 
         if (($array1 != null) && (sizeof($array1) > 0)) {
-
             $json = new Services_JSON();
             $jsonOutput = $json->encode($array1);
 
@@ -46,18 +46,19 @@ class xml2json {
         return($jsonOutput);
     } // End of function transformXmlStringToJson
 
-    public static function convertSimpleXmlElementObjectIntoArray($simpleXmlElementObject, &$recursionDepth=0) {
+    public static function convertSimpleXmlElementObjectIntoArray($simpleXmlElementObject, &$recursionDepth = 0)
+    {
         // Keep an eye on how deeply we are involved in recursion.
         if ($recursionDepth > MAX_RECURSION_DEPTH_ALLOWED) {
             // Fatal error. Exit now.
-            return(null);
+            return;
         }
 
         if ($recursionDepth == 0) {
             if (get_class($simpleXmlElementObject) != SIMPLE_XML_ELEMENT_PHP_CLASS) {
                 // If the external caller doesn't call this function initially
                 // with a SimpleXMLElement object, return now.
-                return(null);
+                return;
             } else {
                 // Store the original SimpleXmlElementObject sent by the caller.
                 // We will need it at the very end when we return from here for good.
@@ -83,7 +84,7 @@ class xml2json {
             }
 
             // Let us walk through the child elements now.
-            foreach($simpleXmlElementObject as $key=>$value) {
+            foreach ($simpleXmlElementObject as $key => $value) {
                 // When this block of code is commented, XML attributes will be
                 // added to the result array.
                 // Uncomment the following block of code if XML attributes are
@@ -118,6 +119,5 @@ class xml2json {
             return (trim(strval($simpleXmlElementObject)));
         } // End of else
     } // End of function convertSimpleXmlElementObjectIntoArray.
-
 } // End of class xml2json
-?>
+;
