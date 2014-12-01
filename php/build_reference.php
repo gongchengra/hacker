@@ -9,7 +9,7 @@ function getURLFromID($id, $idType, $file_type, $size = null)
     }
     $type = 'txt';
     $time = time(); //current time in seconds since Unix epoch UTC
-    $salt = 'banjo'; //what else?
+    $salt = 'secret_salt'; //what else?
     $hash = md5("$id$time$salt");
     $return = "$baseURL?$idType=$id&type=$type&size=$size&time=$time&hash=$hash";
 
