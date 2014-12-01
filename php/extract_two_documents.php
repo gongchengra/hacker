@@ -4,7 +4,7 @@ if ($argc != 5 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
     echo "Useage: Input 4 parameters: \n";
     echo "The first one is where you want to search the data.(The data contains all entites in our case, one per line.) \n";
     echo "The second one is the data you want to search. (The new entities in our case, one per line.)\n";
-    echo "The third one is the data mapping to the first one. (The entity id corresponding to the  dropid.)\n";
+    echo "The third one is the data mapping to the first one. (The entity id corresponding to the dorp id.)\n";
     echo "The last one is where do you want to put the matching result.\n";
     echo "For example, ".$argv[0]." data1 data2 data3 founded will fetch a line of data from data2 and search whether the line \n";
     echo "is contained in data1, if a matching data is found, it will write the corresponing value in data3 to the file founded. \n";
