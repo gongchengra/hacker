@@ -1,12 +1,12 @@
 #!/usr/bin/php
 <?php
-$f = fopen( 'php://stdin', 'r' );
+$f = fopen('php://stdin', 'r');
 // Method 1: Use php function filter_var
-while( $line = fgets( $f ) ) {
+while ($line = fgets($f)) {
     $validate = filter_var(trim($line), FILTER_VALIDATE_EMAIL);
-    if($validate !== FALSE){
+    if ($validate !== FALSE) {
         echo $validate." is valid email address!\n";
-    } else{
+    } else {
         echo trim($line)." is not valid email address.\n";
     }
 }
@@ -26,4 +26,4 @@ while( $line = fgets( $f ) ) {
 //    }
 //}
 
-fclose( $f );
+fclose($f);

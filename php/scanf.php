@@ -1,10 +1,10 @@
 #!/usr/bin/php
 <?php
-$f = fopen( 'php://stdin', 'r' );
+$f = fopen('php://stdin', 'r');
 
-while( $line = fgets( $f ) ) {
+while ($line = fgets($f)) {
     echo $line;
 }
 
-fclose( $f );
+fclose($f);
 ?>

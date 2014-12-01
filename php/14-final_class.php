@@ -14,5 +14,5 @@ final class BaseClass
     }
 }
 
-$test = new BaseClass;
-$test-> moreTesting();
+$test = new BaseClass();
+$test->moreTesting();

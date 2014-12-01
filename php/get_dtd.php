@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
 
-function getURLFromID($id, $idType, $file_type, $size = null) {
-
+function getURLFromID($id, $idType, $file_type, $size = null)
+{
     //https://alexanderstreet.updatelog.com/projects/161894/msg/cat/2396504/4469563/comments
     $baseURL = 'http://asp6new.alexanderstreet.com/contents/dorp.content.aspx';
 
@@ -49,25 +49,30 @@ function getURLFromID($id, $idType, $file_type, $size = null) {
     $hash = md5("$id$time$salt");
     // $return = "$baseURL#$anchor&$idType=$id&type=$type&size=$size&time=$time&hash=$hash";
     $return = "$baseURL?$idType=$id&type=$type&size=$size&time=$time&hash=$hash";
+
     return $return;
 }
 
-function readFileToString($filename){
+function readFileToString($filename)
+{
     $fp = fopen($filename, "r");
     $content = fread($fp, filesize($filename));
     $lines = explode("\n", $content);
     fclose($fp);
+
     return($lines);
 }
 
-function explodeoArray($inputArray){
+function explodeoArray($inputArray)
+{
     $outputArray = array();
-    foreach($inputArray as $lines){
-        if($lines !== ''){
-           $line = explode('|',$lines);
-           $outputArray[trim($line[1])] = trim($line[2]);
+    foreach ($inputArray as $lines) {
+        if ($lines !== '') {
+            $line = explode('|', $lines);
+            $outputArray[trim($line[1])] = trim($line[2]);
         }
     }
+
     return $outputArray;
 }
 //print_r(explodeoArray(readFileToString($argv[1])));
@@ -77,21 +82,21 @@ $dorp_arry = explodeoArray(readFileToString($argv[1]));
 $dorp_result_file = $argv[2];
 $dorp_dtd_result = "";
 
-foreach($dorp_arry as $entityid => $dorpid){
+foreach ($dorp_arry as $entityid => $dorpid) {
     //    echo $dorp_id;
     $filetype = 'txt';
     //    echo getURLFromID($dorp_id,'id','txt')."\n";
-    $dorp_url = getURLFromID($dorpid,'id','txt');
-    $dorp_head = file_get_contents($dorp_url, NULL, NULL, -1, 450);
+    $dorp_url = getURLFromID($dorpid, 'id', 'txt');
+    $dorp_head = file_get_contents($dorp_url, null, null, -1, 450);
     $match = preg_match('/<\!DOCTYPE[^>]*\>/', $dorp_head, $dorp_dtd);
     //    var_dump($dorp_head);
     //    var_dump($dorp_dtd);
-    if($match > 0) {
-        echo 'entity '.$entityid.' with dorpid '. $dorpid .' has dtd of '. $dorp_dtd[0] . "\n";
-        $dorp_dtd_result .= 'entity '.$entityid.' with dorpid '. $dorpid .' has dtd of '. $dorp_dtd[0] . "\n";
+    if ($match > 0) {
+        echo 'entity '.$entityid.' with dorpid '.$dorpid.' has dtd of '.$dorp_dtd[0]."\n";
+        $dorp_dtd_result .= 'entity '.$entityid.' with dorpid '.$dorpid.' has dtd of '.$dorp_dtd[0]."\n";
     } else {
-        echo 'entity '.$entityid.' with dorpid '.$dorpid ." has no content \n";
-        $dorp_dtd_result .= 'entity '.$entityid.' with dorpid '. $dorpid ." has no content \n";
+        echo 'entity '.$entityid.' with dorpid '.$dorpid." has no content \n";
+        $dorp_dtd_result .= 'entity '.$entityid.' with dorpid '.$dorpid." has no content \n";
     }
 }
 
