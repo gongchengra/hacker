@@ -29,7 +29,7 @@
  _._._._._._._._._._._._._._._._._._._._._.*/
 
 #include <stdio.h>
-#define NUMBER 10000
+#define NUMBER 100000
 int array_divide_number(int *array, int number, int size)
 {
     int i,tmp;
@@ -119,7 +119,8 @@ int main()
     d239[0]=4;
     array_divide_number(d5,5,NUMBER);
     array_divide_number(d239,239,NUMBER);
-    for(i=1;i<NUMBER*2;i+=2)
+    //every iteration will increase three valid digitals
+    for(i=1;i<NUMBER*3/2;i+=2)
     {
         copy_array(d5, t5, NUMBER);
         copy_array(d239, t239, NUMBER);
