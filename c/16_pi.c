@@ -57,6 +57,7 @@ void print_array(int *array, int size)
     {
         printf("%d",array[i]);
     }
+    printf("\n");
 }
 
 void copy_array(int *source, int *target, int size)
@@ -71,16 +72,13 @@ void copy_array(int *source, int *target, int size)
 void plus_array(int *augend, int *addend, int *sum, int size)
 {
     int i;
-    for(i=0;i<size;i++)
+    for(i=size-1;i>=0;i--)
     {
         sum[i] = augend[i] + addend[i];
-    }
-    for(i=size-1;i>0;i--)
-    {
         if(sum[i]>9)
         {
             sum[i] = sum[i] % 10;
-            sum[i-1] += sum[i] / 10;
+            sum[i-1]++;
         }
     }
 }
@@ -88,21 +86,21 @@ void plus_array(int *augend, int *addend, int *sum, int size)
 void minus_array(int *minuend, int *subtracter, int *answer, int size)
 {
     int i;
-    for(i=0;i<size;i++)
+    for(i=size-1;i>=0;i--)
     {
-        answer[i] = minuend[i] - subtracter[i];
-    }
-    for(i=size-1;i>0;i--)
-    {
-        if(answer[i]<0)
+        if(minuend[i] >= subtracter[i] || i == 0)
         {
-            if(answer[i-1] == 0)
+            answer[i] = minuend[i] - subtracter[i];
+        }
+        else
+        {
+            if(minuend[i-1] == 0)
             {
-                answer[i-2]--;
-                answer[i-1]=10;
+                minuend[i-2]--;
+                minuend[i-1] = 10;
             }
-            answer[i-1]--;
-            answer[i] = 10 + answer[i];
+            minuend[i-1]--;
+            answer[i] = 10 + minuend[i] - subtracter[i];
         }
     }
 }
@@ -115,43 +113,35 @@ int main()
     int t5[NUMBER]={0};
     int d239[NUMBER]={0};
     int t239[NUMBER]={0};
-    int pt[NUMBER]={0};
     int pi[NUMBER]={0};
 
     d5[0]=16;
     d239[0]=4;
     array_divide_number(d5,5,NUMBER);
     array_divide_number(d239,239,NUMBER);
+    for(i=1;i<NUMBER*2;i+=2)
+    {
+        copy_array(d5, t5, NUMBER);
+        copy_array(d239, t239, NUMBER);
 
-/*    copy_array(pi, pt, NUMBER);*/
-/*    plus_array(pi,d5,pi,NUMBER);*/
-/*    print_array(pi, NUMBER);*/
-/*    printf("\n");*/
-/*    copy_array(pi, pt, NUMBER);*/
-/*    minus_array(pi,d239,pi,NUMBER);*/
-        for(i=1;i<NUMBER/4;i+=2)
+        array_divide_number(t5,i,NUMBER);
+        array_divide_number(t239,i,NUMBER);
+
+        if(flag > 0)
         {
-            copy_array(d5, t5, NUMBER);
-            copy_array(d239, t239, NUMBER);
-
-            array_divide_number(t5,i,NUMBER);
-            array_divide_number(t239,i,NUMBER);
-
-            if(flag > 0)
-            {
-                plus_array(pi,t5,pi,NUMBER);
-                minus_array(pi,t239,pi,NUMBER);
-            }
-            else
-            {
-                minus_array(pi,t5,pi,NUMBER);
-                plus_array(pi,t239,pi,NUMBER);
-            }
-            flag = -1*flag;
-
-            array_divide_number(d5,5*5,NUMBER);
-            array_divide_number(d239,239*239,NUMBER);
+            plus_array(pi,t5,pi,NUMBER);
+            minus_array(pi,t239,pi,NUMBER);
         }
+        else
+        {
+            minus_array(pi,t5,pi,NUMBER);
+            plus_array(pi,t239,pi,NUMBER);
+        }
+        flag = -1*flag;
+
+        array_divide_number(d5,5*5,NUMBER);
+        array_divide_number(d239,239*239,NUMBER);
+    }
 
     print_array(pi, NUMBER);
     return 0;
