@@ -1,4 +1,5 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-print "\n";
+print @ARGV;
+exit 37;
