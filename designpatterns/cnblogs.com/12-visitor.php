@@ -7,39 +7,39 @@
  */
 abstract class Visitor
 {
- abstract public function visitCroncreteElementA($element);
- abstract public function visitCroncreteElementB($element);
+    abstract public function visitCroncreteElementA($element);
+    abstract public function visitCroncreteElementB($element);
 }
 
  class ConcreteVisitor1 extends Visitor
-{
- public function visitCroncreteElementA($element)
  {
-     echo get_class ($element)." visit 1A<br/>";
- }
+     public function visitCroncreteElementA($element)
+     {
+         echo get_class($element)." visit 1A".PHP_EOL;
+     }
 
- public function visitCroncreteElementB($element)
- {
-     echo get_class ($element)." visit 1B<br/>";
- } 
-}
+     public function visitCroncreteElementB($element)
+     {
+         echo get_class($element)." visit 1B".PHP_EOL;
+     }
+ }
 
 class ConcreteVisitor2 extends Visitor
 {
     public function visitCroncreteElementA($element)
     {
-        echo get_class ($element)." visit 2A<br/>";
+        echo get_class($element)." visit 2A".PHP_EOL;
     }
 
     public function visitCroncreteElementB($element)
     {
-        echo get_class ($element)." visit 2B<br/>";
-    } 
+        echo get_class($element)." visit 2B".PHP_EOL;
+    }
 }
 
 abstract class Element
 {
-    abstract public function accept($visitor); 
+    abstract public function accept($visitor);
 }
 
 class ConcreteElementA extends Element
@@ -60,34 +60,35 @@ class ConcreteElementB extends Element
 
 class ObjectStructure
 {
-    private $_elements=array();
+    private $_elements = array();
 
     public function attach($element)
     {
-        $this->_elements[] =$element;
+        $this->_elements[] = $element;
     }
 
     public function detach($element)
     {
-        if($key=array_search($element,$this->_elements) !==false) unset($this->_elements[$key]);
+        if ($key = array_search($element, $this->_elements) !== false) {
+            unset($this->_elements[$key]);
+        }
     }
 
     public function accept($visitor)
     {
-        foreach($this->_elements as$element)
-        {
+        foreach ($this->_elements as$element) {
             $element->accept($visitor);
         }
     }
 }
 
 //
-$objOS=new ObjectStructure();
+$objOS = new ObjectStructure();
 $objOS->attach(new ConcreteElementA());
 $objOS->attach(new ConcreteElementB());
 
-$objCV1=new ConcreteVisitor1();
-$objCV2=new ConcreteVisitor2();
+$objCV1 = new ConcreteVisitor1();
+$objCV2 = new ConcreteVisitor2();
 
 $objOS->accept($objCV1);
 $objOS->accept($objCV2);

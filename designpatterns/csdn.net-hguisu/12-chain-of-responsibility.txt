@@ -1,0 +1,433 @@
+设计模式(十二)职责链模式(Chain of Responsibility)（对象行为型）
+
+http://blog.csdn.net/hguisu/article/details/7547231
+
+1.概述
+
+你去政府部门求人办事过吗？有时候你会遇到过官员踢球推责，你的问题在我这里能解决就解决，不能解决就推卸给另外个一个部门（对象）。至于到底谁来解决这个问题呢？政府部门就是为了可以避免屁民的请求与官员之间耦合在一起，让多个（部门）对象都有可能接收请求，将这些（部门）对象连接成一条链，并且沿着这条链传递请求，直到有（部门）对象处理它为止。
+
+例子1：js的事件浮升机制
+
+例子2：
+
+2.问题
+
+如果有多个对象都有可能接受请求，如何避免避免请求发送者与接收者耦合在一起呢？
+
+3.解决方案
+
+职责链模式(Chain of Responsibility)：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。（Avoid coupling the sender of a request to itsreceiver by giving more than one object a chance to handle the request.Chain the receiving objects and pass the request along the chain until an object handles it. ）
+
+1）在职责链模式里，很多对象由每一个对象对其下家的引用而连接起来形成一条链。
+
+2）请求在这条链上传递，直到链上的某一个对象处理此请求为止。
+
+3）发出这个请求的客户端并不知道链上的哪一个对象最终处理这个请求，这使得系统可以在不影响客户端的情况下动态地重新组织链和分配责任。
+
+4.适用性
+
+在以下条件下使用Responsibility 链：
+
+• 有多个的对象可以处理一个请求，哪个对象处理该请求运行时刻自动确定。
+
+• 你想在不明确指定接收者的情况下，向多个对象中的一个提交一个请求。
+
+•可动态指定一组对象处理请求。
+
+5.结构
+
+一个典型的对象结构可能如下图所示：
+
+6. 模式的组成
+
+抽象处理者角色(Handler:Approver):定义一个处理请求的接口，和一个后继连接(可选)
+
+具体处理者角色(ConcreteHandler:President):处理它所负责的请求，可以访问后继者，如果可以处理请求则处理，否则将该请求转给他的后继者。
+
+客户类(Client):向一个链上的具体处理者ConcreteHandler对象提交请求。
+
+7. 效果
+
+Responsibility 链有下列优点和缺点(liabilities ) :
+
+职责链模式的优点：
+
+1 ) 降低耦合度 ：该模式使得一个对象无需知道是其他哪一个对象处理其请求。对象仅需知道该请求会被“正确”地处理。接收者和发送者都没有对方的明确的信息，且链中的对象不需知道链的结构。
+
+2) 职责链可简化对象的相互连接 :    结果是，职责链可简化对象的相互连接。它们仅需保持一个指向其后继者的引用，而不需保持它所有的候选接受者的引用。
+
+3) 增强了给对象指派职责( R e s p o n s i b i l i t y )的灵活性 ：当在对象中分派职责时，职责链给你更多的灵活性。你可以通过在运行时刻对该链进行动态的增加或修改来增加或改变处理一个请求的那些职责。你可以将这种机制与静态的特例化处理对象的继承机制结合起来使用。
+
+4)增加新的请求处理类很方便
+
+职责链模式的缺点:
+
+1) • 不能保证请求一定被接收。既然一个请求没有明确的接收者，那么就不能保证它一定会被处理 —该请求可能一直到链的末端都得不到处理。一个请求也可能因该链没有被正确配置而得不到处理。
+
+2) • 系统性能将受到一定影响，而且在进行代码调试时不太方便；可能会造成循环调用。
+
+8. 纯与不纯的职责链模式
+
+纯的职责链模式：一个具体处理者角色处理只能对请求作出两种行为中的一个：一个是自己处理（承担责任），另一个是把责任推给下家。不允许出现某一个具体处理者对象在承担了一部分责任后又将责任向下传的情况。请求在责任链中必须被处理，不能出现无果而终的结局。
+
+反之就是不纯的职责链模式。
+
+在一个纯的职责链模式里面，一个请求必须被某一个处理者对象所接收；在一个不纯的职责链模式里面，一个请求可以最终不被任何接收端对象所接收。
+
+9.实现
+
+我们先来看不纯的职责模式：
+
+假如在公司里，
+
+如果你的请假时间小于0.5天，那么只需要向leader打声招呼就OK了。
+
+如果0.5<请假天数<=3天，需要先leader打声招呼，要不然leader不知你跑哪里，然后部门经理直接签字。
+
+如果3<请假天数 天，需要先leader打声招呼，然后到部门经理签字，最好总经经理确认签字，
+
+当你看到这情况后你心里是不是已经有了自己的想法了?写一系列的if语句来一条条的判断.但这样的写法虽然可以实现目前的需求,可如果当流程改了呢？我请假超过3天，告诉leader和总经理签字就可以，那你又得一步一步修改程序。如果if语句的条数发生变化的话我们还必须在代码中添加必要的if判断，这对于程序的维护来说是相当麻烦的.如果我们使用职责链模式的话就可以相当简单了.
+
+这个例子就是个list。也是个不纯的职责链，因为每个对象可能处理一部分后，就需要传给下个对象来处理。
+
+```
+<?php
+/**
+ * 加入在公司里，如果你的请假时间小于0.5天，那么只需要向leader打声招呼就OK了。
+ 如果0.5<请假天数<=3天，需要先leader打声招呼，要不然leader不知你跑哪里，然后部门经理直接签字。
+ 如果3<请假天数 天，需要先leader打声招呼，然后到部门经理签字，最好总经经理确认签字，
+ 这样就是个list。也是个不纯的职责链，因为每个对象可能处理一部分后，就需要传给下个对象来处理。
+ */
+/**
+ * 纯职责链模式
+ *
+ * 为解除请求的发送者和接收者之间的耦合,而使用多个对象都用机会处理这个请求,将这些对象连成一条链,并沿着这条链传递该请求,直到有一个对象处理它
+ * @author guisu
+ *
+ */
+/**
+ * 抽象处理者角色(Handler:Approver):定义一个处理请求的接口，和一个后继连接(可选)
+ *
+ */
+abstract class Handler
+{
+    protected $_handler = null;
+    protected $_handlerName = null;
+    public function setSuccessor($handler)
+    {
+        $this->_handler = $handler;
+    }
+    protected  function _success($request)
+    {
+        echo $request->getName(), '\' request was passed  <br/>';
+        return true;
+    }
+    abstract function handleRequest($request);
+}
+/**
+ * 具体处理者角色(ConcreteHandler:President):处理它所负责的请求，可以访问后继者，如果可以处理请求则处理，否则将该请求转给他的后继者。
+ *
+ */
+class ConcreteHandlerLeader extends Handler
+{
+    function __construct($handlerName){
+        $this->_handlerName = $handlerName;
+    }
+    public function handleRequest($request)
+    {
+        echo $this->_handlerName, ' was known <br/>';//已经跟leader招呼了
+        if($request->getDay() < 0.5) {
+            return $this->_success($request);
+        }
+        if ($this->_handler instanceof Handler) {
+            return $this->_handler->handleRequest($request);
+        }
+    }
+}
+/**
+ * Manager
+ *
+ */
+class ConcreteHandlerManager extends Handler
+{
+    function __construct($handlerName){
+        $this->_handlerName = $handlerName;
+    }
+    public function handleRequest($request)
+    {
+        echo $this->_handlerName, " was signed <br/>";//部门经理签字
+        if( $request->getDay() > 0.5 && $request->getDay()<=3) {
+            return $this->_success($request);
+        }
+        if ($this->_handler instanceof Handler) {
+            return $this->_handler->handleRequest($request);
+        }
+    }
+}
+class ConcreteHandlerGeneralManager extends Handler
+{
+    function __construct($handlerName){
+        $this->_handlerName = $handlerName;
+    }
+    public function handleRequest($request)
+    {
+        echo $this->_handlerName, " was signed <br/>";//总经理签字
+        if(3 < $request->getDay()){
+            return $this->_success($request);
+        }
+        if ($this->_handler instanceof Handler) {
+            return $this->_handler->handleRequest($request);
+        }
+    }
+}
+/**
+ * 请假申请
+ *
+ */
+class   Request
+{
+    private $_name;
+    private $_day;
+    private $_reason;
+    function __construct($name= '', $day= 0, $reason = ''){
+        $this->_name = $name;
+        $this->_day = $day;
+        $this->_reason = $reason;
+    }
+    public function setName($name){
+        $this->_name = $name;
+    }
+    public function getName(){
+        return  $this->_name;
+    }
+    public function setDay($day){
+        $this->_day = $day;
+    }
+    public function getDay(){
+        return  $this->_day ;
+    }
+    public function setReason($reason ){
+        $this->_reason = $reason;
+    }
+    public function getReason( ){
+        return  $this->_reason;
+    }
+}
+class client{
+    /**
+     *流程1：leader-> manager ->generalManager
+     *
+     */
+    static function main(){
+        $leader = new ConcreteHandlerLeader('$leader');
+        $manager = new ConcreteHandlerManager('$manager');
+        $generalManager = new ConcreteHandlerGeneralManager('$generalManager');
+        //请求实例
+        $request = new Request('guisu',4,'休息' );
+        $leader->setSuccessor($manager);
+        $manager->setSuccessor($generalManager);
+        $result =  $leader->handleRequest($request);
+    }
+    /**
+     * 流程2 :
+     * leader ->generalManager
+     */
+    static function main2(){
+        //签字列表
+        $leader = new ConcreteHandlerLeader('$leader');
+        $manager = new ConcreteHandlerManager('$manager');
+        $generalManager = new ConcreteHandlerGeneralManager('$generalManager');
+        //请求实例
+        $request = new Request('guisu',3,'休息' );
+        $leader->setSuccessor($generalManager);
+        $result = $leader->handleRequest($request);
+    }
+    /**
+     * 流程3 :如果leader不在，那么完全可以写这样的代码
+     * manager ->generalManager
+     */
+    static function main3(){
+        //签字列表
+        $leader = new ConcreteHandlerLeader('$leader');
+        $manager = new ConcreteHandlerManager('$manager');
+        $generalManager = new ConcreteHandlerGeneralManager('$generalManager');
+        //请求实例
+        $request = new Request('guisu',0.1,'休息' );
+        $leader->setSuccessor($manager);
+        $manager->setSuccessor($generalManager);
+        $result = $manager->handleRequest($request);
+    }
+}
+client::main3();
+```
+对于怎么维护职责的链子，《设计模式》仅仅说自己去实现，可以使用list或者map的形式。
+
+我们吧把职责链模式应用到面向过程编程，而不是对象。例如：
+
+个税起征点3500元
+
+级数   全月应纳税所得额        　　　　税率（%）
+
+1   　不超过1500元的             　　　3
+
+2   　超过1500元至4500元的部分   　　　10
+
+3   　超过4500元至9000元的部分   　　　20
+
+4   　超过9000元至35000元的部分 　　　 25
+
+5  　 超过35000元至55000元的部分 　　　30
+
+6 　  超过55000元至80000元的部分 　　　35
+
+7  　 超过80000元的部分          　　  45
+
+我们可以不必使用那么多的if和elseif语句判断。我们只要配置$taxs数组就可以了，而不用修改程序。
+
+```
+<?php
+/**
+ * 个税起征点3500元
+ 级数   全月应纳税所得额        　　　　税率（%）
+ 1   　不超过1500元的             　　　3
+ 2   　超过1500元至4500元的部分   　　　10
+ 3   　超过4500元至9000元的部分   　　　20
+ 4   　超过9000元至35000元的部分 　　　 25
+ 5  　 超过35000元至55000元的部分 　　　30
+ 6 　  超过55000元至80000元的部分 　　　35
+ 7  　 超过80000元的部分          　　 45
+ */
+/**
+ * 这个例子还没有扣除社保公积金等
+ */
+//收入
+$income = 84000;
+//税率
+$taxs[1] = array(1500, 0.03);
+$taxs[2] = array(4500, 0.1);
+$taxs[3] = array(9000, 0.2);
+$taxs[4] = array(35000, 0.25);
+$taxs[5] = array(55000, 0.30);
+$taxs[6] = array(80000, 0.35);
+$taxs[7] = array(1000000000, 0.45);
+/**
+ * 计算税率
+ *
+ * @param int $income
+ * @return int
+ */
+function compTax($income){
+    global $taxs;
+    //个税起点
+    $taxStart  = 3500;
+    $incomeTax = $income > $taxStart ?($income - $taxStart) : 0;
+    $flag = false;
+    foreach ($taxs as $values) {
+        if ($incomeTax < $values[0]  ) {
+            $compTax = $incomeTax * $values[1];
+            break;
+        }else{
+            continue;
+        }
+    }
+    return $compTax;
+}
+echo compTax($income);
+echo '-------------------<br/>';
+```
+如果判断的条件很多，也就是数组$taxs很庞大。那么我们可以使用折半查找的方式：
+```
+<?php
+/**
+* 个税起征点3500元
+级数   全月应纳税所得额        　　　　税率（%）
+1   　不超过1500元的             　　　3
+2   　超过1500元至4500元的部分   　　　10
+3   　超过4500元至9000元的部分   　　　20
+4   　超过9000元至35000元的部分 　　　 25
+5  　 超过35000元至55000元的部分 　　　30
+6 　  超过55000元至80000元的部分 　　　35
+7  　 超过80000元的部分          　　 45
+*/
+/**
+ * 这个例子还没有扣除社保公积金等
+ */
+//收入
+$income = 84000;
+//税率
+$taxs[1] = array(1500, 0.03);
+$taxs[2] = array(4500, 0.1);
+$taxs[3] = array(9000, 0.2);
+$taxs[4] = array(35000, 0.25);
+$taxs[5] = array(55000, 0.30);
+$taxs[6] = array(80000, 0.35);
+$taxs[7] = array(1000000000, 0.45);
+/**
+ * 优化计算税率:使用折半查找法，有效缩短时间复杂度
+ */
+/**
+ * 优化计算税率:折半查找法
+ *
+ * @param int $income
+ * @return int
+ */
+function optimizeCompTax($income){
+    //个税起点
+    global $taxs;
+    $taxStart  = 3500;
+    $incomeTax = $income > $taxStart ?($income - $taxStart) : 0;
+    $key = bSearch($taxs, $incomeTax, 1);
+    return $incomeTax * $taxs[$key][1];
+}
+/**
+ *
+ * 折半查找法
+ * @param unknown_type $taxs
+ * @param unknown_type $incomeTax
+ * @return unknown
+ */
+function bSearch($taxs, $incomeTax, $start = 0){
+    $incomeTax = intval($incomeTax);
+    ksort($taxs);
+    foreach ($taxs as $key => $values) {
+        $low = $key;
+        break;
+    }
+    if ($incomeTax <=0 ) {
+        return $low;
+    }
+    $high = count($taxs) + $low -1;
+    while  ( $low < $high){
+        $mid = intval(($low + $high)/2) ;
+        if ( $incomeTax < $taxs[$mid][0] ) {//后半区找
+            $high = $mid;
+        } else { //前半区找
+            $low = $mid ;
+        }
+        /**
+         * 由于这个不是完全折半查找
+         * 只有两个元素的时候，需要判断
+         */
+        if (($high - $low) ==1) {
+            if ( $incomeTax > $taxs[$low][0] ) {
+                $key = $high;
+            } else{
+                $key = $low;
+            }
+            break;
+        }
+    }
+    return $key;
+}
+echo optimizeCompTax($income);
+```
+10.与其他相关模式
+
+职责链常与Composite组合模式一起使用。这种情况下，一个构件的父构件可作为它的后继
+
+11.总结
+
+在职责链模式里，很多对象由每一个对象对其下家的引用而连接起来形成一条链。请求在这个链上传递，直到链上的某一个对象决定处理此请求。发出这个请求的客户端并不知道链上的哪一个对象最终处理这个请求，这使得系统可以在不影响客户端的情况下动态地重新组织链和分配责任。
+
+职责链模式的主要优点在于可以降低系统的耦合度，简化对象的相互连接，同时增强给对象指派职责的灵活性，增加新的请求处理类也很方便；其主要缺点在于不能保证请求一定被接收，且对于比较长的职责链，请求的处理可能涉及到多个处理对象，系统性能将受到一定影响，而且在进行代码调试时不太方便。
+

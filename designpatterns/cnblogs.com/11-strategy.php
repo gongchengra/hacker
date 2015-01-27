@@ -10,15 +10,16 @@
 interface CacheTable
 {
     public function get($key);
-    public function set($key,$value);
+    public function set($key, $value);
     public function del($key);
 }
 
 // 不使用缓存
 class NoCache implements CacheTable
 {
-    public function __construct(){
-        echo"Use NoCache<br/>";
+    public function __construct()
+    {
+        echo "Use NoCache".PHP_EOL;
     }
 
     public function get($key)
@@ -26,7 +27,7 @@ class NoCache implements CacheTable
         return false;
     }
 
-    public function set($key,$value)
+    public function set($key, $value)
     {
         return true;
     }
@@ -42,7 +43,7 @@ class FileCache implements CacheTable
 {
     public function __construct()
     {
-        echo"Use FileCache<br/>";
+        echo "Use FileCache".PHP_EOL;
         // 文件缓存构造函数
     }
 
@@ -51,7 +52,7 @@ class FileCache implements CacheTable
         // 文件缓存的get方法实现
     }
 
-    public function set($key,$value)
+    public function set($key, $value)
     {
         // 文件缓存的set方法实现
     }
@@ -67,7 +68,7 @@ class TTCache implements CacheTable
 {
     public function __construct()
     {
-        echo"Use TTCache<br/>";
+        echo "Use TTCache".PHP_EOL;
         // TTServer缓存构造函数
     }
 
@@ -76,7 +77,7 @@ class TTCache implements CacheTable
         // TTServer缓存的get方法实现
     }
 
-    public function set($key,$value)
+    public function set($key, $value)
     {
         // TTServer缓存的set方法实现
     }
@@ -93,12 +94,12 @@ class Model
     private $_cache;
     public function __construct()
     {
-        $this->_cache =new NoCache();
+        $this->_cache = new NoCache();
     }
 
     public function setCache($cache)
     {
-        $this->_cache =$cache;
+        $this->_cache = $cache;
     }
 }
 
@@ -110,12 +111,12 @@ class PorductModel extends Model
 {
     public function __construct()
     {
-        $this->_cache =new TTCache();
+        $this->_cache = new TTCache();
     }
 }
 
 // -- 实例一下 ---
-$mdlUser=new UserModel();
-$mdlProduct=new PorductModel();
+$mdlUser = new UserModel();
+$mdlProduct = new PorductModel();
 $mdlProduct->setCache(new FileCache()); // 改变缓存策略
-?>
+;

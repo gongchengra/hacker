@@ -10,17 +10,17 @@ abstract class TemplateBase
 {
     public function Method1()
     {
-        echo"abstract Method1<br/>";
+        echo "abstract Method1".PHP_EOL;
     }
 
     public function Method2()
     {
-        echo"abstract Method2<br/>";
+        echo "abstract Method2".PHP_EOL;
     }
 
     public function Method3()
     {
-        echo"abstract Method3<br/>";
+        echo "abstract Method3".PHP_EOL;
     }
 
     public function doSomeThing()
@@ -39,7 +39,7 @@ class TemplateObject1 extends TemplateBase
 {
     public function Method3()
     {
-        echo"TemplateObject1 Method3<br/>";
+        echo "TemplateObject1 Method3".PHP_EOL;
     }
 }
 
@@ -47,14 +47,14 @@ class TemplateObject2 extends TemplateBase
 {
     public function Method2()
     {
-        echo"TemplateObject2 Method2<br/>";
+        echo "TemplateObject2 Method2".PHP_EOL;
     }
 }
 
 // 实例化
-$objTemplate=new TemplateObject();
-$objTemplate1=new TemplateObject1();
-$objTemplate2=new TemplateObject2();
+$objTemplate = new TemplateObject();
+$objTemplate1 = new TemplateObject1();
+$objTemplate2 = new TemplateObject2();
 
 $objTemplate->doSomeThing();
 $objTemplate1->doSomeThing();

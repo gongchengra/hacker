@@ -26,8 +26,9 @@ class DBFactory
 {
     public static function create($type)
     {
-        $class=$type."DB";
-        return new $class;
+        $class = $type."DB";
+
+        return new $class();
     }
 }
 
@@ -39,43 +40,51 @@ interface DB
 
 class MysqlDB implements DB
 {
-    public function __construct() {
-        echo"mysql db<br/>";
+    public function __construct()
+    {
+        echo "mysql db".PHP_EOL;
     }
 
-    public function connect() {
+    public function connect()
+    {
     }
 
-    public function exec() {
+    public function exec()
+    {
     }
 }
 
 class PostgreDB implements DB
 {
-    public function __construct() {
-        echo"Postgre db<br/>";
+    public function __construct()
+    {
+        echo "Postgre db".PHP_EOL;
     }
 
-    public function connect() {
+    public function connect()
+    {
     }
 
-    public function exec() {
+    public function exec()
+    {
     }
 }
 
 class MssqlDB implements DB
 {
-    public function __construct() {
-        echo"mssql db<br/>";
+    public function __construct()
+    {
+        echo "mssql db".PHP_EOL;
     }
 
-    public function connect() {
+    public function connect()
+    {
     }
-    public function exec() {
+    public function exec()
+    {
     }
 }
 
-
-$oMysql= DBFactory::create("Mysql");
-$oPostgre= DBFactory::create("Postgre");
-$oMssql= DBFactory::create("Mssql");
+$oMysql = DBFactory::create("Mysql");
+$oPostgre = DBFactory::create("Postgre");
+$oMssql = DBFactory::create("Mssql");

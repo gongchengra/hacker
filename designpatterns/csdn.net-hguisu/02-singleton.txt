@@ -1,0 +1,107 @@
+设计模式（二）单件模式Singleton（创建型）
+
+http://blog.csdn.net/hguisu/article/details/7515416
+
+SINGLETON（单件）—对象创建型模式
+
+几乎所有面向对象的程序中，总有一些类的对象需要是唯一的，例如，通过数据库句柄到数据库的连接是独占的。您希望在应用程序中共享数据库句柄，因为在保持连接打开或关闭时，它是一种开销。再如大家最经常用的IM,如QQ，在同一台电脑，一个帐号只能有唯一的登录。
+
+1. 问题
+
+怎样确保一个特殊类的实例是独一无二的（它是这个类的唯一实例），并且这个实例易于被访问呢？
+
+2. 解决方案
+
+1）全局变量：一个全局变量使得一个对象可以被访问，但它不能防止你实例化多个对象。因为你的任何代码都能修改全局变量，这将不可避免的引起更多调试的意外。换句话说，全局变量的状态总是会出现一些问题的。
+
+2）类构造函数私有和类自身的静态方法：让类自身负责保存它的唯一实例(静态变量)。这个类可以保证没有其他实例可以被创建（通过截取创建新对象的请求） ，并且它可以提供一个访问该实例的方法（静态方法）。这就是Singleton模式。
+
+
+3. 适用性
+在下面的情况下可以使用单件模式
+1）当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时。
+2）当这个唯一实例应该是通过子类化可扩展的，并且客户应该无需更改代码就能使用一个扩展的实例时。
+
+4. 实现：
+
+UML结构：
+
+
+代码：
+
+```
+<?php
+class  Singleton {
+    static  private  $_instance = null;//静态成员保存唯一实例
+    /**
+     * 私有构造函数，保证不能被外部访问
+     *
+     */
+    private function __construct() {}
+    /**
+     * 静态方法将创建这个实例的操作并保证只有一个实例被创建
+     *
+     * @return unknown
+     */
+    public static function getInstance() {
+        if (!self::$_instance) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+}
+```
+5. 效果
+
+Singleton模式有许多优点：
+1)  对唯一实例的受控访问, 因为Singleton类封装它的唯一实例，所以它可以严格的控制客户怎样以及何时访问它。
+2)  缩小名空间,Singleton模式是对全局变量的一种改进。它避免了那些存储唯一实例的全局变量污染名空间。
+3)  允许对操作和表示的精化Singleton类可以有子类，而且用这个扩展类的实例来配置一个应用是很容易的。你可以用你所需要的类的实例在运行时刻配置应用。
+4)  允许可变数目的实例 这个模式使得你易于改变你的想法，并允许Singleton类的多个实例。此外，你可以用相同的方法来控 制应用所使用的实例的数目。只有允许访问 Singleton实例的操作需要改变。
+
+
+6 .单件模式可以多个实例
+
+单件模式并不是说一个类只能只有一个实例。假设我们使用在一个web 请求或者进程里面。一个用户id对应的某个类只能有唯一的实例。在下面的例子中，我们的User类，可以有多个实例，每个实例对应一个uid. 实例列表注册到静态变量$_instance并和uid关联起来。最简单的例子是我们前面提到的QQ，在同一台电脑，可以使用多帐号登录, 但一个帐号只能有唯一的登录.
+
+代码：
+
+```
+<?php
+class  User {
+    static  private  $_instance = array();//静态成员保存唯一实例
+    private $_uid ;
+    /**
+     * 私有构造函数，保证不能被外部访问
+     *
+     */
+    private function __construct($uid ) {
+        $this->_uid = $uid;
+    }
+    /**
+     * 静态方法将创建这个实例的操作并保证只有一个实例被创建
+     *
+     * @return unknown
+     */
+    public static function getInstance($uid = 0) {
+        if (!self::$_instance || !isset(self::$_instance[$uid]) ) {
+            self::$_instance[$uid] = new self($uid);
+        }
+        return self::$_instance[$uid];
+    }
+}
+```
+
+应用
+
+在zend framework中的Zend_Controller_Front前端控制器，就是采用单价模式来设计的：
+
+Zend_Controller_Front是Zend_Controller_Controller体系的组织者，它是FrontController设计模式的实现。
+
+Zend_Controller_Front处理服务器接受的所有请求，并最后负责将请求分配给ActionController(Zend_Controller_Action).
+
+```
+$frontController = Zend_Controller_Front::getInstance();
+$frontController->addModuleDirectory( “参数”)；
+$frontController->dispatch();
+```

@@ -6,18 +6,17 @@
  */
 class Expression
 {
-    function interpreter($str)
+    public function interpreter($str)
     {
         return $str;
     }
 }
- 
+
 class ExpressionNum extends Expression
 {
-    function interpreter($str)
+    public function interpreter($str)
     {
-        switch($str)
-        {
+        switch ($str) {
             case "0": return "零";
             case "1": return "一";
             case "2": return "二";
@@ -31,24 +30,23 @@ class ExpressionNum extends Expression
         }
     }
 }
- 
+
 class ExpressionCharater extends Expression
 {
-    function interpreter($str)
+    public function interpreter($str)
     {
         return strtoupper($str);
     }
 }
- 
+
 class Interpreter
 {
-    function execute($string)
+    public function execute($string)
     {
         $expression = null;
-        for($i = 0;$i<strlen($string);$i++) {
+        for ($i = 0;$i<strlen($string);$i++) {
             $temp = $string[$i];
-            switch(true)
-            {
+            switch (true) {
                case is_numeric($temp): $expression = new ExpressionNum(); break;
                default: $expression = new ExpressionCharater();
             }
@@ -56,7 +54,6 @@ class Interpreter
         }
     }
 }
- 
+
 $obj = new Interpreter();
 $obj->execute("12345abc");
-?>

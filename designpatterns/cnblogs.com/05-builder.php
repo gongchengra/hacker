@@ -12,19 +12,19 @@ class Product
 
     public function setType($type)
     {
-        echo "set product type<br/>";
+        echo "set product type".PHP_EOL;
         $this->_type = $type;
     }
 
     public function setSize($size)
     {
-        echo "set product size<br/>";
+        echo "set product size".PHP_EOL;
         $this->_size = $size;
     }
 
     public function setColor($color)
     {
-        echo "set product color<br/>";
+        echo "set product color".PHP_EOL;
         $this->_color = $color;
     }
 }
@@ -55,7 +55,7 @@ class ProductBuilder
 
     public function build()
     {
-        echo "--- in builder---<br/>";
+        echo "--- in builder---".PHP_EOL;
         $this->_object->setType($this->_config['type']);
         $this->_object->setSize($this->_config['size']);
         $this->_object->setColor($this->_config['color']);

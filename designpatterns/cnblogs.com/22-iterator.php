@@ -42,9 +42,9 @@ class SomeInterator implements Interator
 }
 
 $objSomeInterator = new SomeInterator(array(1, 2, 3, 4, 6, 7));
-echo $objSomeInterator->first(),"<br/>";
-echo $objSomeInterator->next(),"<br/>";
-echo $objSomeInterator->current(),"<br/>";
-echo $objSomeInterator->current(),"<br/>";
-echo $objSomeInterator->next(),"<br/>";
-echo $objSomeInterator->current(),"<br/>";
+echo $objSomeInterator->first(),"".PHP_EOL;
+echo $objSomeInterator->next(),"".PHP_EOL;
+echo $objSomeInterator->current(),"".PHP_EOL;
+echo $objSomeInterator->current(),"".PHP_EOL;
+echo $objSomeInterator->next(),"".PHP_EOL;
+echo $objSomeInterator->current(),"".PHP_EOL;

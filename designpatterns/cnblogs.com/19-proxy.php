@@ -15,21 +15,21 @@ class RealSubject
 {
     public function request()
     {
-        echo "RealSubject request<br/>";
+        echo "RealSubject request".PHP_EOL;
     }
 
     public function display()
     {
-        echo "RealSubject display<br/>";
+        echo "RealSubject display".PHP_EOL;
     }
 }
 
 class ProxySubject
 {
-    private $_subject=null;
+    private $_subject = null;
     public function __construct()
     {
-        $this->_subject =new RealSubject();
+        $this->_subject = new RealSubject();
     }
 
     public function request()
@@ -43,6 +43,6 @@ class ProxySubject
     }
 }
 
-$objProxy=new ProxySubject();
+$objProxy = new ProxySubject();
 $objProxy->request();
 $objProxy->display();

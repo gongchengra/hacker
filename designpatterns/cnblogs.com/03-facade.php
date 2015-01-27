@@ -8,7 +8,7 @@ class SubSytem1
 {
     public function Method1()
     {
-        echo"subsystem1 method1<br/>";
+        echo "subsystem1 method1".PHP_EOL;
     }
 }
 
@@ -16,7 +16,7 @@ class SubSytem2
 {
     public function Method2()
     {
-        echo"subsystem2 method2<br/>";
+        echo "subsystem2 method2".PHP_EOL;
     }
 }
 
@@ -24,38 +24,40 @@ class SubSytem3
 {
     public function Method3()
     {
-        echo"subsystem3 method3<br/>";
+        echo "subsystem3 method3".PHP_EOL;
     }
 }
 
 class Facade
 {
-    private$_object1=null;
-    private$_object2=null;
-    private$_object3=null;
+    private $_object1 = null;
+    private $_object2 = null;
+    private $_object3 = null;
 
     public function __construct()
     {
-        $this->_object1 =new SubSytem1();
-        $this->_object2 =new SubSytem2();
-        $this->_object3 =new SubSytem3();
+        $this->_object1 = new SubSytem1();
+        $this->_object2 = new SubSytem2();
+        $this->_object3 = new SubSytem3();
     }
 
-    public function MethodA() {
-        echo"Facade MethodA<br/>";
+    public function MethodA()
+    {
+        echo "Facade MethodA".PHP_EOL;
         $this->_object1->Method1();
         $this->_object2->Method2();
     }
 
-    public function MethodB() {
-        echo"Facade MethodB<br/>";
+    public function MethodB()
+    {
+        echo "Facade MethodB".PHP_EOL;
         $this->_object2->Method2();
         $this->_object3->Method3();
     }
 }
 
 // 实例化
-$objFacade=new Facade();
+ $objFacade = new Facade();
 
-$objFacade->MethodA();
-$objFacade->MethodB();
+ $objFacade->MethodA();
+ $objFacade->MethodB();

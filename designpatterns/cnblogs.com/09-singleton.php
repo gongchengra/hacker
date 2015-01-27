@@ -5,32 +5,33 @@
  * 保证一个类仅有一个实例,并提供一个访问它的全局访问点
  *
  */
-class Singleton
+class singleton
 {
-    static private $_instance=null;
+    private static $_instance = null;
 
     private function __construct()
     {
     }
 
-    static public function getInstance()
+    public static function getInstance()
     {
-        if(is_null(self::$_instance)) {
-            self::$_instance=new Singleton();
+        if (is_null(self::$_instance)) {
+            self::$_instance = new Singleton();
         }
+
         return self::$_instance;
     }
 
     public function display()
     {
-        echo"it is a singlton class function ";
+        echo "it is a singlton class function ";
     }
 }
 
 // $obj = new Singleton(); // 声明不能成功
-$obj= Singleton::getInstance();
+$obj = Singleton::getInstance();
 var_dump($obj);
 $obj->display();
 
-$obj1= Singleton::getInstance();
-var_dump(($obj===$obj1));
+$obj1 = Singleton::getInstance();
+var_dump(($obj === $obj1));

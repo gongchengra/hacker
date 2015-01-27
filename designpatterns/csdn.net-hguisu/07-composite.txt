@@ -1,0 +1,207 @@
+设计模式（七）组合模式Composite（结构型）
+
+http://blog.csdn.net/hguisu/article/details/7530783
+
+1. 概述
+
+在数据结构里面，树结构是很重要，我们可以把树的结构应用到设计模式里面。
+
+例子1：就是多级树形菜单。
+
+例子2：文件和文件夹目录
+
+2.问题
+
+我们可以使用简单的对象组合成复杂的对象，而这个复杂对象有可以组合成更大的对象。我们可以把简单这些对象定义成类，然后定义一些容器类来存储这些简单对象。客户端代码必须区别对象简单对象和容器对象，而实际上大多数情况下用户认为它们是一样的。对这些类区别使用，使得程序更加复杂。递归使用的时候跟麻烦，而我们如何使用递归组合，使得用户不必对这些类进行区别呢？
+
+3.   解决方案
+
+组合模式：将对象组合成树形结构以表示“部分-整体”的层次结构。Composite使得用户对单个对象和组合对象的使用具有一致性。
+
+有时候又叫做部分-整体模式，它使我们树型结构的问题中，模糊了简单元素和复杂元素的概念，客户程序可以向处理简单元素一样来处理复杂元素,从而使得客户程序与复杂元素的内部结构解耦。
+
+　　组合模式让你可以优化处理递归或分级数据结构。有许多关于分级数据结构的例子，使得组合模式非常有用武之地。关于分级数据结构的一个普遍性的例子是你每次使用电脑时所遇到的:文件系统。文件系统由目录和文件组成。每个目录都可以装内容。目录的内容可以是文件，也可以是目录。按照这种方式，计算机的文件系统就是以递归结构来组织的。如果你想要描述这样的数据结构，那么你可以使用组合模式Composite。
+
+4.  组合模式的分类
+
+1)    将管理子元素的方法定义在Composite类中
+
+2)    将管理子元素的方法定义在Component接口中，这样Leaf类就需要对这些方法空实现。
+
+5. 适用性
+
+以下情况下适用Composite模式：
+
+1)．你想表示对象的部分-整体层次结构
+
+2)．你希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。
+
+6.
+
+结构
+
+典型的Composite对象结构如下图所示:
+
+7. 构建模式的组成
+
+抽象构件角色（component）：是组合中的对象声明接口，在适当的情况下，实现所有类共有接口的默认行为。声明一个接口用于访问和管理Component子部件。
+
+这个接口可  以用来管理所有的子对象。(可选)在递归结构中定义一个接口，用于访问一个父部件，并在合适的情况下实现它。
+
+树叶构件角色(Leaf)：在组合树中表示叶节点对象，叶节点没有子节点。并在组合中定义图元对象的行为。
+
+树枝构件角色（Composite）：定义有子部件的那些部件的行为。存储子部件。在Component接口中实现与子部件有关的操作。
+
+客户角色（Client）：通过component接口操纵组合部件的对象。
+
+8. 效果
+
+1) • 定义了包含基本对象和组合对象的类层次结构 基本对象可以被组合成更复杂的组合对象，而这个组合对象又可以被组合，这样不断的递归下去。客户代码中，任何用到   基本对象的地方都可以使用组合对象。
+
+2) • 简化客户代码 客户可以一致地使用组合结构和单个对象。通常用户不知道 (也不关心)处理的是一个叶节点还是一个组合组件。这就简化了客户代码 , 因为在定义组合的那些类中不需要写一些充斥着选择语句的函数。
+
+3) • 使得更容易增加新类型的组件 新定义的Composite或Leaf子类自动地与已有的结构和客户代码一起工作，客户程序不需因新的Component类而改变。
+
+4) • 使你的设计变得更加一般化 容易增加新组件也会产生一些问题，那就是很难限制组合中的组件。有时你希望一个组合只能有某些特定的组件。使用Composite时，你不能依赖类型系统施加这些约束，而必须在运行时刻进行检查。
+
+9. 实现
+
+比较经典的例子是树形菜单。多级展示，这个菜单可以无限增加节点;例外就是文件遍历等等。
+
+```
+<?php
+/**
+ * 组合模式
+ *
+ * @author guisu
+ * @version  1.0
+ * 组合模式:树形菜单
+ *
+ * 将对象组合成树形结构以表示"部分-整体"的层次结构,使得客户对单个对象和复合对象的使用具有一致性
+ */
+/**
+ * 抽象构件角色（component）
+ *
+ */
+abstract class MenuComponent
+{
+    public function add($component){}
+    public function remove($component){}
+    public function getName(){}
+    public function getUrl(){}
+    public function displayOperation(){}
+}
+/**
+ * 树枝构件角色（Composite）
+ *
+ */
+class MenuComposite extends MenuComponent
+{
+    private $_items = array();
+    private $_name = null;
+    private $_align = '';
+    public function __construct($name) {
+        $this->_name = $name;
+    }
+    public function add($component) {
+        $this->_items[$component->getName()] = $component;
+    }
+    public function remove($component) {
+        $key = array_search($component,$this->_items);
+        if($key !== false) unset($this->_items[$key]);
+    }
+    public function getItems() {
+        return $this->_items;
+    }
+    public function displayOperation() {
+        static $align = '|';
+        if($this->getItems()) {
+            //substr($align, strpos($align,));
+            $align .= ' _ _ ';
+        }else{
+            $align .='';
+        }
+        echo $this->_name, " <br/>";
+        foreach($this->_items as $name=> $item) {
+            echo $align;
+            $item->displayOperation();
+        }
+    }
+    public function getName(){
+        return $this->_name;
+    }
+}
+/**
+ *树叶构件角色(Leaf)
+ *
+ */
+class ItemLeaf extends MenuComponent
+{
+    private $_name = null;
+    private $_url = null;
+    //public  $_align = '----';
+    public function __construct($name,$url)
+    {
+        $this->_name = $name;
+        $this->_url = $url;
+    }
+    public function displayOperation()
+    {
+        echo '<a href="', $this->_url, '">' , $this->_name, '</a><br/>';
+    }
+    public function getName(){
+        return $this->_name;
+    }
+}
+class Client
+{
+    public static function displayMenu()
+    {
+        $subMenu1 = new MenuComposite("submenu1");
+        $subMenu2 = new MenuComposite("submenu2");
+        $subMenu3 = new MenuComposite("submenu3");
+        $subMenu4 = new MenuComposite("submenu4");
+        $subMenu5 = new MenuComposite("submenu5");
+        /*
+           $item1 = new ItemLeaf("sohu","www.163.com");
+           $item2 = new ItemLeaf("sina","www.sina.com");
+           $subMenu4 = new MenuComposite("submenu4");
+           $subMenu1->add($subMenu4);
+           $subMenu4->add($item1);
+           $subMenu4->add($item2);
+         */
+        $item3 = new ItemLeaf("baidu","www.baidu.com");
+        $item4 = new ItemLeaf("google","www.google.com");
+        $subMenu2->add($item3);
+        $subMenu2->add($item4);
+        $allMenu = new MenuComposite("AllMenu");
+        $allMenu->add($subMenu1);
+        $allMenu->add($subMenu2);
+        $allMenu->add($subMenu3);
+        $subMenu3->add($subMenu4);
+        $subMenu4->add($subMenu5);
+        $allMenu->displayOperation();
+    }
+}
+// 创建menu
+Client::displayMenu();
+?>
+```
+10. 组合模式和其他相关模式
+
+1)装饰模式（Decorator模式）经常与Composite模式一起使用。当装饰和组合一起使用时，它们
+
+通常有一个公共的父类。因此装饰必须支持具有 Add、Remove和GetChild 操作的Component接口。
+
+2）Flyweight模式让你共享组件，但不再能引用他们的父部件。
+
+3）（迭代器模式）Itertor可用来遍历Composite。
+
+4）（观察者模式）Visitor将本来应该分布在Composite和Leaf类中的操作和行为局部化。
+
+11. 总结
+
+组合模式解耦了客户程序与复杂元素内部结构，从而使客户程序可以向处理简单元素一样来处理复杂元素。
+
+如果你想要创建层次结构，并可以在其中以相同的方式对待所有元素，那么组合模式就是最理想的选择。那么组合模式就是最理想的选择
+

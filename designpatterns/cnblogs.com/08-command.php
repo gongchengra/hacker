@@ -11,24 +11,23 @@ interface Command
 
 class Invoker
 {
-    private $_command=array();
-    public function setCommand($command) {
-        $this->_command[] =$command;
+    private $_command = array();
+    public function setCommand($command)
+    {
+        $this->_command[] = $command;
     }
 
     public function executeCommand()
     {
-        foreach($this->_command as$command)
-        {
+        foreach ($this->_command as$command) {
             $command->execute();
         }
     }
 
     public function removeCommand($command)
     {
-        $key=array_search($command,$this->_command);
-        if($key!==false)
-        {
+        $key = array_search($command, $this->_command);
+        if ($key !== false) {
             unset($this->_command[$key]);
         }
     }
@@ -36,20 +35,21 @@ class Invoker
 
 class Receiver
 {
-    private $_name=null;
+    private $_name = null;
 
-    public function __construct($name) {
-        $this->_name =$name;
+    public function __construct($name)
+    {
+        $this->_name = $name;
     }
 
     public function action()
     {
-        echo$this->_name." action<br/>";
+        echo $this->_name." action".PHP_EOL;
     }
 
     public function action1()
     {
-        echo$this->_name." action1<br/>";
+        echo $this->_name." action1".PHP_EOL;
     }
 }
 
@@ -58,7 +58,7 @@ class ConcreteCommand implements Command
     private $_receiver;
     public function __construct($receiver)
     {
-        $this->_receiver =$receiver;
+        $this->_receiver = $receiver;
     }
 
     public function execute()
@@ -72,7 +72,7 @@ class ConcreteCommand1 implements Command
     private $_receiver;
     public function __construct($receiver)
     {
-        $this->_receiver =$receiver;
+        $this->_receiver = $receiver;
     }
 
     public function execute()
@@ -86,7 +86,7 @@ class ConcreteCommand2 implements Command
     private $_receiver;
     public function __construct($receiver)
     {
-        $this->_receiver =$receiver;
+        $this->_receiver = $receiver;
     }
 
     public function execute()
@@ -96,18 +96,17 @@ class ConcreteCommand2 implements Command
     }
 }
 
+$objRecevier = new Receiver("No.1");
+$objRecevier1 = new Receiver("No.2");
+$objRecevier2 = new Receiver("No.3");
 
-$objRecevier=new Receiver("No.1");
-$objRecevier1=new Receiver("No.2");
-$objRecevier2=new Receiver("No.3");
+$objCommand = new ConcreteCommand($objRecevier);
+$objCommand1 = new ConcreteCommand1($objRecevier);
+$objCommand2 = new ConcreteCommand($objRecevier1);
+$objCommand3 = new ConcreteCommand1($objRecevier1);
+$objCommand4 = new ConcreteCommand2($objRecevier2); // 使用 Recevier的两个方法
 
-$objCommand=new ConcreteCommand($objRecevier);
-$objCommand1=new ConcreteCommand1($objRecevier);
-$objCommand2=new ConcreteCommand($objRecevier1);
-$objCommand3=new ConcreteCommand1($objRecevier1);
-$objCommand4=new ConcreteCommand2($objRecevier2); // 使用 Recevier的两个方法
-
-$objInvoker=new Invoker();
+$objInvoker = new Invoker();
 $objInvoker->setCommand($objCommand);
 $objInvoker->setCommand($objCommand1);
 $objInvoker->executeCommand();

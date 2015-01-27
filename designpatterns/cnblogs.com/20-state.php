@@ -13,7 +13,7 @@ interface State
 
 class Context
 {
-    private $_state=null;
+    private $_state = null;
 
     public function __construct($state)
     {
@@ -22,7 +22,7 @@ class Context
 
     public function setState($state)
     {
-        $this->_state =$state;
+        $this->_state = $state;
     }
 
     public function request()
@@ -41,7 +41,7 @@ class StateA implements State
 
     public function display()
     {
-        echo "state A<br/>";
+        echo "state A".PHP_EOL;
     }
 }
 
@@ -54,7 +54,7 @@ class StateB implements State
 
     public function display()
     {
-        echo "state B<br/>";
+        echo "state B".PHP_EOL;
     }
 }
 
@@ -67,12 +67,12 @@ class StateC implements State
 
     public function display()
     {
-        echo "state C<br/>";
+        echo "state C".PHP_EOL;
     }
 }
 
 // 实例化一下
-$objContext=new Context(new StateB());
+$objContext = new Context(new StateB());
 $objContext->request();
 $objContext->request();
 $objContext->request();

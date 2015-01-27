@@ -6,11 +6,11 @@
  */
 class Memento
 {
-    private $_state=null;
+    private $_state = null;
 
     public function __construct($state)
     {
-        $this->_state =$state;
+        $this->_state = $state;
     }
 
     public function getState()
@@ -21,7 +21,7 @@ class Memento
 
 class Caretaker
 {
-    private $_memento=null;
+    private $_memento = null;
 
     public function getMemento()
     {
@@ -30,13 +30,13 @@ class Caretaker
 
     public function setMemento($memento)
     {
-        $this->_memento =$memento;
+        $this->_memento = $memento;
     }
 }
 
 class Originator
 {
-    private $_state=null;
+    private $_state = null;
 
     public function getState()
     {
@@ -45,7 +45,7 @@ class Originator
 
     public function setState($state)
     {
-        $this->_state =$state;
+        $this->_state = $state;
     }
 
     public function createMemento()
@@ -55,20 +55,20 @@ class Originator
 
     public function setMemento($memento)
     {
-        $this->_state =$memento->getState();
+        $this->_state = $memento->getState();
     }
 
     public function display()
     {
-        echo "state = ".$this->_state."<br/>";
+        echo "state = ".$this->_state.PHP_EOL;
     }
 }
 
-$objOriginator=new Originator();
+$objOriginator = new Originator();
 $objOriginator->setState(0);
 $objOriginator->display();
 
-$objCareTaker=new CareTaker();
+$objCareTaker = new CareTaker();
 $objCareTaker->setMemento($objOriginator->createMemento());
 
 $objOriginator->setState(1);

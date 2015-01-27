@@ -6,12 +6,12 @@
  */
 class CD
 {
-    private $_title=null;
-    private $_artist=null;
+    private $_title = null;
+    private $_artist = null;
 
     public function setTitle($title)
     {
-        $this->_title =$title;
+        $this->_title = $title;
     }
 
     public function getTitle()
@@ -21,7 +21,7 @@ class CD
 
     public function setArtist($artist)
     {
-        $this->_artist =$artist;
+        $this->_artist = $artist;
     }
 
     public function getArtist($artist)
@@ -36,8 +36,8 @@ class Artist
 
     public function __construct($name)
     {
-        echo "construct ".$name."<br/>";
-        $this->_name =$name;
+        echo "construct ".$name.PHP_EOL;
+        $this->_name = $name;
     }
 
     public function getName()
@@ -48,31 +48,31 @@ class Artist
 
 class ArtistFactory
 {
-    private $_artists=array();
+    private $_artists = array();
 
     public function getArtist($name)
     {
-        if(isset($this->_artists[$name]))
-        {
+        if (isset($this->_artists[$name])) {
             return $this->_artists[$name];
         } else {
-            $objArtist=new Artist($name);
-            $this->_artists[$name] =$objArtist;
+            $objArtist = new Artist($name);
+            $this->_artists[$name] = $objArtist;
+
             return $objArtist;
         }
     }
 }
 
-$objArtistFactory=new ArtistFactory();
+$objArtistFactory = new ArtistFactory();
 
-$objCD1=new CD();
+$objCD1 = new CD();
 $objCD1->setTitle("title1");
 $objCD1->setArtist($objArtistFactory->getArtist('artist1'));
 
-$objCD2=new CD();
+$objCD2 = new CD();
 $objCD2->setTitle("title2");
 $objCD2->setArtist($objArtistFactory->getArtist('artist2'));
 
-$objCD3=new CD();
+$objCD3 = new CD();
 $objCD3->setTitle("title3");
 $objCD3->setArtist($objArtistFactory->getArtist('artist1'));

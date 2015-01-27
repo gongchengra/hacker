@@ -8,59 +8,59 @@
 // 这个是原有的类型
 class OldCache
 {
-    public function  __construct()
+    public function __construct()
     {
-        echo"OldCache construct<br/>";
+        echo "OldCache construct".PHP_EOL;
     }
 
-    public function  store($key,$value)
+    public function store($key, $value)
     {
-        echo"OldCache store<br/>";
+        echo "OldCache store".PHP_EOL;
     }
 
-    public function  remove($key)
+    public function remove($key)
     {
-        echo"OldCache remove<br/>";
+        echo "OldCache remove".PHP_EOL;
     }
 
-    public function  fetch($key)
+    public function fetch($key)
     {
-        echo"OldCache fetch<br/>";
+        echo "OldCache fetch".PHP_EOL;
     }
 }
 
 interface Cacheable
 {
-    public function  set($key,$value);
-    public function  get($key);
-    public function  del($key);
+    public function set($key, $value);
+    public function get($key);
+    public function del($key);
 }
 
 class OldCacheAdapter implements Cacheable
 {
-    private $_cache=null;
-    public function  __construct()
+    private $_cache = null;
+    public function __construct()
     {
-        $this->_cache =new OldCache();
+        $this->_cache = new OldCache();
     }
 
-    public function  set($key,$value)
+    public function set($key, $value)
     {
-        return $this->_cache->store($key,$value);
+        return $this->_cache->store($key, $value);
     }
 
-    public function  get($key)
+    public function get($key)
     {
         return $this->_cache->fetch($key);
     }
 
-    public function  del($key)
+    public function del($key)
     {
         return $this->_cache->remove($key);
     }
 }
 
-$objCache=new OldCacheAdapter();
-$objCache->set("test",1);
+$objCache = new OldCacheAdapter();
+$objCache->set("test", 1);
 $objCache->get("test");
-$objCache->del("test",1);
+$objCache->del("test", 1);

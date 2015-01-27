@@ -7,8 +7,10 @@
 header("Content-type:text/html;charset=utf-8");
 abstract  class  MessageBoardHandler
 {
-    public function __construct(){}
-        abstract public function filter($msg);
+    public function __construct()
+    {
+    }
+    abstract public function filter($msg);
 }
 
 class  MessageBoard extends MessageBoardHandler
@@ -19,23 +21,23 @@ class  MessageBoard extends MessageBoardHandler
     }
 }
 
-$obj=new MessageBoard();
-echo$obj->filter("一定要学好装饰模式<br/>");
+ $obj = new MessageBoard();
+echo  $obj->filter("一定要学好装饰模式".PHP_EOL);
 
 // --- 以下是使用装饰模式 ----
 class  MessageBoardDecorator extends MessageBoardHandler
 {
-    private$_handler=null;
+    private $_handler = null;
 
     public function __construct($handler)
     {
         parent::__construct();
-        $this->_handler =$handler;
+        $this->_handler = $handler;
     }
 
     public function filter($msg)
     {
-        return $this->_handler->filter($msg);
+        return  $this->_handler->filter($msg);
     }
 }
 
@@ -49,7 +51,7 @@ class  HtmlFilter extends MessageBoardDecorator
 
     public function filter($msg)
     {
-        return "过滤掉HTML标签|".parent::filter($msg);; // 过滤掉HTML标签的处理 这时只是加个文字 没有进行处理
+        return "过滤掉HTML标签|".parent::filter($msg); // 过滤掉HTML标签的处理 这时只是加个文字 没有进行处理
     }
 }
 
@@ -67,5 +69,5 @@ class  SensitiveFilter extends MessageBoardDecorator
     }
 }
 
-$obj=new HtmlFilter(new SensitiveFilter(new MessageBoard()));
-echo$obj->filter("一定要学好装饰模式!<br/>");
+ $obj = new HtmlFilter(new SensitiveFilter(new MessageBoard()));
+echo  $obj->filter("一定要学好装饰模式!".PHP_EOL);

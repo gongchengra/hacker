@@ -13,7 +13,7 @@ class ConcreteImplementorA extends Implementor
 {
     public function operation()
     {
-        echo "ConcreteImplementorA Operation<br/>";
+        echo "ConcreteImplementorA Operation".PHP_EOL;
     }
 }
 
@@ -21,17 +21,17 @@ class ConcreteImplementorB extends Implementor
 {
     public function operation()
     {
-        echo "ConcreteImplementorB Operation<br/>";
+        echo "ConcreteImplementorB Operation".PHP_EOL;
     }
 }
 
 class Abstraction
 {
-    protected$_implementor=null;
+    protected $_implementor = null;
 
     public function setImplementor($implementor)
     {
-        $this->_implementor =$implementor;
+        $this->_implementor = $implementor;
     }
 
     public function operation()
@@ -49,13 +49,13 @@ class ExampleAbstraction extends Abstraction
 }
 
 //
-$objRAbstraction=new RefinedAbstraction();
-$objRAbstraction->setImplementor(new ConcreteImplementorB());
-$objRAbstraction->operation();
+ $objRAbstraction = new RefinedAbstraction();
+ $objRAbstraction->setImplementor(new ConcreteImplementorB());
+ $objRAbstraction->operation();
 
-$objRAbstraction->setImplementor(new ConcreteImplementorA());
-$objRAbstraction->operation();
+ $objRAbstraction->setImplementor(new ConcreteImplementorA());
+ $objRAbstraction->operation();
 
-$objEAbstraction=new ExampleAbstraction();
-$objEAbstraction->setImplementor(new ConcreteImplementorB());
-$objEAbstraction->operation();
+ $objEAbstraction = new ExampleAbstraction();
+ $objEAbstraction->setImplementor(new ConcreteImplementorB());
+ $objEAbstraction->operation();
