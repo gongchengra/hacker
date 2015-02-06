@@ -11,7 +11,7 @@ sudo bash -c "cat >> /etc/shadowsocks.json" <<EOF
     "method":"aes-256-cfb"
 }
 EOF
-sudo screen ssserver -c /etc/shadowsocks/config.json 
+sudo screen ssserver -c /etc/shadowsocks.json
 sudo bash -c "cat >> /etc/rc.local" <<EOF
 /usr/local/bin/ssserver -c /etc/shadowsocks.json
 EOF

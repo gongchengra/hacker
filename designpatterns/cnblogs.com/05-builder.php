@@ -63,7 +63,7 @@ class ProductBuilder
 
     public function getProduct()
     {
-        return$this->_object;
+        return $this->_object;
     }
 }
 
