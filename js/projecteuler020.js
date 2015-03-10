@@ -61,5 +61,6 @@ var sumOfValueInArray = function sumOfValueInArray(inputArray) {
     0);
 }
 
-console.log(sumOfValueInArray(factorialOfN(100).split(""))); //648 
+console.log(factorialOfN(100).split("")); //648 
+//console.log(sumOfValueInArray(factorialOfN(100).split(""))); //648 
 

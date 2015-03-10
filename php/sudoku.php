@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 //error_reporting( E_ALL&~E_NOTICE );
 $initArray = array(
@@ -10,7 +10,7 @@ $initArray = array(
     0,0,0,1,0,0,0,3,0,
     0,0,1,0,0,0,0,6,8,
     0,0,8,5,0,0,0,1,0,
-    0,9,0,0,0,0,4,0,0
+    0,9,0,0,0,0,4,0,0,
 );
 $messageLog = 'sudoku.log';
 $message = '';
@@ -21,12 +21,13 @@ foreach ($initArray as $key => $val) {
     if (0 == $val) {
         $tmpArray[$key] = "123456789";
     } else {
-        $tmpArray[$key]= "$val";
+        $tmpArray[$key] = "$val";
     }
 }
 
 //calculte the index number arrays for same row, column and block for an given key
-function calculateSameRcb($tmpKey) {
+function calculateSameRcb($tmpKey)
+{
     $rowNumber = intval($tmpKey / 9);
     $columnNumber = $tmpKey % 9;
     $sameRowArray = array();
@@ -44,11 +45,13 @@ function calculateSameRcb($tmpKey) {
     $rowColumnBlock['row'] = $sameRowArray;
     $rowColumnBlock['column'] = $sameColumnArray;
     $rowColumnBlock['block'] = $sameBlockArray;
+
     return $rowColumnBlock;
 }
 
 //delete duplicated values from the same row, column and block according to known number
-function deleteDuplicateValue($tmpArray) {
+function deleteDuplicateValue($tmpArray)
+{
     do {
         $deleteFlag = false;
         foreach ($tmpArray as $tmpKey => $tmpVal) {
@@ -60,38 +63,39 @@ function deleteDuplicateValue($tmpArray) {
                 foreach ($sameRowArray as $sameRow => $sameRowKey) {
                     if ($sameRowKey != $tmpKey && isset($tmpArray[$sameRowKey]) && strlen($tmpArray[$sameRowKey]) > 1
                         && false !== strpos($tmpArray[$sameRowKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameRowKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameRowKey]);
+                        $tmpArray[$sameRowKey] = str_replace($tmpArray[$tmpKey], '', $tmpArray[$sameRowKey]);
                         $deleteFlag = true;
                     }
                 }
                 foreach ($sameColumnArray as $sameColumn => $sameColumnKey) {
                     if ($sameColumnKey != $tmpKey && isset($tmpArray[$sameColumnKey]) && strlen($tmpArray[$sameColumnKey]) > 1
                         && false !== strpos($tmpArray[$sameColumnKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameColumnKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameColumnKey]);
+                        $tmpArray[$sameColumnKey] = str_replace($tmpArray[$tmpKey], '', $tmpArray[$sameColumnKey]);
                         $deleteFlag = true;
                     }
                 }
                 foreach ($sameBlockArray as $sameBlock => $sameBlockKey) {
                     if ($sameBlockKey != $tmpKey && isset($tmpArray[$sameBlockKey]) && strlen($tmpArray[$sameBlockKey]) > 1
                         && false !== strpos($tmpArray[$sameBlockKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameBlockKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameBlockKey]);
+                        $tmpArray[$sameBlockKey] = str_replace($tmpArray[$tmpKey], '', $tmpArray[$sameBlockKey]);
                         $deleteFlag = true;
                     }
                 }
             }
         }
     } while (false != $deleteFlag);
+
     return $tmpArray;
 }
 
 //if a special number can only exist in a special cell due to same row, column and block,
 //fill the cell with the number.
-function fillCellsWithOnePossibility($tmpArray) {
+function fillCellsWithOnePossibility($tmpArray)
+{
     do {
-       $foundFlag = false;
+        $foundFlag = false;
         foreach ($tmpArray as $tmpKey => $tmpVal) {
-            if(strlen($tmpVal) > 1)
-            {
+            if (strlen($tmpVal) > 1) {
                 $tmpValArray = str_split($tmpVal);
                 foreach ($tmpValArray as $val) {
                     $rowColumnBlock = calculateSameRcb($tmpKey);
@@ -135,27 +139,30 @@ function fillCellsWithOnePossibility($tmpArray) {
             }
         }
     } while (false != $foundFlag);
+
     return $tmpArray;
 }
 
-function simplifyArray($tmpArray) {
+function simplifyArray($tmpArray)
+{
     do {
         $beforeSimplify = $tmpArray;
         $tmpArray = deleteDuplicateValue($tmpArray);
         $tmpArray = fillCellsWithOnePossibility($tmpArray);
         $afterSimplify = $tmpArray;
     } while ($beforeSimplify != $afterSimplify);
+
     return $tmpArray;
 }
 
-function checkArray($tmpArray) {
+function checkArray($tmpArray)
+{
     foreach ($tmpArray as $tmpKey => $tmpVal) {
         $rowColumnBlock = calculateSameRcb($tmpKey);
         $sameRowArray = $rowColumnBlock['row'];
         $sameColumnArray = $rowColumnBlock['column'];
         $sameBlockArray = $rowColumnBlock['block'];
-        if (strlen($tmpVal) == 1)
-        {
+        if (strlen($tmpVal) == 1) {
             foreach ($sameRowArray as $sameRowKey) {
                 if ($tmpKey != $sameRowKey && 1 == strlen($tmpArray[$sameRowKey]) && $tmpVal == $tmpArray[$sameRowKey]) {
                     return false;
@@ -173,10 +180,12 @@ function checkArray($tmpArray) {
             }
         }
     }
+
     return true;
 }
 
-function getArrayStatus($tmpArray) {
+function getArrayStatus($tmpArray)
+{
     $knownNumber = 0;
     foreach ($tmpArray as $tmpKey => $tmpVal) {
         if (0 == strlen($tmpVal)) {
@@ -193,7 +202,8 @@ function getArrayStatus($tmpArray) {
     }
 }
 
-function findLeastUnknownCell($tmpArray) {
+function findLeastUnknownCell($tmpArray)
+{
     $leastUnknownVal = '123456789';
     foreach ($tmpArray as $tmpKey => $tmpVal) {
         if (strlen($tmpVal) > 1 && strlen($tmpVal) < strlen($leastUnknownVal)) {
@@ -201,9 +211,10 @@ function findLeastUnknownCell($tmpArray) {
             $leastUnknownVal = $tmpVal;
         }
     }
-    if(isset($leastUnknownKey) && isset($leastUnknownVal)) {
+    if (isset($leastUnknownKey) && isset($leastUnknownVal)) {
         $leastUnknownCell['key'] = $leastUnknownKey;
         $leastUnknownCell['val'] = $leastUnknownVal;
+
         return $leastUnknownCell;
     }
 }
@@ -212,14 +223,13 @@ $tmpArray = simplifyArray($tmpArray);
 if (false == checkArray($tmpArray)) {
     echo "No solution";
     $message .= "No solution";
-    file_putContents($messageLog, $message);
+    file_put_contents($messageLog, $message);
     exit;
 } else {
     do {
         $tmpArrayStatus = getArrayStatus($tmpArray);
         if ('solved' == $tmpArrayStatus) {
-            if (true == checkArray($tmpArray))
-            {
+            if (true == checkArray($tmpArray)) {
                 foreach ($tmpArray as $key => $value) {
                     if (0 == ($key+1)%9) {
                         $message .= $value."\n";
@@ -228,7 +238,7 @@ if (false == checkArray($tmpArray)) {
                     }
                 }
                 foreach ($tmpArray as $key => $value) {
-                    if (0 == ($key+1)%9){
+                    if (0 == ($key+1)%9) {
                         echo $value."\n";
                     } else {
                         echo $value.' ';
@@ -246,9 +256,8 @@ if (false == checkArray($tmpArray)) {
                 $tmpArray[$topOfStack['key']] = $firstNumberOnTopStack;
                 //echo 'assume '. $leastUnknownCell['key']. ' is '. $firstNumberOnTopStack. "\n";
                 $tmpArray = simplifyArray($tmpArray);
-                if (count($topOfStackArray) > 0)
-                {
-                    $topOfStack['val'] = join('',$topOfStackArray);
+                if (count($topOfStackArray) > 0) {
+                    $topOfStack['val'] = join('', $topOfStackArray);
                     array_push($tmpStack, $tmpArray);
                     array_push($tmpStack, $topOfStack);
                 }
@@ -259,8 +268,8 @@ if (false == checkArray($tmpArray)) {
             $leastUnknownCell = findLeastUnknownCell($tmpArray);
             $unknownCellArray = str_split($leastUnknownCell['val']);
             $firstNumberInUnknownCell = array_shift($unknownCellArray);
-            $leastUnknownCell['val'] = join('',$unknownCellArray);
-            array_push($tmpStack,$leastUnknownCell);
+            $leastUnknownCell['val'] = join('', $unknownCellArray);
+            array_push($tmpStack, $leastUnknownCell);
             $tmpArray[$leastUnknownCell['key']] = $firstNumberInUnknownCell;
             $tmpArray = simplifyArray($tmpArray);
         }
@@ -275,9 +284,8 @@ if (false == checkArray($tmpArray)) {
                 $firstNumberOnTopStack = array_shift($topOfStackArray);
                 $tmpArray[$topOfStack['key']] = $firstNumberOnTopStack;
                 $tmpArray = simplifyArray($tmpArray);
-                if (count($topOfStackArray) > 0)
-                {
-                    $topOfStack['val'] = join('',$topOfStackArray);
+                if (count($topOfStackArray) > 0) {
+                    $topOfStack['val'] = join('', $topOfStackArray);
                     array_push($tmpStack, $topOfStack);
                 }
             }

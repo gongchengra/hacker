@@ -1,6 +1,9 @@
 //Author: gongchengra@gmail.com
 //Solve the problem in http://projecteuler.net/problem=5
-var getPrimeNumbersLessthanN = function(N) {
+//2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+//
+//What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+var getPrimeNumbersLessthanN = function getPrimeNumbersLessthanN(N) {
     var primeArray = new Int8Array(N);
     for (var i = 0; i < primeArray.length; i++) {
         primeArray[i] = 0;
@@ -40,8 +43,8 @@ var getPrimeFactorArray = function getPrimeFactorArray(N) {
     }
     return factorArray.sort(f);
 }
-
 //console.log(getPrimeFactorArray(4));
+
 var arrayCount = function arrayCount(inputArray) {
     var resultArray = [];
     for (var i = 0; i < inputArray.length; i++) {
@@ -53,8 +56,8 @@ var arrayCount = function arrayCount(inputArray) {
     }
     return resultArray;
 }
-
 //console.log(arrayCount(getPrimeFactorArray(4)));
+
 var factorArrayToObject = function factorArrayToObject(inputArray) {
     var factorObject = {};
     while (item = inputArray.shift()) {

@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/php
 <?php
 $initArray = array(
     0,0,0,0,0,0,0,0,0,
@@ -9,7 +9,7 @@ $initArray = array(
     0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0
+    0,0,0,0,0,0,0,0,0,
 );
 $messageLog = 'sudoku.log';
 $message = '';
@@ -22,7 +22,8 @@ foreach ($initArray as $key => $val) {
     }
 }
 
-function calculateSameRcb($tmpKey) {
+function calculateSameRcb($tmpKey)
+{
     $rowNumber = intval($tmpKey / 9);
     $columnNumber = $tmpKey % 9;
     $sameRowArray = array();
@@ -40,10 +41,12 @@ function calculateSameRcb($tmpKey) {
     $rowColumnBlock['row'] = $sameRowArray;
     $rowColumnBlock['column'] = $sameColumnArray;
     $rowColumnBlock['block'] = $sameBlockArray;
+
     return $rowColumnBlock;
 }
 
-function deleteDuplicateValue($tmpArray) {
+function deleteDuplicateValue($tmpArray)
+{
     do {
         $deleteFlag = false;
         foreach ($tmpArray as $tmpKey => $tmpVal) {
@@ -55,36 +58,37 @@ function deleteDuplicateValue($tmpArray) {
                 foreach ($sameRowArray as $sameRow => $sameRowKey) {
                     if ($sameRowKey != $tmpKey && isset($tmpArray[$sameRowKey]) && strlen($tmpArray[$sameRowKey]) > 1
                         && false !== strpos($tmpArray[$sameRowKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameRowKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameRowKey]);
+                        $tmpArray[$sameRowKey] = str_replace($tmpArray[$tmpKey], '', $tmpArray[$sameRowKey]);
                         $deleteFlag = true;
                     }
                 }
                 foreach ($sameColumnArray as $sameColumn => $sameColumnKey) {
                     if ($sameColumnKey != $tmpKey && isset($tmpArray[$sameColumnKey]) && strlen($tmpArray[$sameColumnKey]) > 1
                         && false !== strpos($tmpArray[$sameColumnKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameColumnKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameColumnKey]);
+                        $tmpArray[$sameColumnKey] = str_replace($tmpArray[$tmpKey], '', $tmpArray[$sameColumnKey]);
                         $deleteFlag = true;
                     }
                 }
                 foreach ($sameBlockArray as $sameBlock => $sameBlockKey) {
                     if ($sameBlockKey != $tmpKey && isset($tmpArray[$sameBlockKey]) && strlen($tmpArray[$sameBlockKey]) > 1
                         && false !== strpos($tmpArray[$sameBlockKey], $tmpArray[$tmpKey])) {
-                        $tmpArray[$sameBlockKey] = str_replace($tmpArray[$tmpKey],'',$tmpArray[$sameBlockKey]);
+                        $tmpArray[$sameBlockKey] = str_replace($tmpArray[$tmpKey], '', $tmpArray[$sameBlockKey]);
                         $deleteFlag = true;
                     }
                 }
             }
         }
     } while (false != $deleteFlag);
+
     return $tmpArray;
 }
 
-function fillCellsWithOnePossibility($tmpArray) {
+function fillCellsWithOnePossibility($tmpArray)
+{
     do {
-       $foundFlag = false;
+        $foundFlag = false;
         foreach ($tmpArray as $tmpKey => $tmpVal) {
-            if(strlen($tmpVal) > 1)
-            {
+            if (strlen($tmpVal) > 1) {
                 $tmpValArray = str_split($tmpVal);
                 foreach ($tmpValArray as $val) {
                     $rowColumnBlock = calculateSameRcb($tmpKey);
@@ -128,27 +132,30 @@ function fillCellsWithOnePossibility($tmpArray) {
             }
         }
     } while (false != $foundFlag);
+
     return $tmpArray;
 }
 
-function simplifyArray($tmpArray) {
+function simplifyArray($tmpArray)
+{
     do {
         $beforeSimplify = $tmpArray;
         $tmpArray = deleteDuplicateValue($tmpArray);
         $tmpArray = fillCellsWithOnePossibility($tmpArray);
         $afterSimplify = $tmpArray;
     } while ($beforeSimplify != $afterSimplify);
+
     return $tmpArray;
 }
 
-function checkArray($tmpArray) {
+function checkArray($tmpArray)
+{
     foreach ($tmpArray as $tmpKey => $tmpVal) {
         $rowColumnBlock = calculateSameRcb($tmpKey);
         $sameRowArray = $rowColumnBlock['row'];
         $sameColumnArray = $rowColumnBlock['column'];
         $sameBlockArray = $rowColumnBlock['block'];
-        if (strlen($tmpVal) == 1)
-        {
+        if (strlen($tmpVal) == 1) {
             foreach ($sameRowArray as $sameRowKey) {
                 if ($tmpKey != $sameRowKey && 1 == strlen($tmpArray[$sameRowKey]) && $tmpVal == $tmpArray[$sameRowKey]) {
                     return false;
@@ -166,10 +173,12 @@ function checkArray($tmpArray) {
             }
         }
     }
+
     return true;
 }
 
-function getArrayStatus($tmpArray) {
+function getArrayStatus($tmpArray)
+{
     $knownNumber = 0;
     foreach ($tmpArray as $tmpKey => $tmpVal) {
         if (0 == strlen($tmpVal)) {
@@ -186,7 +195,8 @@ function getArrayStatus($tmpArray) {
     }
 }
 
-function findLeastUnknownCell($tmpArray) {
+function findLeastUnknownCell($tmpArray)
+{
     $leastUnknownVal = '123456789';
     foreach ($tmpArray as $tmpKey => $tmpVal) {
         if (strlen($tmpVal) > 1 && strlen($tmpVal) < strlen($leastUnknownVal)) {
@@ -196,12 +206,13 @@ function findLeastUnknownCell($tmpArray) {
     }
     $leastUnknownCell['key'] = $leastUnknownKey;
     $leastUnknownCell['val'] = $leastUnknownVal;
+
     return $leastUnknownCell;
 }
 $settedNumber = 0;
 do {
-    $randomKey = rand(0,80);
-    echo $randomKey."\n";
+    $randomKey = rand(0, 80);
+    //    echo $randomKey."\n";
     do {
         if (1 != strlen($tmpArray[$randomKey])) {
             break;
@@ -215,9 +226,31 @@ do {
     $tmpArrayCell = str_split($tmpArray[$randomKey]);
     shuffle($tmpArrayCell);
     $tmpArray[$randomKey] = array_shift($tmpArrayCell);
-    echo "Set ". $randomKey. " As ". $tmpArray[$randomKey]. "\n";
+    //    echo "Set ". $randomKey. " As ". $tmpArray[$randomKey]. "\n";
     $settedNumber++;
     $tmpArray = deleteDuplicateValue($tmpArray);
-} while ($settedNumber<81);
+} while ($settedNumber<28);
+
+foreach ($tmpArray as $key => $value) {
+    if (strlen($value) > 1) {
+        $value = 0;
+    }
+    if (0 == ($key+1)%9) {
+        $message .= $value.",\n";
+    } else {
+        $message .= $value.',';
+    }
+}
+foreach ($tmpArray as $key => $value) {
+    if (strlen($value) > 1) {
+        $value = 0;
+    }
+    if (0 == ($key+1)%9) {
+        echo $value.",\n";
+    } else {
+        echo $value.',';
+    }
+}
+echo "\n";
 
 file_put_contents($messageLog, $message);
