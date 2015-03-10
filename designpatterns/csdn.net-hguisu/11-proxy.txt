@@ -1,0 +1,210 @@
+设计模式（十一）代理模式Proxy（结构型）
+
+http://blog.csdn.net/hguisu/article/details/7542143
+
+1.概述
+
+因为某个对象消耗太多资源,而且你的代码并不是每个逻辑路径都需要此对象, 你曾有过延迟创建对象的想法吗 ( if和else就是不同的两条逻辑路径) ? 你有想过限制访问某个对象,也就是说,提供一组方法给普通用户,特别方法给管理员用户?以上两种需求都非常类似，并且都需要解决一个更大的问题:你如何提供一致的接口给某个对象让它可以改变其内部功能,或者是从来不存在的功能? 可以通过引入一个新的对象，来实现对真实对象的操作或者将新的对象作为真实对象的一个替身。即代理对象。它可以在客户端和目标对象之间起到中介的作用，并且可以通过代理对象去掉客户不能看到的内容和服务或者添加客户需要的额外服务。
+
+例子1：经典例子就是网络代理，你想访问facebook或者twitter ，如何绕过GFW，找个代理网站。
+
+例子2：可以调用远程代理处理一些操作如图：
+
+2.问题:
+
+你怎样才能在不直接操作对象的情况下,对此对象进行访问?
+
+3.解决方案
+
+代理模式: 为其他对象提供一种代理，并以控制对这个对象的访问。（Provide a surrogate or placeholder for another object to control access to it. ）而对一个对象进行访问控制的一个原因是为了只有在我们确实需要这个对象时才对它进行创建和初始化。它是给某一个对象提供一个替代者(占位者),使之在client对象和subject对象之间编码更有效率。代理可以提供延迟实例化(lazy instantiation),控制访问, 等等，包括只在调用中传递。 一个处理纯本地资源的代理有时被称作虚拟代理。远程服务的代理常常称为远程代理。强制 控制访问的代理称为保护代理。
+
+4.实用性
+
+在需要用比较通用和复杂的对象指针代替简单的指针的时候，使用 Proxy模式。下面是一些可以使用Proxy模式常见情况：
+
+1) 远程代理（Remote  Proxy）为一个位于不同的地址空间的对象提供一个本地的代理对象。这个不同的地址空间可以是在同一台主机中，也可是在另一台主机中，远程代理又叫做大使(Ambassador)
+
+2) 虚拟代理（Virtual Proxy）根据需要创建开销很大的对象。如果需要创建一个资源消耗较大的对象，先创建一个消耗相对较小的对象来表示，真实对象只在需要时才会被真正创建。
+
+3) 保护代理（Protection Proxy）控制对原始对象的访问。保护代理用于对象应该有不同的访问权限的时候。
+
+4) 智能指引（Smart Reference）取代了简单的指针，它在访问对象时执行一些附加操作。
+
+5) Copy-on-Write代理：它是虚拟代理的一种，把复制（克隆）操作延迟到只有在客户端真正需要时才执行。一般来说，对象的深克隆是一个开销较大的操作，Copy-on-Write代理可以让这个操作延迟，只有对象被用到的时候才被克隆。
+
+5. 结构
+
+Uml图：
+
+简单结构示意图：
+
+6.模式的组成
+
+1)代理角色(Proxy):
+
+. 保存一个引用使得代理可以访问实体。若 RealSubject和Subject的接口相同，Proxy会引用Subject。
+
+. 提供一个与Subject的接口相同的接口，这样代理就可以用来替代实体。
+
+. 控制对实体的存取，并可能负责创建和删除它。
+
+. 其他功能依赖于代理的类型：
+
+• Remote Proxy负责对请求及其参数进行编码，并向不同地址空间中的实体发送已编码的请求。
+
+• Virtual Proxy可以缓存实体的附加信息，以便延迟对它的访问。
+
+• Protection Proxy检查调用者是否具有实现一个请求所必需的访问权限。
+
+2) 抽象主题角色(Subject):定义真实主题角色RealSubject
+
+和 抽象主题角色Proxy的共用接口，这样就在任何使用RealSubject的地方都可以使
+
+用Proxy。代理主题通过持有真实主题RealSubject的引用,不但可以控制真实主题RealSubject的创建或删除,可以在真实主题RealSubject被调用前进行拦截,或在调用后进行某些操作.
+
+3) 真实主题角色(RealSubject):定义了代理角色(proxy)所代表的具体对象.
+
+7. 效果
+
+Proxy模式在访问对象时引入了一定程度的间接性。根据代理的类型，附加的间接性有多种用途：
+
+1) Remote Proxy可以隐藏一个对象存在于不同地址空间的事实。也使得客户端可以访问在远程机器上的对象，远程机器可能具有更好的计算性能与处理速度，可以快速响应并处理客户端请求。
+
+2) Virtual Proxy 可以进行最优化，例如根据要求创建对象。即通过使用一个小对象来代表一个大对象，可以减少系统资源的消耗。
+
+3) Protection Proxies和Smart Reference都允许在访问一个对象时有一些附加的内务处理（Housekeeping task） 。
+
+Proxy模式还可以对用户隐藏另一种称之为写时复制（copy-on-write）的优化方式，该优化与根据需要创建对象有关。拷贝一个庞大而复杂的对象是一种开销很大的操作，如果这个拷贝根本没有被修改，那么这些开销就没有必要。用代理延迟这一拷贝过程，我们可以保证只有当这个对象被修改的时候才对它进行拷贝。在实现copy-on-write时必须对实体进行引用计数。拷贝代理仅会增加引用计数。只有当用户请求一个修改该实体的操作时，代理才会真正的拷贝它。在这种情况下，代理还必须减
+
+少实体的引用计数。当引用的数目为零时，这个实体将被删除。copy-on-write可以大幅度的降低拷贝庞大实体时的开销。
+
+代理模式能够协调调用者和被调用者，在一定程度上降低了系统的耦合度。
+
+代理模式的缺点
+
+由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢。
+
+实现代理模式需要额外的工作，有些代理模式的实现非常复杂。
+
+8.实现
+
+我们用获取天气预报的例子说明代理模式：
+
+```
+<?php
+/**
+ * 代理模式
+ *
+ * 为其他对象提供一个代理以控制这个对象的访问
+ *
+ */
+/**
+ *  抽象主题角色(Subject):天气
+ *
+ */
+interface Weather
+{
+    public function request($city);
+    public function display($city);
+    public function isValidCity($city);
+}
+/**
+ * 真实主题角色(RealSubject):
+ *
+ */
+class RealWeather implements Weather
+{
+    protected $_url = 'http://www.google.com/ig/api?&oe=utf-8&hl=zh-cn&weather=';
+    protected $_weatherXml = '' ;
+    function __construct(){
+    }
+    public function request($city){
+        $this->_weatherXml = file_get_contents($this->_url . $city );
+    }
+    public function display($city ){
+        if ($this->_weatherXml == '') {
+            $this->request($city);
+        }
+        //$this->_weatherXml = mb_convert_encoding($this->_weatherXml, 'UTF-8', 'GB2312');
+        $weatherxml = simplexml_load_string($this->_weatherXml);
+        $low = intval($weatherxml->weather->forecast_conditions[0]->low->attributes());
+        $high = $weatherxml->weather->forecast_conditions[0]->high->attributes();
+        $icon= 'http://www.google.com'. $weatherxml->weather->forecast_conditions[0]->icon->attributes();
+        $condition=$weatherxml->weather->forecast_conditions[0]->condition->attributes();
+        $weather = date('Y年n月j日').'  天气预报：<span class="cor_ff6c00 f_bold">'.$city_names[$city].' </span>  <img class="v_middle" src="'.$icon.'" alt="'.$condition.'" width="16" height="17" align="absmiddle" /> <span class="f_bold"></span>：    '.$low.'°C ~ '.$high.'°C '.$condition;
+        echo  $weather;
+    }
+    public function isValidCity($city){
+    }
+}
+/**
+ * 代理角色(Proxy):延迟代理
+ *
+ */
+class ProxyWeather  implements Weather {
+    private $_client ;
+    private function client() {
+        if (! $this->_client instanceof RealWeather) {
+            $this->_client = new RealWeather();
+        }
+        return $this->_client;
+    }
+    public function request($city){
+        $this->_client()->request($city);
+    }
+    public function isValidCity($city) {
+        return $this->_client()->isValidCity($city);
+    }
+    public function display($city) {
+        return $this->client()->display($city);
+    }
+}
+/**
+ * 代理角色(Proxy):动态代理
+ *
+ */
+class GenericProxyWeather {
+    protected $_subject;
+    public function __construct($subject) {
+        $this->_subject = $subject;
+    }
+    public function __call($method, $args) {
+        return call_user_func_array(
+                array($this->_subject, $method),
+                $args);
+    }
+}
+class Client{
+    static function main(){
+        $proxy = new ProxyWeather();
+        $report = $proxy->display('beijing');
+    }
+    static function Genericmain(){
+        $proxy = new GenericProxyWeather(new RealWeather());
+        $report = $proxy->display('beijing');
+    }
+}
+header('Content-type:text/html;charset=UTF-8');
+Client::main();
+//Client::Genericmain();
+```
+9. 与其他相关模式
+
+1）适配器模式Adapter
+
+：适配器Adapter 为它所适配的对象提供了一个不同的接口。相反，代理提供了与它的实体相同的接口。然而，用于访问保护的代理可能会拒绝执行实体会执行的操作，因此，它的接口实际上可能只是实体接口的一个子集。
+
+2) 装饰器模式Decorator：尽管Decorator的实现部分与代理相似，但
+
+Decorator的目的不一样。Decorator为对象添加一个或多个功能，而代理则控制对对象的访问。
+
+10.总结
+
+代理模式在很多情况下都非常有用,特别是你想强行控制一个对象的时候,比如:延迟加载,监视状态变更的方法等等
+
+1、“增加一层间接层”是软件系统中对许多负责问题的一种常见解决方法。在面向对象系统中，直接使用某些对象会带来很多问题，作为间接层的proxy对象便是解决这一问题的常用手段。
+
+2、具体proxy设计模式的实现方法、实现粒度都相差很大，有些可能对单个对象作细粒度的控制，有些可能对组件模块提供抽象代理层，在架构层次对对象作proxy。
+
+3、proxy并不一定要求保持接口的一致性，只要能够实现间接控制，有时候损及一些透明性是可以接受的。例如上面的那个例子，代理类型ProxyClass和被代理类型LongDistanceClass可以不用继承自同一个接口，正像GoF《设计模式》中说的：为其他对象提供一种代理以控制这个对象的访问。代理类型从某种角度上讲也可以起到控制被代理类型的访问的作用。
+

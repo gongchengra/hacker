@@ -1,0 +1,191 @@
+设计模式 ( 十五 ) 中介者模式Mediator（对象行为型）
+
+http://blog.csdn.net/hguisu/article/details/7554612
+
+1.概述
+
+在面向对象的软件设计与开发过程中，根据“单一职责原则”，我们应该尽量将对象细化，使其只负责或呈现单一的职责，即将行为分布到各个对象中。
+
+对于一个模块或者系统，可能由很多对象构成，而且这些对象之间可能存在相互的引用，在最坏的情况下，每一个对象都知道其他所有的对象，这无疑复杂化了对象之间的联系。虽然将一个系统分割成许多对象通常可以增强可复用性，但是对象间相互连接的激增又会降低其可复用性，大量的相互连接使得一个对象似乎不太可能在没有其他对象的支持下工作，系统表现为一个不可分割的整体，而且对系统的行为进行任何较大的改动都会十分困难。结果是你不得不定义大量的子类以定制系统的行为。因此，为了减少对象两两之间复杂的引用关系，使之成为一个松耦合的系统，我们需要使用中介者模式.
+
+例子1：
+
+2.问题
+
+面对一系列的相交互对象。怎么样保证使各对象不需要显式地相互引用，使其耦合松散？
+
+3.解决方案
+
+中介者模式：用一个中介对象来封装一系列的对象交互。中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。中介者模式又称为调停者模式。（Define an object thatencapsulates how a set of objects interact. Mediator promotes loose coupling by keeping objects fromreferring to each other explicitly, and it lets you vary their interaction independently. ）
+
+4.适用性
+
+在下列情况下使用中介者模式:
+
+• 1）系统中对象之间存在复杂的引用关系，产生的相互依赖关系结构混乱且难以理解。
+
+• 2）一组对象以定义良好但是复杂的方式进行通信。产生的相互依赖关系结构混乱且难以理解。
+
+• 3）一个对象引用其他很多对象并且直接与这些对象通信 ,导致难以复用该对象。
+
+• 4）想通过一个中间类来封装多个类中的行为，而又不想生成太多的子类。可以通过引入中介者类来实现，在中介者中定义对象交互的公共行为，如果需要改变行为则可以增加新的中介者类。
+
+5.结构
+
+6.模式的组成
+
+抽象中介者(Mediator):中介者定义一个接口用于与各同事（Colleague）对象通信。
+
+具体中介者(ConcreteMediator): 具体中介者通过协调各同事对象实现协作行为。了解并维护它的各个同事。
+
+抽象同事类(Colleague class): 定义同事类接口,定义各同事的公有方法.
+
+具体同事类(ConcreteColleague): 实现抽象同事类中的方法。每一个同时类需要知道中介者对象；每个具体同事类只需要了解自己的行为，而不需要了解其他同事类的情况。每一个同事对象在需与其他的同事通信的时候，与它的中介者通信。
+
+7.效果
+
+中介者模式的优点：
+
+1) 减少了子类生成:  Mediator将原本分布于多个对象间的行为集中在一起。改变这些行为只需生成Mediator的子类即可。这样各个Colleague类可被重用。
+
+2) 简化各同事类的设计和实现 : 它将各同事类Colleague解耦，Mediator有利于各Colleague间的松耦合. 你可以独立的改变和复用各Colleague类和Mediator类。
+
+3) 它简化了对象协议: 用Mediator和各Colleague间的一对多的交互来代替多对多的交互。一对多的关系更易于理解、维护和扩展。
+
+4) 它对对象如何协作进行了抽象 将中介作为一个独立的概念并将其封装在一个对象中，使你将注意力从对象各自本身的行为转移到它们之间的交互上来。这有助于弄清    楚一个系统中的对象是如何交互的。
+
+5) 它使控制集中化 中介者模式将交互的复杂性变为中介者的复杂性。
+
+中介者模式的缺点：
+
+因为中介者封装了协议，即在具体中介者类中包含了同事之间的交互细节，可能会导致具体中介者类非常复杂，这可能使得中介者自身成为一个难于维护的庞然大物。
+
+8.实现
+```
+<?php
+/**
+ * 中介者模式
+ *
+ *
+ */
+/**
+ * 抽象中介者类
+ */
+abstract class Mediator
+{
+    static protected  $_colleaguesend = array(
+            'ConcreteColleague1'=> 'ConcreteColleague2',
+            'ConcreteColleague2'=> 'ConcreteColleague3',
+            'ConcreteColleague3'=> 'ConcreteColleague1',
+            );
+    protected  $_colleagues = null; //array
+    public  function register(Colleague $colleague) {
+        $this->_colleagues[get_class($colleague)] = $colleague;
+    }
+    public abstract function operation($name, $message);
+}
+/**
+ * 具体中介者类
+ */
+class ConcreteMediator extends Mediator
+{
+    public function operation($obj, $message) {
+        $className = self::$_colleaguesend[get_class($obj)];
+        if ($className == get_class($obj) ) {
+            return ;
+        }
+        if ($this->_colleagues[$className]) {
+            $this->_colleagues[$className]->notify($message);
+        }
+        return ;
+    }
+}
+/**
+ * 抽象同事类
+ */
+abstract class Colleague
+{
+    protected  $_mediator = null;
+    public function __construct($mediator) {
+        $this->_mediator = $mediator;
+        $mediator->register($this);
+    }
+    /**
+     * 通过中介实现相互调用
+     */
+    public abstract function send($message);
+    /**
+     * 具体需要实现的业务逻辑代码
+     */
+    public abstract function notify($message);
+}
+/**
+ * 具体同事类
+ */
+class ConcreteColleague1 extends Colleague
+{
+    public function __construct(Mediator $mediator) {
+        parent::__construct($mediator);
+    }
+    public function send($message) {
+        $this->_mediator->operation($this, $message);
+    }
+    public function notify($message) {
+        echo 'ConcreteColleague1 m:', $message, '<br/>';
+    }
+}
+/**
+ * 具体同事类
+ */
+class ConcreteColleague2 extends Colleague
+{
+    public function __construct(Mediator $mediator) {
+        parent::__construct($mediator);
+    }
+    public function send($message) {
+        $this->_mediator->operation($this, $message);
+    }
+    public function notify($message) {
+        echo 'ConcreteColleague2 m:', $message, '<br/>';
+    }
+}
+/**
+ * 具体同事类
+ */
+class ConcreteColleague3 extends Colleague
+{
+    public function __construct(Mediator $mediator) {
+        parent::__construct($mediator);
+    }
+    public function send($message) {
+        $this->_mediator->operation($this, $message);
+    }
+    public function notify($message) {
+        echo 'ConcreteColleague3 m:', $message, '<br/>';
+    }
+}
+$objMediator = new  ConcreteMediator();
+$objC1 = new ConcreteColleague1($objMediator);
+$objC2 = new ConcreteColleague2($objMediator);
+$objC3 = new ConcreteColleague3($objMediator);
+$objC1->send("from ConcreteColleague1");
+$objC2->send("from ConcreteColleague2");
+$objC3->send("from ConcreteColleague3");
+/****************************************************/
+```
+9.与其他相关模式
+
+1)外观模式，Facade与中介者的不同之处在于它是对一个对象子系统进行抽象，从而提供了一个为方便的接口。它的协议是单向的，即 Facade对象对这个子系统类提出请求，但反之则不。相反，Mediator提供了各Colleague对象不支持或不能支持的协作行为，而且协议是多向。
+
+2) Colleague可使用Observers模式与Mediator通信。
+
+10.总结与分析
+
+1)迪米特法则的一个典型应用:在中介者模式中，通过创造出一个中介者对象，将系统中有关的对象所引用的其他对象数目减少到最少，使得一个对象与其同事之间的相互作用被这个对象与中介者对象之间的相互作用所取代。因此，中介者模式就是迪米特法则的一个典型应用。
+
+2) 通过引入中介者对象，可以将系统的网状结构变成以中介者为中心的星形结构，中介者承担了中转作用和协调作用。中介者类是中介者模式的核心，它对整个系统进行控制和协调，简化了对象之间的交互，还可以对对象间的交互进行进一步的控制。
+
+3) 中介者模式的主要优点在于简化了对象之间的交互，将各同事解耦，还可以减少子类生成，对于复杂的对象之间的交互，通过引入中介者，可以简化各同事类的设计和实现；中介者模式主要缺点在于具体中介者类中包含了同事之间的交互细节，可能会导致具体中介者类非常复杂，使得系统难以维护。
+
+4) 中介者模式适用情况包括：系统中对象之间存在复杂的引用关系，产生的相互依赖关系结构混乱且难以理解；一个对象由于引用了其他很多对象并且直接和这些对象通信，导致难以复用该对象；想通过一个中间类来封装多个类中的行为，而又不想生成太多的子类
+

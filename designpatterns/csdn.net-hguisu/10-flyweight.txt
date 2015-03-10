@@ -1,0 +1,260 @@
+设计模式（十）享元模式Flyweight（结构型）
+
+http://blog.csdn.net/hguisu/article/details/7535792
+
+说明：
+
+相对于其它模式，Flyweight模式在PHP实现似乎没有太大的意义，因为PHP的生命周期就在一个请求，请求执行完了，php占用的资源都被释放。我们只是为了学习而简单做了介绍。
+
+1. 概述
+
+面向对象技术可以很好地解决系统一些灵活性或可扩展性或抽象性的问题，但在很多情况下需要在系统中增加类和对象的个数。当对象数量太多时，将导致运行代价过高，带来性能下降等问题。比如:
+
+例子1:图形应用中的图元等对象、字处理应用中的字符对象等。
+
+2.解决方案：
+
+享元模式（Flyweight）：对象结构型模式运用共享技术有效地支持大量细粒度的对象。
+
+它使用共享物件，用来尽可能减少内存使用量以及分享资讯给尽可能多的相似物件；它适合用于当大量物件只是重复因而导致无法令人接受的使用大量内存。通常物件中的部分状态是可以分享。常见做法是把它们放在外部数据结构，当需要使用时再将它们传递给享元。
+
+4. 适用性
+
+1）一个应用程序使用大量相同或者相似的对象，造成很大的存储开销。
+
+2）对象的大部分状态都可以外部化，可以将这些外部状态传入对象中。
+
+3）如果删除对象的外部状态，那么可以用相对较少的共享对象取代很多组对象。
+
+4） 应用程序不依赖于对象标识。由于Flyweight对象可以被共享，对于概念上明显有别的对象，标识测试将返回真值。
+
+5）使用享元模式需要维护一个存储享元对象的享元池，而这需要耗费资源，因此，应当在多次重复使用享元对象时才值得使用享元模式
+
+5.结构
+
+6.构建模式的组成
+
+1) 抽象享元类(Flyweight):
+
+描述一个接口，通过这个接口flyweight可以接受并作用于外部状态。
+
+2) 具体享元类(ConcreteFlyweight):实现Flyweight接口 ，并为内部状态（ 如果有的话 )增加存储空间
+
+。ConcreteFlyweight对象必须是可共享的。它所存储的状态必须是内部的；即，它必须独立于ConcreteFlyweight对象的场景。
+
+3) 非共享具体享元类(UnsharedConcreteFlyweight)：— 并非所有的Flyweight子类都需要被共享。Flyweight接口使共享成为可能，但它并不强制共享。在Flyweight对象结构的某些层次，UnsharedConcreteFlyweight对象通常将ConcreteFlyweight对象作为子节点。
+
+4) 享元工厂类(FlyweightFactory):创建并管理flyweight对象, 确保合理地共享flyweight。本角色必须保证享元对象可以被系统适当地共享。当一个客户端对象调用一个享元对象
+
+flyweight的时候，享元工厂角色（Flyweight Factory对象）会检查系统中是否已经有一个符合要求的享元对象。如果已经有了，享元工厂角色就应当提供这个已有的享元对象；如果系统中没有一个适当的享元对象的话，享元工厂角色就应当创建一个合适的享元对象。
+
+5）客户（Client）:维持一个对flyweight的引用。计算或存储一个（多个）flyweight的外部状态。
+
+7.
+
+效果
+
+享元模式的优点：
+
+1）享元模式的优点在于它可以极大减少内存中对象的数量，使得相同对象或相似对象在内存中只保存一份。
+
+2）享元模式的外部状态相对独立，而且不会影响其内部状态，从而使得享元对象可以在不同的环境中被共享。
+
+享元模式的缺点：
+
+1）享元模式使得系统更加复杂，需要分离出内部状态和外部状态，这使得程序的逻辑复杂化。
+
+2）为了使对象可以共享，享元模式需要将享元对象的状态外部化，而读取外部状态使得运行时间变长。
+
+8.实现
+
+享元模式可以分成单纯享元模式和复合享元模式两种形式。
+
+【单纯享元模式】
+
+在单纯的享元模式中，所有的享元对象都是可以共享的。
+
+源代码：
+
+```
+<?php
+/**
+ * 单纯享元模式　
+ * @author guisu
+ */
+/**
+ * 抽象享元角色
+ */
+abstract class Flyweight {
+    /**
+     * 示意性方法
+     * @param string $state 外部状态
+     */
+    abstract public function operation($state);
+}
+/**
+ * 具体享元角色
+ */
+class ConcreteFlyweight extends Flyweight {
+    private $_intrinsicState = null;
+    /**
+     * 构造方法
+     * @param string $state  内部状态
+     */
+    public function __construct($state) {
+        $this->_intrinsicState = $state;
+    }
+    public function operation($state) {
+        echo 'ConcreteFlyweight operation, Intrinsic State = ' . $this->_intrinsicState
+            . ' Extrinsic State = ' . $state . '<br />';
+    }
+}
+/**
+ * 享元工厂角色
+ */
+class FlyweightFactory {
+    private $_flyweights;
+    public function __construct() {
+        $this->_flyweights = array();
+    }
+    public function getFlyweigth($state) {
+        if (isset($this->_flyweights[$state])) {
+            return $this->_flyweights[$state];
+        } else {
+            return $this->_flyweights[$state] = new ConcreteFlyweight($state);
+        }
+    }
+}
+class Client{
+    static function main (){
+        $flyweightFactory = new FlyweightFactory();
+        $flyweight = $flyweightFactory->getFlyweigth('state A');
+        $flyweight->operation('other state A');
+        $flyweight = $flyweightFactory->getFlyweigth('state B');
+        $flyweight->operation('other state B');
+    }
+}
+?>
+```
+【复合享元模式】
+
+复合享元模式对象是由一些单纯享元使用合成模式加以复合而成
+
+复合享元角色所代表的对象是不可以共享的，但是一个复合享元对象可以分解成为多个本身是单纯享元对象的组合。
+
+```
+<?php
+/**
+ * 复合享元模式
+ *
+ */
+/**
+ * 抽象享元角色
+ */
+abstract class Flyweight {
+    /**
+     * 示意性方法
+     * @param string $state 外部状态
+     */
+    abstract public function operation($state);
+}
+/**
+ * 具体享元角色
+ */
+class ConcreteFlyweight extends Flyweight {
+    private $_intrinsicState = null;
+    /**
+     * 构造方法
+     * @param string $state  内部状态
+     */
+    public function __construct($state) {
+        $this->_intrinsicState = $state;
+    }
+    public function operation($state) {
+        echo 'ConcreteFlyweight operation, Intrinsic State = ' . $this->_intrinsicState
+            . ' Extrinsic State = ' . $state . '<br />';
+    }
+}
+/**
+ * 不共享的具体享元，客户端直接调用
+ */
+class UnsharedConcreteFlyweight extends Flyweight {
+    private $_flyweights;
+    /**
+     * 构造方法
+     * @param string $state  内部状态
+     */
+    public function __construct() {
+        $this->_flyweights = array();
+    }
+    public function operation($state) {
+        foreach ($this->_flyweights as $flyweight) {
+            $flyweight->operation($state);
+        }
+    }
+    public function add($state, Flyweight $flyweight) {
+        $this->_flyweights[$state] = $flyweight;
+    }
+}
+/**
+ * 享元工厂角色
+ */
+class FlyweightFactory {
+    private $_flyweights;
+    public function __construct() {
+        $this->_flyweights = array();
+    }
+    public function getFlyweigth($state) {
+        if (is_array($state)) { //  复合模式
+            $uFlyweight = new UnsharedConcreteFlyweight();
+            foreach ($state as $row) {
+                $uFlyweight->add($row, $this->getFlyweigth($row));
+            }
+            return $uFlyweight;
+        } else if (is_string($state)) {
+            if (isset($this->_flyweights[$state])) {
+                return $this->_flyweights[$state];
+            } else {
+                return $this->_flyweights[$state] = new ConcreteFlyweight($state);
+            }
+        } else {
+            return null;
+        }
+    }
+}
+class Client{
+    static function main (){
+        $flyweightFactory = new FlyweightFactory();
+        $flyweight = $flyweightFactory->getFlyweigth('state A');
+        $flyweight->operation('other state A');
+        $flyweight = $flyweightFactory->getFlyweigth('state B');
+        $flyweight->operation('other state B');
+        /* 复合对象*/
+        $uflyweight = $flyweightFactory->getFlyweigth(array('state A', 'state B'));
+        $uflyweight->operation('other state A');
+    }
+}
+?>
+```
+9.
+
+与其他相关模式
+
+客户端要引用享元对象，是通过工厂对象创建或者获得的，客户端每次引用一个享元对象，都是可以通过同一个工厂对象来引用所需要的享元对象。因此，可以将享元工厂设计成单例模式，这样就可以保证客户端只引用一个工厂实例。因为所有的享元对象都是由一个工厂对象统一管理的，所以在客户端没有必要引用多个工厂对象。不管是单纯享元模式还是复合享元模式中的享元工厂角色，都可以设计成为单例模式，对于结果是不会有任何影响的。
+
+Composite模式：Flyweight模式通常和Composite 模式结合起来，用共享叶结点的有向无环图实现一个逻辑上的层次结构。复合享元模式实际上是单纯享元模式与合成模式的组合。单纯享元对象可以作为树叶对象来讲，是可以共享的，而复合享元对象可以作为树枝对象， 因此在复合享元角色中可以添加聚集管理方法。通常，最好用Flyweight实现State
+
+和Strategy 对象。
+
+10.总结
+
+1)享元模式是一个考虑系统性能的设计模式，通过使用享元模式可以节约内存空间，提高系统的性能。
+
+2)享元模式的核心在于享元工厂类，享元工厂类的作用在于提供一个用于存储享元对象的享元池，用户需要对象时，首先从享元池中获取，如果享元池中不存在，则创建一个新的享元对象返回给用户，并在享元池中保存该新增对象。
+
+3)享元模式以共享的方式高效地支持大量的细粒度对象，享元对象能做到共享的关键是区分内部状态(InternalState)和外部状态(ExternalState)。
+
+(1)内部状态是存储在享元对象内部并且不会随环境改变而改变的状态，因此内部状态可以共享。
+
+(2)外部状态是随环境改变而改变的、不可以共享的状态。享元对象的外部状态必须由客户端保存，并在享元对象被创建之后，在需要使用的时候再传入到享元对象内部。一个外部状态与另一个外部状态之间是相互独立的。
+

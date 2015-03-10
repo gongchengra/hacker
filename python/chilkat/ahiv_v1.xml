@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<asp:schema xmlns:ent="http://alexanderstreetpress.com/ns/ontology/master/entities/"
+            xmlns:att="http://alexanderstreetpress.com/ns/ontology/master/attributes/"
+            xmlns:met="http://alexanderstreetpress.com/ns/ontology/"
+            xmlns:slr="http://alexanderstreet.com/ns/solr"
+            xmlns:asp="http://alexanderstreetpress.com/ns/"
+            type="attributes"
+            domain="bibliographic-entities"
+            product="ahiv_v1">
+   <met:attribute-list>
+      <met:attribute-definition>
+         <met:attribute-property name="name">classroom_activity</met:attribute-property>
+         <met:attribute-property name="domain">bibliographic_details</met:attribute-property>
+         <met:attribute-property name="domain">document</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">alternative_title</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">8</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">archive_collection</met:attribute-property>
+         <met:attribute-property name="domain">document</met:attribute-property>
+         <met:attribute-property name="domain">bibliographic_details</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">archive_name</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">40</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">archive_url</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">41</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">asp_community</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">66</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">asp_group</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">65</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">asp_oclc</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">asp_skyriver</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">asp_tertiary_community</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">67</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">author</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">14</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">author_statement</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">26</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">bibliographic_summary</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">68</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">catalog_number</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">44</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">copyright_message</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">42</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">corporate_author</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">15</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">default_image</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">63</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">director</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">24</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">document_type</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">4</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">dorp_id</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">57</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">downloadable</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">58</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">duration</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">27</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">eba_price</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">editor</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">20</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">eisbn</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">71</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">entity_message</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">59</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">exclude_from_release</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">69</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">featured_speaker</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">17</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">general_subject</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">54</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">historical_event</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">50</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">historical_theme</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes">Need to be created
+         (MMP-108)
+         
+         
+         
+         
+         
+         
+         
+         
+         
+      </met:attribute-property>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">historical_theme</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes">added 2/5/13</met:attribute-property>
+         <met:attribute-property name="field_order_request">85</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">history_era</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">48</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">individual_sale</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">70</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">interviewee_person</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">79</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">interviewer_person</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">78</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">item_accession_number</met:attribute-property>
+         <met:attribute-property name="domain">document</met:attribute-property>
+         <met:attribute-property name="domain">bibliographic_details</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">item_location_details</met:attribute-property>
+         <met:attribute-property name="domain">document</met:attribute-property>
+         <met:attribute-property name="domain">bibliographic_details</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">keyword</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">53</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">language_of_edition</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">36</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">lazr_sort_year</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">75</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">marc_id</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">organization_discussed</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">55</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">original_language</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">37</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">original_publication_date</met:attribute-property>
+         <met:attribute-property name="domain">none</met:attribute-property>
+         <met:attribute-property name="replacement_attribute">Original Release
+         Date
+         
+         
+         
+         
+         
+         
+         
+         
+         
+      </met:attribute-property>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">33</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">original_release_date</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">34</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">person_discussed</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">51</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">place_discussed</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">52</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">previously_unpublished</met:attribute-property>
+         <met:attribute-property name="domain">none</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">35</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">primary</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">39</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">producer</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">22</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">producer_institution</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">23</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">product_code</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">1</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">product_discipline</met:attribute-property>
+         <met:attribute-property name="domain">none</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">3</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">product_subset_code</met:attribute-property>
+         <met:attribute-property name="domain">none</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">2</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">publication_isbn</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">45</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">publication_issn</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">84</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">publication_oclc</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">publication_skyriver</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">publication_type</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">74</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">publication_year</met:attribute-property>
+         <met:attribute-property name="domain">none</met:attribute-property>
+         <met:attribute-property name="replacement_attribute">Release
+         Date
+         
+         
+         
+         
+         
+         
+         
+         
+         
+      </met:attribute-property>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">30</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">publisher</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">28</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">publisher_place</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">real_title</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">5</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">recording_date</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">release_date</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">32</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">release_notes</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">search_title</met:attribute-property>
+         <met:attribute-property name="domain">none</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">6</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">series</met:attribute-property>
+         <met:attribute-property name="domain">none</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">12</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">series_number</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">13</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">sort_title</met:attribute-property>
+         <met:attribute-property name="domain">none</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">7</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">source_title</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">10</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">subtitle_language</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">38</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">suppress_eba</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">territorial_restrictions_blacklist</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">61</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">territorial_restrictions_whitelist</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">60</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">timecode</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">62</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">translated_title</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">9</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">translator</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">21</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">us_history_era</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes">will replace History Era in Dec. 2013</met:attribute-property>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">video_color</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">47</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">video_narrator</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">18</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">video_series</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">11</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">video_sound</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">46</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">video_thumbnail</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">64</met:attribute-property>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">world_history_era</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes">will replace History Era in Dec. 2013</met:attribute-property>
+         <met:attribute-property name="field_order_request"/>
+      </met:attribute-definition>
+      <met:attribute-definition>
+         <met:attribute-property name="name">year_discussed</met:attribute-property>
+         <met:attribute-property name="domain">video</met:attribute-property>
+         <met:attribute-property name="domain">video_work</met:attribute-property>
+         <met:attribute-property name="domain">video_track</met:attribute-property>
+         <met:attribute-property name="replacement_attribute"/>
+         <met:attribute-property name="notes"/>
+         <met:attribute-property name="field_order_request">56</met:attribute-property>
+      </met:attribute-definition>
+   </met:attribute-list>
+</asp:schema>

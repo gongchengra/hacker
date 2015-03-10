@@ -1,0 +1,249 @@
+设计模式（六）桥连模式Bridge（结构型）
+
+http://blog.csdn.net/hguisu/article/details/7529194
+
+1. 概述
+
+在软件系统中，某些类型由于自身的逻辑，它具有两个或多个维度的变化，那么如何应对这种“多维度的变化”？如何利用面向对象的技术来使得该类型能够轻松的沿着多个方向进行变化，而又不引入额外的复杂度？
+
+例子1：设想如果要绘制矩形、圆形、椭圆、正方形，我们至少需要4个形状类，但是如果绘制的图形需要具有不同的颜色，如红色、绿色、蓝色等，此时至少有如下两种设计方案：
+
+•第一种设计方案是为每一种形状都提供一套各种颜色的版本。
+
+•第二种设计方案是根据实际需要对形状和颜色进行组合。
+
+方案1:
+
+方案2：
+
+对于有两个变化维度（即两个变化的原因）的系统，采用方案二来进行设计系统中类的个数更少，且系统扩展更为方便。设计方案二即是桥接模式的应用。桥接模式将继承关系转换为关联关系，从而降低了类与类之间的耦合，减少了代码编写量。
+
+例子2：一个普通的开关控制的电灯、电风扇等等，都是桥接的例子。开关的目的是将设备打开或关闭。实际的开关可以是简单的双刀拉链开关，也可以是调光开关。
+
+2. 问题
+
+如何应对这种“多维度的变化”？如何利用面向对象的技术来使得该类型能够轻松的沿着多个方向进行变化，而又不引入额外的复杂度？
+
+3. 解决方案
+
+桥连模式：将抽象部分与实现部分分离，使它们都可以独立的变化。它是一种结构性模式，又称柄体（Handle and body）模式或者接口（Interface）模式。 当一个抽象可能有多个实现时，通常用继承来协调他们。抽象类的定义对该抽象的接口。而具体的子类则用不同的方式加以实现，但是此方法有时不够灵活。继承机制将抽象部分与他的视线部分固定在一起，使得难以对抽象部分和实现部分独立地进行修改、扩充和充用。
+
+理解桥接模式，重点需要理解如何将抽象化(Abstraction)与实现化(Implementation)脱耦，使得二者可以独立地变化。
+
+•抽象化：抽象化就是忽略一些信息，把不同的实体当作同样的实体对待。在面向对象中，将对象的共同性质抽取出来形成类的过程即为抽象化的过程。
+
+•实现化：针对抽象化给出的具体实现，就是实现化，抽象化与实现化是一对互逆的概念，实现化产生的对象比抽象化更具体，是对抽象化事物的进一步具体化的产物。
+
+•脱耦：脱耦就是将抽象化和实现化之间的耦合解脱开，或者说是将它们之间的强关联改换成弱关联，将两个角色之间的继承关系改为关联关系。桥接模式中的所谓脱耦，就是指在一个软件系统的抽象化和实现化之间使用关联关系（组合或者聚合关系）而不是继承关系，从而使两者可以相对独立地变化，这就是桥接模式的用意。
+
+4. 适用性
+
+1）. 你不希望在抽象和他的实现部分之间有一个固定的邦定关系，如在程序的运行时刻实现部分应该可以被选择或者切换。
+
+2）. 类的抽象以及他的视像都可以通过生成子类的方法加以扩充。这时bridge模式使你可以对不同的抽象接口
+
+和实现部分进行组合，并对他们进行扩充。
+
+3）. 对一个抽象的实现部分的修改应该对客户不产生影响，即客户的代码不需要重新编译。
+
+4）. 你想对客户完全隐藏抽象的实现部分。
+
+5）. 你想在多个实现间 共享实现，但同时要求客户并不知道这一点。
+
+5. 结构
+
+6. 构建模式的组成
+
+抽象类(Abstraction):定义抽象类的接口,维护一个指向Implementor类型对象的指针.
+
+扩充抽象类(RefinedAbstraction)：扩充由Abstraction定义的接口
+
+实现类接口(Implementor)：定义实现类的接口，该接口不一定要与Abstraction的接口完全一致；事实上这两个接口可以完全不同。一般来讲， Implementor接口仅提供基本操作，而 Abstraction则定义了基于这些基本操作的较高层次的操作。
+
+具体实现类(ConcreteImplementor)：实现Implementor接口并定义它的具体实现。
+
+7. 效果
+
+Bridge模式有以下一些优点：
+
+1) 分离接口及其实现部分 一个实现未必不变地绑定在一个接口上。抽象类的实现可以在运行时刻进行配置，一个对象甚至可以在运行时刻改变它的实现。将Abstraction与Implementor分离有助于降低对实现部分编译时刻的依赖性，当改变一个实现类时，并不需要重新编译 Abstraction类和它的客户程序。为了保证一个类库的不同版本之间的二进制兼容性，一定要有这个性质。另外，接口与实现分离有助于分层，从而产生更好的结构化系统，系统的高层部分仅需知道Abstraction和Implementor即可。
+
+2) 提高可扩充性 你可以独立地对Abstraction和Implementor层次结构进行扩充。
+
+3 ) 实现细节对客户透明 你可以对客户隐藏实现细节，例如共享 Implementor对象以及相应的引用计数机制（如果有的话） 。
+
+桥接模式的缺点
+
+•桥接模式的引入会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者针对抽象进行设计与编程。
+
+•桥接模式要求正确识别出系统中两个独立变化的维度，因此其使用范围具有一定的局限性。
+
+8.实现
+
+模拟毛笔：
+
+现需要提供大中小3种型号的画笔，能够绘制5种不同颜色，如果使用蜡笔，我们需要准备3*5=15支蜡笔，也就是说必须准备15个具体的蜡笔类。而如果使用毛笔的话，只需要3种型号的毛笔，外加5个颜料盒，用3+5=8个类就可以实现15支蜡笔的功能。
+
+实际上，蜡笔和毛笔的关键一个区别就在于笔和颜色是否能够分离。即将抽象化(Abstraction)与实现化(Implementation)脱耦，使得二者可以独立地变化"。关键就在于能否脱耦。蜡笔的颜色和蜡笔本身是分不开的，所以就造成必须使用15支色彩、大小各异的蜡笔来绘制图画。而毛笔与颜料能够很好的脱耦，各自独立变化，便简化了操作。在这里，抽象层面的概念是："毛笔用颜料作画"，而在实现时，毛笔有大中小三号，颜料有红绿蓝黑白等5种，于是便可出现3×5种组合。每个参与者（毛笔与颜料）都可以在自己的自由度上随意转换。
+
+蜡笔由于无法将笔与颜色分离，造成笔与颜色两个自由度无法单独变化，使得只有创建15种对象才能完成任务。
+
+Bridge模式将继承关系转换为组合关系，从而降低了系统间的耦合，减少了代码编写量。
+
+UML如图：
+
+代码实现：
+
+```
+<?php
+/******************************Abstraction **************************/
+/**
+ *
+ * Abstraction抽象类的接口
+ * @author guisu
+ *
+ */
+abstract class BrushPenAbstraction {
+    protected $_implementorColor = null;
+    /**
+     *
+     * Enter description here ...
+     * @param Color $color
+     */
+    public function setImplementorColor(ImplementorColor $color) {
+        $this->_implementorColor = $color;
+    }
+    /**
+     *
+     * Enter description here ...
+     */
+    public abstract function operationDraw();
+}
+/******************************RefinedAbstraction **************************/
+/**
+ *
+ * 扩充由Abstraction;大毛笔
+ * @author guisu
+ *
+ */
+class BigBrushPenRefinedAbstraction extends BrushPenAbstraction {
+    public function operationDraw() {
+        echo 'Big and ', $this->_implementorColor->bepaint (), ' drawing';
+    }
+}
+/**
+ *
+ * 扩充由Abstraction;中毛笔
+ * @author guisu
+ *
+ */
+class MiddleBrushPenRefinedAbstraction extends BrushPenAbstraction {
+    public function operationDraw() {
+        echo 'Middle and ', $this->_implementorColor->bepaint (), ' drawing';
+    }
+}
+/**
+ *
+ * 扩充由Abstraction;小毛笔
+ * @author guisu
+ *
+ */
+class SmallBrushPenRefinedAbstraction extends BrushPenAbstraction {
+    public function operationDraw() {
+        echo 'Small and ', $this->_implementorColor->bepaint(), ' drawing';
+    }
+}
+/******************************Implementor **************************/
+/**
+ * 实现类接口(Implementor)
+ *
+ * @author mo-87
+ *
+ */
+class ImplementorColor {
+    protected $value;
+    /**
+     * 着色
+     *
+     */
+    public function bepaint(){
+        echo $this->value;
+    }
+}
+/******************************oncrete Implementor **************************/
+class oncreteImplementorRed extends ImplementorColor {
+    public function __construct() {
+        $this->value = "red";
+    }
+    /**
+     * 可以覆盖
+     */
+    public function bepaint() {
+        echo $this->value;
+    }
+}
+class oncreteImplementorBlue extends ImplementorColor {
+    public function __construct() {
+        $this->value = "blue";
+    }
+}
+class oncreteImplementorGreen extends ImplementorColor {
+    public function __construct() {
+        $this->value = "green";
+    }
+}
+class oncreteImplementorWhite extends ImplementorColor {
+    public function __construct() {
+        $this->value = "white";
+    }
+}
+class oncreteImplementorBlack extends ImplementorColor {
+    public function __construct() {
+        $this->value = "black";
+    }
+}
+/**
+ *
+ * 客户端程序
+ * @author guisu
+ *
+ */
+class Client {
+    public static function Main() {
+        //小笔画红色
+        $objRAbstraction = new SmallBrushPenRefinedAbstraction();
+        $objRAbstraction->setImplementorColor(new oncreteImplementorRed());
+        $objRAbstraction->operationDraw();
+    }
+}
+Client::Main();
+```
+
+跨平台视频播放器：两个维度的变化，平台和不同格式的视频文件：
+
+9. 桥接模式与其他相关模式
+
+1）抽象工厂（Abstract
+
+Factory 模式可以用来创建和配置一个特定的Bridge模式。
+
+2）Adapter模式
+
+用来帮助无关的类协同工作，它通常在系统设计完成后才会被使用。然而，Bridge模式则是在系统开始时就被使用，它使得抽象接口和实现部分可以独立进行改变。
+
+3）桥接模式与装饰的区别:
+
+装饰模式:
+
+这两个模式在一定程度上都是为了减少子类的数目，避免出现复杂的继承关系。但是它们解决的方法却各有不同，装饰模式把子类中比基类中多出来的部分放到单独的类里面，以适应新功能增加的需要，当我们把描述新功能的类封装到基类的对象里面时，就得到了所需要的子类对象，这些描述新功能的类通过组合可以实现很多的功能组合
+
+.
+
+桥接模式：
+
+桥接模式则把原来的基类的实现化细节抽象出来，在构造到一个实现化的结构中，然后再把原来的基类改造成一个抽象化的等级结构，这样就可以实现系统在多个维度上的独立变化 。
+
+10. 总结
+
+Bridge模式是一个非常有用的模式，也非常复杂，它很好的符合了开放-封闭原则和优先使用对象，而不是继承这两个面向对象原则。
+

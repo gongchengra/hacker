@@ -1,0 +1,224 @@
+设计模式 ( 二十 ) 访问者模式Visitor（对象行为型）
+
+http://blog.csdn.net/hguisu/article/details/7565000
+
+特此说明：对访问者模式理解不是特别透彻，若有误，请指正，谢谢！
+
+1.概述
+
+在软件开发过程中，对于系统中的某些对象，它们存储在同一个集合collection中，且具有不同的类型，而且对于该集合中的对象，可以接受一类称为访问者的对象来访问，而且不同的访问者其访问方式有所不同。
+
+例子1：顾客在超市中将选择的商品，如苹果、图书等放在购物车中，然后到收银员处付款。在购物过程中，顾客需要对这些商品进行访问，以便确认这些商品的质量，之后收银员计算价格时也需要访问购物车内顾客所选择的商品。
+
+此时，购物车作为一个ObjectStructure（对象结构）用于存储各种类型的商品，而顾客和收银员作为访问这些商品的访问者，他们需要对商品进行检查和计价。不同类型的商品其访问形式也可能不同，如苹果需要过秤之后再计价，而图书不需要。
+
+2.问题
+
+对同一集合对象的操作并不是唯一的，对相同的元素对象可能存在多种不同的操作方式。而且这些操作方式并不稳定，如果对需要增加新的操作，如何满足新的业务需求？
+
+3.解决方案
+
+访问者模式：表示一个作用于某对象结构中的各元素的操作。它使你可以在不改变各元素的类的前提下定义作用于这些元素的新操作。
+
+1）访问者模式中对象结构存储了不同类型的元素对象，以供不同访问者访问。
+
+2）访问者模式包括两个层次结构，一个是访问者层次结构，提供了抽象访问者和具体访问者，一个是元素层次结构，提供了抽象元素和具体元素。
+
+相同的访问者可以以不同的方式访问不同的元素，相同的元素可以接受不同访问者以不同访问方式访问。在访问者模式中，增加新的访问者无须修改原有系统，系统具有较好的可扩展性
+
+4.适用性
+
+在下列情况下使用Vi s i t o r模式：
+
+• 一个对象结构包含很多类对象，它们有不同的接口，而你想对这些对象实施一些依赖于其具体类的操作。
+
+• 需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而你想避免让这些操作“污染”这些对象的类。 Visitor使得你可以将相关的操作集中起来定义在一个类中。当该对象结构被很多应用共享时，用Visitor模式让每个应用仅包含需要用到的操作。
+
+• 定义对象结构的类很少改变，但经常需要在此结构上定义新的操作。改变对象结构类需要重定义对所有访问者的接口，这可能需要很大的代价。如果对象结构类经常改变，那么可能还是在这些类中定义这些操作较好。
+
+5.结构
+
+6.模式的组成
+
+访问者模式包含如下角色：
+
+抽象访问者（Vistor）: — 为该对象结构中ConcreteElement的每一个类声明一个Visit操作。该操作的名字和特
+
+征标识了发送Visit请求给该访问者的那个类。这使得访问者可以确定正被访问元素
+
+的具体的类。这样访问者就可以通过该元素的特定接口直接访问它。
+
+具体访问者（ConcreteVisitor）: — 实现每个由Visitor声明的操作。每个操作实现本算法的一部分，而该算法片断乃是
+
+对应于结构中对象的类。ConcreteVisitor为该算法提供了上下文并存储它的局部状态。
+
+这一状态常常在遍历该结构的过程中累积结果。
+
+抽象元素（Element）：定义一个Accept操作，它以一个访问者为参数。
+
+具体元素（ConcreteElement）:   实现Accept操作，该操作以一个访问者为参数。
+
+对象结构（ObjectStructure）: 能枚举它的元素。可以提供一个高层的接口以允许该访问者访问它的元素。可以是一个复合或是一个集合，如一个列表或一个无序集合。
+
+7.效果
+
+访问者模式的优点:
+
+•使得增加新的访问操作变得很容易。如果一些操作依赖于一个复杂的结构对象的话，那么一般而言，增加新的操作会很复杂。而使用访问者模式，增加新的操作就意味着增加一个新的访问者类，因此，变得很容易。
+
+•将有关元素对象的访问行为集中到一个访问者对象中，而不是分散到一个个的元素类中。
+
+•访问者模式可以跨过几个类的等级结构访问属于不同的等级结构的成员类。迭代子只能访问属于同一个类型等级结构的成员对象，而不能访问属于不同等级结构的对象。访问者模式可以做到这一点。
+
+•让用户能够在不修改现有类层次结构的情况下，定义该类层次结构的操作。
+
+访问者模式的缺点:
+
+•增加新的元素类很困难。在访问者模式中，每增加一个新的元素类都意味着要在抽象访问者角色中增加一个新的抽象操作，并在每一个具体访问者类中增加相应的具体操作，违背了“开闭原则”的要求。
+
+•破坏封装。访问者模式要求访问者对象访问并调用每一个元素对象的操作，这意味着元素对象有时候必须暴露一些自己的内部操作和内部状态，否则无法供访问者访问。
+
+8.实现
+
+我们是了phppan提供一个例子：
+
+```
+<?php
+/**
+ * 访问者模式
+ * @author guisu
+ *
+ */
+interface Visitor {
+    public function visitConcreteElementA(ConcreteElementA $elementA);
+    public function visitConcreteElementB(concreteElementB $elementB);
+}
+interface Element {
+    public function accept(Visitor $visitor);
+}
+/**
+ * 具体的访问者1
+ */
+class ConcreteVisitor1 implements Visitor {
+    public function visitConcreteElementA(ConcreteElementA $elementA){
+        echo $elementA->getName(),' visitd by ConcerteVisitor1 <br />';
+    }
+    public function visitConcreteElementB(ConcreteElementB $elementB){
+        echo $elementB->getName().' visited by ConcerteVisitor1 <br />';
+    }
+}
+/**
+ * 具体的访问者2
+ */
+class ConcreteVisitor2 implements Visitor {
+    public function visitConcreteElementA(ConcreteElementA $elementA){
+        echo $elementA->getName(),   ' visitd by ConcerteVisitor2 <br />';
+    }
+    public function visitConcreteElementB(ConcreteElementB $elementB){
+        echo $elementB->getName(), ' visited by ConcerteVisitor2 <br />';
+    }
+}
+/**
+ * 具体元素A
+ */
+class ConcreteElementA implements Element {
+    private$_name;
+    public function __construct($name){
+        $this->_name =$name;
+    }
+    public function getName(){
+        return$this->_name;
+    }
+    /**
+     * 接受访问者调用它针对该元素的新方法
+     * @param Visitor $visitor
+     */
+    public function accept(Visitor $visitor){
+        $visitor->visitConcreteElementA($this);
+    }
+}
+/**
+ *  具体元素B
+ */
+class ConcreteElementB implements Element {
+    private$_name;
+    public function __construct($name){
+        $this->_name =$name;
+    }
+    public function getName(){
+        return$this->_name;
+    }
+    /**
+     * 接受访问者调用它针对该元素的新方法
+     * @param Visitor $visitor
+     */
+    public function accept(Visitor $visitor){
+        $visitor->visitConcreteElementB($this);
+    }
+}
+/**
+ * 对象结构 即元素的集合
+ */
+class ObjectStructure {
+    private$_collection;
+    public function __construct(){
+        $this->_collection =array();
+    }
+    public function attach(Element $element){
+        returnarray_push($this->_collection,$element);
+    }
+    public function detach(Element $element){
+        $index=array_search($element,$this->_collection);
+        if($index!==FALSE){
+            unset($this->_collection[$index]);
+        }
+        return$index;
+    }
+    public function accept(Visitor $visitor){
+        foreach($this->_collection as$element){
+            $element->accept($visitor);
+        }
+    }
+}
+class Client {
+    /**
+     * Main program.
+     */
+    public static function main(){
+        $elementA = new ConcreteElementA("ElementA");
+        $elementB = new ConcreteElementB("ElementB");
+        $elementA2 = new ConcreteElementB("ElementA2");
+        $visitor1 = new ConcreteVisitor1();
+        $visitor2 = new ConcreteVisitor2();
+        $os = new ObjectStructure();
+        $os->attach($elementA);
+        $os->attach($elementB);
+        $os->attach($elementA2);
+        $os->detach($elementA);
+        $os->accept($visitor1);
+        $os->accept($visitor2);
+    }
+}
+Client::main();
+?>
+```
+9.与其他相关模式
+
+•迭代器模式）由于访问者模式需要对对象结构进行操作，而对象结构本身是一个元素对象的集合，因此访问者模式经常需要与迭代器模式联用，在对象结构中使用迭代器来遍历元素对象。
+
+•组合模式）在访问者模式中，元素对象可能存在容器对象和叶子对象，因此可以结合组合模式来进行设计。
+
+10.扩展
+
+倾斜的“开闭原则”
+
+•访问者模式以一种倾斜的方式支持“开闭原则”，增加新的访问者方便，但是增加新的元素很困难。
+
+面向对象的设计原则中最重要的便是所谓的"开一闭"原则。一个软件系统的设计应当尽量做到对扩展开放，对修改关闭。达到这个原则的途径就是遵循"对变化的封装"的原则。这个原则讲的是在进行软件系统的设计时，应当设法找出一个软件系统中会变化的部分，将之封装起来。
+
+很多系统可以按照算法和数据结构分开，也就是说一些对象含有算法，而另一些对象含有数据，接受算法的操作。如果这样的系统有比较稳定的数据结构，又有易于变化的算法的话，使用访问者模式就是比较合适的，因为访问者模式使得算法操作的增加变得容易。
+
+反过来，如果这样一个系统的数据结构对象易于变化，经常要有新的数据对象增加进来的话，就不适合使用访问者模式。因为在访问者模式中增加新的节点很困难，要涉及到在抽象访问者和所有的具体访问者中增加新的方法。
+
+10.总结与分析
+

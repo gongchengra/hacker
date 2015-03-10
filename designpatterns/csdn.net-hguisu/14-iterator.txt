@@ -1,0 +1,147 @@
+设计模式 ( 十四 ) 迭代器模式Iterator（对象行为型）
+
+http://blog.csdn.net/hguisu/article/details/7552841
+
+1.概述
+
+类中的面向对象编程封装应用逻辑。类，就是实例化的对象，每个单独的对象都有一个特定的身份和状态。单独的对象是一种组织代码的有用方法，但通常你会处理一组对象或者集合。
+
+集合不一定是均一的。图形用户界面框架中的 Window 对象可以收集任意数量的控制对象 － Menu、Slider 和 Button。并且，集合的实现可以有多种方式：PHP 数字是一个集合，但也是一个散列表，一个链接列表，一个堆栈以及队列。
+
+例子1：电视遥控器的频道遍历
+
+2.问题
+
+如何操纵任意的对象集合？
+
+如一个列表(List)或者一个集合(Set)，我们又如何提供一种方法来让别人可以访问它的元素，而又不需要暴露它的内部结构？
+
+3.解决方案
+
+迭代器模式：使用迭代器模式来提供对聚合对象的统一存取，即提供一个外部的迭代器来对聚合对象进行访问和遍历 , 而又不需暴露该对象的内部结构。又叫做游标（Cursor）模式 。
+
+你可能没有意识到这一点，但你每天都在使用迭代器模式 。
+
+如在PHP开发中，它潜藏在 PHP 的数组类型和各种数组操作函数中。（其实，给你一些固有类的数组的组合和一群用这些固有类工作的可变函数，你将不得不使用这些数组来处理对象集合。这是在 PHP 中的本地数组迭代：
+```
+$test  =  array(‘one’,  ‘two’,  ‘three’);
+$output  =  ‘’; reset($test);
+do  {
+$output  .=  current($test);
+}  while  (next($test));
+echo  $output;  //  produces  ‘onetwothree’
+```
+reset() 函数将迭代重新转到数组的开始；current() 返回当前元素的值；next() 则前进至数组中的下一个元素并返回新的 current() 值。当你超出数组的最后一个元素时，next() 返回 false。使用这些迭代方法，PHP 数组的内部实现就与你不相关了。
+
+迭代器结合了封装和多态的面向对象程序设计原理。使用迭代器，你可以对集合中的对象进行操作，而无需专门了解集合如何显现或者集合包含什么（对象的种类）。迭代器提供了不同固定迭代实现的统一接口，它完全包含了如何操纵特定集合的详细信息，包括显示哪些项（过滤）及其显示顺序(排序)。
+
+4.适用性
+
+迭代器模式可用来：
+
+• 访问一个聚合对象的内容而无需暴露它的内部表示。
+
+• 需要为聚合对象提供多种遍历方式。
+
+• 为遍历不同的聚合结构提供一个统一的接口 (即, 支持多态迭代)
+
+5.结构
+
+结构上可以看出，迭代器模式在客户与容器之间加入了迭代器角色。迭代器角色的加入，就可以很好的避免容器内部细节的暴露，而且也使得设计符号“单一职责原则”。
+
+注意，在迭代器模式中，具体迭代器角色和具体容器角色是耦合在一起的——遍历算法是与容器的内部细节紧密相关的。为了使客户程序从与具体迭代器角色耦合的困境中脱离出来，避免具体迭代器角色的更换给客户程序带来的修改，迭代器模式抽象了具体迭代器角色，使得客户程序更具一般性和重用性。这被称为多态迭代。
+
+6.模式的组成
+
+抽象迭代器(Iterator): 迭代器定义访问和遍历元素的接口。
+
+具体迭代器(ConcreteIterator):  具体迭代器实现迭代器Iterator接口。对该聚合遍历时跟踪当前位置。
+
+抽象聚合类(Aggregate): 聚合定义创建相应迭代器对象的接口。
+
+具体聚合类(ConcreteAggregate): 体聚合实现创建相应迭代器的接口，该操作返回ConcreteIterator的一个适当的实例。
+
+7.效果
+
+•迭代器模式的作用：
+
+1 ) 它支持以不同的方式遍历一个聚合对象 ： 复杂的聚合可用多种方式进行遍历。迭代器模式使得改变遍历算法变得很容易 : 仅需用一个不同的迭代器的实例代替原先的实例即可。你也可以自己定义迭代器的子类以支持新的遍历。
+
+2) 迭代器简化了聚合的接口 有了迭代器的遍历接口，聚合本身就不再需要类似的遍历接口了。这样就简化了聚合的接口。
+
+3) 在同一个聚合上可以有多个遍历 每个迭代器保持它自己的遍历状态。因此你可以同时进行多个遍历。
+
+4）在迭代器模式中，增加新的聚合类和迭代器类都很方便，无须修改原有代码，满足“开闭原则”的要求。
+
+迭代器模式的缺点
+
+由于迭代器模式将存储数据和遍历数据的职责分离，增加新的聚合类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上增加了系统的复杂性。
+
+8.实现
+
+我们直接实现spl的iterator：
+
+```
+<?php
+/**
+ * 具体迭代器(ConcreteIterator):  具体迭代器实现迭代器Iterator接口。对该聚合遍历时跟踪当前位置。
+ */
+class  ConcreteIterator implements  Iterator {
+    protected $_key;
+    protected $_collection;
+    public function __construct($collection){
+        $this->_collection = $collection;
+        $this->_key = 0;
+    }
+    public function rewind(){
+        $this->_key = 0;
+    }
+    public function valid(){
+        return isset($this->_collection[$this->_key]);
+    }
+    public function key(){
+        return $this->_key;
+    }
+    public function current(){
+        return $this->_collection[$this->_key];
+    }
+    public function next(){
+        return ++$this->_key;
+    }
+}
+/**
+ * 具体聚合类(ConcreteAggregate):
+ */
+class ConcreteAggregate implements IteratorAggregate{
+    protected $_arr;
+    public function __construct($array){
+        $this->_arr = $array;
+    }
+    public function getIterator(){
+        return new    ConcreteIterator($this->_arr);
+    }
+}
+$_collectionay = array(1,2,3,3,4);
+$it = new ConcreteIterator($_collectionay);
+foreach($it as $key=>$value){
+    echo $key.':'.$value.'<br/>';
+}
+```
+9.与其他相关模式
+
+Composite ：迭代器常被应用到象复合这样的递归结构上。
+
+Factory Method：多态迭代器靠Factory Method来例化适当的迭代器子类。
+
+Memento：常与迭代器模式一起使用。迭代器可使用一个 Memento来捕获一个迭代的状态。迭代器在其内部存储Memento。
+
+10.总结与分析
+
+1）聚合是一个管理和组织数据对象的数据结构。
+
+2）聚合对象主要拥有两个职责：一是存储内部数据；二是遍历内部数据。
+
+3）存储数据是聚合对象最基本的职责。
+
+4）将遍历聚合对象中数据的行为提取出来，封装到一个迭代器中，通过专门的迭代器来遍历聚合对象的内部数据，这就是迭代器模式的本质。迭代器模式是“单一职责原则”的完美体现。
+

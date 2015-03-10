@@ -1,0 +1,112 @@
+#!/usr/bin/php
+php_check_syntax
+This is a very useful function for checking systax of a specified file.
+
+Usage:
+
+ <?php
+$error_message = "";
+$filename = "./php_script.php";
+if(!php_check_syntax($filename, &$error_message)) {
+   echo "Errors were found in the file $filename: $error_message";
+} else {
+   echo "The file $filename contained no syntax errors";
+}
+?>
+Source: http://www.php.net/manual/en/function.php-check-syntax.php
+
+highlight_string
+The highlight_string() function can be very helpful while displaying PHP code on a website. The function returns a syntax highlighted version of the given PHP code using the colors defined in the built-in syntax highlighter for PHP. There are two parameters in function, first parameter will be string that can be highlighted and second parameter will be set to TRUE to make this function return the highlighted code.
+
+Usage:
+
+ <?php
+highlight_string(' <?php phpinfo(); ?>');
+?>
+Source: http://php.net/manual/en/function.highlight-string.php
+
+show_source
+The show_source() function is also very handy which works similar to highlight_file (). The function displays a file with the PHP syntax highlighted. The syntax is highlighted by using HTML tags. This function returns TRUE on success, or FALSE on failure.
+
+Usage:
+
+ <?php
+show_source("php_script.php");
+?>
+Source: http://www.php.net/manual/en/function.show-source.php
+
+php_strip_whitespace
+As explained earlier, this is similar to show_source() function. This function also returns the source code of the specific file by removing PHP comments and whitespace.
+
+Usage:
+
+<?php
+echo php_strip_whitespace("php_script.php");
+?>
+Source: http://www.php.net/manual/en/function.php-strip-whitespace.php
+
+__halt_compiler
+This function halts the execution of the compiler. This can be useful to embed data in PHP scripts, like the installation files.
+
+Usage:
+
+<?php
+$fp = fopen(__FILE__, 'r');
+fseek($fp, __COMPILER_HALT_OFFSET__);
+var_dump(stream_get_contents($fp));
+// the end of the script execution
+__halt_compiler(); 
+?>
+Source: http://www.php.net/manual/en/function.halt-compiler.php
+
+highlight_file
+This is a very PHP function which return specific PHP file with the PHP syntax highlighted.
+
+Usage:
+
+<?php
+highlight_file("php_script.php");
+?>
+Source: http://www.php.net/manual/en/function.highlight-file.php
+
+ignore_user_abort
+This function can be used to client abot script. The client aborts will cause the script to stop running.
+
+Usage:
+
+<?php
+ignore_user_abort();
+?>
+Source: http://www.php.net/manual/en/function.ignore-user-abort.php
+
+str_word_count
+This function is used to count the number of words found in the string.
+
+Usage:
+
+<?php
+echo str_word_count("Hello How Are You!");
+?>
+Source: http://php.net/manual/en/function.str-word-count.php
+
+get_defined_vars
+This is a handy function when debugging. This function returns a multidimensional array containing a list of all defined variables.
+
+Usage:
+
+<?php
+print_r(get_defined_vars());
+?>
+Source: http://php.net/manual/en/function.get-defined-vars.php
+
+get_browser
+This function look up the browscap.ini file and return the capabilities of the browser.
+
+Usage:
+
+<?php
+echo $_SERVER['HTTP_USER_AGENT'];
+$browser = get_browser();
+print_r($browser);
+?>
+Source: http://www.php.net/manual/en/function.get-browser.php
