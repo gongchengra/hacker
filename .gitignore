@@ -2,6 +2,7 @@
 *.tmp
 *.exe
 *.o
+*.d
 *.out
 *.class
 *.db
