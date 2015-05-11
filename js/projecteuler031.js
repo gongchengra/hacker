@@ -22,5 +22,5 @@ var coinWays = function coinWays(N, m) {
     }
 }
 console.log(coinWays(200, coins.length)); //73682
-console.log(coinWays(1, coins.length)); //73682
+console.log(coinWays(1, coins.length)); //1
 

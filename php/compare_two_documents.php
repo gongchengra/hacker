@@ -18,13 +18,14 @@ if ($argc != 3 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
         foreach ($data1 as $val1) {
             if ($val1 == $val2) {
                 $founded++;
-                echo $val1;
+//                echo $val1;
             } else {
                 $flag++;
             }
         }
         if ($flag == $size1) {
-            //            echo $val2 . ' is not in '. $argv[2]. "\n";
+//            echo $val2 . ' is not in '. $argv[1]. "\n";
+            echo $val2;
         }
     }
     echo 'the size of '.$argv[1].' is '.$size1."\n";
