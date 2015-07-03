@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <form id="testPost" action="/">
+        <input type="text" name="testInput" id="testInput"/>
+        <button type="button" name="testBtn" id="testBtn">Submit</button>
+        <div id="testResult"></div>
+    </form>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+        $('#testBtn').click(function (){
+            var testInput=$("#testInput").val();
+            $.post(
+            'post.php',
+            {'testInput':testInput},
+            function(data){
+                $("#testResult").html(data);
+            }
+            );
+        });
+    </script>
+</body>
+</html>
