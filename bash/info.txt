@@ -1,0 +1,10 @@
+| increment_id | status         | platform  | os      | first_order | created_at          |
+| 100140414    | processing     | pc        |         | false       | 2015-10-21 03:50:34 |
+| 100140415    | processing     | NULL      | NULL    | false       | 2015-10-21 03:50:34 |
+| 100140413    | ready_shipment | NULL      | NULL    | false       | 2015-10-21 03:49:24 |
+| 100140412    | ready_shipment | NULL      | NULL    | false       | 2015-10-21 03:49:01 |
+| 100140411    | ready_shipment | NULL      | NULL    | false       | 2015-10-21 03:48:55 |
+| 100140410    | ready_shipment | NULL      | NULL    | false       | 2015-10-21 03:48:48 |
+| 100140409    | ready_shipment | pc        |         | false       | 2015-10-21 03:48:47 |
+| 100140408    | ready_shipment | mobileWeb | iOS     | false       | 2015-10-21 03:47:57 |
+| 100140407    | ready_shipment | NULL      | NULL    | false       | 2015-10-21 03:45:04 |
