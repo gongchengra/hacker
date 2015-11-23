@@ -8,23 +8,32 @@ Let us review how to print file lines using address and patterns in this first p
 
 We'll be posting several awesome sed tutorials with examples in the upcoming weeks.
 
-
 Unix Sed Introduction
 
 sed is a "non-interactive" stream-oriented editor. Since its an "non-interactive" it can be used to automate editing if desired.
+
 The name sed is an abbreviation for stream editor, and the utility derives many of its commands from the ed line-editor (ed was the first UNIX text editor).
+
 This allows you to edit multiple files, or to perform common editing operations without ever having to open vi or emacs.
+
 sed reads from a file or from its standard input, and outputs to its standard output.
+
 sed has two buffers which are called pattern buffer and hold buffer. Both are initially empty.
+
 Unix Sed Working methodology
 
 This is called as one execution cycle. Cycle continues till end of file/input is reached.
 
 Read a entire line from stdin/file.
+
 Removes any trailing newline.
+
 Places the line, in its pattern buffer.
+
 Modify the pattern buffer according to the supplied commands.
+
 Print the pattern buffer to stdout.
+
 Printing Operation in Sed
 
 Linux Sed command allows you to print only specific lines based on the line number or pattern matches. "p" is a command for printing the data from the pattern buffer.
@@ -32,22 +41,35 @@ Linux Sed command allows you to print only specific lines based on the line numb
 To suppress automatic printing of pattern space use -n command with sed. sed -n option will not print anything, unless an explicit request to print is found.
 
 Syntax:
+
 # sed -n 'ADDRESS'p filename
 
 # sed -n '/PATTERN/p' filename
+
 Let us first create thegeekstuff.txt file that will be used in all the examples mentioned below.
 
 # cat thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 5 Sed ADDRESS Format Examples
 
 Sed Address Format 1: NUMBER
@@ -59,7 +81,9 @@ This will match only Nth line in the input.
 For example, 3p prints third line of input file thegeekstuff.txt as shown below.
 
 # sed -n '3'p thegeekstuff.txt
+
 3. Hardware
+
 Sed Address Format 2: NUMBER1~NUMBER2
 
 M~N with "p" command prints every Nth line starting from line M.
@@ -69,10 +93,15 @@ M~N with "p" command prints every Nth line starting from line M.
 For example, 3~2p prints every 2nd line starting from 3rd line as shown below.
 
 # sed -n '3~2'p thegeekstuff.txt
+
 3. Hardware
+
 5. Storage
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 9. Software Development
+
 Sed Address Format 3: START,END
 
 M,N with "p" command prints Mth line to Nth line.
@@ -82,11 +111,17 @@ M,N with "p" command prints Mth line to Nth line.
 For example, 4,8p prints from 4th line to 8th line from input file thegeekstuff.txt
 
 # sed -n '4,8'p thegeekstuff.txt
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 Sed Address Format 4: ‘$' Last Line
 
 $ with "p" command matches only the last line from the input.
@@ -96,7 +131,9 @@ $ with "p" command matches only the last line from the input.
 For example, $p prints only the last line as shown below.
 
 # sed -n '$'p thegeekstuff.txt
+
 10.Windows- Sysadmin, reboot etc.
+
 Sed Address Format 5: NUMBER,$
 
 N,$ with "p" command prints from Nth line to end of file.
@@ -106,13 +143,21 @@ N,$ with "p" command prints from Nth line to end of file.
 For example 4,$p prints from 4th line to end of file.
 
 # sed -n '4,$p' thegeekstuff.txt
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 6 Sed PATTERN Format Examples
 
 Sed Pattern Format 1: PATTERN
@@ -124,20 +169,27 @@ PATTERN could be unix regular expression. The below command prints only the line
 For example, following prints the line only which matches the pattern "Sysadmin".
 
 # sed -n /Sysadmin/p thegeekstuff.txt
-1. Linux - Sysadmin, Scripting etc.
-10.Windows- Sysadmin, reboot etc.
-Sed Pattern Format 2: /PATTERN/,ADDRESS
 
+1. Linux - Sysadmin, Scripting etc.
+
+10.Windows- Sysadmin, reboot etc.
+
+Sed Pattern Format 2: /PATTERN/,ADDRESS
 
 # sed -n ‘/PATTERN/,Np' filename
 
 For example, following prints lines which matches the pattern to Nth line, from input. 3rd line matches the pattern "Hardware", so it prints from 3rd line to 6th line.
 
 # sed -n '/Hardware/,6p' thegeekstuff.txt
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 Sed Pattern Format 3: ADDRESS,/PATTERN/
 
 It prints from the Nth line of the input, to the line which matches the pattern. If the pattern doesnt match, it prints upto end of the input.
@@ -147,8 +199,11 @@ It prints from the Nth line of the input, to the line which matches the pattern.
 For example, 4th line matches the pattern "Security", so it prints from 3rd line to 4th line.
 
 # sed -n '3,/Security/p' thegeekstuff.txt
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 Sed Pattern Format 4: /PATTERN/,$
 
 It prints from the line matches the given pattern to end of file.
@@ -156,9 +211,13 @@ It prints from the line matches the given pattern to end of file.
 # sed -n ‘/PATTERN/,$p' filename
 
 # sed -n '/Website/,$p' thegeekstuff.txt
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 Sed Pattern Format 5: /PATTERN/,+N
 
 It prints the lines which matches the pattern and next N lines following the matched line.
@@ -168,9 +227,13 @@ It prints the lines which matches the pattern and next N lines following the mat
 For example, following prints the 5th line which matches the pattern /Storage/ and next two lines following /Storage/.
 
 # sed -n '/Storage/,+2p' thegeekstuff.txt
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 Sed Pattern Format 6: /PATTERN/,/PATTERN/
 
 Prints the section of file between two regular expression (including the matched line ).
@@ -180,9 +243,13 @@ Prints the section of file between two regular expression (including the matched
 For example, 5th line matches "Storage" and 8th line matches "Design", so it prints 5th to 8th.
 
 # sed -n '/Storage/,/Design/p' thegeekstuff.txt
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
 
 Unix Sed Tutorial: Delete File Lines Using Address and Patterns
@@ -191,29 +258,42 @@ In the previous sed tutorial we discussed about Unix sed command basics and prin
 
 In this article, let us review how to delete lines from a file using address and patterns with 8 awesome examples.
 
-
 "p" command prints the buffer (remember to use -n option with "p")
+
 "d" command is just opposite, its for deletion. ‘d' will delete the pattern space buffer and immediately starts the next cycle.
+
 Syntax:
 
 # sed 'ADDRESS'd filename
 
 # sed /PATTERN/d filename
+
 Syntax for ADDRESSES and PATTERNS given in the printing is applicable for deletion also, except -n option. (-n only to suppress printing pattern buffer, can be used with "p" command )
 
 Let us first creates thegeekstuff.txt file that will be used in all the examples mentioned below.
 
 # cat thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 1. Delete Nth Line
 
 ‘Nd' deletes the Nth line and prints the other lines.
@@ -223,96 +303,167 @@ sed ‘Nd' filename
 As per sed methodology,
 
 It reads the first line and places in its pattern buffer.
+
 Check whether supplied command is true for this line, if true, deletes pattern space buffer and starts next cycle. i.e Read next line.
+
 If supplied command doesnt true, as its normal behaviour it prints the content of the pattern space buffer.
+
 For example, 3d deletes 3rd line and prints other lines as shown below.
 
 $ sed 3d thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 2. Delete Starting from 3rd line and every 2nd line from there.
 
 $ sed '3~2d' thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 4. Security (Firewall, Network, Online Security etc)
+
 6. Cool gadgets and websites
+
 8. Website Design
+
 10.Windows- Sysadmin, reboot etc.
+
 3. Delete from 4th to 8th line from file.
 
 $ sed '4,8d' thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 4. Delete the last line from input.
 
 $ sed '$d' thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 5. Delete the line which matches the given pattern from input.
 
 For example, the below command deletes the line which matches with "Sysadmin".
 
 $ sed /Sysadmin/d thegeekstuff.txt
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 6. Deletes the line from which matches the given pattern to end of the file.
 
 $ sed '/Website/,$d' thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 7. Deletes the line from which matches the given pattern and 2lines next to that.
 
 $ sed '/Storage/,+2d' thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 8. Delete blank Line from a file using sed
 
 You can also remove blank lines with sed. The following sed example shows how to use sed and remove blank lines.
 
 $ sed '/^$/d' thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
 
 Unix Sed Tutorial: Find and Replace Text Inside a File Using RegEx
@@ -323,36 +474,56 @@ In this article let us review how to use sed substitute command "s".
 
 The 's' command is probably the most important in 'sed' and has a lot of different options.
 
-
 The 's' command attempts to match the pattern space against the supplied REGEXP; if the match is successful, then that portion of the pattern space which was matched is replaced with REPLACEMENT.
 
 Syntax:
 
 #sed 'ADDRESSs/REGEXP/REPLACEMENT/FLAGS' filename
+
 #sed 'PATTERNs/REGEXP/REPLACEMENT/FLAGS' filename
+
 s is substitute command
+
 / is a delimiter
+
 REGEXP is regular expression to match
+
 REPLACEMENT is a value to replace
+
 FLAGS can be any of the following
 
 g Replace all the instance of REGEXP with REPLACEMENT
+
 n Could be any number,replace nth instance of the REGEXP with REPLACEMENT.
+
 p If substitution was made, then prints the new pattern space.
+
 i match REGEXP in a case-insensitive manner.
+
 w file If substitution was made, write out the result to the given file.
+
 We can use different delimiters ( one of @ % ; : ) instead of /
+
 Let us first create thegeekstuff.txt file that will be used in all the examples mentioned below.
 
 $ cat thegeekstuff.txt
+
 # Instruction Guides
+
 1. Linux Sysadmin, Linux Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Security (Firewall, Network, Online Security etc)
+
 4. Storage in Linux
+
 5. Productivity (Too many technologies to explore, not much time available)
+
 #  Additional FAQS
+
 6. Windows- Sysadmin, reboot etc.
+
 Let us review some interesting examples for substitution now.
 
 1. Substitute Word "Linux" to "Linux-Unix" Using sed s//
@@ -360,76 +531,127 @@ Let us review some interesting examples for substitution now.
 In the example below, in the output line "1. Linux-Unix Sysadmin, Linux Scripting etc" only first Linux is replaced by Linux-Unix. If no flags are specified the first match of line is replaced.
 
 $ sed 's/Linux/Linux-Unix/' thegeekstuff.txt
+
 # Instruction Guides
+
 1. Linux-Unix Sysadmin, Linux Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Security (Firewall, Network, Online Security etc)
+
 4. Storage in Linux-Unix
+
 5. Productivity (Too many technologies to explore, not much time available)
+
 #  Additional FAQS
+
 6. Windows- Sysadmin, reboot etc.
+
 2. Substitute all Appearances of a Word Using sed s//g
 
 The below sed command replaces all occurrences of Linux to Linux-Unix using global substitution flag "g".
 
 $ sed 's/Linux/Linux-Unix/g' thegeekstuff.txt
+
 # Instruction Guides
+
 1. Linux-Unix Sysadmin, Linux-Unix Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Security (Firewall, Network, Online Security etc)
+
 4. Storage in Linux-Unix
+
 5. Productivity (Too many technologies to explore, not much time available)
+
 #  Additional FAQS
+
 6. Windows- Sysadmin, reboot etc.
+
 3. Substitute Only 2nd Occurrence of a Word Using sed s//2
 
 In the example below, in the output line "1. Linux Sysadmin, Linux-Unix Scripting etc." only 2nd occurance of Linux is replaced by Linux-Unix.
 
 $ sed 's/Linux/Linux-Unix/2' thegeekstuff.txt
+
 # Instruction Guides
+
 1. Linux Sysadmin, Linux-Unix Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Security (Firewall, Network, Online Security etc)
+
 4. Storage in Linux
+
 5. Productivity (Too many technologies to explore, not much time available)
+
 #  Additional FAQS
+
 6. Windows- Sysadmin, reboot etc.
+
 4. Write Changes to a File and Print the Changes Using sed s//gpw
 
 The example below has substitution with three flags. It substitutes all the occurance of Linux to Linux-Unix and prints the substituted output as well as written the same to the given the file.
 
 $ sed -n 's/Linux/Linux-Unix/gpw output' thegeekstuff.txt
+
 1. Linux-Unix Sysadmin, Linux-Unix Scripting etc.
+
 4. Storage in Linux-Unix
+
 $ cat output
+
 1. Linux-Unix Sysadmin, Linux-Unix Scripting etc.
+
 4. Storage in Linux-Unix
+
 5. Substitute Only When the Line Matches with the Pattern Using sed
 
 In this example, if the line matches with the pattern "-", then it replaces all the characters from "-" with the empty.
 
 $ sed '/\-/s/\-.*//g' thegeekstuff.txt
+
 # Instruction Guides
+
 1. Linux Sysadmin, Linux Scripting etc.
+
 2. Databases
+
 3. Security (Firewall, Network, Online Security etc)
+
 4. Storage in Linux
+
 5. Productivity (Too many technologies to explore, not much time available)
+
 #  Additional FAQS
+
 6. Windows
+
 6. Delete Last X Number of Characters From Each Line Using sed
 
 This sed example deletes last 3 characters from each line.
 
 $ sed 's/...$//' thegeekstuff.txt
+
 # Instruction Gui
+
 1. Linux Sysadmin, Linux Scripting e
+
 2. Databases - Oracle, mySQL e
+
 3. Security (Firewall, Network, Online Security e
+
 4. Storage in Li
+
 5. Productivity (Too many technologies to explore, not much time availab
+
 #  Additional F
+
 6. Windows- Sysadmin, reboot e
+
 7. Eliminate Comments Using sed
 
 Delete all the comment lines from a file as shown below using sed command.
@@ -437,25 +659,39 @@ Delete all the comment lines from a file as shown below using sed command.
 $  sed -e 's/#.*//' thegeekstuff.txt
 
 1. Linux Sysadmin, Linux Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Security (Firewall, Network, Online Security etc)
+
 4. Storage in Linux
+
 5. Productivity (Too many technologies to explore, not much time available)
 
 6. Windows- Sysadmin, reboot etc.
+
 8. Eliminate Comments and Empty Lines Using sed
 
 In this example, there are two commands seperated by ‘;'
 
 First command replaces the lines starting with the # to the blank lines
+
 Second command deletes the empty lines.
+
 $ sed -e 's/#.*//;/^$/d'  thegeekstuff.txt
+
 1. Linux Sysadmin, Linux Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Security (Firewall, Network, Online Security etc)
+
 4. Storage in Linux
+
 5. Productivity (Too many technologies to explore, not much time available)
+
 6. Windows- Sysadmin, reboot etc.
+
 9. Convert DOS newlines (CR/LF) to Unix format Using sed
 
 Copy the DOS file to Unix, you could find \r\n in the end of each line.
@@ -463,12 +699,15 @@ Copy the DOS file to Unix, you could find \r\n in the end of each line.
 This example converts the DOS file format to Unix file format using sed command.
 
 $sed 's/.$//' filename
+
 10. Eliminate HTML Tags from file Using sed
 
 In this example, the regular expression given in the sed command matches the html tags and replaces with the empty.
 
 $ sed -e 's/<[^>]*>//g'
+
 This <b> is </b> an <i>example</i>.
+
 This  is  an example.
 
 Unix Sed Tutorial: How To Write to a File Using Sed
@@ -476,7 +715,6 @@ Unix Sed Tutorial: How To Write to a File Using Sed
 This article is part of Unix Sed Tutorial series. In previous articles, we discussed about sed print operation , sed delete operation and sed find and replace.
 
 In this article, let us review how to extract part of one file and write it to another file using sed.
-
 
 Sed provides "w" command to write the pattern space data to a new file.
 
@@ -487,21 +725,33 @@ Syntax:
 #sed 'ADDERSSw outputfile' inputfilename
 
 #sed '/PATTERN/w outputfile' inputfilename
+
 Sed reads a line and place it in a pattern buffer and writes the pattern buffer to the given output file according to the supplied commands.
 
 Let us first create thegeekstuff.txt file that will be used in all the examples mentioned below.
 
 # cat thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 Let us review some examples of write command in sed.
 
 1. Write 1st line of the file
@@ -511,7 +761,9 @@ In this example, 1 (address) refers the first line of the input and w writes the
 $ sed -n '1w output.txt' thegeekstuff.txt
 
 $ cat output.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Write first & last line of the file
 
 In this example, 1 and $ refers first and last line respectively.
@@ -519,8 +771,11 @@ In this example, 1 and $ refers first and last line respectively.
 $ sed -n -e '1w output.txt' -e '$w output.txt' thegeekstuff.txt
 
 $ cat output.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 10.Windows- Sysadmin, reboot etc.
+
 3. Write the lines matches with the pattern Storage or Sysadmin
 
 In this example sed command writes the lines which matches the pattern "Storage" or "Sysadmin".
@@ -528,9 +783,13 @@ In this example sed command writes the lines which matches the pattern "Storage"
 $ sed -n -e '/Storage/w output.txt' -e '/Sysadmin/w output.txt' thegeekstuff.txt
 
 $ cat output.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 5. Storage
+
 10.Windows- Sysadmin, reboot etc.
+
 4. Write the lines from which the pattern matches to till end of the file
 
 In this example, /Storage/,$ represents line matches from Storage to end of the file.
@@ -538,12 +797,19 @@ In this example, /Storage/,$ represents line matches from Storage to end of the 
 $ sed -n '/Storage/,$w output.txt' thegeekstuff.txt
 
 $ cat output.txt
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 5. Write the lines which matches pattern and next two lines from match
 
 In this example, the send command writes the line matches for "Storage" and two lines next to that.
@@ -551,8 +817,11 @@ In this example, the send command writes the line matches for "Storage" and two 
 $ sed -n '/Storage/,+2w output.txt' thegeekstuff.txt
 
 $ cat output.txt
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
 
 Unix Sed Tutorial: How To Execute Multiple Sed Commands
@@ -563,24 +832,34 @@ Answer: In our previous articles we learned sed with single commands — printin
 
 In this article let us review how to combine multiple sed commands using option -e as shown below.
 
-
 Syntax:
 
 #sed -e 'command' -e 'command' filename
+
 Note: -e option is optional for sed with single command. sed will execute the each set of command while processing input from the pattern buffer.
 
 Let us first create thegeekstuff.txt file that will be used in all the examples mentioned below.
 
 # cat thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
 
 1.Delete 4th and 2nd line from the input
@@ -588,33 +867,53 @@ Let us first create thegeekstuff.txt file that will be used in all the examples 
 This sed example deletes 4th and 2nd line from the file thegeekstuff.txt. Using "-e" option, you can give any number of commands with sed.
 
 $ sed -e '4d' -e '2d' thegeekstuff.txt
+
 1. Linux - Sysadmin, Scripting etc.
+
 3. Hardware
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
+
 10.Windows- Sysadmin, reboot etc.
+
 2. Print the lines which matches the pattern1 and lines matches pattern2
 
 This sed example prints all lines that matches either the pattern "Storage" or "Software".
 
 $ sed -n  -e '/Software/p'  -e '/Storage/p'  thegeekstuff.txt
+
 5. Storage
+
 9. Software Development
+
 3. Delete the first,last and all the blank lines from input
 
 This sed example deletes the first line, last line and all the blank lines from input file.
 
 $ sed -e '1d' -e '$d' -e '/^$/d' thegeekstuff.txt
+
 2. Databases - Oracle, mySQL etc.
+
 3. Hardware
+
 4. Security (Firewall, Network, Online Security etc)
+
 5. Storage
+
 6. Cool gadgets and websites
+
 7. Productivity (Too many technologies to explore, not much time available)
+
 8. Website Design
+
 9. Software Development
 
 Unix Sed Tutorial: Advanced Sed Substitution Examples
@@ -625,7 +924,6 @@ In our previous sed articles we learned — sed printing, sed deletion, sed subs
 
 In this article, let us review some interesting workarounds with the "s" substitute command in sed with several practical examples.
 
-
 I. Sed Substitution Delimiter
 
 As we discussed in our previous post, we can use the different delimiters such as @ % | ; : in sed substitute command.
@@ -633,25 +931,37 @@ As we discussed in our previous post, we can use the different delimiters such a
 Let us first create path.txt file that will be used in all the examples mentioned below.
 
 $ cat path.txt
+
 /usr/kbos/bin:/usr/local/bin:/usr/jbin:/usr/bin:/usr/sas/bin
+
 /usr/local/sbin:/sbin:/bin/:/usr/sbin:/usr/bin:/opt/omni/bin:
+
 /opt/omni/lbin:/opt/omni/sbin:/root/bin
+
 Example 1 – sed @ delimiter: Substitute /opt/omni/lbin to /opt/tools/bin
 
 When you substitute a path name which has ‘/', you can use @ as a delimiter instead of ‘/'. In the sed example below, in the last line of the input file, /opt/omni/lbin was changed to /opt/tools/bin.
 
 $ sed 's@/opt/omni/lbin@/opt/tools/bin@g' path.txt
+
 /usr/kbos/bin:/usr/local/bin:/usr/jbin/:/usr/bin:/usr/sas/bin
+
 /usr/local/sbin:/sbin:/bin/:/usr/sbin:/usr/bin:/opt/omni/bin:
+
 /opt/tools/bin:/opt/omni/sbin:/root/bin
+
 Example 2 – sed / delimiter: Substitute /opt/omni/lbin to /opt/tools/bin
 
 When you should use ‘/' in path name related substitution, you have to escape ‘/' in the substitution data as shown below. In this sed example, the delimiter ‘/' was escaped in the REGEXP and REPLACEMENT part.
 
 $ sed 's/\/opt\/omni\/lbin/\/opt\/tools\/bin/g' path.txt
+
 /usr/kbos/bin:/usr/local/bin:/usr/jbin/:/usr/bin:/usr/sas/bin
+
 /usr/local/sbin:/sbin:/bin/:/usr/sbin:/usr/bin:/opt/omni/bin:
+
 /opt/tools/bin:/opt/omni/sbin:/root/bin
+
 II. Sed ‘&' Get Matched String
 
 The precise part of an input line on which the Regular Expression matches is represented by &, which can then be used in the replacement part.
@@ -659,9 +969,13 @@ The precise part of an input line on which the Regular Expression matches is rep
 Example 1 – sed & Usage: Substitute /usr/bin/ to /usr/bin/local
 
 $ sed 's@/usr/bin@&/local@g' path.txt
+
 /usr/kbos/bin:/usr/local/bin:/usr/jbin/:/usr/bin/local:/usr/sas/bin
+
 /usr/local/sbin:/sbin:/bin/:/usr/sbin:/usr/bin/local:/opt/omni/bin:
+
 /opt/omni/lbin:/opt/omni/sbin:/root/bin
+
 In the above example ‘&' in the replacement part will replace with /usr/bin which is matched pattern and add it with /local. So in the output all the occurrance of /usr/bin will be replaced with /usr/bin/local
 
 Example 2 – sed & Usage: Match the whole line
@@ -669,9 +983,13 @@ Example 2 – sed & Usage: Match the whole line
 & replaces whatever matches with the given REGEXP.
 
 $ sed 's@^.*$@<<<&>>>@g' path.txt
+
 <<</usr/kbos/bin:/usr/local/bin:/usr/jbin/:/usr/bin:/usr/sas/bin>>>
+
 <<</usr/local/sbin:/sbin:/bin/:/usr/sbin:/usr/bin:/opt/omni/bin:>>>
+
 <<</opt/omni/lbin:/opt/omni/sbin:/root/bin>>>
+
 In the above example regexp has "^.*$" which matches the whole line. Replacement part <<<&>>> writes the whole line with <<< and >>> in the beginning and end of the line respectively.
 
 III. Grouping and Back-references in Sed
@@ -683,9 +1001,13 @@ Back-reference is the re-use of a part of a Regular Expression selected by group
 Example 1: Get only the first path in each line
 
 $ sed 's/\(\/[^:]*\).*/\1/g' path.txt
+
 /usr/kbos/bin
+
 /usr/local/sbin
+
 /opt/omni/lbin
+
 In the above example, \(\/[^:]*\) matches the path available before first : comes. \1 replaces the first matched group.
 
 Example 2: Multigrouping
@@ -693,9 +1015,13 @@ Example 2: Multigrouping
 In the file path.txt change the order of field in the last line of the file.
 
 $ sed '$s@\([^:]*\):\([^:]*\):\([^:]*\)@\3:\2:\1@g' path.txt
+
 /usr/kbos/bin:/usr/local/bin:/usr/jbin:/usr/bin:/usr/sas/bin
+
 /usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/omni/bin:
+
 /root/bin:/opt/omni/sbin:/opt/omni/lbin
+
 In the above command $ specifies substitution to happen only for the last line.Output shows that the order of the path values in the last line has been reversed.
 
 Example 3: Get the list of usernames in /etc/passwd file
@@ -703,33 +1029,51 @@ Example 3: Get the list of usernames in /etc/passwd file
 This sed example displays only the first field from the /etc/passwd file.
 
 $sed 's/\([^:]*\).*/\1/' /etc/passwd
+
 root
+
 bin
+
 daemon
+
 adm
+
 lp
+
 sync
+
 shutdown
+
 Example 4: Parenthesize first character of each word
 
 This sed example prints the first character of every word in paranthesis.
 
 $ echo "Welcome To The Geek Stuff" | sed 's/\(\b[A-Z]\)/\(\1\)/g'
+
 (W)elcome (T)o (T)he (G)eek (S)tuff
+
 Example 5: Commify the simple number.
 
 Let us create file called numbers which has list of numbers. The below sed command example is used to commify the numbers till thousands.
 
 $ cat  numbers
+
 1234
+
 12121
+
 3434
+
 123
 
 $sed 's/\(^\|[^0-9.]\)\([0-9]\+\)\([0-9]\{3\}\)/\1\2,\3/g' numbers
+
 1,234
+
 12,121
+
 3,434
+
 123
 
 Unix Sed Tutorial: Append, Insert, Replace, and Count File Lines
@@ -740,20 +1084,30 @@ Sed provides lot of commands to perform number of operations with the lines in a
 
 In this article let us review how to append, insert, replace a line in a file and how to get line numbers of a file.
 
-
 Append Lines
+
 Insert Lines
+
 Replace Lines
+
 Count Lines
+
 Let us first create thegeekstuff.txt file that will be used in all the examples mentioned below.
 
 $cat thegeekstuff.txt
+
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Windows- Sysadmin, reboot etc.
+
 Append Lines Using Sed Command
 
 Sed provides the command "a" which appends a line after every line with the address or pattern.
@@ -761,53 +1115,81 @@ Sed provides the command "a" which appends a line after every line with the addr
 Syntax:
 
 #sed 'ADDRESS a\
+
     Line which you want to append' filename
 
 #sed '/PATTERN/ a\
+
     Line which you want to append' filename
+
 Sed Append Example 1. Add a line after the 3rd line of the file.
 
 Add the line "Cool gadgets and websites" after the 3rd line. sed "a" command inserts the line after match.
 
 $ sed '3 a\
+
 > Cool gadgets and websites' thegeekstuff.txt
 
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Cool gadgets and websites
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Windows- Sysadmin, reboot etc.
+
 Sed Append Example 2. Append a line after every line matching the pattern
 
 The below sed command will add the line "Linux Scripting" after every line that matches the pattern "Sysadmin".
 
 $ sed '/Sysadmin/a \
+
 > Linux Scripting' thegeekstuff.txt
 
 Linux Sysadmin
+
 Linux Scripting
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Windows- Sysadmin, reboot etc.
+
 Linux Scripting
+
 Sed Append Example 3. Append a line at the end of the file
 
 The following example, appends the line "Website Design" at the end of the file.
 
 $ sed '$ a\
+
 > Website Design' thegeekstuff.txt
 
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Windows- Sysadmin, reboot etc.
+
 Website Design
+
 Insert Lines Using Sed Command
 
 Sed command "i" is used to insert a line before every line with the range or pattern.
@@ -815,53 +1197,81 @@ Sed command "i" is used to insert a line before every line with the range or pat
 Syntax:
 
 #sed 'ADDRESS i\
+
     Line which you want to insert' filename
 
 #sed '/PATTERN/ i\
+
     Line which you want to insert' filename
+
 Sed Insert Example 1. Add a line before the 4th line of the line.
 
 Add a line "Cool gadgets and websites" before 4th line. "a" command inserts the line after match whereas "i" inserts before match.
 
 $ sed '4 i\
+
 > Cool gadgets and websites' thegeekstuff.txt
 
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Cool gadgets and websites
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Windows- Sysadmin, reboot etc.
+
 Sed Insert Example 2. Insert a line before every line with the pattern
 
 The below sed command will add a line "Linux Scripting" before every line that matches with the pattern called ‘Sysadmin".
 
 $ sed '/Sysadmin/i \
+
 > Linux Scripting' thegeekstuff.txt
 
 Linux Scripting
+
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Linux Scripting
+
 Windows- Sysadmin, reboot etc.
+
 Sed Insert Example 3. Insert a line before the last line of the file.
 
 Append a line "Website Design" before the last line of the file.
 
 $ sed '$ i\
+
 > Website Design' thegeekstuff.txt
 
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Website Design
+
 Windows- Sysadmin, reboot etc.
+
 Replace Lines Using Sed Command
 
 "c" command in sed is used to replace every line matches with the pattern or ranges with the new given line.
@@ -869,9 +1279,11 @@ Replace Lines Using Sed Command
 Syntax:
 
 #sed 'ADDRESS c\
+
     new line' filename
 
 #sed '/PATTERN/ c\
+
     new line' filename
 
 Sed Replace Example 1. Replace a first line of the file
@@ -879,40 +1291,61 @@ Sed Replace Example 1. Replace a first line of the file
 The below command replaces the first line of the file with the "The Geek Stuff".
 
 $ sed '1 c\
+
 > The Geek Stuff' thegeekstuff.txt
 
 The Geek Stuff
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Windows- Sysadmin, reboot etc.
+
 Sed Replace Example 2. Replace a line which matches the pattern
 
 Replace everyline which has a pattern "Linux Sysadmin" to "Linux Sysadmin – Scripting".
 
 $ sed '/Linux Sysadmin/c \
+
 > Linux Sysadmin - Scripting' thegeekstuff.txt
 
 Linux Sysadmin - Scripting
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Windows- Sysadmin, reboot etc.
+
 Sed Replace Example 3. Replace the last line of the file
 
 Sed command given below replaces the last line of the file with "Last Line of the file".
 
 $ sed '$ c\
+
 > Last line of the file' thegeekstuff.txt
 
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Productivity (Too many technologies to explore, not much time available)
+
 Last line of the file
+
 Print Line Numbers Using Sed Command
 
 "=" is a command in sed to print the current line number to the standard output.
@@ -920,6 +1353,7 @@ Print Line Numbers Using Sed Command
 Syntax:
 
 #sed '=' filename
+
 The above send command syntax prints line number in the first line and the original line from the file in the next line .
 
 sed ‘=' command accepts only one address, so if you want to print line number for a range of lines, you must use the curly braces.
@@ -927,8 +1361,11 @@ sed ‘=' command accepts only one address, so if you want to print line number 
 Syntax:
 
 # sed -n '/PATTERN/,/PATTERN/ {
+
 =
+
 p
+
 }' filename
 
 Sed Line Number Example 1. Find the line number which contains the pattern
@@ -938,23 +1375,35 @@ The below sed command prints the line number for which matches with the pattern 
 $ sed -n '/Databases/=' thegeekstuff.txt
 
 2
+
 Sed Line Number Example 2. Printing Range of line numbers
 
 Print the line numbers for the lines matches from the pattern "Oracle" to "Productivity".
 
 $ sed -n '/Oracle/,/Productivity/{
+
 > =
+
 > p
+
 > }' thegeekstuff.txt
 
 2
+
 Databases - Oracle, mySQL etc.
+
 3
+
 Security (Firewall, Network, Online Security etc)
+
 4
+
 Storage in Linux
+
 5
+
 Productivity (Too many technologies to explore, not much time available)
+
 Sed Line Number Example 3. Print the total number of lines in a file
 
 Line number of the last line of the file will be the total lines in a file. Pattern $ specifies the last line of the file.
@@ -969,12 +1418,12 @@ As part of our on going UNIX sed tutorial series earlier we covered the printing
 
 In this article let us review how to do the multi-line operation in Sed.
 
-
 Do you remember the Sed working methodology which we learned in our first sed tutorial ?. In that article we explained that Sed reads line by line, removes any trailing new lines, places a line in a pattern space buffer, process as per the given commands and prints the pattern space.
 
 In case, if you want to delete all the newlines in a file, you cannot use the following method. Because newline is already removed and placed in the pattern space.
 
 $ sed 's/\n//' filename or  $sed 's/\n/ENDOFLINE\n/' filename
+
 For situations like this sed multi-line is appropriate. Sed provides the command "N" for Multi-Line Operations.
 
 N command reads a next line from the input, Append next line to pattern space. Next line is separated from the original pattern space by a newline character.
@@ -982,67 +1431,107 @@ N command reads a next line from the input, Append next line to pattern space. N
 Let us first create thegeekstuff.txt file that will be used in all the examples mentioned below.
 
 $ cat thegeekstuff.txt
+
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
 
-
 Storage in Linux
+
 Website Design
+
 Website Design
+
 Windows- Sysadmin, reboot etc.
+
 $
+
 Note: There are two consecutive blank lines in the above input. ( 5th and 6th line ).
 
 Sed Example 1. Join Two Consecutive Lines
 
 $ sed -e '{
+
 N
+
 s/\n/ @ /
+
 }' thegeekstuff.txt
 
 Linux Sysadmin @ Databases - Oracle, mySQL etc.
+
 Databases - Oracle, mySQL etc. @ Security (Firewall, Network, Online Security etc)
+
  @
+
 Storage in Linux @ Website Design
+
 Website Design @ Windows- Sysadmin, reboot etc.
+
 In the above example,
 
 The curly braces "{" and "}" used to group the commands. The curly braces and sed commands must be on the seperate lines.
+
 Sed reads the first line and place it in the pattern space, N command reads the next line and appends with the pattern space i.e first line seperated by newline. So now pattern space will have firstline\nsecondline.
+
 Next substitution of \n to space@space and it prints the pattern space content as its sed default behaviour. So consecutive lines are joined and delimited by " @ "
+
 Sed Example 2. Number each non-blank line of a file
 
 As mentioned in our previous article, = is a command to get a line number of a file.
 
 $ sed '/./=' thegeekstuff.txt | sed 'N; s/\n/ /'
+
 1 Linux Sysadmin
+
 2 Databases - Oracle, mySQL etc.
+
 3 Databases - Oracle, mySQL etc.
+
 4 Security (Firewall, Network, Online Security etc)
 
 7 Storage in Linux
+
 8 Website Design
+
 9 Website Design
+
 10 Windows- Sysadmin, reboot etc.
+
 The first sed command prints the line number and prints the original line in a next line if it is not a blank.( Execute it and see the output of the first sed command ).
+
 Next sed command is just appends pair of lines.
 
 Sed Example 3. Delete Two Consecutive Blank Lines from Input
 
 $ sed '/^$/{
+
 N
+
 /^\n$/d
+
 }' thegeekstuff.txt
+
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
+
 Storage in Linux
+
 Website Design
+
 Website Design
+
 Windows- Sysadmin, reboot etc.
+
 If the line is blank, read and appends the next line, /^\n$/ represents, two lines are empty,\n is added by N command. Then just delete the pattern space and start the next cycle using command ‘d'.
 
 Sed Example 4. Delete Last 2 Lines of a file
@@ -1050,26 +1539,41 @@ Sed Example 4. Delete Last 2 Lines of a file
 Before viewing this example you must aware of two interesting sed command.
 
 P – which prints the first line of a pattern space. (till first \n).
+
 D – Delete first line from the pattern space. Control then passes to the top of the script.
+
 $ sed 'N;$!P;$!D;$d' thegeekstuff.txt
+
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
 
 Storage in Linux
+
 Website Design
+
 Reads the first line and place it in the pattern space.
+
 N command reads the next line and append to pattern space seperated by newline. (Now firstline\nsecond line)
+
 If it not reaches the last line($), print the first line and delete the first line alone from the pattern space. Then cycle starts again.
+
 Like this it joins 2nd\n3rd lines, 3rd\n4th lines and goes on.
+
 Atlast when it has 9th\n10th line in a pattern space, it reaches $ so it just deletes the pattern space. ($!P and $!D wont print and delete if it is $).
 
 Sed Example 5. Print Last 2 Lines of a file
 
 $ sed '$!N;$!D' thegeekstuff.txt
+
 Website Design
+
 Windows- Sysadmin, reboot etc.
+
 The above joins and deletes each line until last two lines are there in the pattern space. When it reaches $, prints the pattern space which will have only last two lines.
 
 Sed Example 6. Delete Duplicate, Consecutive Lines from a file
@@ -1077,12 +1581,17 @@ Sed Example 6. Delete Duplicate, Consecutive Lines from a file
 The below command checks each line joined with the next line, check if both are same then it doesn't the print pattern space(!P), just delete the first line from the pattern space. So only one line will be remaining in the pattern space.
 
 $ sed '$!N; /^\(.*\)\n\1$/!P; D' thegeekstuff.txt
+
 Linux Sysadmin
+
 Databases - Oracle, mySQL etc.
+
 Security (Firewall, Network, Online Security etc)
 
 Storage in Linux
+
 Website Design
+
 Windows- Sysadmin, reboot etc.
 
 Unix Sed Tutorial : 7 Examples for Sed Hold and Pattern Buffer Operations
@@ -1095,22 +1604,26 @@ In our first part of sed tutorial we learned that sed has two buffers — sed pa
 
 In this article let us review how to use sed hold and pattern buffer using 7 practical sed examples.
 
-
 As its name implies, sed hold buffer is used to save all or part of the sed pattern space for subsequent retrieval. The contents of the pattern space can be copied to the hold space, then back again. No operations are performed directly on the hold space. sed provides a set of hold and get functions to handle these movements.
 
 Sed h function
+
 The h (hold) function copies the contents of the pattern space into a holding area (also called as sed hold space), destroying any previous contents of the holding area.
 
 Sed H function
+
 The H function appends the contents of the pattern space to the contents of the holding area. The former and new contents are separated by a newline.
 
 Sed g function
+
 The g function copies the contents of the holding area into the pattern space, destroying the previous contents of the pattern space.
 
 Sed G function
+
 The G function appends the contents of the holding area to the contents of the pattern space. The former and new contents are separated by a newline. The maximum number of addresses is two.
 
 Sed x function
+
 The exchange function interchanges the contents of the pattern space and the holding area. The maximum number of addresses is two.
 
 Now let us see some examples to learn about the above commands.
@@ -1118,22 +1631,33 @@ Now let us see some examples to learn about the above commands.
 Let us first create thegeekstuff.txt file that will be used in the examples mentioned below.
 
 $ cat thegeekstuff.txt
+
 #Linux
+
         Administration
+
         Scripting
+
         Tips and Tricks
 
 #Windows
+
         Administration
 
 #Database
+
         Mysql
+
         Oracle
+
         Queries
+
         Procedures
+
 1. Double Space a File Content Using Sed Command
 
 $sed 'G' thegeekstuff.txt
+
 #Linux
 
         Administration
@@ -1157,10 +1681,13 @@ $sed 'G' thegeekstuff.txt
         Procedures 
 
 $
+
 In this example,
 
 Sed reads a line and places it in the pattern buffer.
+
 G command appends the hold buffer to the pattern buffer separated by \n. so one newline will be appended with the pattern space content.
+
 Similarly, If you want to triple space a file, append hold buffer content to the pattern buffer twice. (G;G)
 
 2. Print File Content in Reverse Order Using Sed Command
@@ -1168,25 +1695,39 @@ Similarly, If you want to triple space a file, append hold buffer content to the
 Print the lines of a file in reverse order (similar to tac command that we discussed earlier).
 
 $sed -n '1!G;h;$p' thegeekstuff.txt
+
         Procedures
+
         Queries
+
         Oracle
+
         Mysql
+
 #Database
 
         Administration
+
 #Windows
 
         Tips and Tricks
+
         Scripting
+
         Administration
+
 #Linux
+
 In this example,
 
 First line will be placed into the hold space as it is.
+
 From the 2nd line onwards, just append the hold space content with the pattern space. (Remember 2nd line is in pattern space, and 1st line is in hold space).
+
 Now 1st and 2nd line got reversed and move this to the hold space.
+
 Repeat the above steps till last line.
+
 Once the last line is reached, just append the hold space content with the pattern space and print the pattern space.
 
 3. Print a Paragraph (Only if it contains given pattern) Using Sed Command
@@ -1196,16 +1737,23 @@ In thegeekstuff.txt print paragraph only if it contains the pattern "Administrat
 $ sed -e '/./{H;$!d;}' -e 'x;/Administration/!d' thegeekstuff.txt 
 
 Linux
+
         Administration
+
         Scripting
+
         Tips and Tricks
 
 Windows
+
         Administration
+
 In this example,
 
 Till the empty line comes, keep appending the non empty lines into the hold space
+
 When empty line comes i.e paragraph ends, exchange the data between pattern and hold space. So that whole paragraph will be available in pattern space.
+
 Check if pattern "Administration" is available, if yes don't delete it i.e print the pattern space
 
 4. Print the line immediately before a pattern match using Sed Command
@@ -1213,79 +1761,131 @@ Check if pattern "Administration" is available, if yes don't delete it i.e print
 Print only the line immediately before,the pattern "Mysql".
 
 $ sed -n '/Mysql/{g;1!p;};h' thegeekstuff.txt
+
 #Database
+
 In this example,
 
 For each cycle, place the line into hold buffer, if it doesn't match with the pattern "Mysql".
+
 If the line matches with the pattern, get the data from the hold space(previous line) using g command and print it.
+
 In case, if the first line matches with the pattern "Mysql",anyway hold space will be empty.(There is no previous line to the first line).So first line should not get printed(1!p)
+
 5. Delete the last line of each paragraph using Sed Command
 
 $ sed -n -e '/^$/{x;d}' -e '/./x;p' thegeekstuff.txt 
 
 #Linux
+
         Administration
+
         Scripting
 
 #Windows
 
 #Database
+
         Mysql
+
         Oracle
+
         Queries
+
 In this example,
 
 If the line is not empty,then exchange the line between pattern and hold space. So first line will be placed in the hold space.
+
 When next non empty line comes, exchange the pattern space and hold space, and print the pattern space. i.e first non empty line will be printed and 2nd line goes to hold. And in next cycle, 2nd non empty line is printed when 3rd line goes to hold and goes on like this.
+
 When empty line comes (previous line to the empty line will be available in hold buffer) just exchange pattern and hold space, and delete the line (last line of the paragraph) and start the next cycle.
+
 6. For each line, append the previous line to the end of it using Sed Command
 
 $ sed 'H;x;s/^\(.*\)\n\(.*\)/\2\1/' thegeekstuff.txt
+
 #Linux
+
         Administration#Linux
+
         Scripting        Administration
+
         Tips and Tricks        Scripting
+
         Tips and Tricks
+
 #Windows
+
         Administration#Windows
+
         Administration
+
 #Database
+
         Mysql#Database
+
         Oracle        Mysql
+
         Queries Oracle
+
         Procedures                      Queries
+
 In this example,
 
 Place the first line in Hold buffer.
+
 When the second line comes, append to Hold space (first line)
+
 Then exchange pattern and hold buffer. So now pattern space will have first and second line separated by \n, Hold space will have only second line.
+
 So interchange the lines in the pattern space.
+
 The above steps happens till the end of the file
+
 7. Prepend tag of every block to every line of that block
 
 $ sed '
+
 /^#/{
+
 h
+
 d
+
 }
+
 G
+
 s/^\(.*\)\n#\(.*\)/\2 \1/' thegeekstuff.txt
+
 Linux         Administration
+
 Linux         Scripting
+
 Linux         Tips and Tricks
+
 Linux
+
 Windows         Administration
+
 Windows
+
 Database         Mysql
+
 Database        Oracle
+
 Database        Queries
+
 Database        Procedures
 
 In this example,
 
 When the first line of a block is met (beginning with #)
+
 keep that line to the Hold Space via command 'h'
+
 Then delete using ‘d' to start another cycle.
+
 For the rest lines of a block, Command 'G' appends the tag line from the Hold Space and substitute command interchanges tag and lines properly.
 
 Unix Sed Tutorial: 6 Examples for Sed Branching Operation
@@ -1297,47 +1897,79 @@ Like any other programming language, sed also provides special branching command
 In this article, let us review following two types of Sed branching.
 
 Sed Unconditional Branch
+
 Sed Conditional Branch
 
 Sed Unconditional Branch Syntax:
 
 $ sed ':label command(s) b label'
+
 :label – specification of label.
+
 commands – Any sed command(s)
+
 label – Any Name for the label
+
 b label – jumps to the label with out checking any conditions. If label is not specified, then jumps to the end of the script.
+
 Sed Conditional Branch Syntax:
 
 $ sed ':label command(s) t label'
+
 :label – specification of label.
+
 commands – Any sed command(s)
+
 label – Any Name for the label
+
 t label – jumps to the label only if the last substitute command modified the pattern space. If label is not specified, then jumps to the end of the script.
+
 Create a sample test file
 
 Let us first create thegeekstuff.txt file that will be used in the examples mentioned below.
 
 $ cat thegeekstuff.txt
+
 Linux
+
         Administration
+
         Scripting
+
                 Tips and Tricks
+
 Windows
+
         Administration
+
 Database
+
         Administration of Oracle
+
         Administration of Mysql
+
 Security
+
         Network
+
                  Online\
+
         Security
+
 Productivity
+
         Google Search\
+
         Tips
+
         "Web Based Time Tracking,
+
         Web Based Todo list and
+
         Reduce Key Stores etc"
+
 $
+
 I. Sed Examples for Unconditional Branch
 
 Sed Example 1. Replace the first occurrence of a pattern in a whole file
@@ -1345,98 +1977,179 @@ Sed Example 1. Replace the first occurrence of a pattern in a whole file
 In the file thegeekstuff.txt replace the first occurrence of “Administration” to “Supervision”.
 
 $ sed '/Administration/{
+
  s/Administration/Supervision/
+
  :loop
+
  n
+
  b loop
+
  }' thegeekstuff.txt
+
 Linux
+
     Supervision
+
         Scripting
+
                 Tips and Tricks
+
 Windows
+
         Administration
+
 Database
+
         Administration of Oracle
+
         Administration of Mysql
+
 Security
+
         Network
+
                  Online\
+
         Security
+
 Productivity
+
         Google Search\
+
         Tips
+
         "Web Based Time Tracking,
+
         Web Based Todo list and
+
         Reduce Key Stores etc"
+
 In the above sed command, it just read line by line and prints the pattern space till Administration occurs.
+
 Once Administration occurs, substitute Administration to Supervision (only single occurrence, note that no ‘g’ flag in substitution).
+
 Once the first occurrence has been replaced, just read the remaining file content and print.
+
 “n” is a sed command which prints the pattern space and overwrite it with next line.
+
 Used “loop” as a label. “n” prints the current line and overwrite pattern space with the next line. b loop jumps to the :loop again. So this loop prints the remaining content of thegeekstuff.txt.
+
 Sed Example 2. Remove the data between pattern ” ” in a whole file
 
 In our example file there are three lines between “”.
 
 sed -e ':loop
+
 $!{
+
 N
+
 /\n$/!b loop
+
 }
+
 s/\"[^\"]*\"//g' thegeekstuff.txt
+
 Linux
+
         Administration
+
         Scripting
+
                 Tips and Tricks
+
 Windows
+
         Administration
+
 Database
+
         Administration of Oracle
+
         Administration of Mysql
+
 Security
+
         Network
+
                  Online\
+
         Security
+
 Productivity
+
         Google Search\
+
         Tips
+
 $
+
 Above command keep appends all the lines of a file till end of file occurs.
+
 $! – If its not a end of file.
+
 N – Append the next line with the pattern space delimited by \n
+
 /\n$/!b loop – If this is not the last line of the file jump to the loop again.
+
 Now all the lines will be available in pattern space delimited by newline. Substitute all the occurrence of data between ” with the empty.
+
 Sed Example 3. Remove the HTML tags of a file
 
 Let us say, I have a file with the following html content
 
 $ cat index.html
+
 <html><body>
+
 <table
+
 border=2><tr><td valign=top
+
 align=right>1.</td>
+
 <td>Line 1 Column 2</
+
 td>
+
 </table>
+
 </body></html>
+
 The following sed command removes all the html tags from the given file
 
 $ sed '/</{
+
 :loop
+
 s/<[^<]*>//g
+
 /</{
+
 N
+
 b loop
+
 }
+
 }' index.html
 
 1.
+
 Line 1 Column 2
+
 Each time find a line contains ‘<‘, first remove all HTML tags of that line.
+
 If now the pattern space contains ‘<‘, this implies a multi-line tag. Now repeat the following loop:
+
 Join next line
+
 Remove all HTML tags until no single ‘<‘ exists
+
 When no ‘<‘ exists in the pattern space, we print it out and start a new cycle.
+
 II. Sed Examples for Conditional Branch
 
 Sed Example 4. If a line ends with a backslash append the next line to it.
@@ -1444,69 +2157,132 @@ Sed Example 4. If a line ends with a backslash append the next line to it.
 Our example file has two lines ends with backslash, now we have to append its next line to it.
 
 $ sed '
+
 :loop
+
 /\\$/N
+
 s/\\\n */ /
+
 t loop' thegeekstuff.txt
+
 Linux
+
         Administration
+
         Scripting
+
                 Tips and Tricks
+
 Windows
+
         Administration
+
 Database
+
         Administration of Oracle
+
         Administration of Mysql
+
 Security
+
         Network
+
                  Online Security
+
 Productivity
+
         Google Search Tips
+
         "Web Based Time Tracking,
+
         Web Based Todo list and
+
         Reduce Key Stores etc"
+
 Check if the line ends with the backslash (/\\$/), if yes, read and append the next line to pattern space, and substitute the \ at the end of the line and number of spaces followed by that, with the single space.
+
 If the substitution is success repeat the above step. The branch will be executed only if substitution is success.
+
 Conditional branch mostly used for recursive patterns.
+
 Sed Example 5. Commify a numeric strings.
 
  sed '
+
  :loop
+
  s/\(.*[0-9]\)\([0-9]\{3\}\)/\1,\2/
+
  t loop'
+
 12342342342343434
+
 12,342,342,342,343,434
+
 Group the digits into two groups.
+
 The first group is all the digits up to last three digits. The last three digits gets captures in the 2nd group.
+
 Then the two matching groups get separated by a comma. Then the same rules get applied to the line again and again until all the numbers have been grouped in groups of three.
+
 For example, in the first iteration it will be 12342342342343,434
+
 In the next iteration 12342342342,343,434 and goes on till there are less than three digits.
+
 Sed Example 6. Formatting : Replace every leading space of a line with ‘+’
 
 $ sed '
+
 s/^ */&\n/
+
 :loop
+
 s/^\n//;s/ \n/\n+/
+
 t loop' test
+
 Linux
+
 ++++++++Administration
+
 ++++++++Scripting
+
 ++++++++++++++++Tips and Tricks
+
 Windows
+
 ++++++++Administration
+
 Database
+
 ++++++++Administration of Oracle
+
 ++++++++Administration of Mysql
+
 Security
+
 ++++++++Network
+
 +++++++++++++++++Online\
+
 ++++++++Security
+
 Productivity
+
 ++++++++Google Search\
+
 ++++++++Tips
+
 ++++++++"Web Based Time Tracking,
+
 ++++++++Web Based Todo list and
+
 ++++++++Reduce Key Stores etc"
+
 Seperate all the leading spaces and other characters of a line with a newline character.
+
 Now replace space and newline with newline and +. So from right to left space will be replaced by + and newline will be moved left for one character.
+
 At last in the beginning of the line \n will be there, so remove that new line.
+
