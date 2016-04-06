@@ -38,4 +38,8 @@
 #read FN LN
 #echo "Hi! $LN, $FN !"
 
+if [[ "$1" == d* ]]; then
+    echo $1
+fi
+
 
