@@ -2,7 +2,7 @@
 <?php
 $offset = intval($argv[1]);
 $limit = intval($argv[2]);
-$mysqli = mysqli_connect("168.143.179.129", "pharosbackend", "zub3aFrA", "muco");
+$mysqli = mysqli_connect($host, $user, $passwd, $database);
 if (mysqli_connect_errno($mysqli)) {
     echo "Failed to connect to MySQL: ".mysqli_connect_error();
 }
