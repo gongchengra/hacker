@@ -1,0 +1,21 @@
+{
+    "name": "fran6co/phptrie",
+    "minimum-stability": "dev",
+    "description": "PHP Trie implementation",
+    "keywords": [ "trie", "data structure", "search" ],
+    "homepage": "https://github.com/fran6co/phptrie",
+    "type": "library",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Francisco Facioni",
+            "email": "fran6co@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.1"
+    },
+    "autoload": {
+        "psr-0": { "PHPTrie": "" }
+    }
+}
