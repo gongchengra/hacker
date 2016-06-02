@@ -1,19 +1,84 @@
 <?php
+// 计数排序
+function CountingSort($arr)
+{
+    $max = max($arr);
+    $countingArray = array();
+    $length = count($arr);
+    for ($i = 0; $i <= $max; ++$i) {
+        $countingArray[$i] = 0;
+    }
+    for ($i = 0;$i < $length; ++$i) {
+        ++$countingArray[$arr[$i]];
+    }
+    $b = 0;
+    for ($j = 0;$j <= $max; ++$j) {
+        if ($countingArray[$j] > 0) {
+            for ($i = 0; $i < $countingArray[$j]; ++$i) {
+                $sortedArray[$b] = $j;
+                ++$b;
+            }
+        }
+    }
+
+    return $sortedArray;
+}
+
+//$arr = [1, 3, 3, 5, 8, 0, 9, 2, 2, 7, 1, 13, 35, 80, 92, 27, 1];
+//print_r(countingSort($arr));
+
+function HeapSort($a)
+{
+    $n = count($a);
+    while ($n > 0) {
+        $a = heapify($a, 0, $n);
+        list($a[0], $a[$n - 1]) = array($a[$n -1], $a[0]);
+        --$n;
+    }
+
+    return $a;
+}
+
+function heapify($a, $pos, $n)
+{
+    for ($pos = intval($n / 2) - 1;$pos >= 0;--$pos) {
+        $lchild = 2 * $pos + 1;
+        $rchild = 2 * $pos + 2;
+        if ($rchild < $n && $a[$lchild] < $a[$rchild]) {
+            if ($a[$pos] < $a[$rchild]) {
+                list($a[$pos], $a[$rchild]) = array($a[$rchild], $a[$pos]);
+            }
+        } else {
+            if ($a[$pos] < $a[$lchild]) {
+                list($a[$pos], $a[$lchild]) = array($a[$lchild], $a[$pos]);
+            }
+        }
+    }
+
+    return $a;
+}
+
+//$arr = [1, 3, 3, 5, 8, 0, 9, 2, 2, 7, 1, 13, 35, 80, 92, 27, 1];
+//$arr = [6, 5, 4, 3, 2, 1, 0, -1];
+//$arr = [1, 2, 3, 4, 5, 6, 7];
+//print_r($arr);
+//print_r(HeapSort($arr));
+
 // 冒泡排序
 function BubbleSort($arr)
 {
     // 获得数组总长度
     $num = count($arr);
     // 正向遍历数组
-    for ($i = 1; $i < $num; $i++) {
+    for ($i = 1; $i < $num; ++$i) {
         // 反向遍历
-        for ($j = $num - 1; $j >= $i; $j--) {
+        for ($j = $num - 1; $j >= $i; --$j) {
             // 相邻两个数比较
-            if ($arr[$j] < $arr[$j-1]) {
+            if ($arr[$j] < $arr[$j - 1]) {
                 // 暂存较小的数
-                $iTemp = $arr[$j-1];
+                $iTemp = $arr[$j - 1];
                 // 把较大的放前面
-                $arr[$j-1] = $arr[$j];
+                $arr[$j - 1] = $arr[$j];
                 // 较小的放后面
                 $arr[$j] = $iTemp;
             }
@@ -28,9 +93,9 @@ function ExchangeSort($arr)
 {
     $num = count($arr);
     // 遍历数组
-    for ($i = 0;$i < $num - 1; $i++) {
+    for ($i = 0;$i < $num - 1; ++$i) {
         // 获得当前索引的下一个索引
-        for ($j = $i + 1; $j < $num; $j++) {
+        for ($j = $i + 1; $j < $num; ++$j) {
             // 比较相邻两个的值大小
             if ($arr[$j] < $arr[$i]) {
                 // 暂存较小的数
@@ -52,13 +117,13 @@ function SelectSort($arr)
     // 获得数组总长度
     $num = count($arr);
     // 遍历数组
-    for ($i = 0;$i < $num-1; $i++) {
+    for ($i = 0;$i < $num - 1; ++$i) {
         // 暂存当前值
         $iTemp = $arr[$i];
         // 暂存当前位置
         $iPos = $i;
         // 遍历当前位置以后的数据
-        for ($j = $i + 1;$j < $num; $j++) {
+        for ($j = $i + 1;$j < $num; ++$j) {
             // 如果有小于当前值的
             if ($arr[$j] < $iTemp) {
                 // 暂存最小值
@@ -81,7 +146,7 @@ function InsertSort($arr)
 {
     $num = count($arr);
     // 遍历数组
-    for ($i = 1;$i < $num; $i++) {
+    for ($i = 1;$i < $num; ++$i) {
         // 获得当前值
         $iTemp = $arr[$i];
         // 获得当前值的前一个位置
@@ -91,9 +156,9 @@ function InsertSort($arr)
             // 把前一个的值往后放一位
             $arr[$iPos + 1] = $arr[$iPos];
             // 位置递减
-            $iPos--;
+            --$iPos;
         }
-        $arr[$iPos+1] = $iTemp;
+        $arr[$iPos + 1] = $iTemp;
     }
 
     return $arr;
@@ -105,16 +170,16 @@ function QuickSort($arr)
     $num = count($arr);
     $l = $r = 0;
     // 从索引的第二个开始遍历数组
-    for ($i = 1;$i < $num; $i++) {
+    for ($i = 1;$i < $num; ++$i) {
         // 如果值小于索引1
         if ($arr[$i] < $arr[0]) {
             // 装入左索引数组(小于索引1的数据)
             $left[] = $arr[$i];
-            $l++;
+            ++$l;
         } else {
             // 否则装入右索引中(大于索引1的数据)
             $right[] = $arr[$i];
-            $r++; //
+            ++$r; //
         }
     }
     // 如果左索引有值 则对左索引排序
@@ -130,7 +195,7 @@ function QuickSort($arr)
         $right = QuickSort($right);
     }
     // 根据右索引的长度再次增加数据
-    for ($i = 0;$i < $r; $i++) {
+    for ($i = 0;$i < $r; ++$i) {
         $new_arr[] = $right[$i];
     }
 
