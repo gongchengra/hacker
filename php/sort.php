@@ -1,4 +1,10 @@
 <?php
+
+//$arr = [1, 3, 3, 5, 8, 0, 9, 2, 2, 7, 1, 13, 35, 80, 92, 27, 1];
+//$arr = [6, 5, 4, 3, 2, 1, 0, -1];
+$arr = [6, 5, 4, 3, 2, 1];
+//$arr = [1, 2, 3, 4, 5, 6, 7];
+
 // 计数排序
 function CountingSort($arr)
 {
@@ -24,45 +30,58 @@ function CountingSort($arr)
     return $sortedArray;
 }
 
-//$arr = [1, 3, 3, 5, 8, 0, 9, 2, 2, 7, 1, 13, 35, 80, 92, 27, 1];
 //print_r(countingSort($arr));
 
-function HeapSort($a)
+function HeapSort($array)
 {
-    $n = count($a);
+    $n = count($array);
     while ($n > 0) {
-        $a = heapify($a, 0, $n);
-        list($a[0], $a[$n - 1]) = array($a[$n -1], $a[0]);
+        $array = heapify($array, 0, $n);
+        list($array[0], $array[$n - 1]) = array($array[$n - 1], $array[0]);
         --$n;
     }
 
-    return $a;
+    return $array;
 }
 
-function heapify($a, $pos, $n)
+function heapify($array, $pos, $n)
 {
     for ($pos = intval($n / 2) - 1;$pos >= 0;--$pos) {
         $lchild = 2 * $pos + 1;
         $rchild = 2 * $pos + 2;
-        if ($rchild < $n && $a[$lchild] < $a[$rchild]) {
-            if ($a[$pos] < $a[$rchild]) {
-                list($a[$pos], $a[$rchild]) = array($a[$rchild], $a[$pos]);
+        if ($rchild < $n && $array[$lchild] < $array[$rchild]) {
+            if ($array[$pos] < $array[$rchild]) {
+                list($array[$pos], $array[$rchild]) = array($array[$rchild], $array[$pos]);
             }
         } else {
-            if ($a[$pos] < $a[$lchild]) {
-                list($a[$pos], $a[$lchild]) = array($a[$lchild], $a[$pos]);
+            if ($array[$pos] < $array[$lchild]) {
+                list($array[$pos], $array[$lchild]) = array($array[$lchild], $array[$pos]);
             }
         }
     }
 
-    return $a;
+    return $array;
 }
 
-//$arr = [1, 3, 3, 5, 8, 0, 9, 2, 2, 7, 1, 13, 35, 80, 92, 27, 1];
-//$arr = [6, 5, 4, 3, 2, 1, 0, -1];
-//$arr = [1, 2, 3, 4, 5, 6, 7];
-//print_r($arr);
 //print_r(HeapSort($arr));
+
+function ShellSort($array)
+{
+    $length = count($array);
+    for ($gap = $length >> 1; $gap > 0; $gap >>= 1) {
+        for ($i = $gap; $i < $length; ++$i) {
+            for ($j = $i - $gap; $j >= 0; $j -= $gap) {
+                if ($array[$j] > $array[$j + $gap]) {
+                    list($array[$j], $array[$j + $gap]) = array($array[$j + $gap], $array[$j]);
+                }
+            }
+        }
+    }
+
+    return $array;
+}
+print_r($arr);
+print_r(ShellSort($arr));
 
 // 冒泡排序
 function BubbleSort($arr)
