@@ -1,5 +1,7 @@
 How To Become A Hacker
 
+http://www.catb.org/~esr/faqs/hacker-howto.html
+
 Eric Steven Raymond
 
 Thyrsus Enterprises
@@ -10,6 +12,14 @@ Thyrsus Enterprises
 Copyright © 2001 Eric S. Raymond
 
 Revision History
+Revision 1.50	19 July 2015	esr
+Added link to "Let's Go Larval".
+Revision 1.49	21 November 2014	esr
+Added link to "How To Learn Hacking".
+Revision 1.48	19 June 2014	esr
+freshmeat/freecode is dead, alas.
+Revision 1.47	20 May 2014	esr
+Fix up various stale links. Join a hackerspace!
 Revision 1.46	25 Sep 2013	esr
 Add micropatronage explanation and gittip link. Why you should not ask me for advice on how to get started.
 Revision 1.45	12 May 2013	esr
@@ -63,11 +73,11 @@ If you are reading a snapshot of this document offline, the current version live
 
 Note: there is a list of Frequently Asked Questions at the end of this document. Please read these—twice—before mailing me any questions about this document.
 
-Numerous translations of this document are available: Arabic Belorussian Chinese (Simplified), Czech, Danish, Dutch, Estonian, German, Greek Italian Hebrew, Norwegian, Persian Portuguese (Brazilian), Romanian Spanish, Turkish, and Swedish. Note that since this document changes occasionally, they may be out of date to varying degrees.
+Numerous translations of this document are available: Arabic Belorussian Bulgarian Chinese, Danish Dutch Estonian French German, Greek Italian Hebrew, Japanese Lithuanian Norwegian, Persian Polish Portuguese (Brazilian), Romanian Spanish, Turkish, and Swedish. Note that since this document changes occasionally, they may be out of date to varying degrees.
 
 The five-dots-in-nine-squares diagram that decorates this document is called a glider. It is a simple pattern with some surprising properties in a mathematical simulation called Life that has fascinated hackers for many years. I think it makes a good visual emblem for what hackers are like — abstract, at first a bit mysterious-seeming, but a gateway to a whole world with an intricate logic of its own. Read more about the glider emblem here.
 
-If you find this document valuable, please leave me a tip on Gittip. And consider also tipping other hackers who have produced code that you use and value. Lots of small but continuing donations add up quickly, and can free the people who have given you gifts of their labor to create more value.
+If you find this document valuable, please support me on Patreon. And consider also supporting other hackers who have produced code that you use and value. Lots of small but continuing donations add up quickly, and can free the people who have given you gifts of their labor to create more value.
 
 What Is a Hacker?
 
@@ -104,7 +114,6 @@ Or, as the following modern Zen poem has it:
     walk with the master,
     see through the master,
     become the master.
-
 So, if you want to be a hacker, repeat the following things until you believe them:
 
 1. The world is full of fascinating problems waiting to be solved.
@@ -162,7 +171,7 @@ This toolkit changes slowly over time as technology creates new skills and makes
 
 1. Learn how to program.
 
-This, of course, is the fundamental hacking skill. If you don't know any computer languages, I recommend starting with Python. It is cleanly designed, well documented, and relatively kind to beginners. Despite being a good first language, it is not just a toy; it is very powerful and flexible and well suited for large projects. I have written a more detailed evaluation of Python. Good tutorials are available at the Python web site.
+This, of course, is the fundamental hacking skill. If you don't know any computer languages, I recommend starting with Python. It is cleanly designed, well documented, and relatively kind to beginners. Despite being a good first language, it is not just a toy; it is very powerful and flexible and well suited for large projects. I have written a more detailed evaluation of Python. Good tutorials are available at the Python web site; there's an excellent third-party one at Computer Science Circles.
 
 I used to recommend Java as a good language to learn early, but this critique has changed my mind (search for “The Pitfalls of Java as a First Programming Language” within it). A hacker cannot, as they devastatingly put it “approach problem-solving like a plumber in a hardware store”; you have to know what the components actually do. Now I think it is probably best to learn C and Lisp first, then Java.
 
@@ -186,6 +195,8 @@ Peter Norvig, who is one of Google's top hackers and the co-author of the most w
 
 Learning to program is like learning to write good natural language. The best way to do it is to read some stuff written by masters of the form, write some things yourself, read a lot more, write a little more, read a lot more, write some more ... and repeat until your writing begins to develop the kind of strength and economy you see in your models.
 
+I have had more to say about this learning process in How To Learn Hacking. It's a simple set of instructions, but not an easy one.
+
 Finding good code to read used to be hard, because there were few large programs available in source for fledgeling hackers to read and tinker with. This has changed dramatically; open-source software, programming tools, and operating systems (all built by hackers) are now widely available. Which brings me neatly to our next topic...
 
 2. Get one of the open-source Unixes and learn to use and run it.
@@ -202,13 +213,15 @@ So, bring up a Unix — I like Linux myself but there are other ways (and yes, y
 
 For more about learning Unix, see The Loginataka. You might also want to have a look at The Art Of Unix Programming.
 
+The blog Let's Go Larval! is a window on the learning process of a a new Linux user that I think is unusually lucid and helpful. The post How I Learned Linux makes a good starting point.
+
 To get your hands on a Linux, see the Linux Online! site; you can download from there or (better idea) find a local Linux user group to help you with installation.
 
 During the first ten years of this HOWTO's life, I reported that from a new user's point of view, all Linux distributions are almost equivalent. But in 2006-2007, an actual best choice emerged: Ubuntu. While other distros have their own areas of strength, Ubuntu is far and away the most accessible to Linux newbies. Beware, though, of the hideous and nigh-unusable "Unity" desktop interface that Ubuntu introduced as a default a few years later; the Xubuntu or Kubuntu variants are better.
 
 You can find BSD Unix help and resources at www.bsd.org.
 
-A good way to dip your toes in the water is to boot up what Linux fans call a live CD, a distribution that runs entirely off a CD without having to modify your hard disk. This will be slow, because CDs are slow, but it's a way to get a look at the possibilities without having to do anything drastic.
+A good way to dip your toes in the water is to boot up what Linux fans call a live CD, a distribution that runs entirely off a CD or USB stick without having to modify your hard disk. This may be slow, because CDs are slow, but it's a way to get a look at the possibilities without having to do anything drastic.
 
 I have written a primer on the basics of Unix and the Internet.
 
@@ -218,7 +231,7 @@ I used to recommend against installing either Linux or BSD as a solo project if 
 
 Most of the things the hacker culture has built do their work out of sight, helping run factories and offices and universities without any obvious impact on how non-hackers live. The Web is the one big exception, the huge shiny hacker toy that even politicians admit has changed the world. For this reason alone (and a lot of other good ones as well) you need to learn how to work the Web.
 
-This doesn't just mean learning how to drive a browser (anyone can do that), but learning how to write HTML, the Web's markup language. If you don't know how to program, writing HTML will teach you some mental habits that will help you learn. So build a home page. Try to stick to XHTML, which is a cleaner language than classic HTML. (There are good beginner tutorials on the Web; here's one.)
+This doesn't just mean learning how to drive a browser (anyone can do that), but learning how to write HTML, the Web's markup language. If you don't know how to program, writing HTML will teach you some mental habits that will help you learn. So build a home page.
 
 But just having a home page isn't anywhere near good enough to make you a hacker. The Web is full of home pages. Most of them are pointless, zero-content sludge — very snazzy-looking sludge, mind you, but sludge all the same (for more on this see The HTML Hell Page).
 
@@ -304,7 +317,9 @@ Learn to write your native language well. Though it's a common stereotype that p
 
 Read science fiction. Go to science fiction conventions (a good way to meet hackers and proto-hackers).
 
-Train in a martial-arts form. The kind of mental discipline required for martial arts seems to be similar in important ways to what hackers do. The most popular forms among hackers are definitely Asian empty-hand arts such as Tae Kwon Do, various forms of Karate, Kung Fu, Aikido, or Ju Jitsu. Western fencing and Asian sword arts also have visible followings. In places where it's legal, pistol shooting has been rising in popularity since the late 1990s. The most hackerly martial arts are those which emphasize mental discipline, relaxed awareness, and control, rather than raw strength, athleticism, or physical toughness.
+Join a hackerspace and make things (another good way to meet hackers and proto-hackers).
+
+Train in a martial-arts form. The kind of mental discipline required for martial arts seems to be similar in important ways to what hackers do. The most popular forms among hackers are definitely Asian empty-hand arts such as Tae Kwon Do, various forms of Karate, Kung Fu, Aikido, or Ju Jitsu. Western fencing and Asian sword arts also have visible followings. In places where it's legal, pistol shooting has been rising in popularity since the late 1990s. The most hackerly martial arts are those which emphasize mental discipline, relaxed awareness, and precise control, rather than raw strength, athleticism, or physical toughness.
 
 Study an actual meditation discipline. The perennial favorite among hackers is Zen (importantly, it is possible to benefit from Zen without acquiring a religion or discarding one you already have). Other styles may work as well, but be careful to choose one that doesn't require you to believe crazy things.
 
@@ -446,6 +461,8 @@ Your next step (and your first step if you can't find a LUG nearby) should be to
 
 The only way in is by working to improve your skills. If you ask me personally for advice on how to get started, I will tell you these exact same things, because I don't have any magic shortcuts for you. I will also mentally write you off as a probable loser - because if you lacked the stamina to read this FAQ and the intelligence to understand from it that the only way in is by working to improve your skills, you're hopeless.
 
+Another interesting possibility is to go visit a hackerspace. There is a burgeoning movement of people creating physical locations - maker's clubs - where they can hang out to work on hardware and software projects together, or work solo in a cogenial atmosphere. Hackerspaces often collect tools and specialized equipment that would be too expensive or logistically inconvenient for individuals to own. Hackerspaces are easy to find on the Internet; one may be located near you.
+
 Q:
 
 When do you have to start? Is it too late for me to learn?
@@ -562,7 +579,7 @@ What language should I learn first?
 
 A:
 
-XHTML (the latest dialect of HTML) if you don't already know it. There are a lot of glossy, hype-intensive bad HTML books out there, and distressingly few good ones. The one I like best is HTML: The Definitive Guide.
+HTML if you don't already know it. There are a lot of glossy, hype-intensive bad HTML books out there, and distressingly few good ones. The one I like best is HTML: The Definitive Guide.
 
 But HTML is not a full programming language. When you're ready to start programming, I would recommend starting with Python. You will hear a lot of people recommending Perl, but it's harder to learn and (in my opinion) less well designed.
 
@@ -589,8 +606,6 @@ I want to contribute. Can you help me pick a problem to work on?
 A:
 
 No, because I don't know your talents or interests. You have to be self-motivated or you won't stick, which is why having other people choose your direction almost never works.
-
-Try this. Watch the project announcements scroll by on Freshmeat for a few days. When you see one that makes you think "Cool! I'd like to work on that!", join it.
 
 Q:
 

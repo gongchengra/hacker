@@ -1,87 +1,89 @@
 <?php
 
-//$arr = [1, 3, 3, 5, 8, 0, 9, 2, 2, 7, 1, 13, 35, 80, 92, 27, 1];
+$arr = [1, 3, 3, 5, 8, 0, 9, 2, 2, 7, 1, 13, 35, 80, 92, 27, 1];
 //$arr = [6, 5, 4, 3, 2, 1, 0, -1];
-$arr = [6, 5, 4, 3, 2, 1];
+//$arr = [6, 5, 4, 3, 2, 1];
 //$arr = [1, 2, 3, 4, 5, 6, 7];
+print_r($arr);
 
 // 计数排序
 function CountingSort($arr)
 {
     $max = max($arr);
-    $countingArray = array();
+    $countingArr = array();
     $length = count($arr);
     for ($i = 0; $i <= $max; ++$i) {
-        $countingArray[$i] = 0;
+        $countingArr[$i] = 0;
     }
     for ($i = 0;$i < $length; ++$i) {
-        ++$countingArray[$arr[$i]];
+        ++$countingArr[$arr[$i]];
     }
     $b = 0;
     for ($j = 0;$j <= $max; ++$j) {
-        if ($countingArray[$j] > 0) {
-            for ($i = 0; $i < $countingArray[$j]; ++$i) {
-                $sortedArray[$b] = $j;
+        if ($countingArr[$j] > 0) {
+            for ($i = 0; $i < $countingArr[$j]; ++$i) {
+                $sortedArr[$b] = $j;
                 ++$b;
             }
         }
     }
 
-    return $sortedArray;
+    return $sortedArr;
 }
 
 //print_r(countingSort($arr));
 
-function HeapSort($array)
+function HeapSort($arr)
 {
-    $n = count($array);
+    $n = count($arr);
     while ($n > 0) {
-        $array = heapify($array, 0, $n);
-        list($array[0], $array[$n - 1]) = array($array[$n - 1], $array[0]);
+        $arr = heapify($arr, 0, $n);
+        list($arr[0], $arr[$n - 1]) = array($arr[$n - 1], $arr[0]);
         --$n;
     }
 
-    return $array;
+    return $arr;
 }
 
-function heapify($array, $pos, $n)
+function heapify($arr, $pos, $n)
 {
     for ($pos = intval($n / 2) - 1;$pos >= 0;--$pos) {
         $lchild = 2 * $pos + 1;
         $rchild = 2 * $pos + 2;
-        if ($rchild < $n && $array[$lchild] < $array[$rchild]) {
-            if ($array[$pos] < $array[$rchild]) {
-                list($array[$pos], $array[$rchild]) = array($array[$rchild], $array[$pos]);
+        if ($rchild < $n && $arr[$lchild] < $arr[$rchild]) {
+            if ($arr[$pos] < $arr[$rchild]) {
+                list($arr[$pos], $arr[$rchild]) = array($arr[$rchild], $arr[$pos]);
             }
         } else {
-            if ($array[$pos] < $array[$lchild]) {
-                list($array[$pos], $array[$lchild]) = array($array[$lchild], $array[$pos]);
+            if ($arr[$pos] < $arr[$lchild]) {
+                list($arr[$pos], $arr[$lchild]) = array($arr[$lchild], $arr[$pos]);
             }
         }
     }
 
-    return $array;
+    return $arr;
 }
 
 //print_r(HeapSort($arr));
 
-function ShellSort($array)
+function ShellSort($arr)
 {
-    $length = count($array);
+    $length = count($arr);
     for ($gap = $length >> 1; $gap > 0; $gap >>= 1) {
         for ($i = $gap; $i < $length; ++$i) {
             for ($j = $i - $gap; $j >= 0; $j -= $gap) {
-                if ($array[$j] > $array[$j + $gap]) {
-                    list($array[$j], $array[$j + $gap]) = array($array[$j + $gap], $array[$j]);
+                echo $gap.' '.$i.' '.$j.' '.($j + $gap)."\n";
+                if ($arr[$j] > $arr[$j + $gap]) {
+                    list($arr[$j], $arr[$j + $gap]) = arr($arr[$j + $gap], $arr[$j]);
                 }
             }
         }
     }
 
-    return $array;
+    return $arr;
 }
-print_r($arr);
-print_r(ShellSort($arr));
+
+//print_r(ShellSort($arr));
 
 // 冒泡排序
 function BubbleSort($arr)
