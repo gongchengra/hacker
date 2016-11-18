@@ -1,0 +1,20 @@
+http://php.net/manual/zh/language.oop5.basic.php
+
+当把一个对象已经创建的实例赋给一个新变量时，新变量会访问同一个实例，就和用该对象赋值一样。此行为和给函数传递入实例时一样。可以用克隆给一个已创建的对象建立一个新实例。
+
+PHP不支持多重继承，一个类只能继承一个基类。
+
+http://php.net/manual/zh/language.oop5.decon.php
+
+自 PHP 5.3.3 起，在命名空间中，与类名同名的方法不再作为构造函数。这一改变不影响不在命名空间中的类。
+
+和构造函数一样，父类的析构函数不会被引擎暗中调用。要执行父类的析构函数，必须在子类的析构函数体中显式调用 parent::__destruct()。此外也和构造函数一样，子类如果自己没有定义析构函数则会继承父类的。
+
+http://php.net/manual/zh/language.oop5.visibility.php
+
+php 类名大小写无关。
+
+http://php.net/manual/zh/language.oop5.static.php
+
+声明类属性或方法为静态，就可以不实例化类而直接访问。静态属性不能通过一个类已实例化的对象来访问（但静态方法可以）。
+
