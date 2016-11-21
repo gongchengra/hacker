@@ -38,6 +38,6 @@ class OtherClass {
     public $var = 'Hello World';
 }
 
-$obj = new myclass();
-$obj->test(new otherclass());
-$obj->test_array([1,2,3]);
+//$obj = new myclass();
+//$obj->test(new otherclass());
+//$obj->test_array([1,2,3]);
