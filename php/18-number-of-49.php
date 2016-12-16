@@ -100,9 +100,9 @@ if (($argc != 2 && $argc != 3) || in_array($argv[1], array('--help', '-help', '-
         print count49(intval($argv[1]))."\n";
     } else {
         if(intval($argv[1]) > intval($argv[2])) {
-            print count49(intval($argv[1])) - count49(intval($argv[2]))+1."\n";
+            print count49(intval($argv[1])) - count49(intval($argv[2]))."\n";
         } else {
-            print count49(intval($argv[2])) - count49(intval($argv[1]))+1."\n";
+            print count49(intval($argv[2])) - count49(intval($argv[1]))."\n";
         }
     }
 }
