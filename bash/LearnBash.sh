@@ -1,5 +1,5 @@
-
 #!/bin/bash
+# https://learnxinyminutes.com/docs/files/LearnBash.sh
 # First line of the script is shebang which tells the system how to execute
 # the script: http://en.wikipedia.org/wiki/Shebang_(Unix)
 # As you already figured, comments start with #. Shebang is also a comment.

@@ -25,8 +25,8 @@ awk 'BEGIN {print "name rate hours";print ""};{}' emp.data
 awk 'BEGIN {print "name rate hours";print ""};{print $0}' emp.data
 awk '$3 > 15{emp = emp +1};END {print emp, "employees worked more than 15 hours"}' emp.data
 awk 'END {print NR, "employees"}' emp.data
-awk '{pay = pay + $2*$3};END{print NR, "employees" print "Total pay is" pay}' emp.data
-awk '{pay = pay + $2*$3};END{print NR, "employees" print "total pay is", pay print "average pay is", pay/NR}' emp.data
+awk '{pay = pay + $2*$3};END{print NR, "employees", "Total pay is" pay}' emp.data
+awk '{pay = pay + $2*$3};END{print NR, "employees", "Total pay is", pay, "average pay is", pay/NR}' emp.data
 awk '$2>maxrate{maxrate=$2;maxemp=$1};END{print "highest rate:",maxrate,"for",maxemp}' emp.data
 awk '{pay = pay + $2*$3};END{print NR, "employees";print "total pay is", pay;print "average pay is", pay/NR}' emp.data
 awk '{names=names $1 " "}END{print names}' emp.data

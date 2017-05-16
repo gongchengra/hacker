@@ -1,0 +1,19 @@
+This reverses the file line by line.
+
+sed '1!G;h;$!d' file
+First, sed has a hold space and a pattern space. We have to distinguish between them before concentrating on that specific command.
+
+When sed reads a new line, it is loaded into the pattern space. Therefore, that space is overwritten every time a new line is processed. On the other hand, the hold space is consistent over the whole processing and values can be stored there for later usage.
+
+To the command:
+
+There are 3 commands in this statement: 1!G, h and $!d
+
+1!G means that the G command is executed on every line except the first one (the ! negates the 1). G means to append what is in the hold space into the pattern space.
+h applies to every line. It copies the pattern space to the hold space (and overwrites it).
+$!d applies to every line except the last one ($ represents the last line, ! negates it). d is the command to delete the line (pattern space).
+
+Now, when the first line is read, sed executes the h command. The first line is copied into the hold space. Then it is deleted, since it matches the $! condition. sed continues with the second line.
+The second line matches the condition 1! (it's not the first line), and so the hold space (which has the first line) is appended to the pattern space (which has the second line). After that, in the pattern space, there is now the second line followed by the first line, delimited by a newline. Now, the h command applies (as in every line); all that is in the pattern space is copied to the hold space. The third statement ($!d) applies: The line is deleted from the pattern space.
+Step 2 is now done with all lines. We skip to the last line.
+In the last line ($) nearly all of Step 2 is done, but not the delete part (d). sed, when invoked without -n, prints the pattern space automatically at the end of the processing for each input line. So, when not deleted, the pattern space is printed. It contains now all lines in reversed order.
