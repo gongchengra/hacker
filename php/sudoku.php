@@ -2,20 +2,21 @@
 <?php
 //error_reporting( E_ALL&~E_NOTICE );
 $initArray = array(
-    8,0,0,0,0,0,0,0,0,
-    0,0,3,6,0,0,0,0,0,
-    0,7,0,0,9,0,2,0,0,
-    0,5,0,0,0,7,0,0,0,
-    0,0,0,0,4,5,7,0,0,
-    0,0,0,1,0,0,0,3,0,
-    0,0,1,0,0,0,0,6,8,
-    0,0,8,5,0,0,0,1,0,
-    0,9,0,0,0,0,4,0,0,
+    3,0,6,0,4,8,7,9,2,
+    0,0,7,0,2,0,0,0,0,
+    0,2,4,0,0,0,3,0,1,
+    6,9,2,0,5,0,8,1,7,
+    7,8,0,6,1,9,0,0,0,
+    1,4,0,0,0,2,9,0,6,
+    4,7,9,0,6,0,1,0,8,
+    2,6,1,0,0,0,5,7,0,
+    5,3,8,0,0,0,0,0,0,
 );
 $messageLog = 'sudoku.log';
 $message = '';
 $tmpArray = array();
 $tmpStack = array();
+$rowColumnBlockMap = array();
 
 foreach ($initArray as $key => $val) {
     if (0 == $val) {
@@ -23,30 +24,35 @@ foreach ($initArray as $key => $val) {
     } else {
         $tmpArray[$key] = "$val";
     }
+    $rowColumnBlockMap[$key] = calculateSameRcb($key);
 }
 
 //calculte the index number arrays for same row, column and block for an given key
 function calculateSameRcb($tmpKey)
 {
-    $rowNumber = intval($tmpKey / 9);
-    $columnNumber = $tmpKey % 9;
-    $sameRowArray = array();
-    $sameColumnArray = array();
-    $sameBlockArray = array();
-    for ($counter = 0; $counter < 9; $counter++) {
-        $sameRow = $rowNumber * 9 + $counter;
-        $sameRowArray[$counter] = $sameRow;
-        $sameColumn = $counter * 9 + $columnNumber;
-        $sameColumnArray[$counter] = $sameColumn;
-        $sameBlock = intval($rowNumber / 3) * 3 * 9 + intval($tmpKey % 9 / 3) * 3;
-        $sameBlock += intval($counter / 3) * 9 + $counter % 3;
-        $sameBlockArray[$counter] = $sameBlock;
-    }
-    $rowColumnBlock['row'] = $sameRowArray;
-    $rowColumnBlock['column'] = $sameColumnArray;
-    $rowColumnBlock['block'] = $sameBlockArray;
+    if (empty($rowColumnBlockMap[$tmpKey])) {
+        $rowNumber = intval($tmpKey / 9);
+        $columnNumber = $tmpKey % 9;
+        $sameRowArray = array();
+        $sameColumnArray = array();
+        $sameBlockArray = array();
+        for ($counter = 0; $counter < 9; $counter++) {
+            $sameRow = $rowNumber * 9 + $counter;
+            $sameRowArray[$counter] = $sameRow;
+            $sameColumn = $counter * 9 + $columnNumber;
+            $sameColumnArray[$counter] = $sameColumn;
+            $sameBlock = intval($rowNumber / 3) * 3 * 9 + intval($tmpKey % 9 / 3) * 3;
+            $sameBlock += intval($counter / 3) * 9 + $counter % 3;
+            $sameBlockArray[$counter] = $sameBlock;
+        }
+        $rowColumnBlock['row'] = $sameRowArray;
+        $rowColumnBlock['column'] = $sameColumnArray;
+        $rowColumnBlock['block'] = $sameBlockArray;
 
-    return $rowColumnBlock;
+        return $rowColumnBlock;
+    } else {
+        return $rowColumnBlockMap[$tmpKey];
+    }
 }
 
 //delete duplicated values from the same row, column and block according to known number
@@ -111,6 +117,7 @@ function fillCellsWithOnePossibility($tmpArray)
                     }
                     if (1 == $rowCounter && strlen($tmpArray[$rememberRow]) > 1) {
                         $tmpArray[$rememberRow] = "$val";
+                        echo 'due to row '. $rememberRow.' is '.$val."\n";
                         $foundFlag = true;
                     }
                     $columnCounter = 0;
@@ -122,6 +129,7 @@ function fillCellsWithOnePossibility($tmpArray)
                     }
                     if (1 == $columnCounter && strlen($tmpArray[$rememberColumn]) > 1) {
                         $tmpArray[$rememberColumn] = "$val";
+                        echo 'due to column '. $rememberColumn.' is '.$val."\n";
                         $foundFlag = true;
                     }
                     $blockCounter = 0;
@@ -133,6 +141,7 @@ function fillCellsWithOnePossibility($tmpArray)
                     }
                     if (1 == $blockCounter && strlen($tmpArray[$remember_block]) > 1) {
                         $tmpArray[$remember_block] = "$val";
+                        echo 'due to block '. $remember_block.' is '.$val."\n";
                         $foundFlag = true;
                     }
                 }
@@ -254,7 +263,7 @@ if (false == checkArray($tmpArray)) {
                 $topOfStackArray = str_split($topOfStack['val']);
                 $firstNumberOnTopStack = array_shift($topOfStackArray);
                 $tmpArray[$topOfStack['key']] = $firstNumberOnTopStack;
-                //echo 'assume '. $leastUnknownCell['key']. ' is '. $firstNumberOnTopStack. "\n";
+                echo 'assume '. $leastUnknownCell['key']. ' is '. $firstNumberOnTopStack. "\n";
                 $tmpArray = simplifyArray($tmpArray);
                 if (count($topOfStackArray) > 0) {
                     $topOfStack['val'] = join('', $topOfStackArray);
