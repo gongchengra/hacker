@@ -19,7 +19,7 @@ class Invoker
 
     public function executeCommand()
     {
-        foreach ($this->_command as$command) {
+        foreach ($this->_command as $command) {
             $command->execute();
         }
     }

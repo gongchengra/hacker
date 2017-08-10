@@ -107,7 +107,7 @@ class UserModel extends Model
 {
 }
 
-class PorductModel extends Model
+class ProductModel extends Model
 {
     public function __construct()
     {
@@ -117,6 +117,6 @@ class PorductModel extends Model
 
 // -- 实例一下 ---
 $mdlUser = new UserModel();
-$mdlProduct = new PorductModel();
+$mdlProduct = new ProductModel();
 $mdlProduct->setCache(new FileCache()); // 改变缓存策略
 ;

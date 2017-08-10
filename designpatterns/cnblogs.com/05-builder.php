@@ -47,7 +47,7 @@ class ProductBuilder
     public $_config = null;
     public $_object = null;
 
-    public function ProductBuilder($config)
+    public function __construct($config)
     {
         $this->_object = new Product();
         $this->_config = $config;
@@ -70,3 +70,12 @@ class ProductBuilder
 $objBuilder = new ProductBuilder($config);
 $objBuilder->build();
 $objProduct = $objBuilder->getProduct();
+
+$config1 = array(
+    "type" => "shirt",
+    "size" => "l",
+    "color" => "black",
+);
+$builder1 = new ProductBuilder($config1);
+$builder1->build();
+$builder1->getProduct();
