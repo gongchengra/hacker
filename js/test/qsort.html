@@ -1,0 +1,199 @@
+<html>
+<body>
+<script>
+// @author: ideawu
+// @link: http://www.ideawu.net/blog/archives/1021.html
+var swap_count = 0;
+var cmp_count = 0;
+
+// https://gist.github.com/wintercn/c30464ed3732ee839c3eeed316d73253
+function wintercn_qsort(arr, start, end){
+	var midValue = arr[start];
+	var p1 = start, p2 = end;
+	while(p1 < p2) {
+		swap(arr, p1, p1 + 1);
+		while(compare(arr[p1], midValue) >= 0 && p1 < p2) {
+			swap(arr, p1, p2--);
+		}
+		p1 ++;
+	}
+	if(start < p1 - 1) 
+		wintercn_qsort(arr, start, p1 - 1);
+	if(p1 < end) 
+		wintercn_qsort(arr, p1, end);
+}
+
+// http://www.ruanyifeng.com/blog/2011/04/quicksort_in_javascript.html
+var ruanyifeng_qsort = function(arr) {
+	if (arr.length <= 1) { return arr; }
+	var pivotIndex = Math.floor(arr.length / 2);
+	var pivot = arr.splice(pivotIndex, 1)[0];
+	swap_count++;
+	var left = [];
+	var right = [];
+	for (var i = 0; i < arr.length; i++){
+		if (compare(arr[i], pivot) < 0) {
+			swap_count++;
+			left.push(arr[i]);
+		} else {
+			swap_count++;
+			right.push(arr[i]);
+		}
+	}
+	swap_count++;
+	return ruanyifeng_qsort(left).concat([pivot], ruanyifeng_qsort(right));
+}
+
+function compare(a, b){
+	cmp_count ++;
+	return a-b;
+}
+
+function swap(arr, s, e){
+	swap_count ++;
+	var tmp = arr[s];
+	arr[s] = arr[e];
+	arr[e] = tmp; 
+}
+
+function partition_hoare(arr, start, end){
+	var pivot = arr[start];
+	var s = start;
+	var e = end;
+	while(1){
+		while(compare(arr[s], pivot) < 0){
+			s ++;
+		}
+		while(compare(arr[e], pivot) > 0){
+			e --;
+		}
+		if(s == e){
+			return s;
+		}else if(s > e){
+			return s-1;
+		}
+		swap(arr, s, e);
+		s++;
+		e--;
+	}
+}
+
+function qsort_hoare(arr, start, end){
+	if(start >= end){
+		return;
+	}
+	var p = partition_hoare(arr, start, end);
+	qsort_hoare(arr, start, p);
+	qsort_hoare(arr, p+1, end);
+}
+
+function partition_lomuto(arr, start, end){
+	var pivot = arr[end];
+	var s = start;
+	for(var g = start; g < end; g++){
+		if(compare(arr[g], pivot) < 0){
+			if(s != g){
+				swap(arr, s, g);
+			}
+			s ++;
+		}
+	}
+	if(s == end){
+		return s-1;
+	}else{
+		swap(arr, s, end);
+		return s;
+	}
+}
+
+function qsort_lomuto(arr, start, end){
+	if(start >= end){
+		return;
+	}
+	// console.log('in', arr, start, end);
+	var p = partition_lomuto(arr, start, end);
+	// console.log(JSON.stringify(arr.slice(start, p+1)), JSON.stringify(arr.slice(p+1, end+1)));
+	qsort_lomuto(arr, start, p);
+	qsort_lomuto(arr, p+1, end);
+}
+
+function bubble_sort(arr, start, end){
+	for(var i=start; i<=end; i++){
+		for(var j=start; j<=end-i-1; j++){
+			if(compare(arr[j], arr[j+1]) > 0){
+				swap(arr, j, j+1);
+			}
+		}
+	}
+}
+
+function check_result(a){
+	var pass = true;
+	var v = a[0];
+	for(var j=0; j<a.length; j++){
+		var n = a[j];
+		if(n < v){
+			pass = false;
+			break;
+		}
+		v = a[j];
+	}
+	return pass;
+}
+
+function run_test(func, name){
+	document.write('<b>run test: ', name, '</b><br/>');
+	swap_count = 0;
+	cmp_count = 0;
+	var nlogn = 0;
+
+	var stime = (new Date()).getTime();
+	for(var i=1; i<=arr.length; i++){
+		var a = arr.slice(0, i);
+		var b = func(a, 0, a.length - 1);
+		if(func == ruanyifeng_qsort){
+			a = b;
+		}
+		
+		if(!check_result(a)){
+			console.log(i, 'fail');
+			console.log(a);
+		}
+		nlogn += Math.floor(i*Math.log(i));
+		// console.log('n:', i, 'swaps:', swap_count, 'compares:', cmp_count, 'nlogn:', Math.floor(i*Math.log(i)), JSON.stringify(a));
+	}
+	var etime = (new Date()).getTime();
+	document.write('time: ', etime-stime, ' ms', '<br/>');
+	document.write('compare: ', cmp_count, ' swap: ', swap_count, ' nlogn: ', nlogn, '<br/>');
+	document.write('<br/>');
+}
+
+
+var count = 2000;
+var arr = [];
+for(var i=0; i<count; i++){
+	arr.push(Math.floor(Math.random() * count));
+}
+console.log('datasource:', JSON.stringify(arr));
+
+
+document.write('Running...');
+setTimeout(function(){	
+	document.write('<pre>');
+	run_test(wintercn_qsort, 'wintercn_qsort');
+	run_test(ruanyifeng_qsort, 'ruanyifeng_qsort');
+	run_test(qsort_hoare, 'qsort_hoare');
+	run_test(qsort_lomuto, 'qsort_lomuto');
+	document.write('</pre>');
+	
+	// document.write('Running bubble_sort...');
+	// setTimeout(function(){
+	// 	document.write('<pre>');
+	// 	run_test(bubble_sort, 'bubble_sort');
+	// 	document.write('</pre>');
+	// }, 0);
+}, 0);
+
+</script>
+</body>
+</html>
