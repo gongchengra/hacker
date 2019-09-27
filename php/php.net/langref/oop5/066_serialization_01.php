@@ -1,4 +1,5 @@
 <?php
+
 // classa.inc:
 
 class A
@@ -28,5 +29,5 @@ file_put_contents('store', $save); // O:1:"A":1:{s:3:"one";i:1;}
 $restore = file_get_contents('store');
 $b = unserialize($restore);
 
-// now use the function show_one() of the $a object.  
+// now use the function show_one() of the $a object.
 $b->show_one();

@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/018_paamayim-nekudotayim_01.php';
 class OtherClass extends MyClass
 {

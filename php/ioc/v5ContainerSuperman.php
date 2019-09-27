@@ -63,7 +63,7 @@ $container->bind('shot', function($container){
 });
 // ******************  华丽丽的分割线  **********************
 // 开始启动生产
-//var_dump($container);
+var_dump($container);
 $superman_1 = $container->make('superman', ['flight']);
 $superman_1->showModule();
 $superman_2 = $container->make('superman', ['force']);

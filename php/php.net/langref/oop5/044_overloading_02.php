@@ -22,4 +22,3 @@ $obj = new MethodTest();
 $obj->runTest('in object context');
 
 MethodTest::runTest('in static context');  // PHP 5.3.0之后版本
-

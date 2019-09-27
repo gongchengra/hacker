@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/057_typehinting_01.php';
 // 两个类的对象
 $myclass = new MyClass();
@@ -8,13 +9,13 @@ $otherclass = new OtherClass();
 $myclass->test('hello');
 
 // 致命错误：第一个参数必须为 OtherClass 类的一个实例
-$foo = new stdClass;
+$foo = new stdClass();
 $myclass->test($foo);
 
 // 致命错误：第一个参数不能为 null
 $myclass->test(null);
 
-// 正确：输出 Hello World 
+// 正确：输出 Hello World
 $myclass->test($otherclass);
 
 // 致命错误：第一个参数必须为数组

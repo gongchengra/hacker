@@ -22,7 +22,7 @@ echo Foo::$my_static."\n";
 
 $foo = new Foo();
 echo $foo->staticValue()."\n";
-echo $foo->my_static."\n";      // Undefined "Property" my_static
+//echo $foo->my_static."\n";      // Undefined "Property" my_static
 
 echo $foo::$my_static."\n";
 $classname = 'Foo';

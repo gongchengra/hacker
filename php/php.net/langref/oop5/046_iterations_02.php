@@ -43,16 +43,16 @@ class MyIterator implements Iterator
 
     public function valid()
     {
-        $var = $this->current() !== false;
+        $var = false !== $this->current();
         echo "valid: {$var}\n";
 
         return $var;
     }
 }
 
-$values = array(1, 2, 3);
-$it = new MyIterator($values);
+//$values = array(10, 20, 30);
+//$it = new MyIterator($values);
 
-foreach ($it as $a => $b) {
-    echo "$a: $b\n";
-}
+//foreach ($it as $a => $b) {
+//    echo "$a: $b\n";
+//}

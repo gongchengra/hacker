@@ -1,18 +1,24 @@
 <?php
-class BaseClass {
-   function __construct() {
-       print "In BaseClass constructor\n";
-   }
+
+class BaseClass
+{
+    public function __construct()
+    {
+        echo "In BaseClass constructor\n";
+    }
 }
 
-class SubClass extends BaseClass {
-   function __construct() {
-       parent::__construct();
-       print "In SubClass constructor\n";
-   }
+class SubClass extends BaseClass
+{
+    public function __construct()
+    {
+        parent::__construct();
+        echo "In SubClass constructor\n";
+    }
 }
 
-class OtherSubClass extends BaseClass {
+class OtherSubClass extends BaseClass
+{
     // inherits BaseClass's constructor
 }
 

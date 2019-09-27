@@ -20,6 +20,8 @@ class C2
     use Counter;
 }
 
-$o = new C1(); $o->inc(); // echo 1
+$o = new C1();
+for ($i = 0; $i < 10; ++$i) {
+    $o->inc();
+}
 $p = new C2(); $p->inc(); // echo 1
-

@@ -1,7 +1,8 @@
 <?php
+
 class A
 {
-    function foo()
+    public function foo()
     {
         if (isset($this)) {
             echo '$this is defined (';
@@ -15,7 +16,7 @@ class A
 
 class B
 {
-    function bar()
+    public function bar()
     {
         A::foo();
     }

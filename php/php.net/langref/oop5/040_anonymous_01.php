@@ -12,7 +12,7 @@ class Logger
 $util->setLogger(new Logger());
 
 // 使用了 PHP 7+ 后的代码
-$util->setLogger(new class {
+$util->setLogger(new class() {
     public function log($msg)
     {
         echo $msg;

@@ -2,39 +2,39 @@
 
 function bool2str($bool)
 {
-	if ($bool === false) {
-		return 'FALSE';
-	} else {
-		return 'TRUE';
-	}
+    if (false === $bool) {
+        return 'FALSE';
+    } else {
+        return 'TRUE';
+    }
 }
 
 function compareObjects(&$o1, &$o2)
 {
-	echo 'o1 == o2 : '.bool2str($o1 == $o2)."\n";
-	echo 'o1 != o2 : '.bool2str($o1 != $o2)."\n";
-	echo 'o1 === o2 : '.bool2str($o1 === $o2)."\n";
-	echo 'o1 !== o2 : '.bool2str($o1 !== $o2)."\n";
+    echo 'o1 == o2 : '.bool2str($o1 == $o2)."\n";
+    echo 'o1 != o2 : '.bool2str($o1 != $o2)."\n";
+    echo 'o1 === o2 : '.bool2str($o1 === $o2)."\n";
+    echo 'o1 !== o2 : '.bool2str($o1 !== $o2)."\n";
 }
 
 class Flag
 {
-	public $flag;
+    public $flag;
 
-	public function Flag($flag = true)
-	{
-		$this->flag = $flag;
-	}
+    public function Flag($flag = true)
+    {
+        $this->flag = $flag;
+    }
 }
 
 class OtherFlag
 {
-	public $flag;
+    public $flag;
 
-	public function OtherFlag($flag = true)
-	{
-		$this->flag = $flag;
-	}
+    public function OtherFlag($flag = true)
+    {
+        $this->flag = $flag;
+    }
 }
 
 $o = new Flag();

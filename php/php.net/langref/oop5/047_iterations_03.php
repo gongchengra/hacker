@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/046_iterations_02.php';
 class MyCollection implements IteratorAggregate
 {

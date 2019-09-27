@@ -1,4 +1,5 @@
 <?php
+
 class Test
 {
     private $foo;

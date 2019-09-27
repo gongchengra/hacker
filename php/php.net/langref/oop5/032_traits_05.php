@@ -1,23 +1,33 @@
 <?php
-trait A {
-    public function smallTalk() {
-        echo 'a';
+
+trait A
+{
+    public function smallTalk()
+    {
+        echo 'a'.PHP_EOL;
     }
-    public function bigTalk() {
-        echo 'A';
+
+    public function bigTalk()
+    {
+        echo 'A'.PHP_EOL;
     }
 }
 
-trait B {
-    public function smallTalk() {
-        echo 'b';
+trait B
+{
+    public function smallTalk()
+    {
+        echo 'b'.PHP_EOL;
     }
-    public function bigTalk() {
-        echo 'B';
+
+    public function bigTalk()
+    {
+        echo 'B'.PHP_EOL;
     }
 }
 
-class Talker {
+class Talker
+{
     use A, B {
         B::smallTalk insteadof A;
         A::bigTalk insteadof B;
@@ -28,7 +38,8 @@ $talker = new talker();
 $talker->smallTalk();
 $talker->bigTalk();
 
-class Aliased_Talker {
+class Aliased_Talker
+{
     use A, B {
         B::smallTalk insteadof A;
         A::bigTalk insteadof B;

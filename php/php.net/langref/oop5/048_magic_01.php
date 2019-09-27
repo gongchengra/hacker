@@ -3,7 +3,10 @@
 class Connection
 {
     protected $link;
-    private $server, $username, $password, $db;
+    private $server;
+    private $username;
+    private $password;
+    private $db;
 
     public function __construct($server, $username, $password, $db)
     {

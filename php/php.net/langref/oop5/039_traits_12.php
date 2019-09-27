@@ -9,7 +9,7 @@ trait PropertiesTrait
 class PropertiesExample
 {
     use PropertiesTrait;
-//    public $same = true; // Strict Standards
+    public $same = true; // Strict Standards
 //    public $different = true; // 致命错误
 }
 

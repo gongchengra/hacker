@@ -11,9 +11,9 @@ class ConcreteClass extends AbstractClass
     // 我们的子类可以定义父类签名中不存在的可选参数
     public function prefixName($name, $separator = '.')
     {
-        if ($name == 'Pacman') {
+        if ('Pacman' == $name) {
             $prefix = 'Mr';
-        } elseif ($name == 'Pacwoman') {
+        } elseif ('Pacwoman' == $name) {
             $prefix = 'Mrs';
         } else {
             $prefix = '';

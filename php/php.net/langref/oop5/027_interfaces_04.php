@@ -1,4 +1,5 @@
 <?php
+
 interface a
 {
     const b = 'Interface constant';

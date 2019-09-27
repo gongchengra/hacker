@@ -1,4 +1,5 @@
 <?php
+
 interface a
 {
     public function foo();

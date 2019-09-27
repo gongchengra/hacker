@@ -1,4 +1,5 @@
 <?php
+
 // Declare a simple class
 class TestClass
 {

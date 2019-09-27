@@ -4,6 +4,7 @@ abstract class AbstractClass
 {
     // 强制要求子类定义这些方法
     abstract protected function getValue();
+
     abstract protected function prefixValue($prefix);
 
     // 普通方法（非抽象方法）

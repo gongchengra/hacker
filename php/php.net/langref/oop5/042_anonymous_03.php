@@ -28,4 +28,4 @@ class Outer
     }
 }
 
-echo (new Outer)->func2()->func3();
+echo (new Outer())->func2()->func3();

@@ -1,4 +1,5 @@
 <?php
+
 interface a
 {
     public function foo();
@@ -18,9 +19,17 @@ class c implements b
 
     public function baz(Baz $baz)
     {
+        echo get_class($baz).PHP_EOL;
     }
 }
 
+class Baz implements a
+{
+    public function foo()
+    {
+        echo 'foo'.PHP_EOL;
+    }
+}
 // 错误写法会导致一个致命错误
 //class d implements b
 //{
@@ -32,3 +41,5 @@ class c implements b
 //    {
 //    }
 //}
+(new c())->baz(new Baz());
+(new Baz())->foo();
