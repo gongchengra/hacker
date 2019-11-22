@@ -32,7 +32,7 @@ int main()
         if (result[j] != 0) flag = 1;
         if (flag == 1) printf("%d", result[j]);
     }
-    printf("\n");
+    printf("P\n");
 
     return 0;
 }

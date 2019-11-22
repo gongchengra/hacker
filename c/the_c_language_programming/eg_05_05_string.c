@@ -28,14 +28,12 @@ void strcpy2(char *s, char *t)
 /* strcpy: copy t to s; pointer version 2 */
 void strcpy3(char *s, char *t)
 {
-    while ((*s++ = *t++) != '\0')
-        ;
+    while ((*s++ = *t++) != '\0') ;
 }
 /* strcpy: copy t to s; pointer version 3 */
 void strcpy4(char *s, char *t)
 {
-    while (*s++ = *t++)
-        ;
+    while ((*s++ = *t++));
 }
 /* strcmp: return <0 if s<t, 0 if s==t, >0 if s>t */
 int strcmp1(char *s, char *t)

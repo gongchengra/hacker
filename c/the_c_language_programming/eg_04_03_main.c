@@ -7,7 +7,9 @@ int getop(char []);
 void push(double);
 double pop(void);
 /* reverse Polish calculator */
-main()
+// 1 2 - 4 5 + * means (1-2)*(4+5) = -9
+// run by gcc eg_04_03_*.c -o eg_04_03.exe && ./eg_04_03.exe
+int main()
 {
     int type;
     double op2;

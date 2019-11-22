@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
-/*gcc % eg_04_03_getch.c*/
+// gcc % eg_04_03_getch.c
 int getch(void);
 void ungetch(int);
 

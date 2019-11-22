@@ -66,6 +66,7 @@ int gettoken(void)  /* returns next token */
     else if ( isalpha(c) ) {
         for (*p++ = c; isalnum(c=getch()); ) *p++ = c;
         *p = '\0';
+		ungetch(c);
         return tokentype = NAME;
     }
     else

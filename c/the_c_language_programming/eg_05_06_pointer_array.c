@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
     }
 }
 
-
 #define MAXLEN 1000
 int getlinekr(char *, int);
 char *alloc(int);
