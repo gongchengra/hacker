@@ -35,9 +35,9 @@ static struct nlist *hashtab[HASHSIZE];
 
 unsigned hash(char *s) {
 	unsigned hashval;
-	
+
 	for (hashval = 0; *s != '\0'; s++)
-		hashval = *s + 31 * hashval;
+		hashval = *s + 33 * hashval;
 	return hashval % HASHSIZE;
 }
 
@@ -67,7 +67,7 @@ void undef(char *name) {
 
 struct nlist *lookup(char *s) {
 	struct nlist *np;
-	
+
 	for (np = hashtab[hash(s)]; np != NULL; np = np->next)
 		if (strcmp(s, np->name) == 0)
 			return np;
@@ -77,7 +77,7 @@ struct nlist *lookup(char *s) {
 struct nlist *install(char *name, char *defn) {
 	struct nlist *np;
 	unsigned hashval;
-	
+
 	if ((np = lookup(name)) == NULL) {
 		np = (struct nlist *) malloc(sizeof(*np));
 		if (np == NULL || (np->name = strdup(name)) == NULL)
@@ -102,7 +102,7 @@ int main() {
 	char token[MAXTOK];
 	int c;
 	struct nlist *entry;
-	
+
 	while ((c = getnexttoken(token, MAXTOK)) != EOF) {
 		switch (c) {
 			case '#':
@@ -127,7 +127,7 @@ int main() {
 				}
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -165,12 +165,12 @@ int getnexttoken(char *word, int lim) {
 	short in_comment = 0;
 
 	*w = '\0';
-	
+
 	if ((c = getch()) != EOF)
 		*w++ = c;
 	else
 		return EOF;
-	
+
 	if (isalpha(c) || c == '_' || c == '#') {
 		for ( ; --lim > 0; w++)
 			if (!isalnum((unsigned char) (*w = getch())) && *w != '_') {
