@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define MAXLINE 100
 /* rudimentary calculator */
-main()
+int main()
 {
     double sum, atof(char []);
     char line[MAXLINE];
