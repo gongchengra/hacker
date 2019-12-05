@@ -40,13 +40,13 @@ int bitcount(unsigned x)
 int main()
 {
     int n = 255*255;
-    /*    printf("%d\n",getbits(255,4,3));*/
-    /*    printf("%s\n",byte_to_binary(259));*/
-    /*    printf("%s\n",byte_to_binary(255&077));*/
-    /*    printf("%s\n",byte_to_binary(1&2));*/
-    /*    printf("%s\n",byte_to_binary(255*255));*/
-/*    bin(n);*/
-/*    bin(-1);*/
+    printf("%d\n",getbits(255,4,3));
+    printf("%s\n",byte_to_binary(259));
+    printf("%s\n",byte_to_binary(255&077));
+    printf("%s\n",byte_to_binary(1&2));
+    printf("%s\n",byte_to_binary(255*255));
+    bin(n);
+    bin(-1);
     printf("\n");
     printf("The color: %s\n", "blue");
     printf("First number: %d\n", 12345);
