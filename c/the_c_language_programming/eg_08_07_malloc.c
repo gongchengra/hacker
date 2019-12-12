@@ -1,111 +1,106 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-typedef long Align;                // for alignment to long boundary
+typedef long Align; // for alignment to long boundary
 
-union header                       // block header:
+union header // block header:
 {
-    struct
-    {
-        union header *ptr;             // size of this block
-        unsigned size;                 // size of this block
+    struct {
+        union header *ptr; // size of this block
+        unsigned size;     // size of this block
     } s;
-    Align x;                         // force alignment
+    Align x; // force alignment
 };
 typedef union header Header;
 
-static Header base;               // empty list to get started with
-static Header *freep = NULL;       // start of free list
+static Header base;          // empty list to get started with
+static Header *freep = NULL; // start of free list
 void *mallockr(unsigned nbytes);
+
 /* mallockr: general-purpose storage allocator */
-void *mallockr(unsigned nbytes)
-{
+void *mallockr(unsigned nbytes) {
     Header *p, *prevp;
     Header *morecore(unsigned);
     unsigned nunits;
 
-    nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
-    if ((prevp = freep) == NULL)  // no free list yet
+    nunits = (nbytes + sizeof(Header) - 1) / sizeof(Header) + 1;
+    if ((prevp = freep) == NULL) // no free list yet
     {
         base.s.ptr = freep = prevp = &base;
         base.s.size = 0;
     }
-    for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr)
-    {
-        if (p->s.size >= nunits)               // big enough
+    for (p = prevp->s.ptr;; prevp = p, p = p->s.ptr) {
+        if (p->s.size >= nunits) // big enough
         {
-            if (p->s.size == nunits)           // exactly
+            if (p->s.size == nunits) // exactly
                 prevp->s.ptr = p->s.ptr;
-            else                               // allocate tail end
+            else // allocate tail end
             {
                 p->s.size -= nunits;
                 p += p->s.size;
                 p->s.size = nunits;
             }
             freep = prevp;
-            return (void *)(p+1);
+            return (void *)(p + 1);
         }
-        if (p == freep)                       // wrapped around free list
+        if (p == freep) // wrapped around free list
             if ((p = morecore(nunits)) == NULL)
-                return NULL;                      // none left
+                return NULL; // none left
     }
 }
 
-#define NALLOC 1024    // minimum #units to request
+#define NALLOC 1024 // minimum #units to request
 
 /* morecore: ask system for more memory */
-Header *morecore(unsigned nu)
-{
+Header *morecore(unsigned nu) {
     char *cp, *sbrk(int);
     Header *up;
 
     if (nu < NALLOC)
         nu = NALLOC;
     cp = sbrk(nu * sizeof(Header));
-    if (cp == (char *) -1)          // no space at all
+    if (cp == (char *)-1) // no space at all
         return NULL;
-    up = (Header *) cp;
+    up = (Header *)cp;
     up->s.size = nu;
     free((void *)(up + 1));
     return freep;
 }
 
 /* free: put block ap in free list */
-void free(void *ap)
-{
+void free(void *ap) {
     Header *bp, *p;
 
-    bp = (Header *)ap - 1;    // point to block header
+    bp = (Header *)ap - 1; // point to block header
     for (p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
         if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
-            break;               // freed block at start of end of arena
+            break; // freed block at start of end of arena
 
-    if (bp + bp->s.size == p->s.ptr)      // join to upper
+    if (bp + bp->s.size == p->s.ptr) // join to upper
     {
         bp->s.size += p->s.ptr->s.size;
         bp->s.ptr = p->s.ptr->s.ptr;
-    }
-    else
+    } else
         bp->s.ptr = p->s.ptr;
-    if (p + p->s.size == bp)
-    {
+    if (p + p->s.size == bp) {
         p->s.size += bp->s.size;
         p->s.ptr = bp->s.ptr;
-    }
-    else
+    } else
         p->s.ptr = bp;
     freep = p;
 }
 
-int main () {
+int main() {
     char *str;
 
     /* Initial memory allocation */
-    str = (char *) mallockr(15);
+    str = (char *)mallockr(1);
     strcpy(str, "laogongshuo.com");
-    printf("String = %s,  Address = %u\n", str, *str);
+    printf("String = %s,  Address = %c\n", str, *str);
+    printf("String = %s,  Address = %c\n", str, *(str+1));
+    printf("%lu\n", strlen(str));
 
     free(str);
 
-    return(0);
+    return (0);
 }

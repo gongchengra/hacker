@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 /* strlen: return length of string s */
 int strlen1(char *s)
 {
@@ -74,5 +75,17 @@ int main(void)
     printf("%d\n", strcmp1(s,t));
     printf("%d\n", strcmp2(s,t));
 
+    // https://www.prismnet.com/~mcmahon/Notes/strings.html
+    char s1[20];             // Character array - can hold a C string, but is not yet a valid C string
+    char s2[20] = { 'h', 'e', 'l', 'l', 'o', '\0' };     // Array initialization
+    char s3[20] = "hello";                               // Shortcut array initialization
+    char s4[20] = "";        // Empty or null C string of length 0, equal to ""
+    char *s5 = "hello";
+    printf("%c\n", *(s5+2));
+    printf("%d\n", (int)strlen(s1));
+    printf("%d\n", (int)strlen(s2));
+    printf("%d\n", (int)strlen(s3));
+    printf("%d\n", (int)strlen(s4));
+    printf("%ld\n", strlen(s5));
     return 0;
 }

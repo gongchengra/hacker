@@ -27,7 +27,7 @@ int main(){
         unsigned u;
     };
     union ufloat u1;
-    u1.f = 1.0;
+    u1.f = 20.0;
     printf("%d\n", u1.u);
 
     union udouble {
@@ -38,14 +38,6 @@ int main(){
     u2.d = 1.0;
     printf("%lld\n", u2.u);
 
-    int i = 1;
-    float *fp = &i;
-    printf("%f\n", *fp);
-    *fp = 1.0;
-    printf("%d\n", i);
-    char *p = decimal_to_binary(i);
-    printf("Binary string of %d is: %s\n", i, p);
-    /*
     unsigned long n;
     char *p;
     printf("Enter an integer in decimal number system\n");
@@ -54,5 +46,4 @@ int main(){
     printf("Binary string of %ld is: %s\n", n, p);
     free(p);
     return 0;
-    */
 }

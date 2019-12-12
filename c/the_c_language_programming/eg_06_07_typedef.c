@@ -1,10 +1,10 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 
-* File Name : eg_06_05_self_referential_struct.c
+* File Name : eg_06_07_typedef.c
 
 * Author : gongchengra@gmail.com
 
-* Purpose :
+* Purpose : count words
 
 * Creation Date : 2014-11-28
 

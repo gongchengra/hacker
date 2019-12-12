@@ -4,7 +4,7 @@
 
 * Author : gongchengra@gmail.com
 
-* Purpose :
+* Purpose : count words
 
 * Creation Date : 2014-11-28
 

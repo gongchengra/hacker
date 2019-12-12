@@ -8,7 +8,7 @@ int main(void)
     int (*pf)();
 
     /* argv: pointer to pointer to char */
-    char **argv;
+    char **argv; // char *argv[] is more common.
 
     /* daytab: pointer to array[13] of int*/
     int (*daytab)[13];

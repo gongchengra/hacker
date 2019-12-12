@@ -1,0 +1,372 @@
+1. Read the whole thing!
+    Major arguments and evidence matter more than details. Grasping the structure of the whole is more important than reading every word.
+2. Decide how much time you will spend!
+    Real-world time is limited. If you know exactly how long you can actually spend on reading, you can plan how much time to devote to each item.
+3. Have a purpose and a strategy!
+    You'll enjoy reading more, and remember it better, if you know exactly why you're reading.
+4. Read actively!
+    Never rely on the author's structures alone. Move around in the text, following your own goals.
+5. Read it three times!
+    First time for overview and discovery. Second time for detail and understanding. Third time for note-taking in your own words.
+6. Focus on parts with high informaion content!
+    Tables of contents, pictures, charts, headings, and other elements contain more information than body text.
+7. Use personal text markup language!
+    Mark up your reading with your own notes. This helps you learn and also helps you find important passages later.
+8. Use your unconscious mind!
+    Leave time between reading sessions for your mind to process the material.
+9. Rehearse and use multiple modes!
+    Talking, visualizing, or writing about what you've read helps you remember it.
+
+## ch1 A Tutorial Introduction p22-p46
+1. Getting Started
+    printf("hello, world\n");
+2. Variables and Arithmetic Expressions
+    celsius = 5 * (fahr-32) / 9;
+3. The for statement
+    for (fahr = 0; fahr <= 300; fahr = fahr + 20) printf("%3d %6.1f\n", fahr, (5.0/9.0)*(fahr-32));
+4. Symbolic Constants
+    #define UPPER 300
+5. Character Input and Output
+    c = getchar();
+    putchar(c);
+    1. File Copying
+    2. Character Counting
+    3. Line Counting
+    4. Word Counting
+6. Arrays
+    int ndigit[10];
+7. Functions
+    A function provides a convenient way to encapsulate some computation, which can then be used without worrying about its implementation.
+8. Arguments - Call by Value
+    In C, all function arguments are passed ``by value.'' This means that the called function is given the values of its arguments in temporary variables rather than the originals.
+9. Character Arrays
+    Character array is stored as an array of characters containing the characters in the string and terminated with a '\0' to mark the end.
+10. External Variables and Scope
+    An external variable must be defined, exactly once, outside of any function; this sets aside storage for it.
+
+## ch2 Types, Operators and Expressions p47-p63
+1. Variable Names
+    Names are made up of letters and digits; the first character must be a letter. The underscore ``_'' counts as a letter; it is sometimes useful for improving the readability of long variable names. Don't begin variable names with underscore, however, since library routines often use such names. Upper and lower case letters are distinct, so x and X are two different names.
+2. Data Types and Sizes
+    There are only a few basic data types in C: char, int, float, double
+3. Constants
+    A long constant is written with a terminal l (ell) or L, as in 123456789L; an integer constant too big to fit into an int will also be taken as a long. Unsigned constants are written with a terminal u or U, and the suffix ul or UL indicates unsigned long. 
+    The first name in an enum has value 0, the next 1, and so on, unless explicit values are specified.
+4. Declarations
+    All variables must be declared before use, although certain declarations can be made implicitly by content.
+5. Arithmetic Operators
+    The binary arithmetic operators are +, -, *, /, and the modulus operator %. 
+6. Relational and Logical Operators
+    The relational operators are > >= < <=.  Expressions connected by && or || are evaluated left to right, and evaluation stops as soon as the truth or falsehood of the result is known. 
+7. Type Conversions
+    When an operator has operands of different types, they are converted to a common type according to a small number of rules. 
+8. Increment and Decrement Operators
+    The increment operator ++ adds 1 to its operand, while the decrement operator -- subtracts 1. 
+9. Bitwise Operators
+    The bitwise exclusive OR operator ^ sets a one in each bit position where its operands have different bits, and zero where they are the same. 
+10. Assignment Operators and Expressions
+    i += 2 is equivalent to i = i + 2
+11. Conditional Expressions
+    z = (a > b) ? a : b;
+12. Precedence and Order of Evaluation
+    x = f() + g();
+    f may be evaluated before g or vice versa; thus if either f or g alters a variable on which the other depends, x can depend on the order of evaluation. 
+
+## ch3 Control Flow p64-p74
+1. Statements and Blocks
+    x = 0; Braces { and } are used to group declarations and statements together into a compound statement, or block, so that they are syntactically equivalent to a single statement.
+2. If-Else
+    if (a > b) z = a; else z = b;
+3. Else-If
+    if (expression)
+        statement
+    else if (expression)
+        statement
+    else
+        statement
+4. Switch
+    switch (expression) {
+        case const-expr: statements
+        case const-expr: statements
+        default: statements
+    }
+5. Loops - While and For
+    while (expression)
+        statement
+    for (expr1; expr2; expr3)
+        statement
+6. Loops - Do-While
+    do
+        statement
+    while (expression);
+7. Break and Continue
+    The break statement provides an early exit from for, while, and do, just as from switch. The continue statement causes the next iteration of the enclosing for, while, or do loop to begin.
+8. Goto and labels
+    C provides the infinitely-abusable goto statement, and labels to branch to. 
+
+## ch4 Functions and Program Structure p75-p95
+1. Basics of Functions
+    cc main.c getline.c strindex.c -o grep.exe
+2. Functions Returning Non-integers
+    double atof(char s[])
+3. External Variables
+    A C program consists of a set of external objects, which are either variables or functions.
+4. Scope Rules
+    If an external variable is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an extern declaration is mandatory.
+    in file1: extern int sp;
+    in file2: int sp = 0;
+5. Header Files
+    #include "calc.h"
+6. Static Variables
+    The static declaration, applied to an external variable or function, limits the scope of that object to the rest of the source file being compiled.
+7. Register Variables
+    A register declaration advises the compiler that the variable in question will be heavily used.     
+8. Block Structure
+    Declarations of variables (including initializations) may follow the left brace that introduces any compound statement, not just the one that begins a function. 
+9. Initialization
+    In the absence of explicit initialization, external and static variables are guaranteed to be initialized to zero; automatic and register variables have undefined (i.e., garbage) initial values. 
+    char pattern[] = { 'o', 'u', 'l', 'd', '\0' };// char pattern = "ould";  wouldn't work.
+10. Recursion
+    C functions may be used recursively; that is, a function may call itself either directly or indirectly. 
+11. The C Preprocessor
+    1. File Inclusion
+        If the filename is quoted, searching for the file typically begins where the source program was found; if it is not found there, or if the name is enclosed in < and >, searching follows an implementation-defined rule to find the file.
+    2. Macro Substitution
+        The scope of a name defined with #define is from its point of definition to the end of the source file being compiled.
+        #define max(A, B) ((A) > (B) ? (A) : (B))
+        The expressions are evaluated twice; this is bad if they involve side effects like increment operators or input and output.
+        #define dprint(expr) printf(#expr " = %g\n", expr)
+        If a parameter name is preceded by a # in the replacement text, the combination will be expanded into a quoted string with the parameter replaced by the actual argument. 
+    3. Conditional Inclusion
+        It is possible to control preprocessing itself with conditional statements that are evaluated during preprocessing.
+
+## ch5 pointer p96-125
+1. Pointers and Addresses
+    int x=1, y;
+    int *p; p=&x; y = *p;
+2. Pointers and Function Arguments
+    void swap(int *px, int *py)
+    swap(&a, &b);
+3. Pointers and Arrays
+    int a[10], *pa, x;
+    pa = &a[i]; // pa = a+i;
+    x = *pa; // x= a[0];
+    x = *(pa+1); // x = a[1]; x= *(a+1)
+    f(&a[2]); // f(a+2)
+4. Address Arithmetic
+    int *ptr; ptr = (int *)malloc(1024 * sizeof(ptr));
+5. Character Pointers and Functions
+    char amessage[] = "now is the time"; /* an array */
+    char *pmessage = "now is the time"; /* a pointer */
+    void strcpy(char *s, char *t){
+        while (*s++ = *t++);
+    }
+6. Pointer Arrays; Pointers to Pointers
+    char *lineptr[MAXLINES]; /* pointers to text lines */
+    lineptr[i] is a character pointer,  *lineptr[i] is the character it points to.
+7. Multi-dimensional Arrays
+    static char daytab[2][13] = {
+        {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+        {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+    };
+    int *daytab[13] is an array of 13 pointers to integers.
+    daytab[i] is a integer pointer, *daytab[i] is the interger it points to.
+8. Initialization of Pointer Arrays
+    char *month_name(int n)
+     {
+        static char *name[] = {
+        "Illegal month",
+        "January", "February", "March",
+        "April", "May", "June",
+        "July", "August", "September",
+        "October", "November", "December"
+        };
+        return (n < 1 || n > 12) ? name[0] : name[n];
+    }
+9. Pointers vs. Multi-dimensional Arrays
+    int a[10][20]; //fixed size
+    int *b[10]; // initialization must be done explicitly, either statically or with code.
+10. Command-line Arguments
+    int main(int argc, char *argv[])
+    For "echo hello, world" command,  argc is 3, and argv[0], argv[1], and argv[2] are "echo", "hello,", and "world" respectively.
+11. Pointers to Functions
+    void qsort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+    int (*comp)(void *, void *) says that comp is a pointer to a function that has two void * arguments and returns an int.
+    call pointer to function with
+    (*comp)(v[i], v[left]) // comp(v[i],v[left]) also works, because a function’s name can also be used to get functions’ address.
+12. Complicated Declarations
+    void *comp() // comp: function returning pointer to void
+    void (*comp)() // comp: pointer to function returning void
+
+## ch6 struct p126-p146
+1. Basics of Structures
+    struct point {int x; int y;} x, y, z; // similar to int x, y, z;
+2. Structures and Functions
+    legal operations to a struct: copy, assign it as a unit, take address by &, accessing its member.
+    struct point makepoint(int x, int y)
+    {
+        struct point temp;
+        temp.x = x;
+        temp.y = y;
+        return temp;
+    }
+    struct point *pp;
+    access x by（*pp).x or pp->x;
+3. Arrays of Structures
+    struct key {
+        char *word;
+        int count;
+    } keytab[NKEYS];
+    //equals
+    struct key {
+        char *word;
+        int count;
+    };
+    struct key keytab[NKEYS];
+4. Pointers to Structures
+    struct key *binsearch(char *word, struct key *tab, int n)
+    pointer arithmetic that involves the first element beyond the end of an array (that is, &tab[n]) will work correctly.
+5. Self-referential Structures
+    struct tnode{
+        char *word;
+        int count;
+        struct tnode *left;
+        struct tnode *right;
+    }
+6. Table Lookup
+    struct nlist *lookup(char *s)
+    for (ptr = head; ptr != NULL; ptr = ptr->next)
+7. Typedef
+    typedef int Length;
+    typedef char *String;
+    String p, lineptr[MAXLINES], alloc(int);
+    int strcmp(String, String);
+    p = (String) malloc(100);
+8. Unions
+    union u_tag {
+        int ival;
+        float fval;
+        char *sval;
+    } u;
+    struct {
+        char *name;
+        int flags;
+        int utype;
+        union {
+            int ival;
+            float fval;
+            char *sval;
+        } u;
+    } symtab[NSYM];
+9. Bit-fields
+    struct {
+        unsigned int is_keyword : 1;
+        unsigned int is_extern : 1;
+        unsigned int is_static : 1;
+    } flags;
+    flags that contains three 1-bit fields
+
+## ch7 Input and Output p147-p161
+1. Standard Input and Output
+    while ((c = getchar()) != EOF) putchar(tolower(c));
+2. Formatted Output - printf
+    int printf(char *format, arg1, arg2, ...);
+3. Variable-length Argument Lists
+    void minprintf(char *fmt, ...)
+4. Formatted Input - Scanf
+    int scanf(char *format, ...)
+5. File Access
+    FILE *fp;p
+6. Error Handling - Stderr and Exit
+    fprintf(stderr, "%s: can't open %s\n", prog, *argv);
+7. Line Input and Output
+    char *fgets(char *line, int maxline, FILE *fp)
+    int fputs(char *line, FILE *fp)
+8. Miscellaneous Functions
+    system("date");
+    #define frand() ((double) rand() / (RAND_MAX+1.0))
+
+## ch8 The UNIX System Interface p162-178
+1. File Descriptors
+    prog <infile >outfile
+2. Low Level I/O - Read and Write
+    int n_read = read(int fd, char *buf, int n);
+    int n_written = write(int fd, char *buf, int n);
+3. Open, Creat, Close, Unlink
+    int open(char *name, int flags, int perms);
+    int creat(char *name, int perms);
+4. Random Access - Lseek
+    long lseek(int fd, long offset, int origin);
+5. Example - An implementation of Fopen and Getc
+    FILE *fopen(char *name, char *mode)
+6. Example - Listing Directories
+    void fsize(char *name)
+    void dirwalk(char *dir, void (*fcn)(char *))
+7. Example - A Storage Allocator
+    void *malloc(unsigned nbytes)
+
+## Appendix A: Reference Manual p179-p233
+1. Introduction
+2. Lexical Conventions
+    There are six classes of tokens: identifiers, keywords, constants, string literals, operators, and other separators.
+    Upper and lower case letters are different.
+    Keywords  auto double int struct break else long switch case enum register typedef char extern return union const float short unsigned continue for signed void default goto sizeof volatile do if static while
+3. Syntax Notation
+    { expression\sub(opt) } means  an optional expression, enclosed in braces.
+4. Meaning of Identifiers
+    Identifiers, or names, refer to a variety of things: functions; tags of structures, unions, and enumerations; members of structures or unions; enumeration constants; typedef names; and objects.
+    There are two storage classes: automatic and static.
+5. Objects and Lvalues
+    An Object is a named region of storage; an lvalue is an expression referring to an object.
+6. Conversions
+    Integral Promotion, Integral Conversions, Integer and Floating, Floating Types, Arithmetic Conversions, Pointers and Integers
+7. Expressions
+    A pair of expressions separated by a comma is evaluated left-to-right, and the value of the left expression is discarded.
+8. Declarations
+    In a declaration T D:
+    When D is an unadored identifier, the type of the identifier is T.
+    When D has the form ( D1 ) then the type of the identifier in D1 is the same as that of D. The parentheses do not alter the type, but may change the binding of complex declarators.
+    int i, *pi, *const cpi = &i;
+    const int ci = 3, *pci;
+    declare an integer i and a pointer to an integer pi. The value of the constant pointer cpi may not be changed; it will always point to the same location, although the value to which it refers may be altered. The integer ci is constant, and may not be changed (though it may be initialized, as here.) The type of pci is ``pointer to const int,'' and pci itself may be changed to point to another place, but the value to which it points may not be altered by assigning through pci. 
+9. Statements
+    Except as described, statements are executed in sequence.
+10. External Declarations
+    The unit of input provided to the C compiler is called a translation unit; it consists of a sequence of external declarations, which are either declarations or function definitions.
+11. Scope and Linkage
+    A program need not all be compiled at one time: the source text may be kept in several files containing translation units, and precompiled routines may be loaded from libraries.
+12. Preprocessor
+    A preprocessor performs macro substitution, conditional compilation, and inclusion of named files.
+13. Grammar
+    A recapitulation of the grammar that was given throughout the earlier part of this appendix.
+
+## Appendix B - Standard Library p234-p296
+1. Input and Output: <stdio.h>
+    The input and output functions, types, and macros defined in <stdio.h> represent nearly one third of the library.
+    1. File Operations
+    2. Formatted Output
+    3. Formatted Input
+    4. Character Input and Output Functions
+    5. Direct Input and Output Functions
+    6. File Positioning Functions
+    7. Error Functions
+2. Character Class Tests: <ctype.h>
+    The header <ctype.h> declares functions for testing characters.
+3. String Functions: <string.h>
+    There are two groups of string functions defined in the header <string.h>. The first have names beginning with str; the second have names beginning with mem.
+4. Mathematical Functions: <math.h>
+    The header <math.h> declares mathematical functions and macros.
+5. Utility Functions: <stdlib.h>
+    The header <stdlib.h> declares functions for number conversion, storage allocation, and similar tasks.
+6. Diagnostics: <assert.h>
+    The assert macro is used to add diagnostics to programs.
+7. Variable Argument Lists: <stdarg.h>
+    The header <stdarg.h> provides facilities for stepping through a list of function arguments of unknown number and type.
+8. Non-local Jumps: <setjmp.h>
+    The declarations in <setjmp.h> provide a way to avoid the normal function call and return sequence, typically to permit an immediate return from a deeply nested function call.
+9. Signals: <signal.h>
+    The header <signal.h> provides facilities for handling exceptional conditions that arise during execution, such as an interrupt signal from an external source or an error in execution.
+10. Date and Time Functions: <time.h>
+    The header <time.h> declares types and functions for manipulating date and time.
+11. Implementation-defined Limits: <limits.h> and <float.h>
+    The header <limits.h> defines constants for the sizes of integral types. The values below are acceptable minimum magnitudes; larger values may be used.

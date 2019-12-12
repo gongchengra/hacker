@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 /*
 int eg_strlen(char *s)
 {
@@ -17,12 +18,15 @@ int eg_strlen(char *s)
 }
 int main()
 {
-    char array[100];
+    printf("%d\n", eg_strlen("hello, world"));
+
     char *ptr = "Hello";
-    int l = eg_strlen("hello, world");
-    printf("%d\n", l);
-    l = eg_strlen(array);
-    printf("%d\n", l);
-    l = eg_strlen(ptr);
-    printf("%d\n", l);
+    printf("%d\n", eg_strlen(ptr));
+    printf("%d\n", (int) strlen(ptr));
+
+    char array[100] = "Test part of array.";
+    printf("%d\n", eg_strlen(array));
+    printf("%d\n", eg_strlen(&array[5]));
+    printf("%d\n", eg_strlen(array+5));
+    printf("%s\n", array+5);
 }

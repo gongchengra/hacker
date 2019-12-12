@@ -10,6 +10,7 @@ int main(int argc, char *argv[]){
     printf("%d\n", u.ival);
     u.fval = 20.0;
     printf("%f\n", u.fval);
+    printf("%d\n", u.ival); //1101004800 is the memory value for 20.0 
     u.sval = "test union";
     printf("%d\n", u.ival); //doesn't make sense
     printf("%f\n", u.fval); //doesn't make sense
