@@ -14,7 +14,7 @@ _._._._._._._._._._._._._._._._._._._._._.*/
 
 #include <stdio.h>
 #include <string.h>
-#define NUMBER 100000
+#define NUMBER 10000
 
 void array_divide_number(short *array, const int number, const int size)
 {
