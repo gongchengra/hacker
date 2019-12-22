@@ -6,7 +6,7 @@ unsigned long long int factorial(unsigned int i) {
     return i * factorial(i - 1);
 }
 int main() {
-    int i = 12;
+    int i = 65; //max value for ull.
     printf("Factorial of %d is %llu\n", i, factorial(i));
     return 0;
 }

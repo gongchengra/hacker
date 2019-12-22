@@ -1,0 +1,409 @@
+# Algorithms in C
+
+## contents
+Chapter 1. Introduction 3
+1.1 Algorithms . 4
+1.2 A Sample Problem-Connectivity· 6
+1.3 Union-Find Algorithms . 11
+1.4 Perspective . 22
+1.5 Summary of Topics· 23
+Chapter 2. Principles of Algorithm Analysis 27
+2.1 Implementation and Empirical Analysis· 28
+2.2 Analysis of Algorithms . 33
+2.3 Growth of Functions . 36
+2.4 Big-Oh notation· 44
+2.5 Basic Recurrences· 49
+2.6 Examples of Algorithm Analysis· 53
+2.7 Guarantees, Predictions, and Limitations . 59
+Chapter 3. Elementary Data Structures 69
+3.1 Building Blocks· 70
+3.2 Arrays· 82
+3.3 Linked Lists· 90
+3.4 Elementary List Processing . 96
+3.5 Memory Allocation for Lists . 105
+3.6 Strings . 109
+3.7 Compound Data Structures· 115
+Chapter 4. Abstract Data Types 127
+4.1 Abstract Objects and Collections of Objects· 131
+4.2 Pushdown Stack ADT . 135
+4.3 Examples of Stack ADT Clients . 138
+4.4 Stack ADT Implementations· 144
+4.5 Creation of a New ADT . 149
+4.6 FIFO Queues and Generalized Queues . 153
+4.7 Duplicate and Index Items· 161
+4.8 First-Class ADTs . 165
+4.9 Application-Based ADT Example . 178
+4.10 Perspective· 184
+Chapter 5. Recursion and Trees 187
+5.1 Recursive Algorithms· 188
+5.2 Divide and Conquer . 196
+5.3 Dynamic Programming· 208
+5.4 Trees· 216
+5.5 Mathematical Properties of Trees· 226
+5.6 Tree Traversal· 230
+5.7 Recursive Binary-Tree Algorithms· 235
+5.8 Graph Traversal· 241
+5.9 Perspective· 247
+Chapter 6. Elementary Sorting Methods 253
+6.1 Rules of the Game· 255
+6.2 Selection Sort· 261
+6.3 Insertion Sort ' 262
+6.4 Bubble Sort· 265
+6.5 Performance Characteristics of Elementary Sorts ' 267
+6.6 Shellsort ' 273
+6.7 Sorting Other Types of Data, 281
+6.8 Index and Pointer Sorting, 287
+6.9 Sorting of Linked Lists ' 294
+6,10 Key-Indexed Counting, 298
+Chapter 7. Quicksort 303
+7.1 The Basic Algorithm. 304
+7.2 Performance Characteristics of Quicksort, 309
+7.3 Stack Size· 313
+7.4 SmallSubfiles' 316
+7.5 Median-of-Three Partitioning· 319
+7.6 Duplicate Keys· 324
+7.7 Strings and Vectors· 327
+7.8 Selection· 329
+Chapter 8. Merging and Mergesort 335
+8.1 Two-Way Merging· 336
+8.2 Abstract In-place Merge, 339
+8.3 Top-Down Mergesort . 341
+8.4 Improvements to the Basic Algorithm, 344
+8.5 Bottom-Up Mergesort . 347
+8.6 Performance Characteristics of Mergesort . 351
+8.7 Linked-List Implementations of Mergesort . 354
+8.8 Recursion Revisited, 357
+Chapter 9. Priority Queues and Heapsort 361
+9.1 Elementary Implementations· 365
+9.2 Heap Data Structure, 368
+9.3 Algorithms on Heaps· 371
+9.4 Heapsort . 376
+9.5 Priority-Queue ADT . 383
+9.6 Priority Queues for Index Items· 389
+9.7 Binomial Queues· 392
+Chapter 10. Radix Sorting 403
+10.1 Bits, Bytes, and Words· 405
+10.2 Binary Quicksort· 409
+10.3 MSD Radix Sort· 413
+10.4 Three-Way Radix Quicksort· 421
+10.5 LSD Radix Sort· 425
+10.6 Performance Characteristics of Radix Sorts· 428
+10.7 Sublinear-Time Sorts· 433
+Chapter 11. Special-Purpose Sorts 439
+11.1 Batcher's Odd-Even Mergesort . 441
+11.2 Sorting Networks . 446
+11.3 External Sorting . 454
+11.4 Sort-Merge Implementations· 460
+11.5 Parallel Sort/Merge . 466
+Chapter 12. Symbol Tables and BSTs
+12.1 Symbol-Table Abstract Data Type· 479
+12.2 Key-Indexed Search· 485
+12.3 Sequential Search· 489
+12.4 Binary Search· 497
+12.5 Binary Search Trees (BSTs) . 502
+12.6 Performance Characteristics of BSTs . 508
+12.7 Index Implementations with Symbol Tables· 511
+12.8 Insertion at the Root in BSTs . 516
+12.9 BST Implementations of Other ADT Functions· 519
+Chapter 13. Balanced Trees 529
+13.1 Randomized BSTs . 533
+13.2 Splay BSTs . 540
+13.3 Top-Down 2-3-4 Trees· 546
+13.4 Red-Black Trees· 5.51
+13.5 Skip Lists . .561
+13.6 Performance Characteristics· .569
+Chapter 14. Hashing 573
+14.1 Hash Functions . .574
+14.2 Separate Chaining' .583
+14.3 Linear Probing . S88
+14.4 Double Hashing . 594
+14.5 Dynamic Hash Tables· .599
+14.6 Perspective· 603
+Chapter 15. Radix Search 609
+15.1 Digital Search Trees 610
+15.2 Tries· 614
+15.3 Patricia Tries· 623
+15.4 Multiway Tries and TSTs . 632
+15.5 Text String Index Algorithms· 648
+Chapter 16. External Searching 655
+16.1 Rules of the Game· 6.57
+16.2 Indexed Sequential Access· 660
+16.3 B Trees· 662
+16.4 Extendible Hashing· 676
+16.5 Perspective· 688
+
+## Chapter 1. Introduction 3
+
+algorithms: methods for solving problems that are suited for computer implementation.
+
+### 1.1 Algorithms . 4
+
+Most algorithms of interest involve methods of organizing the data involved in the computation. Objects created in this way are called data structures, thus, algorithms and data structures go hand in hand.
+
+### 1.2 A Sample Problem-Connectivity· 6
+
+The connectivity problem is easily solved in terms of the find and union abstract operations.
+
+### 1.3 Union-Find Algorithms . 11
+
+The first step in the process of developing an efficient algorithm to solve a given problem is to implement a simple algorithm that solves the problem.
+
+### 1.4 Perspective . 22
+
+we follow the same basic steps to  consider various algorithms for fundamental problems:
+* Decide on a complete and specific problem statement, including identifying fundamental abstract operations that are intrinsic to the problem.
+* Carefully develop a succinct implementation for a straightforward algorithm.
+* Develop improved implementations through a process of stepwise refinement, validating the efficacy of ideas for improvement through empirical analysis, mathematical analysis, or both.
+* Find high-level abstract representations of data structures or algorithms in operation that enable effective high-level design of improved versions.
+* Strive for worst-case performance guarantees when possible, but accept good performance on actual data when available.
+
+### 1.5 Summary of Topics· 23
+
+## Chapter 2. Principles of Algorithm Analysis 27
+
+### 2.1 Implementation and Empirical Analysis· 28
+
+### 2.2 Analysis of Algorithms . 33
+
+### 2.3 Growth of Functions . 36
+
+### 2.4 Big-Oh notation· 44
+
+### 2.5 Basic Recurrences· 49
+
+### 2.6 Examples of Algorithm Analysis· 53
+
+### 2.7 Guarantees, Predictions, and Limitations . 59
+
+## Chapter 3. Elementary Data Structures 69
+
+### 3.1 Building Blocks· 70
+
+### 3.2 Arrays· 82
+
+### 3.3 Linked Lists· 90
+
+### 3.4 Elementary List Processing . 96
+
+### 3.5 Memory Allocation for Lists . 105
+
+### 3.6 Strings . 109
+
+### 3.7 Compound Data Structures· 115
+
+## Chapter 4. Abstract Data Types 127
+
+### 4.1 Abstract Objects and Collections of Objects· 131
+
+### 4.2 Pushdown Stack ADT . 135
+
+### 4.3 Examples of Stack ADT Clients . 138
+
+### 4.4 Stack ADT Implementations· 144
+
+### 4.5 Creation of a New ADT . 149
+
+### 4.6 FIFO Queues and Generalized Queues . 153
+
+### 4.7 Duplicate and Index Items· 161
+
+### 4.8 First-Class ADTs . 165
+
+### 4.9 Application-Based ADT Example . 178
+
+### 4.10 Perspective· 184
+
+## Chapter 5. Recursion and Trees 187
+
+### 5.1 Recursive Algorithms· 188
+
+### 5.2 Divide and Conquer . 196
+
+### 5.3 Dynamic Programming· 208
+
+### 5.4 Trees· 216
+
+### 5.5 Mathematical Properties of Trees· 226
+
+### 5.6 Tree Traversal· 230
+
+### 5.7 Recursive Binary-Tree Algorithms· 235
+
+### 5.8 Graph Traversal· 241
+
+### 5.9 Perspective· 247
+
+## Chapter 6. Elementary Sorting Methods 253
+
+### 6.1 Rules of the Game· 255
+
+### 6.2 Selection Sort· 261
+
+### 6.3 Insertion Sort ' 262
+
+### 6.4 Bubble Sort· 265
+
+### 6.5 Performance Characteristics of Elementary Sorts ' 267
+
+### 6.6 Shellsort ' 273
+
+### 6.7 Sorting Other Types of Data, 281
+
+### 6.8 Index and Pointer Sorting, 287
+
+### 6.9 Sorting of Linked Lists ' 294
+
+### 6,10 Key-Indexed Counting, 298
+
+## Chapter 7. Quicksort 303
+
+### 7.1 The Basic Algorithm. 304
+
+### 7.2 Performance Characteristics of Quicksort, 309
+
+### 7.3 Stack Size· 313
+
+### 7.4 SmallSubfiles' 316
+
+### 7.5 Median-of-Three Partitioning· 319
+
+### 7.6 Duplicate Keys· 324
+
+### 7.7 Strings and Vectors· 327
+
+### 7.8 Selection· 329
+
+## Chapter 8. Merging and Mergesort 335
+
+### 8.1 Two-Way Merging· 336
+
+### 8.2 Abstract In-place Merge, 339
+
+### 8.3 Top-Down Mergesort . 341
+
+### 8.4 Improvements to the Basic Algorithm, 344
+
+### 8.5 Bottom-Up Mergesort . 347
+
+### 8.6 Performance Characteristics of Mergesort . 351
+
+### 8.7 Linked-List Implementations of Mergesort . 354
+
+### 8.8 Recursion Revisited, 357
+
+## Chapter 9. Priority Queues and Heapsort 361
+
+### 9.1 Elementary Implementations· 365
+
+### 9.2 Heap Data Structure, 368
+
+### 9.3 Algorithms on Heaps· 371
+
+### 9.4 Heapsort . 376
+
+### 9.5 Priority-Queue ADT . 383
+
+### 9.6 Priority Queues for Index Items· 389
+
+### 9.7 Binomial Queues· 392
+
+## Chapter 10. Radix Sorting 403
+
+### 10.1 Bits, Bytes, and Words· 405
+
+### 10.2 Binary Quicksort· 409
+
+### 10.3 MSD Radix Sort· 413
+
+### 10.4 Three-Way Radix Quicksort· 421
+
+### 10.5 LSD Radix Sort· 425
+
+### 10.6 Performance Characteristics of Radix Sorts· 428
+
+### 10.7 Sublinear-Time Sorts· 433
+
+## Chapter 11. Special-Purpose Sorts 439
+
+### 11.1 Batcher's Odd-Even Mergesort . 441
+
+### 11.2 Sorting Networks . 446
+
+### 11.3 External Sorting . 454
+
+### 11.4 Sort-Merge Implementations· 460
+
+### 11.5 Parallel Sort/Merge . 466
+
+## Chapter 12. Symbol Tables and BSTs
+
+### 12.1 Symbol-Table Abstract Data Type· 479
+
+### 12.2 Key-Indexed Search· 485
+
+### 12.3 Sequential Search· 489
+
+### 12.4 Binary Search· 497
+
+### 12.5 Binary Search Trees (BSTs) . 502
+
+### 12.6 Performance Characteristics of BSTs . 508
+
+### 12.7 Index Implementations with Symbol Tables· 511
+
+### 12.8 Insertion at the Root in BSTs . 516
+
+### 12.9 BST Implementations of Other ADT Functions· 519
+
+## Chapter 13. Balanced Trees 529
+
+### 13.1 Randomized BSTs . 533
+
+### 13.2 Splay BSTs . 540
+
+### 13.3 Top-Down 2-3-4 Trees· 546
+
+### 13.4 Red-Black Trees· 5.51
+
+### 13.5 Skip Lists . .561
+
+### 13.6 Performance Characteristics· .569
+
+## Chapter 14. Hashing 573
+
+### 14.1 Hash Functions . .574
+
+### 14.2 Separate Chaining' .583
+
+### 14.3 Linear Probing . S88
+
+### 14.4 Double Hashing . 594
+
+### 14.5 Dynamic Hash Tables· .599
+
+### 14.6 Perspective· 603
+
+## Chapter 15. Radix Search 609
+
+### 15.1 Digital Search Trees 610
+
+### 15.2 Tries· 614
+
+### 15.3 Patricia Tries· 623
+
+### 15.4 Multiway Tries and TSTs . 632
+
+### 15.5 Text String Index Algorithms· 648
+
+## Chapter 16. External Searching 655
+
+### 16.1 Rules of the Game· 6.57
+
+### 16.2 Indexed Sequential Access· 660
+
+### 16.3 B Trees· 662
+
+### 16.4 Extendible Hashing· 676
+
+### 16.5 Perspective· 688
+
