@@ -134,7 +134,7 @@ Chapter 16. External Searching 655
 
 ## Chapter 1. Introduction 3
 
-algorithms: methods for solving problems that are suited for computer implementation.
+Algorithms: methods for solving problems that are suited for computer implementation.
 
 ### 1.1 Algorithms . 4
 
@@ -150,7 +150,8 @@ The first step in the process of developing an efficient algorithm to solve a gi
 
 ### 1.4 Perspective . 22
 
-we follow the same basic steps to  consider various algorithms for fundamental problems:
+We follow the same basic steps to  consider various algorithms for fundamental problems:
+
 * Decide on a complete and specific problem statement, including identifying fundamental abstract operations that are intrinsic to the problem.
 * Carefully develop a succinct implementation for a straightforward algorithm.
 * Develop improved implementations through a process of stepwise refinement, validating the efficacy of ideas for improvement through empirical analysis, mathematical analysis, or both.
@@ -159,29 +160,93 @@ we follow the same basic steps to  consider various algorithms for fundamental p
 
 ### 1.5 Summary of Topics· 23
 
+Fundamentals (Part I) in the context of this book are the basic principles and methodology that we use to implement, analyze, and compare algorithms.
+
+Data Structures (Part 2) go hand-in-hand with algorithms: we shall develop a thorough understanding of data representation methods for use throughout the rest of the book.
+
+Sorting algorithms (Part 3) for rearranging files into order are of fundamental importance.
+
+Searching algorithms (Part 4) for finding specific items among large collections of items are also of fundamental importance.
+
 ## Chapter 2. Principles of Algorithm Analysis 27
+
+Analysis plays a role at every point in the process of designing and implementing algorithms.
+
+• Illustrate the process.
+• Describe in one place the mathematical conventions that we use.
+• Provide a basis for discussion of higher-level issues.
+• Develop an appreciation for scientific underpinnings of the conclusions that we draw when comparing algorithms.
 
 ### 2.1 Implementation and Empirical Analysis· 28
 
+One of the first steps that we take to understand the performance of algorithms is to do empirical analysis.
+
+The first challenge that we face in empirical analysis is to develop a correct and complete implementation.
+
+The second challenge that we face in empirical analysis is to determine the nature of the input data and other factors that have direct influence on the experiments to be performed.
+
+Perhaps the most common mistake made in selecting an algorithm is to ignore performance characteristics.
+
+Perhaps the second most common mistake made in selecting an algorithm is to pay too much attention to performance characteristics.
+
 ### 2.2 Analysis of Algorithms . 33
+
+The first step in the analysis of an algorithm is to identify the abstract operations on which the algorithm is based, to separate the analysis from the implementation.
+
+We also have to study the data, and to model the input that might be presented to the algorithm. Most often, we consider one of two approaches to the analysis: we either assume that the input is random, and study the average-case performance of the program, or we look for perverse input, and study the worst-case performance of the program.
 
 ### 2.3 Growth of Functions . 36
 
+Most algorithms have a primary parameter N that affects the running time most significantly.
+
+The algorithms in this book typically have running times proportional to one of the following functions:
+1, log N, N, N*log N ,N^2, N^3, 2^N。
+lgN is binary logarithm, lnN is natural logarithm.
+
 ### 2.4 Big-Oh notation· 44
+
+The mathematical artifact that allows us to suppress detail when we are analyzing algorithms is called the O-notation, or "big-Oh notation," which is defined as follows.
+
+A function g(N) is said to be O(f(N)) if there exist constants Co and No such that g(N) < cof(N) for all N > No.
+
+We use O-notation primarily to learn the fundamental asymptotic behavior of an algorithm; is proportional to when we want to predict performance by extrapolation from empirical studies; and about when we want to compare performance or to make absolute performance predictions.
 
 ### 2.5 Basic Recurrences· 49
 
+A great many algorithms are based on the principle of recursively decomposing a large problem into one or more smaller ones, using solutions to the subproblems to solve the original problem.
+
 ### 2.6 Examples of Algorithm Analysis· 53
+
+We use mathematical analysis of the frequency with which algorithms perform critical abstract operations, then use those results to deduce the functional form of the running time, which allows us to verify and extend empirical studies.
 
 ### 2.7 Guarantees, Predictions, and Limitations . 59
 
+In this book, we take the view that algorithm design, careful implementation, mathematical analysis, theoretical studies, and empirical analysis all contribute in important ways to the development of elegant and efficient programs.
+
 ## Chapter 3. Elementary Data Structures 69
+
+For many applications, the choice of the proper data structure is the only major decision involved in the implementation: once the choice has been made, the necessary algorithms are simple.
 
 ### 3.1 Building Blocks· 70
 
+In C, our programs are all built from just a few basic types of data:
+• Integers (ints).
+• Floating-point numbers (floats).
+• Characters (chars). 
+
+A data type is a set of values and a collection of operations on those values. 
+
 ### 3.2 Arrays· 82
 
+An array is a fixed collection of same-type data that are stored contiguously and that are accessible by an index. 
+
 ### 3.3 Linked Lists· 90
+
+A linked list is a set of items where each item is part of a node that also contains a link to a node. 
+
+• It is a null link that points to no node.
+• It refers to a dummy node that contains no item.
+• It refers back to the first node, making the list a circular list. 
 
 ### 3.4 Elementary List Processing . 96
 
