@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-typedef struct node* link;
 struct node {
     int item;
     struct node *next;
 };
 int main(int argc, char *argv[]) {
     int i, N = atoi(argv[1]), M = atoi(argv[2]);
-    link t = malloc(sizeof *t), x = t;
+    struct node *t = malloc(sizeof *t), *x = t;
+/*    printf("%lu\n", sizeof(*t));*/
+/*    printf("%lu\n", sizeof(x->item));*/
+/*    printf("%lu\n", sizeof(x->next));*/
     t->item = 1;
     t->next = t;
     for (i = 2; i <= N; i++) {

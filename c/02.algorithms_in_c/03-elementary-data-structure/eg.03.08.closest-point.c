@@ -3,9 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-// gcc ./eg.03.08.closest-point.c eg.03.04.point-type-implementation.c -o
-// ./eg.03.08.closest-point.exe
-// run by ./eg.03.08.closest-point.exe 100 1
 float randFloat() {
     srand(time(NULL));
     return 1.0 * rand() / RAND_MAX;

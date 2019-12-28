@@ -232,55 +232,102 @@ For many applications, the choice of the proper data structure is the only major
 In C, our programs are all built from just a few basic types of data:
 • Integers (ints).
 • Floating-point numbers (floats).
-• Characters (chars). 
+• Characters (chars).
 
-A data type is a set of values and a collection of operations on those values. 
+A data type is a set of values and a collection of operations on those values.
 
 ### 3.2 Arrays· 82
 
-An array is a fixed collection of same-type data that are stored contiguously and that are accessible by an index. 
+An array is a fixed collection of same-type data that are stored contiguously and that are accessible by an index.
 
 ### 3.3 Linked Lists· 90
 
-A linked list is a set of items where each item is part of a node that also contains a link to a node. 
+A linked list is a set of items where each item is part of a node that also contains a link to a node.
 
 • It is a null link that points to no node.
 • It refers to a dummy node that contains no item.
-• It refers back to the first node, making the list a circular list. 
+• It refers back to the first node, making the list a circular list.
 
 ### 3.4 Elementary List Processing . 96
 
+A linked list is either a null link or a link to a node that contains an item and a link to a linked list.
+
+Working with data that are organized in linked lists is called list processing.
+
 ### 3.5 Memory Allocation for Lists . 105
+
+An advantage of linked lists over arrays is that linked lists gracefully grow and shrink during their lifetime.
 
 ### 3.6 Strings . 109
 
+We use the term string to refer to a variable-length array of characters, defined by a starting point and by a string-termination character marking the end.
+
 ### 3.7 Compound Data Structures· 115
+
+A graph is a fundamental combinatorial object that is defined simply as a set of objects (called vertices) and a set of connections among the vertices (called edges).
 
 ## Chapter 4. Abstract Data Types 127
 
+An abstract data type (ADT) is a data type (a set of values and a collection of operations on those values) that is accessed only through an interface. We refer to a program that uses an ADT as a client, and a program that specifies the data type as an implementation.
+
 ### 4.1 Abstract Objects and Collections of Objects· 131
+
+Data types comprising collections of abstract objects (generalized queues) are a central object of study in computer science because they directly support a fundamental paradigm of computation.
 
 ### 4.2 Pushdown Stack ADT . 135
 
+A pushdown stack is an ADT that comprises two basic operations: insert (push) a new item, and delete (pop) the item that was most recently inserted.
+
 ### 4.3 Examples of Stack ADT Clients . 138
+
+We begin by considering a simpler problem, where the expression that we need to evaluate is in a form where each operator appears after its two arguments, rather than between them.
 
 ### 4.4 Stack ADT Implementations· 144
 
+In this section, we consider two implementations of the stack ADT: one using arrays and one using linked lists.
+
 ### 4.5 Creation of a New ADT . 149
+
+Splitting the program into three parts is a more effective approach because it
+•   Separates the task of solving the high-level (connectivity) problem from the task of solving the low-level (union-find) problem, allowing us to work on the two problems independently
+•   Gives us a natural way to compare different algorithms and data structures for solving the problem
+•    Gives us an abstraction that we can use to build other algorithms
+•   Defines, through the interface, a way to check that the software is operating as expected
+•    Provides a mechanism that allows us to upgrade to new representations (new data structures or new algorithms) without changing the client program at all
 
 ### 4.6 FIFO Queues and Generalized Queues . 153
 
+A FIFO queue is an ADT that comprises two basic operations: insert (put) a new item, and delete (get) the item that was least recently inserted. 
+
+We can implement the get and put operations for the FIFO queue ADT in constant time, using either arrays or linked lists. 
+
 ### 4.7 Duplicate and Index Items· 161
+
+For many applications, the abstract items that we process are unique, a quality that leads us to consider modifying our idea of how stacks, FIFO queues, and other generalized ADTs should operate. 
 
 ### 4.8 First-Class ADTs . 165
 
+A first-class data type is one for which we can have potentially many different instances, and which we can assign to variables which we can declare to hold the instances. 
+
 ### 4.9 Application-Based ADT Example . 178
+
+As a final example, we consider in this section an application-specific ADT that is representative of the relationship between applications domains and the algorithms and data structures of the type that we consider in this book. 
 
 ### 4.10 Perspective· 184
 
+•   ADTs are an important software-engineering tool in widespread use, and many of the algorithms that we study serve as implementations for fundamental ADTs that are widely applicable.
+•    ADTs help us to encapsulate the algorithms that we develop, so that we can use the same code for many different purposes.
+• ADTs provide a convenient mechanism for our use in the process of developing and comparing the performance of algorithms. 
+
 ## Chapter 5. Recursion and Trees 187
 
+A recursive program in a programming language is one that calls itself and  there must be a termination condition when the program can cease to call itself.
+
+The study of recursion is intertwined with the study of recursively defined structures known as trees. 
+
 ### 5.1 Recursive Algorithms· 188
+
+A recursive algorithm is one that solves a problem by solving one or more smaller instances of the same problem.
 
 ### 5.2 Divide and Conquer . 196
 
