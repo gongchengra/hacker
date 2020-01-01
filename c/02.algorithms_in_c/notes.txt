@@ -297,33 +297,33 @@ Splitting the program into three parts is a more effective approach because it
 
 ### 4.6 FIFO Queues and Generalized Queues . 153
 
-A FIFO queue is an ADT that comprises two basic operations: insert (put) a new item, and delete (get) the item that was least recently inserted. 
+A FIFO queue is an ADT that comprises two basic operations: insert (put) a new item, and delete (get) the item that was least recently inserted.
 
-We can implement the get and put operations for the FIFO queue ADT in constant time, using either arrays or linked lists. 
+We can implement the get and put operations for the FIFO queue ADT in constant time, using either arrays or linked lists.
 
 ### 4.7 Duplicate and Index Items· 161
 
-For many applications, the abstract items that we process are unique, a quality that leads us to consider modifying our idea of how stacks, FIFO queues, and other generalized ADTs should operate. 
+For many applications, the abstract items that we process are unique, a quality that leads us to consider modifying our idea of how stacks, FIFO queues, and other generalized ADTs should operate.
 
 ### 4.8 First-Class ADTs . 165
 
-A first-class data type is one for which we can have potentially many different instances, and which we can assign to variables which we can declare to hold the instances. 
+A first-class data type is one for which we can have potentially many different instances, and which we can assign to variables which we can declare to hold the instances.
 
 ### 4.9 Application-Based ADT Example . 178
 
-As a final example, we consider in this section an application-specific ADT that is representative of the relationship between applications domains and the algorithms and data structures of the type that we consider in this book. 
+As a final example, we consider in this section an application-specific ADT that is representative of the relationship between applications domains and the algorithms and data structures of the type that we consider in this book.
 
 ### 4.10 Perspective· 184
 
 •   ADTs are an important software-engineering tool in widespread use, and many of the algorithms that we study serve as implementations for fundamental ADTs that are widely applicable.
 •    ADTs help us to encapsulate the algorithms that we develop, so that we can use the same code for many different purposes.
-• ADTs provide a convenient mechanism for our use in the process of developing and comparing the performance of algorithms. 
+• ADTs provide a convenient mechanism for our use in the process of developing and comparing the performance of algorithms.
 
 ## Chapter 5. Recursion and Trees 187
 
 A recursive program in a programming language is one that calls itself and  there must be a termination condition when the program can cease to call itself.
 
-The study of recursion is intertwined with the study of recursively defined structures known as trees. 
+The study of recursion is intertwined with the study of recursively defined structures known as trees.
 
 ### 5.1 Recursive Algorithms· 188
 
@@ -331,41 +331,150 @@ A recursive algorithm is one that solves a problem by solving one or more smalle
 
 ### 5.2 Divide and Conquer . 196
 
+A recursive function that divides a problem of size N into two independent (nonempty) parts that it solves recursively calls itself less than N times.
+
 ### 5.3 Dynamic Programming· 208
+
+Dynamic programming reduces the running time of a recursive function to be at most the time required to evaluate the function for all arguments less than or equal to the given argument, treating the cost ofa recursive call as constant.
 
 ### 5.4 Trees· 216
 
+A tree is a nonempty collection of vertices and edges that satisfies certain requirements.
+
+A vertex is a simple object (also referred to as a node) that can have a name and can carry other associated information; an edge is a connection between two vertices.
+
+A path in a tree is a list of distinct vertices in which successive vertices are connected by edges in the tree.
+
+The defining property of a tree is that there is precisely one path connecting any two nodes.
+
+If there is more than one path between some pair of nodes, or if there is no path between some pair of nodes, then we have a graph; we do not have a tree. A disjoint set of trees is called a forest.
+
+A rooted tree is one where we designate one node as the root of a tree.
+
+That is, a binary tree is a special type of ordered tree, an ordered tree is a special type of rooted tree, and a rooted tree is a special type of free tree.
+
+A binary tree is either an external node or an internal node connected to a pair of binary trees, which are called the left subtree and the right subtree of that node.
+
+An M-ary tree is either an external node or an internal node connected to an ordered sequence of IvI trees that are also AI-ary trees.
+
+A tree (also called an ordered tree) is a node (called the root) connected to a sequence of disjoint trees. Such a sequence is called a forest.
+
+There is a one-to-one correspondence between binary trees and ordered forests.
+
+A rooted tree (or unordered tree) is a node (called the root) connected to a multiset ofrooted trees. (Such a multiset is called an unordered forest.)
+
+A graph is a set of nodes together with a set of edges that connect pairs of distinct nodes (with at most one edge connecting any pair of nodes).
+
+We consider a graph to be a tree if it satisfies any of the following four conditions:
+• G has N - 1 edges and no cycles.
+• G has N - 1 edges and is connected.
+• Exactly one simple path connects each pair of vertices in G.
+• G is connected, but does not remain connected if any edge is removed.
+
 ### 5.5 Mathematical Properties of Trees· 226
+
+A binary tree with N internal nodes has N +1 external nodes.
+
+A binary tree with N internal nodes has 2N links: N -1 links to internal nodes and N + 1 links to external nodes.
+
+The level of a node in a tree is one higher than the level of its parent (with the root at level 0). The height of a tree is the maximum ofthe levels ofthe tree's nodes. The path length ofa tree is the sum of the levels of all the tree's nodes. The internal path length of a binary tree is the sum of the levels ofall the tree's internal nodes.  The external path length ofa binary tree is the sum of the levels of all the tree's external nodes.
+
+The external path length of any binary tree with N internal nodes is 2N greater than the internal path length.
+
+The height of a binary tree with N internal nodes is at least 19 N and at most N - l.
+
+The internal path length ofa binary tree with N internal nodes is at least N*lg(N/4) and at most N(N - 1)/2.
 
 ### 5.6 Tree Traversal· 230
 
+For binary trees, we have two links, and we therefore have three basic orders in which we might visit the nodes:
+•    Preorder, where we visit the node, then visit the left and right subtrees
+•   Inorder, where we visit the left subtree, then visit the node, then visit the right subtree
+•    Postorder, where we visit the left and right subtrees, then visit the node
+
 ### 5.7 Recursive Binary-Tree Algorithms· 235
+
+Our goal is to build a tournament: a binary tree where the item in every internal node is a copy of the larger of the items in its two children. In particular, the item at the root is a copy of the largest item in the tournament. The items in the leaves (nodes with no children) constitute the data of interest, and the rest of the tree is a data structure that allows us to find the largest of the items efficiently.
 
 ### 5.8 Graph Traversal· 241
 
+Depth-first search requires time proportional to V +E in a graph with V vertices and E edges, using the adjacency lists representation.
+
 ### 5.9 Perspective· 247
+
+Recursion lies at the heart of early theoretical studies into the nature of computation. Recursive functions and programs playa central role in mathematical studies that attempt to separate problems that can be solved by a computer from problems that cannot be.
 
 ## Chapter 6. Elementary Sorting Methods 253
 
+As a rule, the elementary methods that we discuss here take time proportional to N^2 to sort N randomly arranged items.
+
 ### 6.1 Rules of the Game· 255
+
+We shall be considering methods of sorting files of items containing keys.The keys, which are only part (often a small part) of the items, are used to control the sort. The objective of the sorting method is to rearrange the items such that their keys are ordered according to some well-defined ordering rule (usually numerical or alphabetical order).
+
+A sorting method is said to be stable if it preserves the relative order of items with duplicated keys in the file.
 
 ### 6.2 Selection Sort· 261
 
+Selection sort works by repeatedly selecting the smallest remaining element.
+
 ### 6.3 Insertion Sort ' 262
+
+The method that people often use to sort bridge hands is to consider the elements one at a time, inserting each into its proper place among those already considered (keeping them sorted).
 
 ### 6.4 Bubble Sort· 265
 
+Keep passing through the file, exchanging adjacent elements that are out of order, continuing until the file is sorted.
+
 ### 6.5 Performance Characteristics of Elementary Sorts ' 267
+
+Selection sort uses about N^2/2 comparisons and N exchanges.
+
+Insertion sort uses about N^2/4 comparisons and N^2/4 half-exchanges (moves) on the average, and twice that many at worst.
+
+Bubble sort uses about N^2/2 comparisons and N^2/2 exchanges on the average and in the worst case.
+
+An inversion is a pair of keys that are out of order in the file.
+
+Insertion sort and bubble sort use a linear number of comparisons and exchanges for files with at most a constant number of inversions corresponding to each element.
+
+Insertion sort uses a linear number of comparisons and exchanges for files with at most a constant number of elements having more than a constant number of corresponding inversions.
+
+Selection sort runs in linear time for files with large items and small keys.
 
 ### 6.6 Shellsort ' 273
 
+The idea is to rearrange the file to give it the property that taking every hth element (starting anywhere) yields a sorted file. Such a file is said to be h-sorted.
+
+Our primary purpose in doing so is to illustrate that even algorithms that are apparently simple can have complex properties, and that the analysis of algorithms is not just of practical importance but also can be intellectually challenging.
+
+The result of h-sorting a file that is k-ordered is a file that is both h- and k-ordered. 
+
+Shellsort does less than N(h-1)(k-1)/g comparisons to g-sort a file that is h- and k-ordered, provided that hand k are relatively prime. 
+
+Shellsort does less than O(N^(3/2)) comparisons for the increments 1 4 13 40 121 364 1093 3280 9841 .... 
+
+Shellsort does less than O(N^(4/3)) comparisons for the
+increments 1 8 23 77 281 1073 4193 16577 .... 
+
 ### 6.7 Sorting Other Types of Data, 281
+
+We consider implementations, interfaces, and client programs for:
+• Items, or generic objects to be sorted
+• Arrays of items
+The item data type provides us with a way to use our sort code for any type of data for which certain basic operations are defined.
 
 ### 6.8 Index and Pointer Sorting, 287
 
+One simple approach for sorting without (intermediate) moves of items is to maintain an index array with keys in the items accessed only for comparisons. 
+
 ### 6.9 Sorting of Linked Lists ' 294
 
+The possibility that nodes could be referenced through pointers that are maintained outside the sort means that our programs should change only links in nodes, and should not alter keys or other information. 
+
 ### 6,10 Key-Indexed Counting, 298
+
+Key-indexed counting is a linear-time sort, provided that the range of distinct key values is within a constant factor of the file size. 
 
 ## Chapter 7. Quicksort 303
 

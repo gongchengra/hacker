@@ -1,0 +1,1 @@
+./eg.06.10.sample-interface-for-item-data-type.c
