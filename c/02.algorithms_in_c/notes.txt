@@ -448,14 +448,14 @@ The idea is to rearrange the file to give it the property that taking every hth 
 
 Our primary purpose in doing so is to illustrate that even algorithms that are apparently simple can have complex properties, and that the analysis of algorithms is not just of practical importance but also can be intellectually challenging.
 
-The result of h-sorting a file that is k-ordered is a file that is both h- and k-ordered. 
+The result of h-sorting a file that is k-ordered is a file that is both h- and k-ordered.
 
-Shellsort does less than N(h-1)(k-1)/g comparisons to g-sort a file that is h- and k-ordered, provided that hand k are relatively prime. 
+Shellsort does less than N(h-1)(k-1)/g comparisons to g-sort a file that is h- and k-ordered, provided that hand k are relatively prime.
 
-Shellsort does less than O(N^(3/2)) comparisons for the increments 1 4 13 40 121 364 1093 3280 9841 .... 
+Shellsort does less than O(N^(3/2)) comparisons for the increments 1 4 13 40 121 364 1093 3280 9841 ....
 
 Shellsort does less than O(N^(4/3)) comparisons for the
-increments 1 8 23 77 281 1073 4193 16577 .... 
+increments 1 8 23 77 281 1073 4193 16577 ....
 
 ### 6.7 Sorting Other Types of Data, 281
 
@@ -466,59 +466,137 @@ The item data type provides us with a way to use our sort code for any type of d
 
 ### 6.8 Index and Pointer Sorting, 287
 
-One simple approach for sorting without (intermediate) moves of items is to maintain an index array with keys in the items accessed only for comparisons. 
+One simple approach for sorting without (intermediate) moves of items is to maintain an index array with keys in the items accessed only for comparisons.
 
 ### 6.9 Sorting of Linked Lists ' 294
 
-The possibility that nodes could be referenced through pointers that are maintained outside the sort means that our programs should change only links in nodes, and should not alter keys or other information. 
+The possibility that nodes could be referenced through pointers that are maintained outside the sort means that our programs should change only links in nodes, and should not alter keys or other information.
 
 ### 6,10 Key-Indexed Counting, 298
 
-Key-indexed counting is a linear-time sort, provided that the range of distinct key values is within a constant factor of the file size. 
+Key-indexed counting is a linear-time sort, provided that the range of distinct key values is within a constant factor of the file size.
 
 ## Chapter 7. Quicksort 303
 
+Quicksort is probably used more widely than any other algorithm.
+
+The quicksort algorithm has the desirable features that it is inplace (uses only a small auxiliary stack), requires requires time only proportional to N log N on the average to sort N items, and has an extremely short inner loop.
+
+For huge files, however, quicksort is likely to run five to ten times as fast as shell sort, and it can adapt to be even more efficient for other types of files that might occur in practice.
+
 ### 7.1 The Basic Algorithm. 304
+
+The partitioning process rearranges the array to make the following three conditions hold:
+• The element a [i] is in its final place in the array for some i.
+• None of the elements in a [l], .. , , a [i-1] is greater than a [i] .
+• None of the elements in a [i+1], ' .. , a [r] is less than a [i] .
 
 ### 7.2 Performance Characteristics of Quicksort, 309
 
+Quicksort uses about N^2 /2 comparisons in the worst case.
+
+Quicksort uses about 2NInN comparisons on the average.
+
 ### 7.3 Stack Size· 313
+
+If the smaller of the two subfiles is sorted first, then the stack never has more than 19 N entries when quicksort is used to sort N elements.
 
 ### 7.4 SmallSubfiles' 316
 
+A definite improvement to quicksort  is to change the test at the beginning of the recursive routine from a return to a call on insertion sort, as follows:
+if (r-1 <= M) insertion(a, 1, r); // M = 9 or from 5 to 25.
+
 ### 7.5 Median-of-Three Partitioning· 319
+
+Another well-known way to find a better partitioning element is to take a sample of three elements from the file, then to use the median of the three for the partitioning element.
 
 ### 7.6 Duplicate Keys· 324
 
+One straightforward idea is to partition the file into three parts, one each for keys smaller than, equal to, and larger than the partitioning element。
+
 ### 7.7 Strings and Vectors· 327
+
+When the sort keys are strings, we could use an abstract-string type implementation like Program 6. I I with the quicksort implementations in this chapter.
+
+The three-way partitioning procedure that we considered in Section 7.6 provides an elegant way to take advantage of this observation.
 
 ### 7.8 Selection· 329
 
+Quicksort-based selection is linear time on the average.
+
 ## Chapter 8. Merging and Mergesort 335
+
+One of mergesort's most attractive properties is that it sorts a file of N elements in time proportional to N log N, no matter what the input.
 
 ### 8.1 Two-Way Merging· 336
 
+Mergesort requires about N*lgN comparisons to sort any file of N elements.
+
 ### 8.2 Abstract In-place Merge, 339
+
+A sequence of keys that increases, then decreases (or decreases, then increases) is referred to as a bitonic sequence.
 
 ### 8.3 Top-Down Mergesort . 341
 
+Mergesort uses extra space proportional to N.
+
+Mergesort is stable, if the underlying merge is stable.
+
+The resource requirements ofmergesort are insensitive to the initial order of its input.
+
 ### 8.4 Improvements to the Basic Algorithm, 344
+
+This technique eliminates the array copy at the expense of putting back into the inner loop the tests for whether the input arrays are exhausted.
 
 ### 8.5 Bottom-Up Mergesort . 347
 
+All the merges in each pass of a bottom-up mergesort involve file sizes that are a power of 2, except possibly the final file size.
+
+The number of passes in a bottom-up mergesort of N elements is precisely the number of bits in the binary representation of N (ignoring leading 0 bits).
+
 ### 8.6 Performance Characteristics of Mergesort . 351
+
+The allure of premature optimization is so strong that it is worthwhile to reinforce them each time that we study techniques for performance improvement at this level of detail.
 
 ### 8.7 Linked-List Implementations of Mergesort . 354
 
+In fact, mergesort turns out to be well-suited to linked lists.
+
 ### 8.8 Recursion Revisited, 357
+
+Quicksort might perhaps more properly be called a conquer-anddivide algorithm: In a recursive implementation, most of the work for a particular activation is done before the recursive calls. On the other hand, the recursive merge sort has more the spirit of divide and conquer: First, the file is divided into two parts; then, each part is conquered individually.
 
 ## Chapter 9. Priority Queues and Heapsort 361
 
+A priority queue is a data structure of items with keys that supports two basic operations: insert a new item, and delete the item with the largest key.
+
+We want to build and maintain a data structure containing records with numerical keys (priorities) that supports some of the following operations:
+• Construct a priority queue from N given items.
+• Insert a new item.
+• Delete the maximum item.
+• Change the priority of an arbitrary specified item.
+• Delete an arbitrary specified item.
+• Join two priority queues into one large one.
+
 ### 9.1 Elementary Implementations· 365
+
+It is wise to keep in mind the simple implementations because they often can outperform more complicated methods in many practi­cal situations.
 
 ### 9.2 Heap Data Structure, 368
 
+A tree is heap-ordered if the key in each node is larger than or equal to the keys in all of that node's children (if any).  Equivalently, the key in each node of a heap-ordered tree is smaller than or equal to the key in that node's parent (if any).
+
+No node in a heap-ordered tree has a key larger than the key at the root.
+
+A heap is a set of nodes with keys arranged in a complete heap-ordered binary tree, represented as an array. 
+
 ### 9.3 Algorithms on Heaps· 371
+
+The priority-queue algorithms on heaps all work by first making a simple modification that could violate the heap condition, then traveling through the heap, modifying the heap as required to ensure that the heap condition is satisfied everywhere. This process is sometimes called heapifying, or just fixing the heap.
+
+The insert and delete the maximum operations for the priority queue abstract data type can be implemented with heapordered trees such that insert requires no more than lgN comparisons and delete the maximum no more than 2lg N comparisons, when performed on an N -item queue.
+
+The change priority, delete, and replace the maximum operations for the priority queue abstract date type can be implemented with the heap-ordered trees such that no more than 2lgN comparisons are required for any operation on an N-item queue.
 
 ### 9.4 Heapsort . 376
 

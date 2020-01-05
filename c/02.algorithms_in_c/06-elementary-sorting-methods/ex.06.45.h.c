@@ -8,6 +8,7 @@ int main() {
         s[i] = pow(4, i) - 3 * pow(2, i) + 1;
         printf("%d %f %f\n", i, f[i], s[i]);
     }
+    /*
     i = j = k = 0;
     while (i < 10 && j < 10) {
         if (f[i] > s[j]) {
@@ -21,6 +22,18 @@ int main() {
     }
     while (j < 10) {
         a[k++] = s[j++];
+    }
+    */
+    for (i = j = k = 0; k < 20; k++) {
+        if (i == 10) {
+            a[k] = s[j++];
+            continue;
+        }
+        if (j == 10) {
+            a[k] = f[i++];
+            continue;
+        }
+        a[k] = (f[i] < s[j]) ? f[i++] : s[j++];
     }
     for (k = 0; k < 20; k++)
         if (a[k] > 0)
