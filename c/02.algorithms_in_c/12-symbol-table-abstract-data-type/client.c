@@ -1,0 +1,1 @@
+eg.12.02.example-of-a-symbol-table-client.c

@@ -600,65 +600,209 @@ The change priority, delete, and replace the maximum operations for the priority
 
 ### 9.4 Heapsort . 376
 
+Bottom-up heap construction takes linear time. 
+
+Heapsort uses fewer than 2N*lgN comparisons to sort N elements. 
+
+Heap-based selection allows the kth largest of N items to be found in time proportional to N when k is small or close to N, and in time proportional to N log N otherwise.
+
 ### 9.5 Priority-Queue ADT . 383
+
+In applications where the priority queue does not grow to be large, or where the mix of insert and delete the maximum operations has some special properties, a fully flexible interface might be desirable. On the other hand, in applications where the queue will grow to be large, and where a tenfold or a hundredfold increase in performance might be noticed or appreciated, it might be worthwhile to restrict to the set of operations where efficient performance is assured.
 
 ### 9.6 Priority Queues for Index Items· 389
 
+Suppose that the records to be processed in a priority queue are in an existing array. In this case, it makes sense to have the priority-queue routines refer to items through the array index. Moreover, we can use the array index as a handle to implement all the priority-queue operations.
+
 ### 9.7 Binomial Queues· 392
+
+A binary tree comprising nodes with keys is said to be left heap ordered if the key in each node is larger than or equal to all the keys in that node's left subtree (if any).
+
+A power-of-2 heap is a left-heap-ordered tree consisting of a root node with an empty right subtree and a complete left subtree. The tree corresponding to a power-of-2 heap by the left-child, right-sibling correspondence is called a binomial tree.
+
+A binomial queue is a set of power-of-2 heaps, no two of the same size. The structure of a binomial queue is determined by that queue's number of nodes, by correspondence with the binary representation of integers.
+
+All the operations for the priority-queue ADT can be implemented with binomial queues such that O(lg N) steps are required for any operations performed on an N -item queue.
+
+Construction of a binomial queue with N insert operations on an initially empty queue requires O(N) comparisons in the worst case.
 
 ## Chapter 10. Radix Sorting 403
 
+Sorting methods built on processing numbers one piece at a time are called radix sorts.
+
+Radix-sorting algorithms are based on the abstract operation "extract theith digit from a key."
+
+There are two, fundamentally different, basic approaches to radix sorting. The first class of methods involves algorithms that examine the digits in the keys in a left-to-right order, working with the most significant digits first. These methods are generally referred to as most-significant-digit (MSD) radix sorts. 
+
+The second class of radix-sorting methods is different: They examine the digits in the keys in a right-to-left order, working with the least significant digits first. These methods are generally referred to as least-significant-digit (LSD) radix sorts.
+
 ### 10.1 Bits, Bytes, and Words· 405
+
+The key to understanding radix sort is to recognize that (i) computers generally are built to process bits in groups called machine words, which are often grouped into smaller pieces call bytes; (ii) sort keys also are commonly organized as byte sequences; and (iii) small byte sequences can also serve as array indices or machine addresses. Therefore, it will be convenient for us to work with the following abstractions.
+
+A byte is a fixed-length sequence of bits; a string is a variable-length sequence of bytes; a word is a fixed-length sequence of bytes.
+
+A key is a radix-R number, with digits numbered from the left (starting at 0).
 
 ### 10.2 Binary Quicksort· 409
 
+Radix sorting simply does not work well on files that contain huge numbers of duplicate keys that are not short.
+
 ### 10.3 MSD Radix Sort· 413
+
+Using just 1 bit in radix quicksort amounts to treating keys as radix2 (binary) numbers and considering the most significant digits first. 
+
+Generalizing, suppose that we wish to sort radix-R numbers by con­sidering the most significant bytes first. Doing so requires partitioning the array into R, rather than just two, different parts.
 
 ### 10.4 Three-Way Radix Quicksort· 421
 
+In essence, doing three-way radix quicksort amounts to sorting the file on the leading characters of the keys (using quicksort), then applying the method recursively on the remainder of the keys. For sorting strings, the method compares favorably with normal quicksort and with MSD radix sort. Indeed, it might be viewed as a hybrid of these two algorithms.
+
 ### 10.5 LSD Radix Sort· 425
+
+An alternative radix-sorting method is to examine the bytes from right to left. 
 
 ### 10.6 Performance Characteristics of Radix Sorts· 428
 
+The running time of LSD radix sort for sorting N records with w-byte keys is proportional to N*w, because the algorithm makes ill passes over all N keys.
+
+The worst case for radix sorting is to examine all the bytes in all the keys.
+
+Binary quicksort examines about N*lgN bits, on average, when sorting keys composed of random bits. 
+
+MSD radix sort with radix R on a file of size N requires at least 2N + 2R steps.
+
+If the radix is always less than the file size, the number of steps taken by MSD radix sort is within a small constant factor of N logR N on the average (for keys comprising random bytes), and within a small constant factor ofthe number of bytes in the keys in the worst case.
+
+Three-way radix quicksort uses 2N*lnN byte comparisons, on the average, to sort N (arbitrarily long) keys. 
+
+LSD radix sort can sort N records with w-bit keys in w/lgR passes, using extra space for R counters (and a buffer for rearranging the file).
+
 ### 10.7 Sublinear-Time Sorts· 433
+
+The LSD approach to radix sorting is widely used, because it involves extremely simple control structures and its basic operations are suitable for machine-language implementation, which can directly adapt to special-purpose high-performance hardware.
 
 ## Chapter 11. Special-Purpose Sorts 439
 
+In this chapter, we examine examples of sorting methods that are designed to run efficiently on various different kinds of machines. We consider several different examples of the restrictions imposed by high-performance hardware, and several methods that are useful in practice for implementing high-performance sorts.
+
 ### 11.1 Batcher's Odd-Even Mergesort . 441
+
+A nonadaptive sorting algorithm is one where the sequence of operations performed depends on only the number of the inputs, rather than on the values of the keys.
+
+If a nonadaptive program produces sorted output when the inputs are all either 0 or 1, then it does so when the inputs are arbitrary keys.
+
+dcba cdab abcd abcd
+dbca bdac acbd abcd
+12-34, 13-24, 23
 
 ### 11.2 Sorting Networks . 446
 
+Batcher's odd-even sorting networks have about N (lg N)^2 / 4 comparators and can run in (lg N)^2 /2 parallel steps.
+
 ### 11.3 External Sorting . 454
+
+In summary, the abstract model that we shall use for external sorting involves a basic assumption that the file to be sorted is far too large to fit in main memory, and accounts for two other resources: running time (number of passes through the data) and the number of external devices available for use.
+
+With 2P external devices and internal memory sufficient to hold M records, a sort-merge that is based on a P-way balanced merge takes about 1 + logp(N/M) passes.
+
+For random keys, the runs produced by replacement selection are about twice the size ofthe heap used.
 
 ### 11.4 Sort-Merge Implementations· 460
 
+For random keys, the runs produced by replacement selection are about twice the size ofthe heap used.
+
+With three external devices and internal memory sufficient to hold A1 records, a sort-merge that is based on replacement selection fol/owed by a two-way polyphase merge takes about 1 + log¢(N/2M)/¢ effective passes, on the average.
+
 ### 11.5 Parallel Sort/Merge . 466
 
-## Chapter 12. Symbol Tables and BSTs
+A merging comparator takes as input two sorted files of size M, and produces as output two sorted files: one containing the M smallest of the 2M inputs, and the other containing the M largest of the 2M inputs.
+
+We can sort a file of size N by dividing it into blocks ofsize M, sorting each file, then using a sorting network built with merging comparators.
+
+Block sorting on P processors, using Batcher's sort with merging comparators, can sort N records in about (lgP)^2/2 parallel steps.
+
+## Chapter 12. Symbol Tables and BSTs 477
+
+THE RETRIEVAL OF a particular piece or pieces of information from large volumes of previously stored data is a fundamental operation, called search, that is intrinsic to a great many computational tasks.
+
+A symbol table is a data structure ofitems with keys that supports two basic operations: insert a new item, and return an item with a given key.
 
 ### 12.1 Symbol-Table Abstract Data Type· 479
 
+The operations of interest include
+• Insert a new item.
+• Search for an item (or items) having a given key.
+• Delete a specified item.
+• Select the kth smallest item in a symbol table.
+• Sort the symbol table (visit all the items in order of their keys).
+• Join two symbol tables. 
+
 ### 12.2 Key-Indexed Search· 485
+
+If key values are positive integers less than M and items have distinct keys, then the symbol-table data type can be implemented with key-indexed arrays of items such that insert, search, and delete require constant time; and initialize, select, and sort require time proportional to M, whenever any of the operations are performed on an N -item table.
 
 ### 12.3 Sequential Search· 489
 
+For general key values from too large a range for them to be used as indices, one simple approach for a symbol-table implementation is to store the items contiguously in an array, in order.
+
+Sequential search in a symbol table with N items uses about N /2 comparisons for search hits (on the average).
+
+Sequential search in a symbol table of N unordered items uses a constant number of steps for inserts and N comparisons for search misses (always).
+
+Sequential search in a symbol table of N ordered items uses about N /2 comparisons for insertion, search hits, and search misses (on the average).
+
 ### 12.4 Binary Search· 497
+
+Binary search never uses more than lgN+ 1 comparisons for a search (hit or miss). 
 
 ### 12.5 Binary Search Trees (BSTs) . 502
 
+A binary search tree (BST) is a binary tree that has a key associated with each of its internal nodes, with the additional property that the key in any node is larger than (or equal to) the keys in all nodes in that node's left subtree and smaller than (or equal to) the keys in alJ nodes in that node's right subtree.
+
 ### 12.6 Performance Characteristics of BSTs . 508
+
+Search hits require about 2lnN ~ 1.39lgN comparisons, on the average, in a BST built from N random keys. 
+
+Insertions and search misses require about 2lnN ~ 1.39lgN comparisons, on the average, in a BST built from N random keys.
+
+In the worst case, a search in a binary search tree with N keys can require N comparisons.
 
 ### 12.7 Index Implementations with Symbol Tables· 511
 
+For many applications we want a search structure simply to help us find items, without moving them around. For example, we might have an array of items with keys, and we might want the search method to give us the index into that array of the item matching a certain key.
+
 ### 12.8 Insertion at the Root in BSTs . 516
+
+A rotation is a local change, involving only three links and two nodes, that allows us to move nodes around in trees without changing the global ordering properties that make BSTs useful for search.
+
+The rotation operations provide a straightforward recursive implementation of root insertion: Recursively insert the new item into the appropriate subtree (leaving it, when the recursive operation is complete, at the root of that tree), then rotate to make it the root of the main tree.
 
 ### 12.9 BST Implementations of Other ADT Functions· 519
 
+In this section, we consider implementations of select, join, and delete. 
+
 ## Chapter 13. Balanced Trees 529
+
+A randomized algorithm introduces random decision making into the algorithm itself, to reduce dramatically the chance of a worstcase scenario (no matter what the input).
+
+An amortization approach is to do extra work at one time to avoid more work later, to be able to provide guaranteed upper bounds on the average per-operation cost (the total cost of all operations divided by the number of operations).
+
+An optimization approach is to take the trouble to provide performance guarantees for every operation.
 
 ### 13.1 Randomized BSTs . 533
 
+Building a randomized BST is equivalent to building a standard BST from a random initial permutation ofthe keys. We use about 2N*lnN comparisons to construct a randomized BST with N items (no matter in what order the items are presented for insertion), and about 2lnN comparisons for searches in such a tree.
+
+The probability that the construction cost of a randomized BST is more than a factor of a times the average is less than e^-a:
+
+Making a tree with an arbitrary sequence of randomized insert, delete, and join operations is equivalent to building a standard BST from a random permutation of the keys in the tree.
+
 ### 13.2 Splay BSTs . 540
+
+The number of comparisons used when a splay BST is built from N insertions into an initially empty tree is O(N*lgN).
+
+The number of comparisons required for any sequence of M insert or search operations in an N -node splay BST is O((N + M)lg(N + M)).
 
 ### 13.3 Top-Down 2-3-4 Trees· 546
 

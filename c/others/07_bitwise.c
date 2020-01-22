@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int printBinary(int n){
+void printBinary(int n){
     char byte[8*sizeof(int)]={0};
     int i=0;
     while (n && i < 8*sizeof(int)) {
@@ -56,4 +56,5 @@ int main()
     printf("A>>2 is %d ", c);
     printBinary(c);
 
+    return 0;
 }
