@@ -11,9 +11,15 @@ int compare(const void *i, const void *j) {
 int main(void) {
     int i, N;
     char *a[Nmax];
+    FILE *ptr = fopen("makefile", "r");
+    if (ptr == NULL) {
+        printf("no such file.");
+        return 0;
+    }
     for (N = 0; N < Nmax; N++) {
         a[N] = &buf[M];
-        if (scanf("%s", a[N]) == EOF)
+        /*        if (scanf("%s", a[N]) == EOF)*/
+        if (fscanf(ptr, "%s", a[N]) == EOF)
             break;
         M += strlen(a[N]) + 1;
     }

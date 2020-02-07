@@ -17,5 +17,6 @@ int main(int argc, char *argv[]) {
         if (a[i])
             printf("%5ld ", i);
     printf("\n");
+    free(a);
     return 0;
 }

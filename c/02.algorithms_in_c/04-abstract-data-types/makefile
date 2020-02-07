@@ -1,7 +1,7 @@
-all:402 403 407 410 411 412 413 417
+all:402 403 407 410 411 412 413 417 419 421
 402:
 	gcc eg.04.02.postfix-expression-evaluation.c eg.04.04.array-implementation-of-stack.c -o eg.04.02.postfix-expression-evaluation.exe
-	./eg.04.02.postfix-expression-evaluation.exe '5 9 8 + 4 6 * * 7 + *'
+	./eg.04.02.postfix-expression-evaluation.exe '50 9 8 + 4 6 * * 7 + *'
 403:
 	gcc eg.04.03.infix-to-postfix-conversion.c eg.04.05.linked-list-implementation-of-stack.c -o eg.04.03.infix-to-postfix-conversion.exe
 	./eg.04.03.infix-to-postfix-conversion.exe '(5 * ( ( ( 9 + 8 ) * ( 4 * 6 ) ) + 7 ))'
@@ -30,7 +30,7 @@ all:402 403 407 410 411 412 413 417
 	./eg.04.19.queue-client.exe 50
 421:
 	gcc eg.04.21.ploynomial-client.c eg.04.23.array-implementation-of-polynomial-adt.c -o eg.04.21.ploynomial-client.exe
-	./eg.04.21.ploynomial-client.exe 5 1
+	./eg.04.21.ploynomial-client.exe 5 2
 .PHONY:clean
 clean:
 	rm *.exe

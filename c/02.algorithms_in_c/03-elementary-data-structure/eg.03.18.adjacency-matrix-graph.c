@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define v 10
+/*
+ * This program reads a set of edges that define an undirected graph and
+ * builds an adjacency-matrix representation for the graph, setting a [i] [j]
+ * and a[j] [i] to 1 if there is an edge from i to j or j to i in the graph,
+ * or to 0 if there is no such edge. The program assumes that the number
+ * of vertices V is a compile-time constant. Otherwise, it would need to
+ * dynamically allocate the array that represents the adjacency matrix
+ */
 int main(void) {
     int i, j, adj[v][v];
     for (i = 0; i < v; i++)
@@ -8,8 +16,15 @@ int main(void) {
             adj[i][j] = 0;
     for (i = 0; i < v; i++)
         adj[i][i] = 1;
-    printf("Enter the edges(press letter to exit): \n");
-    while (scanf("%d %d\n", &i, &j) == 2) {
+/*    printf("Enter the edges(press letter to exit): \n");*/
+/*    while (scanf("%d %d\n", &i, &j) == 2) {*/
+    FILE* ptr = fopen("318.txt","r");
+    if (ptr==NULL)
+    {
+        printf("no such file.");
+        return 0;
+    }
+    while (fscanf(ptr, "%d %d\n", &i, &j) == 2) {
         adj[i][j] = 1;
         adj[j][i] = 1;
     }

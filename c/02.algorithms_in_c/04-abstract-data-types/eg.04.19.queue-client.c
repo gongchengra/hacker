@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <time.h>
 #define M 10
+/*
+ * Program 4.19 is a driver program that exemplifies such a client.
+ * It randomly assigns N items to one of 1\J FIFO queues, then prints
+ * out the contents of the queues, by removing the items one by one. 
+ */
 int main(int argc, char *argv[]) {
     int i, j, N = atoi(argv[1]);
     Q queues[M];

@@ -5,6 +5,14 @@ struct node {
     int item;
     struct node *next;
 };
+/*
+ * Figure 3.7 p116
+ * To reverse the order of a list, we maintain a pointer r to the portion of the
+ * list already processed, and a pointer y to the portion of the list not yet
+ * seen. This diagram shows how the pointers change for each node in the list.
+ * We save a pointer to the node following y in t, change y's link to point to
+ * r, and then move r to y and y to t.
+ */
 link reverse(link x) {
     link t, y = x, r = NULL;
     while (y != NULL) {

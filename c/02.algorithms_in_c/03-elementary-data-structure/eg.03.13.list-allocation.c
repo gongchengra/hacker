@@ -1,6 +1,7 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+/* same as 309 */
 int main(int argc, char *argv[]) {
     int i, N = atoi(argv[1]), M = atoi(argv[2]);
     Node t, x;

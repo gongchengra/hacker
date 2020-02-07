@@ -6,7 +6,14 @@ int main(void) {
         id[i] = i;
         sz[i] = 1;
     }
-    while (scanf("%d %d\n", &p, &q) == 2) {
+/*    while (scanf("%d %d\n", &p, &q) == 2) {*/
+    FILE* ptr = fopen("101.txt","r");
+    if (ptr==NULL)
+    {
+        printf("no such file.");
+        return 0;
+    }
+    while (fscanf(ptr, "%d %d\n", &p, &q) == 2) {
         for (i = p; i != id[i]; i = id[i])
             id[i] = id[id[i]];
         for (j = q; j != id[j]; j = id[j])

@@ -25,8 +25,15 @@ int main(void) {
     link adj[V];
     for (i = 0; i < V; i++)
         adj[i] = NULL;
-    printf("Enter the edges(press letter to exit): \n");
-    while (scanf("%d %d\n", &i, &j) == 2) {
+/*    printf("Enter the edges(press letter to exit): \n");*/
+/*    while (scanf("%d %d\n", &i, &j) == 2) {*/
+    FILE* ptr = fopen("318.txt","r");
+    if (ptr==NULL)
+    {
+        printf("no such file.");
+        return 0;
+    }
+    while (fscanf(ptr, "%d %d\n", &i, &j) == 2) {
         adj[j] = new (i, adj[j]);
         adj[i] = new (j, adj[i]);
     }

@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
     STACKinit(n);
     for (i = 1; i <= n; i++) {
         STACKpush((i % 2 == 1) ? 2 * i : i);
+        /*        STACKpush(i);*/
     }
     for (i = 0; i < n; i++) {
         printf("%d \n", STACKpop());

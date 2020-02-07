@@ -806,11 +806,35 @@ The number of comparisons required for any sequence of M insert or search operat
 
 ### 13.3 Top-Down 2-3-4 Trees· 546
 
+A 2-3-4 search tree is a tree that either is empty or comprises three types of nodes: 2-nodes, with one key, a left link to a tree with smaller keys, and a right link to a tree with larger keys; 3-nodes, with two keys, a left link to a tree with smaller keys, a middle link to a tree with key values between the node's keys and a right link to a tree with larger keys; and 4-nodes, with three keys and four links to trees with key values defined by the ranges subtended by the node's keys.
+
+A balanced 2-3-4 search tree is a 2-3-4 search tree with all links to empty trees at the same distance from the root.
+
+Searches in N-node 2-3-4 trees uisit at most lgN + 1 nodes.
+
+Insertions into N-node 2-3-4 trees require fewer than lgN+1 node splits in the worst case, and seem to require less than one node split on the average.
+
 ### 13.4 Red-Black Trees· 5.51
+
+A search in a red-black tree with N nodes requires fewer than 2lgN + 2 comparisons.
+
+A search in a red-black tree with N nodes built from random keys uses about 1.002lg N comparisons, on the average.
+
+A red-black BST is a binary search tree in which each node is marked to be either red or black, with the additional restriction that no two red nodes appear consecutively on any path from an external link to the root.
+
+A balanced red-black BST is a red-black BST in which all paths from external links to the root have the same number of black nodes.
 
 ### 13.5 Skip Lists . .561
 
+A skip list is an ordered linked list where each node contains a variable number of links, with the ith links in the nodes implementing singly linked lists that skip the nodes with fewer than i links.
+
+Search and insertion in a randomized skip list with parameter t require about (t logt N)/2 = (t/(2lgt))lg N comparisons, on the average.
+
+Skip lists have (t / (t - 1))N links on the average. 
+
 ### 13.6 Performance Characteristics· .569
+
+Splay BSTs will provide good performance as a self-organizing search method, particularly when frequent access to a small set of keys is a typical pattern; randomized BSTs are likely to be faster and easier to implement for a full-function symbol table BST; skip lists are easy to understand and can provide logarithmic search with less space than the other methods, and red-black BSTs are attractive for symbol-table library implementations, because they provide guaranteed performance bounds in the worst case and the fastest search and insertion algorithms for random data.
 
 ## Chapter 14. Hashing 573
 

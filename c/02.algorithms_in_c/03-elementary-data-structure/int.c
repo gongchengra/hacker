@@ -5,4 +5,3 @@ Number randNum() {
     srand(time(NULL));
     return rand();
 }
-
