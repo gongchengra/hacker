@@ -13,4 +13,4 @@ all: 1001 1002 1003 1004
 	./eg.10.04.lsd-radix-sort.exe 10 1
 .PHONY: clean
 clean:
-	rm *.exe *.log
+	rm -f *.exe *.log

@@ -31,4 +31,4 @@ all: 1202 12021 1204 12041 1205 1206 1207 1209 1210 1211
 	./eg.12.11.rotations-in-bsts.exe 20
 .PHONY: clean
 clean:
-	rm *.exe *.log
+	rm -f *.exe *.log

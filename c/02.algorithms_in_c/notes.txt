@@ -838,27 +838,68 @@ Splay BSTs will provide good performance as a self-organizing search method, par
 
 ## Chapter 14. Hashing 573
 
+Search algorithms that use hashing consist of two separate parts. The first step is to compute a hash function that transforms the search key into a table address. Ideally, different keys would map to different addresses, but often two or more different keys may hash to the same table address. Thus, the second part of a hashing search is a collision-resolution process that deals with such keys.
+
+Hashing is a good example of a time-space tradeoff.
+
 ### 14.1 Hash Functions . .574
+
+The first problem that we must address is the computation of the hash function, which transforms keys into table addresses. The hash function depends on the key type. 
+
+A simpler and more efficient method for w-bit integers-one that is perhaps the most commonly used method for hashing-is to choose the table size M to be prime, and, for any integer key k, to compute the remainder when dividing k by M, or h(k) = k mod M.
+
+Another alternative for integer keys is to combine the multiplicative and modular methods: Multiply the key by a constant between 0 and 1, then reduce it modulo M. 
+
+A theoretically ideal universal hash function is one for which the chance of a collision between two distinct keys in a table of size M is precisely 1/M.
 
 ### 14.2 Separate Chaining' .583
 
+Separate chaining reduces the number of comparisons for sequential search by a factor of M (on the average), using extra space for M links.
+
+In a separate-chaining hash table with M lists and N keys, the probability that the number of keys in each list is within a small constant factor of N/A! is extremely close to 1.
+
 ### 14.3 Linear Probing . S88
+
+When collisions are resolved with linear probing, the average number of probes required to search in a hash table of size M that contains N = aM keys is about
+1/2(1+1/(1-a)) and 1/s(1+1/(1-a)^2)
 
 ### 14.4 Double Hashing . 594
 
+We can ensure that the average cost ofall searches is less than t probes by keeping the load factor less than 1-1/sqrt(t) for linear probing and less than 1 - 1/t for double hashing.
+
 ### 14.5 Dynamic Hash Tables· .599
+
+A sequence oft search, insert, and delete symbol-table operations can be executed in time proportional to t and with memory usage always within a constant factor of the number of keys in the table.
 
 ### 14.6 Perspective· 603
 
+Linear probing is the fastest of the three (if sufficient memory is available to ensure that the table is sparse), double hashing makes the most efficient use of memory (but requires extra time, to compute the second hash function), and separate chaining is the easiest to implement and deploy (provided that a good storage allocator is available).
+
 ## Chapter 15. Radix Search 609
+
+SEVERAL SEARCH METHODS proceed by examining the search keys one small piece at a time, rather than using full comparisons between keys at each step.
 
 ### 15.1 Digital Search Trees 610
 
+Property 15.1 A search or insertion in a digital search tree requires about lgN comparisons on the average, and about 21gN comparisons in the worst case, in a tree built from N random keys. The number of comparisons is never more than the number of bits in the search key.
+
 ### 15.2 Tries· 614
+
+A trie is a binary tree that has keys associated with each of its leaves, defined recursively as follows: The trie for an empty set of keys is a null link; the trie for a single key is a leaf containing that key; and the trie for a set of keys of cardinality greater than one is an internal node with left link referring to the trie for the keys whose initial bit is 0 and right link referring to the trie for the keys whose initial bit is 1, with the leading bit considered to be removed for the purpose of constructing the subtrees.
+
+The structure of a trie is independent of the key insertion order: There is a unique trie for any given set of distinct keys. 
+
+Insertion or search for a random key in a trie built from N random (distinct) bitstrings requires about lg N bit comparisons on the average. The worst-case number of bit comparisons is bounded only by the number of bits in the search key.
+
+A trie built from N random w-bit keys has about N / ln 2 = 1.44N nodes on the average.
 
 ### 15.3 Patricia Tries· 623
 
+Insertion or search for a random key in a patricia trie built from N random bitstrings requires about lgN bit comparisons on the average, and about 2lgN bit comparisons in the worst case. The number of bit comparisons is never more than the length of the key. 
+
 ### 15.4 Multiway Tries and TSTs . 632
+
+The existence trie corresponding to a set of keys is defined recursively as follows: The trie for an empty set of keys is a null link; and the trie for a nonempty set of keys is an internal node with links referring to the trie for each lJOssible key digit, with the leading digit considered to be removed for the purpose of constructing the subtrees.
 
 ### 15.5 Text String Index Algorithms· 648
 

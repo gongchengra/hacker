@@ -38,14 +38,12 @@ void quicksortB(Item a[], int l, int r, int w) {
 // so it is save to start from 20th bit.
 void sort(Item a[], int l, int r) { quicksortB(a, l, r, 20); }
 int main(int argc, char *argv[]) {
-    int i = 0, N, sw;
-    int *a = malloc(N * sizeof(int));
-    srand(time(NULL));
     if (argc < 3)
         printf("You have not entered enough arguments: N and sw required!\n ");
     else {
-        N = atoi(argv[1]);
-        sw = atoi(argv[2]);
+        int i = 0, N = atoi(argv[1]), sw = atoi(argv[2]);
+        int *a = malloc(N * sizeof(int));
+        srand(time(NULL));
         if (sw)
             for (i = 0; i < N; i++)
                 a[i] = 1000 * (1.0 * rand() / RAND_MAX);

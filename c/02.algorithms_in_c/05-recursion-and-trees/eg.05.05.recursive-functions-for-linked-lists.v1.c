@@ -60,8 +60,8 @@ int main(void) {
     printf("\n");
     traverseR(head, node_print);
     printf("\n");
-    delete (head, 3);
-    delete (head, 5);
+    delete(head, 3);
+    delete(head, 5);
     traverse(head, node_print);
     printf("\n");
     return 0;

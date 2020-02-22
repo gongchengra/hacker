@@ -28,9 +28,15 @@ all:402 403 407 410 411 412 413 417 419 421
 419:
 	gcc eg.04.19.queue-client.c eg.04.20.linked-list-implementation-of-first-class-queue.c -o eg.04.19.queue-client.exe
 	./eg.04.19.queue-client.exe 50
+420:
+	gcc eg.04.19.queue-client.v1.c -o eg.04.19.queue-client.v1.exe
+	./eg.04.19.queue-client.v1.exe 50
 421:
 	gcc eg.04.21.ploynomial-client.c eg.04.23.array-implementation-of-polynomial-adt.c -o eg.04.21.ploynomial-client.exe
 	./eg.04.21.ploynomial-client.exe 5 2
+422:
+	gcc eg.04.21.ploynomial-client.v1.c -o eg.04.21.ploynomial-client.v1.exe
+	./eg.04.21.ploynomial-client.v1.exe 5 2
 .PHONY:clean
 clean:
 	rm *.exe

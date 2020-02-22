@@ -20,3 +20,6 @@ all:
 1307:
 	gcc eg.13.07.skip-lists.c -o eg.13.07.skip-lists.exe
 	./eg.13.07.skip-lists.exe 10
+.PHONY: clean
+clean:
+	rm -f *.exe *.log
