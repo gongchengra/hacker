@@ -1,0 +1,33 @@
+#include <stdio.h>
+struct LIST {
+    int a, b;
+} d[3], b;
+struct LIST make(int, int);                       // 返回结构的函数
+struct LIST change(struct LIST b, struct LIST[]); // 返回结构的函数
+void disp(struct LIST[]);                         // 使用结构参数
+int main() {
+    d[0] = make(25, 52);
+    d[1] = make(85, 58);
+    d[2] = make(68, 86);
+    b = change(b, d); // 调用使用函数表达式方式
+    disp(d);
+    printf("b.a=%d\t\tb.b=%d\n", b.a, b.b);
+    return 0;
+}
+struct LIST make(int x, int y) {
+    struct LIST temp;
+    temp.a = x;
+    temp.b = y;
+    return temp;
+}
+void disp(struct LIST d[]) {
+    int i;
+    for (i = 0; i < 3; i++)
+        printf("d[%d].a=%d\td[%d].b=%d\n", i, d[i].a, i, d[i].b);
+}
+// 将传递的一个结构参数作为函数的返回值
+struct LIST change(struct LIST b, struct LIST d[]) {
+    b.a = d[0].a;
+    b.b = d[2].b;
+    return b;
+}

@@ -901,6 +901,12 @@ Insertion or search for a random key in a patricia trie built from N random bits
 
 The existence trie corresponding to a set of keys is defined recursively as follows: The trie for an empty set of keys is a null link; and the trie for a nonempty set of keys is an internal node with links referring to the trie for each lJOssible key digit, with the leading digit considered to be removed for the purpose of constructing the subtrees.
 
+A multiway trie is a multiway tree that has keys associated with each of its leaves, defined recursively as follows: The trie for an empty set of keys is a null link; the trie for a single key is a leaf containing that key; and the trie for a set of keys of cardinality greater than one is an internal node with links referring to tries for keys with each possible digit value, with the leading digit considered to be removed for the purpose of constructing the subtrees.
+
+Search or insertion in a standard R-ary trie built from N random bytestrings requires about logR N byte comparisons, on the average. The number of links in a such a trie is about In R. The number of byte comparisons for search or insertion in such a trie is no more than the number of bytes in the search key.
+
+A search or insertion in a full TST requires time proportional to the key length. The number of links in a TST is at most three times the number of characters in all the keys.
+
 ### 15.5 Text String Index Algorithms· 648
 
 ## Chapter 16. External Searching 655
