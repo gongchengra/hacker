@@ -8,5 +8,4 @@ int main() {
 }
 void add(double m, double n, double *q) {
     *q = m + n + 0.0065;
-    return;
 }

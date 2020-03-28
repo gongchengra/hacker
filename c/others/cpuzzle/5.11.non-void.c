@@ -7,6 +7,7 @@ int main() {
     printf("c=%f\n", c);
 }
 double add(double m, double n) {
-    double x = m + n + 0.0065;
-    return x;
+    /*    double x = m + n + 0.0065;*/
+    /*    return x;*/
+    return m + n + 0.0065;
 }

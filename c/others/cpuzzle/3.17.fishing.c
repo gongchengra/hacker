@@ -19,15 +19,23 @@ void solution2() {
     int n, x, j, k, l, m;
     for (n = 6;; n += 5) {
         j = 4 * (n - 1) / 5;
+        if (j % 5 != 1)
+            continue;
         k = 4 * (j - 1) / 5;
+        if (k % 5 != 1)
+            continue;
         l = 4 * (k - 1) / 5;
+        if (l % 5 != 1)
+            continue;
         m = 4 * (l - 1) / 5;
-        if (n % 5 == 1 && j % 5 == 1 && k % 5 == 1 && l % 5 == 1 &&
-            m % 5 == 1) {
-            printf("至少合伙捕鱼：%d条\n", n);
-            printf("分布捕鱼条数：%d %d %d %d\n", j, k, l, m);
-            break;
-        }
+        if (m % 5 != 1)
+            continue;
+        /*        if (n % 5 == 1 && j % 5 == 1 && k % 5 == 1 && l % 5 == 1 &&*/
+        /*            m % 5 == 1) {*/
+        printf("至少合伙捕鱼：%d条\n", n);
+        printf("分布捕鱼条数：%d %d %d %d\n", j, k, l, m);
+        break;
+        /*        }*/
     }
 }
 int main() {

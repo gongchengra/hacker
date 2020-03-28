@@ -1,12 +1,14 @@
 #include <stdio.h>
+typedef struct pencil ps;
 struct pencil {
     int hardness;
     char marker;
     int number;
 };
 int main() {
-    struct pencil p[3]; // 第9行定义p[3]
-    struct pencil *pen; // 第10行定义*pen
+/*    struct pencil p[3]; // 第9行定义p[3]*/
+/*    struct pencil *pen; // 第10行定义*pen*/
+    ps p[3], *pen;
     p[0].hardness = 2;
     p[0].marker = 'F';
     p[0].number = 485;

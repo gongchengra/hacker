@@ -13,7 +13,7 @@ int main() {
     /*    while((*p2++ = *p1++));*/
     /*    printf("%s\t%s\n", s1, s2); // 值不相等*/
     p2 = p1;
-    printf("%s\t%s\n", p1, p2); // 值不相等
+    printf("%s\t%s\n", p1, p2); // 值相等
     printf("%p\t%p\n", p1, p2); // 地址改变
     return 0;
 }

@@ -10,6 +10,7 @@ int main()                  // 3 主函数
     return 0;               // 10 返回0值
 } // 11 结束
 // 12 空行
+/*
 double max(double m, double n) // 13 函数max的定义
 {                              // 14
     if (m > n)                 // 15
@@ -17,3 +18,5 @@ double max(double m, double n) // 13 函数max的定义
     else                       // 17
         return n;              // 18
 } // 19
+*/
+double max(double m, double n) { return m > n ? m : n; }

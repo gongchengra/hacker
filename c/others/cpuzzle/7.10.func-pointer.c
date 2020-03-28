@@ -1,7 +1,7 @@
 #include <stdio.h>
 void all(int, int, int (*)());
 int max(int, int), min(int, int), mean(int, int);
-void main() {
+int main() {
     int a, b;
     printf("输入a和b的值：");
     scanf("%d %d", &a, &b);

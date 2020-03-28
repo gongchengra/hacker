@@ -19,6 +19,7 @@ void func(struct uda *b) {
     switch (b->type) {
     case INT:
         printf("%d\n", b->u.uin);
+        printf("%x\n", b->u.uin);
         break;
     case LONG:
         printf("%ld\n", b->u.ulo);

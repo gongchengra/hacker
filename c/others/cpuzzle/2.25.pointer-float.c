@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-const int SIZE = 5;
+int const SIZE = 5;
 int main() {
     float *pf, *temppf, *min, temp, sum = 0.0;
     if ((min = temppf = pf = (float *)malloc(SIZE * sizeof(float))) == NULL)
@@ -16,6 +16,6 @@ int main() {
             sum += *temppf;
         }
     }
-    printf("和是%f, 最小值是%f\n", sum, *min);
+    printf("和是%5.2f, 最小值是%5.2f\n", sum, *min);
     free(pf);
 }

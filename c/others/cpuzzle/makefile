@@ -1,4 +1,12 @@
-all: c84
+521:
+	gcc 5.21.c1.c 5.21.c2.c -o 5.21.exe
+	./5.21.exe
+521b:
+	gcc 5.21.c1b.c 5.21.c2b.c -o 5.21b.exe
+	./5.21b.exe
+522:
+	gcc 5.22.b1.c 5.22.b2.c -o 5.22.exe
+	./5.22.exe
 c84:
 	gcc c84.c linkfunc.c -o c84.exe
 	./c84.exe

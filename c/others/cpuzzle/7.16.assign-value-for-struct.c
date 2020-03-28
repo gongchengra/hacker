@@ -16,7 +16,8 @@ void disp() {
         int i = 0;
         printf("输入两个浮点数:");
         for (i = 0; i < 2; i++)
-            scanf("%f", (a.fnum + i)); // a.fnum错误,等效&a.fnum[i]
+/*            scanf("%f", (a.fnum + i)); // a.fnum错误,等效&a.fnum[i]*/
+            scanf("%f", &a.fnum[i]); // a.fnum错误,等效&a.fnum[i]
     }
     printf("%c,%d,%s,%f,%f\n", a.c, a.num, a.name, a.fnum[0], a.fnum[1]);
     printf("%c,%d,%s,%f,%f\n", a.c, a.num, &a.name[4], *(a.fnum),
