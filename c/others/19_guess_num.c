@@ -1,17 +1,10 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-
  * File Name : 19_guess_num.c
-
  * Author : gongchengra@gmail.com
-
  * Purpose :
-
  * Creation Date : 2015-12-02
-
  * Last Modified :
-
  _._._._._._._._._._._._._._._._._._._._._.*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

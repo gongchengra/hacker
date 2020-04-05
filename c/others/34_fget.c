@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #define BUFFERSIZE 10
-
 int main() {
     char *text = calloc(1, 1), buffer[BUFFERSIZE];
     printf("Enter a message: \n");

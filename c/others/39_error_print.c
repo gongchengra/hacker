@@ -4,10 +4,8 @@
 extern int errno;
 int main() {
     FILE *pf;
-    int errnum;
-    pf = fopen("unexist.txt", "rb");
-    if (pf == NULL) {
-        errnum = errno;
+    if ((pf = fopen("unexist.txt", "rb")) == NULL) {
+        int errnum = errno;
         fprintf(stderr, "Value of errno: %d\n", errno);
         perror("Error printed by perror");
         fprintf(stderr, "Error opening file: %s\n", strerror(errnum));

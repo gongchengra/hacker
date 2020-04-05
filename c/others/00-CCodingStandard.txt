@@ -96,7 +96,7 @@ Use underbars ('_') to separate name components
 When declaring variables in structures, declare them organized by use in a manner to attempt to minimize memory wastage because of compiler alignment issues, then by size, and then by alphabetical order. E.g, don't use ``int a; char *b; int c; char *d''; use ``int a; int b; char *c; char *d''. Each variable gets its own type and line, although an exception can be made when declaring bitfields (to clarify that it's part of the one bitfield). Note that the use of bitfields in general is discouraged. Major structures should be declared at the top of the file in which they are used, or in separate header files, if they are used in multiple source files. Use of the structures should be by separate declarations and should be "extern" if they are declared in a header file. It may be useful to use a meaningful prefix for each member name. E.g, for ``struct softc'' the prefix could be ``sc_''.
 Example
 
-   
+
 struct foo {
     struct foo *next;   /* List of active foo */
     struct mumble amumble;  /* Comment for mumble */
@@ -118,7 +118,7 @@ With this approach the scope of the variable is clear in the code.
 Now all variables look different and are identifiable in the code.
 Example
 
-   
+
    int handle_error (int error_number) {
       int            error= OsErr();
       Time           time_of_error;
@@ -131,7 +131,7 @@ Example
 
   char *name= NULL;
 
-  char *name, address; 
+  char *name, address;
 Global Variables
 
 Global variables should be prepended with a 'g_'.
@@ -217,7 +217,7 @@ Add Comments to Closing Braces
 Adding a comment to closing braces can help when you are reading code because you don't have to find the begin brace to know what is going on.
 while(1) {
    if (valid) {
-  
+
    } /* if valid */
    else {
    } /* not valid */
@@ -225,7 +225,7 @@ while(1) {
 } /* end forever */
 Consider Screen Size Limits
 
-Some people like blocks to fit within a common screen size so scrolling is not necessary when reading code. 
+Some people like blocks to fit within a common screen size so scrolling is not necessary when reading code.
 Parens () with Key Words and Functions Policy
 
 Do not put parens next to keywords. Put a space between.
@@ -284,7 +284,7 @@ Example
       /* comments */
 
       case 2:
-      {        
+      {
          int v;
          ...
       }
@@ -303,12 +303,12 @@ Goto statements should be used sparingly, as in any well-structured code. The go
       ...
          if (disaster) {
             goto error;
-         } 
+         }
       }
    }
    ...
 error:
-   clean up the mess 
+   clean up the mess
 When a goto is necessary the accompanying label should be alone on a line and to the left of the code that follows. The goto should be commented (possibly in the block header) as to its utility and purpose.
 
 Continue and Break
@@ -378,14 +378,14 @@ In general enums are preferred to #define as enums are understood by the debugge
 
 Be aware enums are not of a guaranteed size. So if you have a type that can take a known range of values and it is transported in a message you can't use an enum as the type. Use the correct integer size and use constants or #define. Casting between integers and enums is very error prone as you could cast a value not in the enum.
 
- 
+
 Use Header File Guards
 
 Include files should protect against multiple inclusion through the use of macros that "guard" the files. Note that for C++ compatibility and interoperatibility reasons, do not use underscores '_' as the first or last character of a header guard (see below)
 #ifndef sys_socket_h
   #define sys_socket_h  /* NOT _sys_socket_h_ */
-  #endif 
-  
+  #endif
+
 Macros
 
 Don't Turn C into Pascal
@@ -399,7 +399,7 @@ Example
 #define  MAX(x,y)   (((x) > (y) ? (x) : (y))    // Get the maximum
 The macro above can be replaced for integers with the following inline function with no loss of efficiency:
 
-   inline int 
+   inline int
    max(int x, int y) {
       return (x > y ? x : y);
    }
@@ -416,7 +416,7 @@ Example
 
 #define ADD(x,y) x + y
 
-must be written as 
+must be written as
 
 #define ADD(x,y) ((x) + (y))
 Make Macro Names Unique
@@ -442,21 +442,21 @@ Document Null Statements
 
 Always document a null body for a for or while statement so that it is clear that the null body is intentional and not missing code.
 
-   while (*dest++ = *src++) 
+   while (*dest++ = *src++)
   {
-      ;       
-   }  
+      ;
+   }
 Do Not Default If Test to Non-Zero
 
 Do not default the test for non-zero, i.e.
 
-   if (FAIL != f()) 
+   if (FAIL != f())
 is better than
 
-   if (f()) 
+   if (f())
 even though FAIL may have the value 0 which C considers to be false. An explicit test will help you out later when somebody decides that a failure return should be -1 instead of 0. Explicit comparison should be used even if the comparison value will never change; e.g., if (!(bufsize % sizeof(int))) should be written instead as if ((bufsize % sizeof(int)) == 0) to reflect the numeric (not boolean) nature of the test. A frequent trouble spot is using strcmp to test for string equality, where the result should never ever be defaulted. The preferred approach is to define a macro STREQ.
 
-   #define STREQ(a, b) (strcmp((a), (b)) == 0) 
+   #define STREQ(a, b) (strcmp((a), (b)) == 0)
 Or better yet use an inline method:
 
 
@@ -484,10 +484,10 @@ The ++ and -- operators count as assignment statements. So, for many purposes, d
 
 
    a = b + c;
-   d = a + r; 
+   d = a + r;
 should not be replaced by
 
-   d = (a = b + c) + r; 
+   d = (a = b + c) + r;
 even though the latter may save one cycle. In the long run the time difference between the two will decrease as the optimizer gains maturity, while the difference in ease of maintenance will increase as the human memory of what's going on in the latter piece of code begins to fade.
 Documentation
 
@@ -536,8 +536,8 @@ Commenting function declarations
 Functions headers should be in the file where they are declared. This means that most likely the functions will have a header in the .h file. However, functions like main() with no explicit prototype declaration in the .h file, should have a header in the .c file.
 Include Statement Documentation
 
-Include statements should be documented, telling the user why a particular file was included. 
-/* 
+Include statements should be documented, telling the user why a particular file was included.
+/*
 * Kernel include files come first.
 */
 /* Non-local includes in brackets. */
@@ -566,12 +566,12 @@ Compilers have bugs. Common trouble spots include structure assignment and bit f
 Do not rely on automatic beautifiers. The main person who benefits from good program style is the programmer him/herself, and especially in the early design of handwritten algorithms or pseudo-code. Automatic beautifiers can only be applied to complete, syntactically correct programs and hence are not available when the need for attention to white space and indentation is greatest. Programmers can do a better job of making clear the complete visual layout of a function or file, with the normal attention to detail of a careful programmer (in other words, some of the visual layout is dictated by intent rather than syntax and beautifiers cannot read minds). Sloppy programmers should learn to be careful programmers instead of relying on a beautifier to make their code readable. Finally, since beautifiers are non-trivial programs that must parse the source, a sophisticated beautifier is not worth the benefits gained by such a program. Beautifiers are best for gross formatting of machine-generated code.
 Accidental omission of the second ``='' of the logical compare is a problem. The following is confusing and prone to error.
         if (abool= bbool) { ... }
-     
+
 Does the programmer really mean assignment here? Often yes, but usually no. The solution is to just not do it, an inverse Nike philosophy. Instead use explicit tests and avoid assignment with an implicit test. The recommended form is to do the assignment before doing the test:
 
        abool= bbool;
        if (abool) { ... }
-    
+
 Modern compilers will put variables in registers automatically. Use the register sparingly to indicate the variables that you think are most critical. In extreme cases, mark the 2-4 most critical values as register and mark the rest as REGISTER. The latter can be #defined to register on those machines with many registers.
 Be Const Correct
 
@@ -598,7 +598,7 @@ Sometimes large blocks of code need to be commented out for testing.
 Using #if 0
 
 The easiest way to do this is with an #if 0 block:
-   void 
+   void
    example()
    {
       great looking code
@@ -606,7 +606,7 @@ The easiest way to do this is with an #if 0 block:
       #if 0
       lots of code
       #endif
-    
+
       more code
     }
 You can't use /**/ style comments because comments can't contain comments and surely a large block of your code will contain a comment, won't it?
@@ -615,23 +615,23 @@ Don't use #ifdef as someone can unknowingly trigger ifdefs from the compiler com
 
 Use Descriptive Macro Names Instead of #if 0
 
-#if NOT_YET_IMPLEMENTED  
+#if NOT_YET_IMPLEMENTED
 
 #if OBSOLETE
 
-#if TEMP_DISABLED 
+#if TEMP_DISABLED
 Add a Comment to Document Why
 
 Add a short comment explaining why it is not implemented, obsolete or temporarily disabled.
- 
+
 File Extensions
 
 In short: Use the .h extension for header files and .c for source files.
 No Data Definitions in Header Files
 
 Do not put data definitions in header files. for example:
-/* 
- * aheader.h 
+/*
+ * aheader.h
  */
 int x = 0;
 It's bad magic to have space consuming code silently inserted through the innocent use of header files.

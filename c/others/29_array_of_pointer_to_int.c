@@ -8,12 +8,15 @@ int main(){
     printf("%d\n", *ap[0]);
     printf("%d\n", *ap[1]);
     printf("%d\n", *ap[2]);
-
     int ai[3] = {1, 2, 3}, *p;
     p = ai;
-    printf("%d %d %d %d\n", p[0], ai[0], *ai, *p++);
-    printf("%d %d %d %d\n", p--[1], ai[1], *(ai+1), *(++p));
-    printf("%d %d %d %d\n", p--[1], ai[1], *(ai+1), *(p+1));
-    printf("%d %d %d %d\n", (--p)[2], ai[2], *(ai+2), *(p+2));
+    printf("%d %d %d ", p[0], ai[0], *ai);
+    printf("%d\n", *(p++));
+    printf("%d %d %d ", (p--)[1], ai[1], *(ai+1));
+    printf("%d\n", *(++p));
+    printf("%d %d %d ", (p--)[1], ai[1], *(ai+1));
+    printf("%d\n", *(p+1));
+    printf("%d %d %d ", (--p)[2], ai[2], *(ai+2));
+    printf("%d\n", *(p+2));
     return 0;
 }

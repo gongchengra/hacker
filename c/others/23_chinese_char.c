@@ -1,17 +1,10 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-
 * File Name : 23_chinese_char.c
-
 * Author : gongchengra@gmail.com
-
 * Purpose :
-
 * Creation Date : 2016-12-27
-
 * Last Modified :
-
 _._._._._._._._._._._._._._._._._._._._._.*/
-
 #include <stdio.h>
 /*#include <locale.h>*/
 /*#include <wchar.h>*/
