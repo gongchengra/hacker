@@ -11,7 +11,7 @@ int main() {
     if (description == NULL) {
         fprintf(stderr, "Error - unable to allocate required memory\n");
     } else {
-        strcpy(description, "Zara ali a DPS student in class 10th");
+        strcpy(description, "Zara ali is a DPS student in class 10th");
     }
     printf("Name = %s\n", name);
     printf("Description: %s\n", description);

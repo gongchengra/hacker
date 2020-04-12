@@ -909,15 +909,38 @@ A search or insertion in a full TST requires time proportional to the key length
 
 ### 15.5 Text String Index Algorithms· 648
 
+A search tree that is built from keys defined by string pointers into a text string is called a suffix tree.
+
 ## Chapter 16. External Searching 655
+
+SEARCH ALGORITHMS THAT are appropriate for accessing items from huge files are of immense practical importance.
 
 ### 16.1 Rules of the Game· 6.57
 
+A page is a contiguous block of data. A probe is the first access to a page.
+
 ### 16.2 Indexed Sequential Access· 660
+
+A search in an indexed sequential file requires only a constant number of probes, but an insertion can involve rebuilding the entire index.
 
 ### 16.3 B Trees· 662
 
+To build search structures that can be effective in a dynamic situation, we build multiway trees, but we relax the restriction that every node must have exactly M entries. Instead, we insist that every node must have at most M entries, so that they will fit on a page, but we allow nodes to have fewer entries. Such trees were named B trees by Bayer and McCreight.
+
+A B tree of order M is a tree that either is empty or comprises k-nodes, with k-1 keys and k links to trees representing each of the k intervals delimited by the keys, and has the following structural properties: k must be between 2 and M at the root and between M /2 and M at every other node; and all links to empty trees must be at the same distance from the root.
+
+A search or an insertion in a B tree of order M with N items requires between log(M)N and log(M/2)N probes-a constant number, for practical purposes.
+
+A B tree of order M constructed from N random items is expected to have about 1.44N/M pages.
+
 ### 16.4 Extendible Hashing· 676
+
+An extendible hash table of order d is a directory of 2^d references to pages that contain up to M items with keys. The items on each page are identical in their first k bits, and the directory contains 2^(d - k) pointers to the page, starting at the location specified by the leading k bits in the keys on the page.
+
+The extendible hash table built from a set of keys depends on only the values ofthose keys, and does not depend on the order in which the keys are inserted.
+
+With pages that can hold M items, extendible hashing requires about 1.44(N/M) pages for a file of N items, on the average. The expected number of entries in the directory is about 3.92(N^(1/M))(N/M).
+
 
 ### 16.5 Perspective· 688
 
