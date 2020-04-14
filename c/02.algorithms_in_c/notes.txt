@@ -941,6 +941,6 @@ The extendible hash table built from a set of keys depends on only the values of
 
 With pages that can hold M items, extendible hashing requires about 1.44(N/M) pages for a file of N items, on the average. The expected number of entries in the directory is about 3.92(N^(1/M))(N/M).
 
-
 ### 16.5 Perspective· 688
 
+The most important application of the methods discussed in this chapter is to construct indexes for huge databases that are maintained on external memory-for example, in disk files. Although the underlying algorithms that we have discussed are powerful, developing a file-system implementation based on B trees or on extendible hashing is a complex task. First, we cannot use the C programs in this section directly-they have to be modified to read and refer to disk files. Second, we have to be sure that the algorithm parameters (page and directory size, for example) are tuned properly to the characteristics of the particular hardware that we are using. Third, we have to pay attention to reliability, and to error detection and correction.

@@ -25,6 +25,7 @@ _._._._._._._._._._._._._._._._._._._._._.*/
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define TRUE 1
 #define FALSE 0
 #define EMPTY 0
@@ -109,7 +110,7 @@ static result_t *get_resultset() {
 }
 void print_node(node_t *n) {
     int i, q;
-    printf(">>-----0x%x-----\n", n);
+    printf(">>-----0x%x-----\n", (int)n);
     printf("  Index: %d\n", n->key_index);
     printf("   Leaf: ");
     if (n->leaf) {
@@ -126,7 +127,7 @@ void print_node(node_t *n) {
         printf(" NONE");
     } else {
         for (q = 0; q < NODE_POINTERS; q++) {
-            printf(" [%d : %x]", q, n->child_array[q]);
+            printf(" [%d : %x]", q, (int)n->child_array[q]);
         }
     }
     printf("\n<<------------------\n");
@@ -516,7 +517,7 @@ void console(btree_t *b) {
         }
     } else if (!strcmp("tree", name)) {
         printf("  Order: %d\n", b->order);
-        printf("   Lock: ", b->lock);
+        printf("   Lock: ");
         if (b->lock) {
             printf("TRUE\n");
         } else {
