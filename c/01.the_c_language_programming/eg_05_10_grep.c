@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #define MAXLINE 1000
-int getlinekr(char s[], int lim)
-{
+int getlinekr(char s[], int lim) {
     int c, i;
-
     for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; i++)
         s[i] = c;
     if (c == '\n') {
@@ -13,10 +11,8 @@ int getlinekr(char s[], int lim)
     s[i] = '\0';
     return i;
 }
-
 /* find: print lines that match pattern from 1st arg */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     char line[MAXLINE];
     int found = 0;
     if (argc != 2)

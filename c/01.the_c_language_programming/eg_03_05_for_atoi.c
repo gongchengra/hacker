@@ -1,8 +1,7 @@
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 /* atoi: convert s to integer; version 2 */
-int atoi(char s[])
-{
+int atoi(char s[]) {
     int i, n, sign;
     for (i = 0; isspace(s[i]); i++)
         ;
@@ -15,9 +14,8 @@ int atoi(char s[])
     /* skip white space */
     /* skip sign */
 }
-int main()
-{
+int main() {
     char ts[] = "8769123";
-    printf("%d\n",atoi(ts));
-/*    printf("%d\n",atoi("8769123"));*/
+    printf("%d\n", atoi(ts));
+    /*    printf("%d\n",atoi("8769123"));*/
 }

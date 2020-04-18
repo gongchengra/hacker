@@ -8,6 +8,7 @@ _._._._._._._._._._._._._._._._._._._._._.*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <assert.h>
 #define SIZE 20
 #define MAX 100
 void swap(int *a, int *b) {
@@ -15,9 +16,10 @@ void swap(int *a, int *b) {
     *a = *b;
     *b = t;
 }
+int test[SIZE];
 void randData(int arr[], int len) {
     for (int i = 0; i < len; i++) {
-        arr[i] = rand() % MAX;
+        test[i] = arr[i] = rand() % MAX;
         printf("%4d", arr[i]);
     }
     printf("\n");
@@ -80,6 +82,7 @@ void quickSortHoare(int arr[], int low, int high) {
     }
 }
 #endif
+int cmp(const void *a, const void *b) { return *(int *)a - *(int *)b; }
 int main(int argc, char **argv) {
     int arr[SIZE];
     printf("v1:\n");
@@ -87,9 +90,19 @@ int main(int argc, char **argv) {
     randData(arr, SIZE);
     quickSortLomuto(arr, 0, SIZE - 1);
     printArray(arr, SIZE);
+    qsort(test, SIZE, sizeof(int), cmp);
+    printArray(test, SIZE);
+    for(int i = 0; i < SIZE; i++) {
+        assert(arr[i] == test[i]);
+    }
     printf("v2:\n");
     randData(arr, SIZE);
     quickSortHoare(arr, 0, SIZE - 1);
     printArray(arr, SIZE);
+    qsort(test, SIZE, sizeof(int), cmp);
+    printArray(test, SIZE);
+    for(int i = 0; i < SIZE; i++) {
+        assert(arr[i] == test[i]);
+    }
     return 0;
 }

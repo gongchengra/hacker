@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAXLINES 5000
-
 char *lineptr[MAXLINES];
 int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
@@ -12,7 +11,6 @@ int numcmp(char const *s1, char const *s2);
 // int getlinekr(char *, int);
 int getlinekr(char s[], int lim);
 char *alloc(int);
-
 // sort lines of strings or numbers
 int main(int argc, char *argv[]) {
     int nlines;
@@ -29,7 +27,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 }
-
 #define MAXLEN 1000
 int readlines(char *lineptr[], int maxlines) {
     int len, nlines;
@@ -46,13 +43,11 @@ int readlines(char *lineptr[], int maxlines) {
     }
     return nlines;
 }
-
 void writelines(char *lineptr[], int nlines) {
     while (nlines-- > 0) {
         printf("%s\n", *lineptr++);
     }
 }
-
 int getlinekr(char s[], int lim) {
     int c, i;
     for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; i++) {
@@ -64,7 +59,6 @@ int getlinekr(char s[], int lim) {
     s[i] = '\0';
     return i;
 }
-
 #define ALLOCSIZE 10000
 static char allocbuf[ALLOCSIZE];
 static char *allocp = allocbuf;
@@ -75,15 +69,13 @@ char *alloc(int n) {
     } else
         return 0;
 }
-
 void swap(void *v[], int i, int j) {
-    void *temp;
-    temp = v[i];
+    void *temp = v[i];
     v[i] = v[j];
     v[j] = temp;
 }
-
 void qsortkr(void *v[], int left, int right, int (*comp)(void *, void *)) {
+#if 0
     int i, last;
     void swap(void *v[], int, int);
     if (left >= right) {
@@ -99,9 +91,25 @@ void qsortkr(void *v[], int left, int right, int (*comp)(void *, void *)) {
     swap(v, left, last);
     qsortkr(v, left, last - 1, comp);
     qsortkr(v, last + 1, right, comp);
+#endif
+    if (left < right) {
+        void *pivot = v[(left + right) / 2];
+        int i = left - 1, j = right + 1;
+        for (;;) {
+            for (i++; (*comp)(v[i], pivot) < 0; i++)
+                ;
+            for (j--; (*comp)(v[j], pivot) > 0; j--)
+                ;
+            if (i >= j)
+                break;
+            swap(v, i, j);
+        }
+        qsortkr(v, left, j, comp);
+        qsortkr(v, j + 1, right, comp);
+    }
 }
-
 int numcmp(char const *s1, char const *s2) {
+#if 0
     double v1, v2;
     v1 = atof(s1);
     v2 = atof(s2);
@@ -112,4 +120,6 @@ int numcmp(char const *s1, char const *s2) {
     } else {
         return 0;
     }
+#endif
+    return atof(s1) < atof(s2) ? -1 : (atof(s1) == atof(s2)) ? 0 : 1;
 }

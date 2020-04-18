@@ -10,13 +10,11 @@ const char *byte_to_binary(int x)
 {
     static char b[9];
     b[0] = '\0';
-
     int z;
     for (z = 128; z > 0; z >>= 1)
     {
         strcat(b, ((x & z) == z) ? "1" : "0");
     }
-
     return b;
 }
 void bin(unsigned n)
@@ -24,7 +22,6 @@ void bin(unsigned n)
     /* step 1 */
     if (n > 1)
         bin(n/2);
-
     /* step 2 */
     printf("%d", n % 2);
 }

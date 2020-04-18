@@ -8,8 +8,7 @@ char longest[MAXLINE]; /* maximum length seen so far */
 int getlinekr(void);
 void copy(void);
 /* print longest input line; specialized version */
-int main()
-{
+int main() {
     int len;
     extern int max;
     extern char longest[];
@@ -24,12 +23,11 @@ int main()
     return 0;
 }
 /* getline: specialized version */
-int getlinekr(void)
-{
+int getlinekr(void) {
     int c, i;
     extern char line[];
-    for (i = 0; i < MAXLINE - 1 && (c=getchar()) != EOF && c != '\n'; ++i)
-                line[i] = c;
+    for (i = 0; i < MAXLINE - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
+        line[i] = c;
     if (c == '\n') {
         line[i] = c;
         ++i;
@@ -38,10 +36,9 @@ int getlinekr(void)
     return i;
 }
 /* copy: specialized version */
-void copy(void)
-{
+void copy(void) {
     int i;
-    extern char line[], longest[];
+/*    extern char line[], longest[];*/
     i = 0;
     while ((longest[i] = line[i]) != '\0')
         ++i;

@@ -14,7 +14,6 @@ int fun1() {
     printf("*ptr: %d\n", *ptr);
     return 0;
 }
-
 int fun2() {
     int i = 10;
     int j = 20;
@@ -27,7 +26,6 @@ int fun2() {
     printf("ptr: %d\n", *ptr);
     return 0;
 }
-
 int fun3() {
     /* i is stored in read only area*/
     int const i = 10;
@@ -39,7 +37,6 @@ int fun3() {
     printf("ptr: %d\n", *ptr);
     /* error */
     /*    *ptr = 100;*/
-
     /* valid. We call it up qualification. In
     C/C++, the type of "int *" is allowed to up
     qualify to the type "const int *". The type of
@@ -49,7 +46,6 @@ int fun3() {
     printf("ptr: %d\n", *ptr);
     return 0;
 }
-
 int fun4() {
     int i = 10;
     int const j = 20;
@@ -74,7 +70,6 @@ int fun4() {
     printf("*ptr: %d\n", *ptr);
     return 0;
 }
-
 int fun5() {
     int i = 10;
     int j = 20;
@@ -86,9 +81,9 @@ int fun5() {
     // we can change the value of object pointed by pointer, but cannot change
     // the pointer to point another variable.
     // ptr = &j; /* error */
+    printf("i: %d\n", i);
     return 0;
 }
-
 int fun6() {
     int i = 10;
     int j = 20;
@@ -102,7 +97,6 @@ int fun6() {
     //*ptr = 100; /* error */
     return 0;
 }
-
 int main(void) {
     fun1();
     fun2();

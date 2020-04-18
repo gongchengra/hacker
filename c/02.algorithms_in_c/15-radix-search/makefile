@@ -14,3 +14,6 @@ all:
 1507:
 	gcc eg.15.07.existence-trie-search-and-insertion.c -o eg.15.07.existence-trie-search-and-insertion.exe
 	./eg.15.07.existence-trie-search-and-insertion.exe
+.PHONY: clean
+clean:
+	rm -f *.exe *.log

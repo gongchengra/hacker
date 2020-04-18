@@ -1,7 +1,6 @@
 #include <stdio.h>
 /* printd: print n in decimal */
-void printd(int n)
-{
+void printd(int n) {
     if (n < 0) {
         putchar('-');
         n = -n;
@@ -10,8 +9,7 @@ void printd(int n)
         printd(n / 10);
     putchar(n % 10 + '0');
 }
-int main(void)
-{
+int main(void) {
     printd(1234568);
     return 0;
 }

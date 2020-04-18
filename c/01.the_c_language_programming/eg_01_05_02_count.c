@@ -1,12 +1,8 @@
 #include <stdio.h>
-main()
-{
+int main() {
     long nc = 0;
-
-    while(getchar() != EOF) {
+    while (getchar() != EOF) {
         ++nc;
     }
-
     printf("%ld\n", nc);
-
 }
