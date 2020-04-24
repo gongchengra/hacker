@@ -2,13 +2,12 @@
 * File Name : eg_05_11_pointer_to_func_simple.c
 * Author : gongchengra@gmail.com
 * Purpose : https://www.geeksforgeeks.org/function-pointer-in-c/
-* Creation Date : 2020-04-08
-* Last Modified :
+* Creation Date : 2020-04-18
+* Last Modified : 2020-04-18 21:08:18+0800 :
 _._._._._._._._._._._._._._._._._._._._._.*/
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-// 
 // A normal function with an int parameter and void return type
 void fun(int a) { printf("Value of a is %d\n", a); }
 

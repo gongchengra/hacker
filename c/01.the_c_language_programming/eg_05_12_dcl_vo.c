@@ -1,17 +1,10 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-
 * File Name : eg_05_12_dcl_vo.c
-
 * Author : gongchengra@gmail.com
-
 * Purpose :
-
 * Creation Date : 2014-11-04
-
 * Last Modified :
-
 _._._._._._._._._._._._._._._._._._._._._.*/
-
 #include <stdio.h>
 #include<ctype.h>
 #define w printf

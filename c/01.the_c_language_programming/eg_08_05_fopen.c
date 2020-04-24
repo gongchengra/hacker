@@ -1,15 +1,12 @@
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include <assert.h>
-
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
 //#define NULL		0
-#define EOF			(-1)
-#define BUFSIZ		1024
-#define OPEN_MAX	20
-
+#define EOF (-1)
+#define BUFSIZ 1024
+#define OPEN_MAX 20
 #define PERMS 0666
-
 typedef struct _iobuf {
     int cnt;
     char *ptr;
@@ -17,32 +14,22 @@ typedef struct _iobuf {
     int flag;
     int fd;
 } FILE;
-
-FILE _iob[OPEN_MAX];
-
-enum _flags {
-    _READ	= 01,
-    _WRITE	= 02,
-    _UNBUF	= 04,
-    _EOF	= 010,
-    _ERR	= 020
+enum _flags { _READ = 01, _WRITE = 02, _UNBUF = 04, _EOF = 010, _ERR = 020 };
+FILE _iob[OPEN_MAX] = {
+    {0, (char *)0, (char *)0, _READ, 0},
+    {0, (char *)0, (char *)0, _WRITE, 1},
+    {0, (char *)0, (char *)0, _WRITE | _UNBUF, 2},
 };
-
 FILE *fopen(char *name, char *mode);
 int _fillbuf(FILE *fp);
-
-int main()
-{
+int main() {
     FILE *fp = fopen("eg_08_05_fopen.c", "rw");
     assert(fp != NULL);
     return 0;
 }
-
-FILE *fopen(char *name, char *mode)
-{
+FILE *fopen(char *name, char *mode) {
     int fd;
     FILE *fp;
-
     if (*mode != 'r' && *mode != 'w' && *mode != 'a')
         return NULL;
     for (fp = _iob; fp < _iob + OPEN_MAX; fp++)
@@ -50,7 +37,6 @@ FILE *fopen(char *name, char *mode)
             break;
     if (fp >= _iob + OPEN_MAX)
         return NULL;
-
     if (*mode == 'w')
         fd = creat(name, PERMS);
     else if (*mode == 'a') {
@@ -67,16 +53,13 @@ FILE *fopen(char *name, char *mode)
     fp->flag = (*mode == 'r') ? _READ : _WRITE;
     return fp;
 }
-
-int _fillbuf(FILE *fp)
-{
+int _fillbuf(FILE *fp) {
     int bufsize;
-
     if ((fp->flag & (_READ | EOF | _ERR)) != _READ)
         return EOF;
     bufsize = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
     if (fp->base == NULL)
-        if ((fp->base = (char *) malloc(bufsize)) == NULL)
+        if ((fp->base = (char *)malloc(bufsize)) == NULL)
             return EOF;
     fp->ptr = fp->base;
     fp->cnt = read(fp->fd, fp->ptr, bufsize);
@@ -88,12 +71,5 @@ int _fillbuf(FILE *fp)
         fp->cnt = 0;
         return EOF;
     }
-    return (unsigned char) *fp->ptr++;
+    return (unsigned char)*fp->ptr++;
 }
-
-FILE _iob[OPEN_MAX] = {
-    { 0, (char *) 0, (char *) 0, _READ, 0 },
-    { 0, (char *) 0, (char *) 0, _WRITE, 1 },
-    { 0, (char *) 0, (char *) 0, _WRITE | _UNBUF, 2 },
-};
-

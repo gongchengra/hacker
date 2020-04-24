@@ -9,7 +9,6 @@ int getcharv1(void)
     char c;
     return (read(0, &c, 1) == 1) ? (unsigned char) c : EOF;
 }
-
 int getcharv2(void)
 {
     static char buf[BUFSIZ];
@@ -21,10 +20,7 @@ int getcharv2(void)
     }
     return (--n >= 0) ? (unsigned char) *bufp++ : EOF;
 }
-
 int main(){
     getcharv1();
     getcharv2();
 }
-
-

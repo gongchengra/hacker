@@ -1,17 +1,10 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-
 * File Name : eg_06_06_table_lookup.c
-
 * Author : gongchengra@gmail.com
-
 * Purpose : simulate #define x 10
-
 * Creation Date : 2014-12-02
-
-* Last Modified :
-
+* Last Modified : 2020-04-20 16:11:02+0800
 _._._._._._._._._._._._._._._._._._._._._.*/
-
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,31 +14,26 @@ _._._._._._._._._._._._._._._._._._._._._.*/
 #define HASHSIZE 101
 #define BUFSIZE 100
 #define MAXWORD 100
-
 char buf[BUFSIZE];
 int bufp = 0;
-
 struct nlist {
     struct nlist *next;
     char *name;
     char *defn;
 };
-
 static struct nlist *hashtab[HASHSIZE];
-
 unsigned hash(char *s) {
     unsigned hashval;
-
     for (hashval = 0; *s != '\0'; s++)
         hashval = *s + 33 * hashval;
     return hashval % HASHSIZE;
 }
-
 void undef(char *name) {
     unsigned hashval = hash(name);
     struct nlist *prev = hashtab[hashval], *to_free = NULL;
-    if (!prev)
+    if (prev == NULL) {
         return;
+    }
     if (!strcmp(prev->name, name)) {
         hashtab[hashval] = prev->next;
         to_free = prev;
@@ -64,20 +52,16 @@ void undef(char *name) {
         free(to_free);
     }
 }
-
 struct nlist *lookup(char *s) {
     struct nlist *np;
-
     for (np = hashtab[hash(s)]; np != NULL; np = np->next)
         if (strcmp(s, np->name) == 0)
             return np;
     return NULL;
 }
-
 struct nlist *install(char *name, char *defn) {
     struct nlist *np;
     unsigned hashval;
-
     if ((np = lookup(name)) == NULL) {
         np = (struct nlist *)malloc(sizeof(*np));
         if (np == NULL || (np->name = strdup(name)) == NULL)
@@ -91,18 +75,15 @@ struct nlist *install(char *name, char *defn) {
         return NULL;
     return np;
 }
-
 int getnexttoken(char *, int);
 int getch(void);
 void ungetch(int);
 void process_define(void);
 void process_undef(void);
-
 int main() {
     char token[MAXTOK];
     int c;
     struct nlist *entry;
-
     while ((c = getnexttoken(token, MAXTOK)) != EOF) {
         switch (c) {
             case '#':
@@ -126,10 +107,8 @@ int main() {
                 }
         }
     }
-
     return 0;
 }
-
 void get_rest_of_line(char *, int);
 void process_define(void) {
     int c;
@@ -140,7 +119,6 @@ void process_define(void) {
     get_rest_of_line(defn, MAXLN);
     install(name, defn);
 }
-
 void process_undef(void) {
     int c;
     char token[MAXTOK];
@@ -148,7 +126,6 @@ void process_undef(void) {
         ;
     undef(token);
 }
-
 void get_rest_of_line(char *s, int lim) {
     int c;
     while ((c = getch()) != '\n' && isspace(c))
@@ -160,19 +137,15 @@ void get_rest_of_line(char *s, int lim) {
     *s = '\0';
     ungetch(c);
 }
-
 int getnexttoken(char *word, int lim) {
     int c;
     char *w = word;
     short in_comment = 0;
-
     *w = '\0';
-
     if ((c = getch()) != EOF)
         *w++ = c;
     else
         return EOF;
-
     if (isalpha(c) || c == '_' || c == '#') {
         for (; --lim > 0; w++)
             if (!isalnum((unsigned char)(*w = getch())) && *w != '_') {
@@ -199,8 +172,8 @@ int getnexttoken(char *word, int lim) {
                 else
                     ungetch(c);
             }
-            return getnexttoken(word, lim); /* Makes it so that comments are as if
-                                               they didn't exist at all */
+            return getnexttoken(word, lim); /* Makes it so that comments are as
+                                               if they didn't exist at all */
         } else {
             ungetch(*w);
         }
@@ -208,9 +181,7 @@ int getnexttoken(char *word, int lim) {
     *w = '\0';
     return word[0];
 }
-
 int getch(void) { return (bufp > 0 ? buf[--bufp] : getchar()); }
-
 void ungetch(int c) {
     if (bufp >= BUFSIZE)
         printf("ungetch: too many characters\n");

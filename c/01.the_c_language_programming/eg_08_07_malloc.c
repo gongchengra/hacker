@@ -97,7 +97,7 @@ int main() {
     str = (char *)mallockr(1);
     strcpy(str, "laogongshuo.com");
     printf("String = %s,  Address = %c\n", str, *str);
-    printf("String = %s,  Address = %c\n", str, *(str+1));
+    printf("String = %s,  Address = %c\n", str, *(str + 1));
     printf("%lu\n", strlen(str));
 
     free(str);

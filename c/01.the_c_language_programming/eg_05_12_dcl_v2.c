@@ -1,38 +1,46 @@
 /*http://codinghighway.com/?p=986*/
 /* This code has been developed for educational purposes only
- * It makes dangerous assumptions to be used in a production environment (no buffer limit tests are performed)
- * This must be compiled with gcc, or any other compiler supporting __VA_ARGS__ extension in macros definition
- * HOW TO USE:
- * Compile; run the program
- * Write a valid C declaration (there is no error checking, if input is mal-formed, the parser gets confused)
- * Any declaration is supported. You can omit identifiers names if you want. The parser supports structs, enums and unions
- * in a very primitive way, by the sole use of the keyword struct, enum, or union. So, instead of struct foo x, input should be
+ * It makes dangerous assumptions to be used in a production environment (no
+ * buffer limit tests are performed) This must be compiled with gcc, or any
+ * other compiler supporting __VA_ARGS__ extension in macros definition HOW TO
+ * USE: Compile; run the program Write a valid C declaration (there is no error
+ * checking, if input is mal-formed, the parser gets confused) Any declaration
+ * is supported. You can omit identifiers names if you want. The parser supports
+ * structs, enums and unions in a very primitive way, by the sole use of the
+ * keyword struct, enum, or union. So, instead of struct foo x, input should be
  * struct x. Do NOT include ; in the end
- * Please don't specify any storage-class specifiers (extern, static, register, typedef, auto)
- * Enjoy! And study the code!
+ * Please don't specify any storage-class specifiers (extern, static, register,
+ * typedef, auto) Enjoy! And study the code!
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
-#define strcmp(a,R,b) (strcmp(a,b) R 0)
-#define type_or_qualifier(token) (strcmp(token, ==, "volatile") || strcmp(token, ==, "int") || strcmp(token, ==, "short") || strcmp(token, ==, "char") || strcmp(token, ==, "float") || strcmp(token, ==, "double") || \
-        strcmp(token, ==, "void") || strcmp(token, ==, "signed") || strcmp(token, ==, "unsigned") || strcmp(token, ==, "long") || strcmp(token, ==, "struct") || strcmp(token, ==, "union") || strcmp(token, ==, "enum") || \
-        strcmp(token, ==, "const"))
-#define print_spaces(d) do { \
-    int x = d; \
-    while (x--) { \
-        putchar(' '); \
-        putchar(' '); \
-    } \
-} while (0);
-#define pprintf(str, ...) do { \
-    if (init) { \
-        print_spaces(depth); \
-        init = 0; \
-    } \
-    printf(str, ##__VA_ARGS__); \
-} while (0);
+#define strcmp(a, R, b) (strcmp(a, b) R 0)
+#define type_or_qualifier(token)                                               \
+    (strcmp(token, ==, "volatile") || strcmp(token, ==, "int") ||              \
+     strcmp(token, ==, "short") || strcmp(token, ==, "char") ||                \
+     strcmp(token, ==, "float") || strcmp(token, ==, "double") ||              \
+     strcmp(token, ==, "void") || strcmp(token, ==, "signed") ||               \
+     strcmp(token, ==, "unsigned") || strcmp(token, ==, "long") ||             \
+     strcmp(token, ==, "struct") || strcmp(token, ==, "union") ||              \
+     strcmp(token, ==, "enum") || strcmp(token, ==, "const"))
+#define print_spaces(d)                                                        \
+    do {                                                                       \
+        int x = d;                                                             \
+        while (x--) {                                                          \
+            putchar(' ');                                                      \
+            putchar(' ');                                                      \
+        }                                                                      \
+    } while (0);
+#define pprintf(str, ...)                                                      \
+    do {                                                                       \
+        if (init) {                                                            \
+            print_spaces(depth);                                               \
+            init = 0;                                                          \
+        }                                                                      \
+        printf(str, ##__VA_ARGS__);                                            \
+    } while (0);
 #define MAXTOKEN 512
 
 int depth;
@@ -68,26 +76,27 @@ void decl(void) {
 
 void gettoken(void) {
     int c, i;
-    while (isspace(c = getchar()) && c != '\n');
+    while (isspace(c = getchar()) && c != '\n')
+        ;
     i = 0;
     token[i++] = c;
     if (isalpha(c)) {
-        for (; isalnum(c = getchar()); token[i++] = c);
+        for (; isalnum(c = getchar()); token[i++] = c)
+            ;
         ungetc(c, stdin);
     }
     token[i] = '\0';
 }
 
 void type(char *buf) {
-    for (; ; gettoken()) {
-        if (strcmp(token, ==, "const")) { /* We call const "read-only" to clarify */
+    for (;; gettoken()) {
+        if (strcmp(token, ==,
+                   "const")) { /* We call const "read-only" to clarify */
             strcat(buf, "read-only ");
-        }
-        else if (type_or_qualifier(token)) {
+        } else if (type_or_qualifier(token)) {
             strcat(buf, token);
             strcat(buf, " ");
-        }
-        else
+        } else
             break;
     }
 }
@@ -106,19 +115,16 @@ char *ptr(char *pointers) {
     if (token[0] == '*') {
         gettoken();
         p = ptr(pointers);
-        return p+sprintf(p, "pointer to ");
-    }
-    else if (strcmp(token, ==, "const")) {
+        return p + sprintf(p, "pointer to ");
+    } else if (strcmp(token, ==, "const")) {
         gettoken();
         p = ptr(pointers);
-        return p+sprintf(p, "read-only ");
-    }
-    else if (strcmp(token, ==, "volatile")) {
+        return p + sprintf(p, "read-only ");
+    } else if (strcmp(token, ==, "volatile")) {
         gettoken();
         p = ptr(pointers);
-        return p+sprintf(p, "volatile ");
-    }
-    else {
+        return p + sprintf(p, "volatile ");
+    } else {
         *pointers = '\0';
         return pointers;
     }
@@ -138,7 +144,7 @@ void direct_dcl(void) {
         else
             gettoken();
     }
-    if (isalpha((unsigned char) token[0])) {
+    if (isalpha((unsigned char)token[0])) {
         pprintf("%s: ", token);
         gettoken();
     }
@@ -156,11 +162,10 @@ void direct_dcl(void) {
     }
 }
 
-
 void read_array_size(void) {
     pprintf("array of ");
-    while (isdigit((unsigned char) token[0])) {
-        putchar((unsigned char) token[0]);
+    while (isdigit((unsigned char)token[0])) {
+        putchar((unsigned char)token[0]);
         gettoken();
     }
     putchar(' ');

@@ -1,34 +1,24 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-
 * File Name : eg_06_01_struct.c
-
 * Author : gongchengra@gmail.com
-
 * Purpose :
-
 * Creation Date : 2014-11-18
-
-* Last Modified :
-
+* Last Modified : 2020-04-19 19:18:18+0800 :
 _._._._._._._._._._._._._._._._._._._._._.*/
-
 #include <math.h>
 #include <stdio.h>
 #define XMAX 1920
 #define YMAX 1080
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
-
 struct point {
     int x;
     int y;
 };
-
 struct rect {
     struct point pt1;
     struct point pt2;
 };
-
 /* makepoint:  make a point from x and y components */
 struct point makepoint(int x, int y) {
     struct point temp;
@@ -36,7 +26,6 @@ struct point makepoint(int x, int y) {
     temp.y = y;
     return temp;
 }
-
 /* makerect: make a rec from two points */
 struct rect makerect(struct point x, struct point y) {
     struct rect temp;
@@ -44,19 +33,16 @@ struct rect makerect(struct point x, struct point y) {
     temp.pt2 = y;
     return temp;
 }
-
 /* addpoints: add two points */
 struct point addpoint(struct point p1, struct point p2) {
     p1.x += p2.x;
     p1.y += p2.y;
     return p1;
 }
-
 /* ptinrect: return 1 if p in r, 0 if not */
 int ptinrect(struct point p, struct rect r) {
     return p.x >= r.pt1.x && p.x < r.pt2.x && p.y >= r.pt1.y && p.y < r.pt2.y;
 }
-
 /* canonrect: canonicalize coordinates of rectangle */
 struct rect canonrect(struct rect r) {
     struct rect temp;
@@ -65,12 +51,10 @@ struct rect canonrect(struct rect r) {
     temp.pt2.x = min(r.pt1.x, r.pt2.x);
     return temp;
 }
-
 int main(void) {
     double dist, sqrt(double);
     struct point *pp, pt, middle, ptmp;
     struct rect screen;
-
     pt = makepoint(320, 240);
     ptmp = makepoint(640, 480);
     printf("%d, %d\n", pt.x, pt.y);
@@ -81,7 +65,6 @@ int main(void) {
     printf("%d, %d\n", pp->x, pp->y);
     dist = sqrt((double)pt.x * pt.x + (double)pt.y * pt.y);
     printf("%f\n", dist);
-
     screen = makerect(makepoint(0, 0), makepoint(XMAX, YMAX));
     middle = makepoint((screen.pt1.x + screen.pt2.x) / 2,
                        (screen.pt1.y + screen.pt2.y) / 2);
