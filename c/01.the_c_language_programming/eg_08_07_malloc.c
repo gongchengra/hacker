@@ -3,15 +3,15 @@
 #include <string.h>
 typedef long Align; // for alignment to long boundary
 
-union header // block header:
+typedef union header // block header:
 {
     struct {
         union header *ptr; // size of this block
         unsigned size;     // size of this block
     } s;
     Align x; // force alignment
-};
-typedef union header Header;
+} Header;
+/*typedef union header Header;*/
 
 static Header base;          // empty list to get started with
 static Header *freep = NULL; // start of free list
