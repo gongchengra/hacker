@@ -1,0 +1,4 @@
+src.3e.tar.gz was downloaded from http://www.apuebook.com/code3e.html
+It contains source code for the book Advanced Programming in the UNIX® Environment, Third Edition
+tar -zxvf src.3e.tar.gz get apeu direcotry.
+In this repository, I renamed the direcotries according to chapters in the book, also formated the c code for learning purpose.
