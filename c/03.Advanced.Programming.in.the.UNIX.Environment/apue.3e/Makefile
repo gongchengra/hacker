@@ -1,6 +1,7 @@
-DIRS = lib intro sockets advio daemons datafiles db environ \
-	fileio filedir ipc1 ipc2 proc pty relation signals standards \
-	stdio termios threadctl threads printer exercises
+DIRS = 01.intro 02.standards 03.fileio 04.filedir 05.stdio 06.datafiles \
+	07.environ 08.proc 09.relation 10.signals 11.threads 12.threadctl \
+	13.daemons 14.advio 15.ipc1 16.sockets 17.ipc2 18.termios \
+	19.pty 20.db 21.printer exercises lib
 
 all:
 	for i in $(DIRS); do \

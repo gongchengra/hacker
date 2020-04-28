@@ -20,11 +20,11 @@ print.o:	print.c $(HDRS)
 
 printd.o:	printd.c $(HDRS)
 
-print:		print.o util.o $(ROOT)/sockets/clconn2.o $(LIBAPUE)
-		$(CC) $(CFLAGS) -o print print.o util.o $(ROOT)/sockets/clconn2.o $(LDFLAGS) $(LDDIR) $(LDLIBS)
+print:		print.o util.o $(ROOT)/16.sockets/clconn2.o $(LIBAPUE)
+		$(CC) $(CFLAGS) -o print print.o util.o $(ROOT)/16.sockets/clconn2.o $(LDFLAGS) $(LDDIR) $(LDLIBS)
 
-printd:		printd.o util.o $(ROOT)/sockets/clconn2.o $(ROOT)/sockets/initsrv2.o $(LIBAPUE)
-		$(CC) $(CFLAGS) -o printd printd.o util.o $(ROOT)/sockets/clconn2.o $(ROOT)/sockets/initsrv2.o \
+printd:		printd.o util.o $(ROOT)/16.sockets/clconn2.o $(ROOT)/16.sockets/initsrv2.o $(LIBAPUE)
+		$(CC) $(CFLAGS) -o printd printd.o util.o $(ROOT)/16.sockets/clconn2.o $(ROOT)/16.sockets/initsrv2.o \
 			$(LDFLAGS) $(LDDIR) $(LDLIBS)
 
 clean:
