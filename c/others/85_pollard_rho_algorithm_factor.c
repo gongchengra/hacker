@@ -11,16 +11,16 @@ _._._._._._._._._._._._._._._._._._._._._.*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-int gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }
-int one_factor(int number) {
-    int loop = 1, count, x_fixed = 2, x = 2, size = 2, factor;
+long gcd(long a, long b) { return b == 0 ? a : gcd(b, a % b); }
+long one_factor(long number) {
+    long loop = 1, count, x_fixed = 2, x = 2, size = 2, factor;
     do {
         /*        printf("---- loop %4i ----\n", loop);*/
         count = size;
         do {
             x = (x * x + 1) % number;
-            factor = gcd(abs(x - x_fixed), number);
-            /*            printf("count = %4i, x= %6i, factor = %i\n", size -
+            factor = gcd(labs(x - x_fixed), number);
+            /*            printf("count = %4i, x= %6i, factor = %li\n", size -
              * count + 1, x, factor);*/
         } while (--count && (factor == 1));
         size *= 2;
@@ -29,35 +29,35 @@ int one_factor(int number) {
     } while (factor == 1);
     return factor == number ? -1 : factor;
 }
-void all_factors(int number) {
-    int res = one_factor(number);
+void all_factors(long number) {
+    long res = one_factor(number);
     if (res == -1) {
-        printf("Factor of %i not found.\n", number);
+        printf("Factor of %li not found.\n", number);
     } else {
-        printf("Factors of %i:", number);
+        printf("Factors of %li:", number);
         do {
-            printf(" %i", res);
+            printf(" %li", res);
             number = number / res;
             res = one_factor(number);
         } while (res != -1);
-        printf(" %i\n", number);
+        printf(" %li\n", number);
     }
 }
 // Revised from
 // https://www.geeksforgeeks.org/pollards-rho-algorithm-prime-factorization/
 // May loop infinitely
 #if 0
-int PollardRho(int n) {
+long PollardRho(long n) {
     if (n == 1) {
         return n;
     }
     if (n % 2 == 0) {
         return 2;
     }
-    int x = (rand() % (n - 2)) + 2;
-    int y = x;
-    int c = (rand() % (n - 1)) + 1;
-    int d = 1;
+    long x = (rand() % (n - 2)) + 2;
+    long y = x;
+    long c = (rand() % (n - 1)) + 1;
+    long d = 1;
     while (d == 1) {
         x = (x * x + c) % n;
         y = (x * x + c) % n;
@@ -70,45 +70,45 @@ int PollardRho(int n) {
     return d;
 }
 #endif
-int PollardRho(int n) {
+long PollardRho(long n) {
     if (n == 1) {
         return n;
     }
     if (n % 2 == 0) {
         return 2;
     }
-    int x = 3, y = 5, d, count, size = 2;
+    long x = 3, y = 5, d, count, size = 2;
     do {
         count = size;
         do {
             x = (x * x + 1) % n;
-            d = gcd(abs(x - y), n);
+            d = gcd(labs(x - y), n);
         } while (--count && (d == 1));
         size *= 2;
         y = x;
     } while (d == 1);
     return d == n ? -1 : d;
 }
-void Pollard(int n) {
-    int res = PollardRho(n);
+void Pollard(long n) {
+    long res = PollardRho(n);
     if (res == -1) {
-        printf("Factor of %i not found.\n", n);
+        printf("Factor of %li not found.\n", n);
     } else {
-        printf("Factors of %i:", n);
+        printf("Factors of %li:", n);
         do {
-            printf(" %i", res);
+            printf(" %li", res);
             n = n / res;
             res = PollardRho(n);
         } while (res != -1);
-        printf(" %i\n", n);
+        printf(" %li\n", n);
     }
 }
 int main(int argc, char **argv) {
     srand(time(NULL));
-    int number = (argc == 2) ? atoi(argv[1]) : rand();
-    printf("%d\n", number);
+    long number = (argc == 2) ? atoi(argv[1]) : rand();
+/*    printf("%ld\n", number);*/
     all_factors(number);
-    printf("\n");
+/*    printf("\n");*/
     /*        printf("%d", PollardRho(number));*/
     Pollard(number);
     return 0;
