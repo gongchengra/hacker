@@ -1,11 +1,16 @@
+/* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
+* File Name : 01.05.getcputc.v1.c
+* Author : gongchengra@gmail.com
+* Purpose :
+* Creation Date : 2020-04-30
+* Last Modified : 2020-04-30 15:09:08+0800
+_._._._._._._._._._._._._._._._._._._._._.*/
 #include <errno.h>  /* for definition of errno */
 #include <stdarg.h> /* ISO C variable aruments */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #define MAXLINE 4096 /* max line length */
-#define BUFFSIZE 4096
 static void err_doit(int errnoflag, int error, const char *fmt, va_list ap) {
     char buf[MAXLINE];
     vsnprintf(buf, MAXLINE - 1, fmt, ap);
@@ -24,20 +29,12 @@ void err_sys(const char *fmt, ...) {
     va_end(ap);
     exit(1);
 }
-int main(void) {
-    int n;
-    char buf[BUFFSIZE];
-    /* this will be the same
-    while ((n = read(0, buf, BUFFSIZE)) > 0) {
-        if (write(1, buf, n) != n) {
-        */
-    while ((n = read(STDIN_FILENO, buf, BUFFSIZE)) > 0) {
-        if (write(STDOUT_FILENO, buf, n) != n) {
-            err_sys("write error");
-        }
-    }
-    if (n < 0) {
-        err_sys("read error");
-    }
+int main(int argc, char **argv) {
+    int c;
+    while ((c = getc(stdin)) != EOF)
+        if (putc(c, stdout) == EOF)
+            err_sys("output error");
+    if (ferror(stdin))
+        err_sys("input error");
     exit(0);
 }

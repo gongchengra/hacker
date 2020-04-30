@@ -369,12 +369,68 @@ By convention, all shells open three descriptors whenever a new program is run: 
 
 Unbuffered I/O is provided by the functions open, read, write, lseek, and close. These functions all work with file descriptors.
 
+The standard I/O functions provide a buffered interface to the unbuffered I/O functions. Using standard I/O relieves us from having to choose optimal buffer sizes, such as the BUFFSIZE constant.
+
 ### 1.6 Programs and Processes
+
+A program is an executable file residing on disk in a directory. A program is read into memory and is executed by the kernel as a result of one of the seven exec functions.
+
+An executing instance of a program is called a process, a term used on almost every page of this text. The UNIX System guarantees that every process has a unique numeric identifier called the process ID. The process ID is always a non-negative integer.
+
+There are three primary functions for process control: fork, exec, and waitpid.
+
+Usually,aprocess has only one thread of control — one set of machine instructions executing at a time.  Some problems are easier to solve when more than one thread of control can operate on different parts of the problem.
+
+All threads within a process share the same address space, file descriptors, stacks, and process-related attributes. Each thread executes on its own stack, although any thread can access the stacks of other threads in the same process.
+
+Like processes, threads are identified by IDs. Thread IDs, however, are local to a process. A thread ID from one process has no meaning in another process.
+
 ### 1.7 Error Handling
+
+When an error occurs in one of the UNIX System functions, a negative value is often returned, and the integer errno is usually set to a value that tells why.
+
+There are two rules to be aware of with respect to errno. First, its value is never cleared by a routine if an error does not occur. Therefore, we should examine its value only when the return value from a function indicates that an error occurred. Second, the value of errno is never set to 0 by any of the functions, and none of the constants defined in <errno.h> has a value of 0.
+
+The errors defined in <errno.h> can be divided into two categories: fatal and nonfatal. A fatal error has no recovery action. The best we can do is print an error message on the user ’s screen or to a log file, and then exit. Nonfatal errors, on the other hand, can sometimes be dealt with more robustly. The typical recovery action for a resource-related nonfatal error is to delay and retry later.
+
 ### 1.8 User Identification
+
+The user ID from our entry in the password file is a numeric value that identifies us to the system.
+
+Our entry in the password file also specifies our numeric group ID. This, too, is assigned by the system administrator when our login name is assigned. Typically, the password file contains multiple entries that specify the same group ID. Groups are normally used to collect users together into projects or departments. This allows the sharing of resources, such as files, among members of the same group.
+
+There is also a group file that maps group names into numeric group IDs. The group file is usually /etc/group.
+
+In addition to the group ID specified in the password file for a login name, most versions of the UNIX System allow a user to belong to other groups.
+
 ### 1.9 Signals
+
+Signals are a technique used to notify a process that some condition has occurred. The process has three choices for dealing with the
+signal.
+
+1. Ignore the signal.
+2. Let the default action occur.
+3. Provide a function that is called when the signal occurs.
+
 ### 1.10 Time Values
-### 1.11 System Calls and Librar y Functions
+
+Historically, UNIX systems have maintained two different time values:
+1. Calendar time. This value counts the number of seconds since the Epoch: 00:00:00 January 1, 1970, Coordinated Universal Time (UTC).
+2. Process time. This is also called CPU time and measures the central processor resources used by a process.
+
+UNIX System maintains three values for a process:
+• Clock time
+• User CPU time
+• System CPU time
+
+The clock time, sometimes called wall clock time, is the amount of time the process takes to run, and its value depends on the number of other processes being run on the system. The user CPU time is the CPU time attributed to user instructions. The system CPU time is the CPU time attributed to the kernel when it executes on behalf of the process.
+
+### 1.11 System Calls and Library Functions
+
+All operating systems provide service points through which programs request services from the kernel. All implementations of the UNIX System provide a well-defined, limited number of entry points directly into the kernel called system calls
+
+The technique used on UNIX systems is for each system call to have a function of the same name in the standard C library.
+
 ### 1.12 Summary
 ## Chapter 2. UNIX Standardization and Implementations
 ### 2.1 Introduction
