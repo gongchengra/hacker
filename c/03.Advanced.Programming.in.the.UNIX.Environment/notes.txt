@@ -8,341 +8,674 @@ tar -zxvf src.3e.tar.gz get apeu direcotry.
 In this repository, I renamed the direcotries according to chapters in the book, also formated the c code for learning purpose.
 
 ## Contents
+
 Foreword to the Second Edition xix
+
 Preface xxi
+
 Preface to the Second Edition xxv
+
 Preface to the First Edition xxix
+
 Chapter 1. UNIX System Overview 1
+
 1.1 Introduction 1
+
 1.2 UNIX Architecture 1
+
 1.3 Logging In 2
+
 1.4 Files and Directories 4
+
 1.5 Input and Output 8
+
 1.6 Programs and Processes 10
+
 1.7 Error Handling 14
+
 1.8 User Identification 16
+
 1.9 Signals 18
+
 1.10 Time Values 20
+
 1.11 System Calls and Librar y Functions 21
+
 1.12 Summary 23
+
 Chapter 2. UNIX Standardization and Implementations 25
+
 2.1 Introduction 25
+
 2.2 UNIX Standardization 25
+
 2.2.1 ISO C 25
+
 2.2.2 IEEE POSIX 26
+
 2.2.3 The Single UNIX Specification 30
+
 2.2.4 FIPS 32
+
 2.3 UNIX System Implementations 33
+
 2.3.1 UNIX System V Release 4 33
+
 2.3.2 4.4BSD 34
+
 2.3.3 FreeBSD 34
+
 2.3.4 Linux 35
+
 2.3.5 Mac OS X 35
+
 2.3.6 Solaris 35
+
 2.3.7 Other UNIX Systems 35
+
 2.4 Relationship of Standards and Implementations 36
+
 2.5 Limits 36
+
 2.5.1 ISO C Limits 37
+
 2.5.2 POSIX Limits 38
+
 2.5.3 XSI Limits 41
+
 2.5.4 sysconf, pathconf, and fpathconf Functions 42
+
 2.5.5 Indeterminate Runtime Limits 49
+
 2.6 Options 53
+
 2.7 Feature Test Macros 57
+
 2.8 Primitive System Data Types 58
+
 2.9 Differences Between Standards 58
+
 2.10 Summary 60
+
 Chapter 3. File I/O 61
+
 3.1 Introduction 61
+
 3.2 File Descr iptors 61
+
 3.3 open and openat Functions 62
+
 3.4 creat Function 66
+
 3.5 close Function 66
+
 3.6 lseek Function 66
+
 3.7 read Function 71
+
 3.8 write Function 72
+
 3.9 I/O Efficiency 72
+
 3.10 File Shar ing 74
+
 3.11 Atomic Operations 77
+
 3.12 dup and dup2 Functions 79
+
 3.13 sync, fsync, and fdatasync Functions 81
+
 3.14 fcntl Function 82
+
 3.15 ioctl Function 87
+
 3.16 /dev/fd 88
+
 3.17 Summary 90
+
 Chapter 4. Files and Directories 93
+
 4.1 Introduction 93
+
 4.2 stat, fstat, fstatat, and lstat Functions 93
+
 4.3 File Types 95
+
 4.4 Set-User-ID and Set-Group-ID 98
+
 4.5 File Access Per missions 99
+
 4.6 Ownership of New Files and Directories 101
+
 4.7 access and faccessat Functions 102
+
 4.8 umask Function 104
+
 4.9 chmod, fchmod, and fchmodat Functions 106
+
 4.10 Sticky Bit 108
+
 4.11 chown, fchown, fchownat, and lchown Functions 109
+
 4.12 File Size 111
+
 4.13 File Tr uncation 112
+
 4.14 File Systems 113
+
 4.15 link, linkat, unlink, unlinkat, and remove Functions 116
+
 4.16 rename and renameat Functions 119
+
 4.17 Symbolic Links 120
+
 4.18 Creating and Reading Symbolic Links 123
+
 4.19 File Times 124
+
 4.20 futimens, utimensat, and utimes Functions 126
+
 4.21 mkdir, mkdirat, and rmdir Functions 129
+
 4.22 Reading Director ies 130
+
 4.23 chdir, fchdir, and getcwd Functions 135
+
 4.24 Device Special Files 137
+
 4.25 Summary of File Access Per mission Bits 140
+
 4.26 Summary 140
+
 Chapter 5. Standard I/O Library 143
+
 5.1 Introduction 143
+
 5.2 Streams and FILE Objects 143
+
 5.3 Standard Input, Standard Output, and Standard Error 145
+
 5.4 Buffer ing 145
+
 5.5 Opening a Stream 148
+
 5.6 Reading and Writing a Stream 150
+
 5.7 Line-at-a-Time I/O 152
+
 5.8 Standard I/O Efficiency 153
+
 5.9 Binary I/O 156
+
 5.10 Positioning a Stream 157
+
 5.11 For matted I/O 159
+
 5.12 Implementation Details 164
+
 5.13 Temporar y Files 167
+
 5.14 Memory Streams 171
+
 5.15 Alternatives to Standard I/O 174
+
 5.16 Summary 175
+
 Chapter 6. System Data Files and Information 177
+
 6.1 Introduction 177
+
 6.2 Password File 177
+
 6.3 Shadow Passwords 181
+
 6.4 Group File 182
+
 6.5 Supplementary Group IDs 183
+
 6.6 Implementation Differences 184
+
 6.7 Other Data Files 185
+
 6.8 Login Accounting 186
+
 6.9 System Identification 187
+
 6.10 Time and Date Routines 189
+
 6.11 Summary 196
+
 Chapter 7. Process Environment 197
+
 7.1 Introduction 197
+
 7.2 main Function 197
+
 7.3 Process Termination 198
+
 7.4 Command-Line Arguments 203
+
 7.5 Environment List 203
+
 7.6 Memory Lay out of a C Program 204
+
 7.7 Shared Librar ies 206
+
 7.8 Memory Allocation 207
+
 7.9 Environment Var iables 210
+
 7.10 setjmp and longjmp Functions 213
+
 7.11 getrlimit and setrlimit Functions 220
+
 7.12 Summary 225
+
 Chapter 8. Process Control 227
+
 8.1 Introduction 227
+
 8.2 Process Identifiers 227
+
 8.3 fork Function 229
+
 8.4 vfork Function 234
+
 8.5 exit Functions 236
+
 8.6 wait and waitpid Functions 238
+
 8.7 waitid Function 244
+
 8.8 wait3 and wait4 Functions 245
+
 8.9 Race Conditions 245
+
 8.10 exec Functions 249
+
 8.11 Changing User IDs and Group IDs 255
+
 8.12 Interpreter Files 260
+
 8.13 system Function 264
+
 8.14 Process Accounting 269
+
 8.15 User Identification 275
+
 8.16 Process Scheduling 276
+
 8.17 Process Times 280
+
 8.18 Summary 282
+
 Chapter 9. Process Relationships 285
+
 9.1 Introduction 285
+
 9.2 Ter minal Logins 285
+
 9.3 Networ k Logins 290
+
 9.4 Process Groups 293
+
 9.5 Sessions 295
+
 9.6 Controlling Terminal 296
+
 9.7 tcgetpgrp, tcsetpgrp, and tcgetsid Functions 298
+
 9.8 Job Control 299
+
 9.9 Shell Execution of Programs 303
+
 9.10 Orphaned Process Groups 307
+
 9.11 FreeBSD Implementation 310
+
 9.12 Summary 312
+
 Chapter 10. Signals 313
+
 10.1 Introduction 313
+
 10.2 Signal Concepts 313
+
 10.3 signal Function 323
+
 10.4 Unreliable Signals 326
+
 10.5 Interrupted System Calls 327
+
 10.6 Reentrant Functions 330
+
 10.7 SIGCLD Semantics 332
+
 10.8 Reliable-Signal Ter minology and Semantics 335
+
 10.9 kill and raise Functions 336
+
 10.10 alarm and pause Functions 338
+
 10.11 Signal Sets 344
+
 10.12 sigprocmask Function 346
+
 10.13 sigpending Function 347
+
 10.14 sigaction Function 349
+
 10.15 sigsetjmp and siglongjmp Functions 355
+
 10.16 sigsuspend Function 359
+
 10.17 abort Function 365
+
 10.18 system Function 367
+
 10.19 sleep, nanosleep, and clock_nanosleep Functions 373
+
 10.20 sigqueue Function 376
+
 10.21 Job-Control Signals 377
+
 10.22 Signal Names and Numbers 379
+
 10.23 Summary 381
+
 Chapter 11. Threads 383
+
 11.1 Introduction 383
+
 11.2 Thread Concepts 383
+
 11.3 Thread Identification 384
+
 11.4 Thread Creation 385
+
 11.5 Thread Termination 388
+
 11.6 Thread Synchronization 397
+
 11.6.1 Mutexes 399
+
 11.6.2 Deadlock Avoidance 402
+
 11.6.3 pthread_mutex_timedlock Function 407
+
 11.6.4 Reader–Writer Locks 409
+
 11.6.5 Reader–Writer Locking with Timeouts 413
+
 11.6.6 Condition Variables 413
+
 11.6.7 Spin Locks 417
+
 11.6.8 Barriers 418
+
 11.7 Summary 422
+
 Chapter 12. Thread Control 425
+
 12.1 Introduction 425
+
 12.2 Thread Limits 425
+
 12.3 Thread Attr ibutes 426
+
 12.4 Synchronization Attr ibutes 430
+
 12.4.1 Mutex Attr ibutes 430
+
 12.4.2 Reader–Writer Lock Attr ibutes 439
+
 12.4.3 Condition Variable Attributes 440
+
 12.4.4 Barrier Attributes 441
+
 12.5 Reentrancy 442
+
 12.6 Thread-Specific Data 446
+
 12.7 Cancel Options 451
+
 12.8 Threads and Signals 453
+
 12.9 Threads and fork 457
+
 12.10 Threads and I/O 461
+
 12.11 Summary 462
+
 Chapter 13. Daemon Processes 463
+
 13.1 Introduction 463
+
 13.2 Daemon Character istics 463
+
 13.3 Coding Rules 466
+
 13.4 Error Logging 469
+
 13.5 Single-Instance Daemons 473
+
 13.6 Daemon Conventions 474
+
 13.7 Client–Server Model 479
+
 13.8 Summary 480
+
 Chapter 14. Advanced I/O 481
+
 14.1 Introduction 481
+
 14.2 Nonblocking I/O 481
+
 14.3 Record Locking 485
+
 14.4 I/O Multiplexing 500
+
 14.4.1 select and pselect Functions 502
+
 14.4.2 poll Function 506
+
 14.5 Asynchronous I/O 509
+
 14.5.1 System V Asynchronous I/O 510
+
 14.5.2 BSD Asynchronous I/O 510
+
 14.5.3 POSIX Asynchronous I/O 511
+
 14.6 readv and writev Functions 521
+
 14.7 readn and writen Functions 523
+
 14.8 Memory-Mapped I/O 525
+
 14.9 Summary 531
+
 Chapter 15. Interprocess Communication 533
+
 15.1 Introduction 533
+
 15.2 Pipes 534
+
 15.3 popen and pclose Functions 541
+
 15.4 Coprocesses 548
+
 15.5 FIFOs 552
+
 15.6 XSI IPC 556
+
 15.6.1 Identifiers and Keys 556
+
 15.6.2 Per mission Str ucture 558
+
 15.6.3 Configuration Limits 559
+
 15.6.4 Advantages and Disadvantages 559
+
 15.7 Message Queues 561
+
 15.8 Semaphores 565
+
 15.9 Shared Memor y 571
+
 15.10 POSIX Semaphores 579
+
 15.11 Client–Server Proper ties 585
+
 15.12 Summary 587
+
 Chapter 16. Network IPC: Sockets 589
+
 16.1 Introduction 589
+
 16.2 Socket Descr iptors 590
+
 16.3 Addressing 593
+
 16.3.1 Byte Order ing 593
+
 16.3.2 Address Formats 595
+
 16.3.3 Address Lookup 597
+
 16.3.4 Associating Addresses with Sockets 604
+
 16.4 Connection Establishment 605
+
 16.5 Data Tr ansfer 610
+
 16.6 Socket Options 623
+
 16.7 Out-of-Band Data 626
+
 16.8 Nonblocking and Asynchronous I/O 627
+
 16.9 Summary 628
+
 Chapter 17. Advanced IPC 629
+
 17.1 Introduction 629
+
 17.2 UNIX Domain Sockets 629
+
 17.2.1 Naming UNIX Domain Sockets 634
+
 17.3 Unique Connections 635
+
 17.4 Passing File Descriptors 642
+
 17.5 An Open Server, Version 1 653
+
 17.6 An Open Server, Version 2 659
+
 17.7 Summary 669
+
 Chapter 18. Terminal I/O 671
+
 18.1 Introduction 671
+
 18.2 Over view 671
+
 18.3 Special Input Characters 678
+
 18.4 Getting and Setting Ter minal Attr ibutes 683
+
 18.5 Ter minal Option Flags 683
+
 18.6 stty Command 691
+
 18.7 Baud Rate Functions 692
+
 18.8 Line Control Functions 693
+
 18.9 Ter minal Identification 694
+
 18.10 Canonical Mode 700
+
 18.11 Noncanonical Mode 703
+
 18.12 Ter minal Window Size 710
+
 18.13 termcap, terminfo, and curses 712
+
 18.14 Summary 713
+
 Chapter 19. Pseudo Terminals 715
+
 19.1 Introduction 715
+
 19.2 Over view 715
+
 19.3 Opening Pseudo-Ter minal Devices 722
+
 19.4 pty_fork Function 726
+
 19.5 pty Program 729
+
 19.6 Using the pty Program 733
+
 19.7 Advanced Features 740
+
 19.8 Summary 741
+
 Chapter 20. A Database Library 743
+
 20.1 Introduction 743
+
 20.2 History 743
+
 20.3 The Librar y 744
+
 20.4 Implementation Over view 746
+
 20.5 Centralized or Decentralized? 750
+
 20.6 Concurrency 752
-20.7 Building the Librar y 753
+
+20.7 Building the Library 753
+
 20.8 Source Code 753
+
 20.9 Perfor mance 781
+
 20.10 Summary 786
+
 Chapter 21. Communicating with a Network Printer 789
+
 21.1 Introduction 789
+
 21.2 The Inter net Pr inting Protocol 789
+
 21.3 The Hyper text Transfer Protocol 792
+
 21.4 Printer Spooling 793
+
 21.5 Source Code 795
+
 21.6 Summary 843
+
 Appendix A. Function Prototypes 845
+
 Appendix B. Miscellaneous Source Code 895
+
 B.1 Our Header File 895
+
 B.2 Standard Error Routines 898
+
 Appendix C. Solutions to Selected Exercises 905
+
 Bibliography 947
+
 Index 955
 
 
 ## Chapter 1. UNIX System Overview
+
 ### 1.1 Introduction
 
 This chapter provides a whirlwind tour of the UNIX System from a programmer ’s perspective.
@@ -419,6 +752,7 @@ Historically, UNIX systems have maintained two different time values:
 2. Process time. This is also called CPU time and measures the central processor resources used by a process.
 
 UNIX System maintains three values for a process:
+
 • Clock time
 • User CPU time
 • System CPU time
@@ -432,311 +766,1319 @@ All operating systems provide service points through which programs request serv
 The technique used on UNIX systems is for each system call to have a function of the same name in the standard C library.
 
 ### 1.12 Summary
+
+This chapter has provided a short tour of the UNIX System.
+
 ## Chapter 2. UNIX Standardization and Implementations
+
 ### 2.1 Introduction
+
+In this chapter we first look at the various standardization efforts that have been under way over the past two and a half decades. We then discuss the effects of these UNIX programming standards on the operating system implementations that are described in this book.
+
 ### 2.2 UNIX Standardization
-### 2.2.1 ISO C
-### 2.2.2 IEEE POSIX
-### 2.2.3 The Single UNIX Specification
-### 2.2.4 FIPS
+
+#### 2.2.1 ISO C
+
+In late 1989, ANSI Standard X3.159-1989 for the C programming language was approved. This standard was also adopted as International Standard ISO/IEC 9899:1990. ANSI is the American National Standards Institute, the U.S. member in the International Organization for Standardization (ISO). IEC stands for the International Electrotechnical Commission.
+
+The C standard is now maintained and developed by the ISO/IEC international standardization working group for the C programming language, known as ISO/IEC JTC1/SC22/WG14, or WG14 for short.
+
+In 1999, the ISO C standard was updated and approved as ISO/IEC 9899:1999,
+largely to improve support for applications that perform numerical processing. 
+
+The ISO C library can be divided into 24 areas, based on the headers defined by the standard.
+
+#### 2.2.2 IEEE POSIX
+
+POSIX is a family of standards initially developed by the IEEE (Institute of Electrical and Electronics Engineers). POSIX stands for Portable Operating System Interface. It originally referred only to the IEEE Standard 1003.1-1988 — the operating system interface — but was later extended to include many of the standards and draft standards with the 1003 designation, including the shell and utilities (1003.2).
+
+Of specific interest to this book is the 1003.1 operating system interface standard, whose goal is to promote the portability of applications among various UNIX System environments. This standard defines the services that an operating system must provide if it is to be ‘‘POSIX compliant,’’ and has been adopted by most computer vendors.
+
+Because the 1003.1 standard specifies an interface and not an implementation, no distinction is made between system calls and library functions. All the routines in the standard are called functions.
+
+After more than twenty years of work, the standards are mature and stable. The POSIX.1 standard is maintained by an open working group known as the Austin Group (http://www.opengroup.org/austin). To ensure that they are still relevant, the standards need to be either updated or reaffirmed every so often.
+
+#### 2.2.3 The Single UNIX Specification
+
+The Single UNIX Specification, a superset of the POSIX.1 standard, specifies additional interfaces that extend the functionality provided by the POSIX.1 specification. POSIX.1 is equivalent to the Base Specifications portion of the Single UNIX Specification.
+
+The X/Open System Interfaces (XSI) option in POSIX.1 describes optional interfaces and defines which optional portions of POSIX.1 must be supported for an implementation to be deemed XSI conforming. These include file synchronization, thread stack address and size attributes, thread process-shared synchronization, and the _XOPEN_UNIX symbolic constant . Only XSIconforming implementations can be called UNIX systems.
+
+#### 2.2.4 FIPS
+
+FIPS stands for Federal Information Processing Standard. It was published by the U.S. government, which used it for the procurement of computer systems.
+
 ### 2.3 UNIX System Implementations
-### 2.3.1 UNIX System V Release 4
-### 2.3.2 4.4BSD
-### 2.3.3 FreeBSD
-### 2.3.4 Linux
-### 2.3.5 Mac OS X
-### 2.3.6 Solaris
-### 2.3.7 Other UNIX Systems
+
+The previous section described ISO C, IEEE POSIX, and the Single UNIX Specification — three standards originally created by independent organizations.
+
+These standards are taken by vendors and turned into actual implementations. In this book, we are interested in both these standards and their implementation.
+
+#### 2.3.1 UNIX System V Release 4
+
+UNIX System V Release 4 (SVR4) was a product of AT&T’s UNIX System Laboratories (USL, formerly AT&T’s UNIX Software Operation). SVR4 merged functionality from AT&T UNIX System V Release 3.2 (SVR3.2), the SunOS operating system from Sun Microsystems, the 4.3BSD release from the University of California, and the Xenix system from Microsoft into one coherent operating system.
+
+#### 2.3.2 4.4BSD
+
+The Berkeley Software Distribution (BSD) releases were produced and distributed by the Computer Systems Research Group (CSRG) at the University of California at Berkeley; 4.2BSD was released in 1983 and 4.3BSD in 1986.  Both of these releases ran on the VAX minicomputer. The next release, 4.3BSD Tahoe in 1988, also ran on a particular minicomputer called the Tahoe.
+
+#### 2.3.3 FreeBSD
+
+FreeBSD is based on the 4.4BSD-Lite operating system. The FreeBSD project was formed to carry on the BSD line after the Computing Science Research Group at the University of California at Berkeley decided to end its work on the BSD versions of the UNIX operating system, and the 386BSD project seemed to be neglected for too long.
+
+#### 2.3.4 Linux
+
+Linux is an operating system that provides a rich programming environment similar to that of a UNIX System; it is freely available under the GNU Public License. The popularity of Linux is somewhat of a phenomenon in the computer industry. Linux is distinguished by often being the first operating system to support new hardware.
+
+Linux was created in 1991 by Linus Torvalds as a replacement for MINIX. A grass-roots effort then sprang up, whereby many developers across the world volunteered their time to use and enhance it.
+
+#### 2.3.5 Mac OS X
+
+Mac OS X is based on entirely different technology than prior versions. The core operating system is called ‘‘Darwin,’’ and is based on a combination of the Mach kernel (Accetta et al. [1986]), the FreeBSD operating system, and an object-oriented framework for drivers and other kernel extensions. As of version 10.5, the Intel port of Mac OS X has been certified to be a UNIX system.
+
+#### 2.3.6 Solaris
+
+Solaris is the version of the UNIX System developed by Sun Microsystems (now Oracle). Solaris is based on System V Release 4, but includes more than fifteen years of enhancements from the engineers at Sun Microsystems. It is arguably the only commercially successful SVR4 descendant, and is formally certified to be a UNIX system.
+
+#### 2.3.7 Other UNIX Systems
+
+Other versions of the UNIX system that have been certified in the past include
+
+• AIX, IBM’s version of the UNIX System
+• HP-UX, Hewlett-Packard’s version of the UNIX System
+• IRIX, the UNIX System version shipped by Silicon Graphics
+• UnixWare, the UNIX System descended from SVR4 sold by SCO
+
 ### 2.4 Relationship of Standards and Implementations
+
+The standards that we’ve mentioned define a subset of any actual system. The focus of this book is on four real systems: FreeBSD 8.0, Linux 3.2.0, Mac OS X 10.6.8, and Solaris.
+
+Because all four are POSIX compliant to varying degrees, we will also concentrate on the features required by the POSIX.1 standard, noting any differences between POSIX and the actual implementations of these four systems.
+
+Be aware that the implementations provide backward compatibility for features in earlier releases, such as SVR3.2 and 4.3BSD.
+
 ### 2.5 Limits
-### 2.5.1 ISO C Limits
-### 2.5.2 POSIX Limits
-### 2.5.3 XSI Limits
-### 2.5.4 sysconf, pathconf, and fpathconf Functions
-### 2.5.5 Indeterminate Runtime Limits
+
+The implementations define many magic numbers and constants. Many of these have been hard coded into programs or were determined using ad hoc techniques. With the various standardization efforts that we’ve described, more portable methods are now provided to determine these magic numbers and implementation-defined limits, greatly improving the portability of software written for the UNIX environment.
+
+Two types of limits are needed:
+
+1. Compile-time limits (e.g., what’s the largest value of a short integer?)
+2. Runtime limits (e.g., how many bytes in a filename?)
+ 
+#### 2.5.1 ISO C Limits
+
+All of the compile-time limits defined by ISO C are defined in the file <limits.h>. These constants don’t change in a given system.
+
+#### 2.5.2 POSIX Limits
+
+POSIX.1 defines numerous constants that deal with implementation limits of the operating system. 
+
+Although POSIX.1 defines numerous limits and constants, we’ll concern ourselves with only the ones that affect the base POSIX.1 interfaces. These limits and constants are divided into the following seven categories:
+
+1. Numerical limits: LONG_BIT, SSIZE_MAX, and WORD_BIT
+2. Minimum values: the 25 constants in Figure 2.8
+3. Maximum value: _POSIX_CLOCKRES_MIN
+4. Runtime increasable values: CHARCLASS_NAME_MAX, COLL_WEIGHTS_MAX, LINE_MAX, NGROUPS_MAX, and RE_DUP_MAX
+5. Runtime invariant values, possibly indeterminate: 17 constants
+6. Other invariant values: NL_ARGMAX, NL_MSGMAX, NL_SETMAX, and NL_TEXTMAX
+7. Pathname variable values: FILESIZEBITS, LINK_MAX, MAX_CANON, MAX_INPUT, NAME_MAX, PATH_MAX, PIPE_BUF, and SYMLINK_MAX
+
+These minimum values do not change from one system to another. They specify the most restrictive values for these features. A conforming POSIX.1 implementation must provide values that are at least this large. This is why they are called minimums, although their names all contain MAX.
+
+#### 2.5.3 XSI Limits
+
+The XSI option also defines constants representing implementation limits. They
+include:
+
+1. Minimum values: NL_LANGMAX, NZERO, _XOPEN_IOV_MAX, _XOPEN_NAME_MAX, _XOPEN_PATH_MAX
+2. Runtime invariant values, possibly indeterminate: IOV_MAX and PAGE_SIZE
+
+#### 2.5.4 sysconf, pathconf, and fpathconf Functions
+
+The runtime limits are obtained by calling one of the following three functions.
+
+```
+#include <unistd.h>
+long sysconf(int name);
+long pathconf(const char *pathname, int name);
+long fpathconf(int fd, int name);
+```
+
+1. All three functions return −1 and set errno to EINVAL if the name isn’t one of the appropriate constants. The third column in Figures 2.11 and 2.12 lists the limit constants we’ll deal with throughout the rest of this book.
+2. Some names can return either the value of the variable (a return value ≥ 0) or an indication that the value is indeterminate. An indeterminate value is indicated by returning −1 and not changing the value of errno.
+3. The value returned for _SC_CLK_TCK is the number of clock ticks per second, for use with the return values from the times function. 
+
+Some restrictions apply to the pathconf pathname argument and the fpathconf
+fd argument. If any of these restrictions isn’t met, the results are undefined.
+
+1. The referenced file for _PC_MAX_CANON and _PC_MAX_INPUT must be a
+terminal file.
+2. The referenced file for _PC_LINK_MAX and _PC_TIMESTAMP_RESOLUTION can
+be either a file or a directory. If the referenced file is a directory, the return value
+applies to the directory itself, not to the filename entries within the directory.
+3. The referenced file for _PC_FILESIZEBITS and _PC_NAME_MAX must be a
+directory. The return value applies to filenames within the directory
+4. The referenced file for _PC_PATH_MAX must be a directory. The value returned is the maximum length of a relative pathname when the specified directory is the working directory.
+5. The referenced file for _PC_PIPE_BUF must be a pipe, FIFO, or directory. In the first two cases (pipe or FIFO), the return value is the limit for the referenced pipe or FIFO. For the other case (a directory), the return value is the limit for any FIFO created in that directory
+6. The referenced file for _PC_SYMLINK_MAX must be a directory. The value returned is the maximum length of the string that a symbolic link in that directory can contain.
+
+#### 2.5.5 Indeterminate Runtime Limits
+
+We mentioned that some of the limits can be indeterminate. The problem we encounter is that if these limits aren’t defined in the <limits.h> header, we can’t use them at compile time. But they might not be defined at runtime if their value is indeterminate! Let’s look at two specific cases: allocating storage for a pathname and determining the number of file descriptors.
+
 ### 2.6 Options
+
+If we are to write portable applications that depend on any of these optionally supported features, we need a portable way to determine whether an implementation supports a given option.  POSIX.1 defines three ways to do this.
+
+1. Compile-time options are defined in <unistd.h>.
+2. Runtime options that are not associated with a file or a directory are identified with the sysconf function.
+3. Runtime options that are associated with a file or a directory are discovered by calling either the pathconf or the fpathconf function.
+
+For each option, we have three possibilities for a platform’s support status.
+
+1. If the symbolic constant is either undefined or defined to have the value −1, then the corresponding option is unsupported by the platform at compile time. It is possible to run an old application on a newer system where the option is supported, so a runtime check might indicate the option is supported even though the option wasn’t supported at the time the application was compiled.
+2. If the symbolic constant is defined to be greater than zero, then the corresponding option is supported.
+3. If the symbolic constant is defined to be equal to zero, then we must call sysconf, pathconf, or fpathconf to determine whether the option is supported.
+
 ### 2.7 Feature Test Macros
+
+The headers define numerous POSIX.1 and XSI symbols, as we’ve described. Even so, most implementations can add their own definitions to these headers, in addition to the POSIX.1 and XSI definitions. If we want to compile a program so that it depends only on the POSIX definitions and doesn’t conflict with any implementation-defined constants, we need to define the constant _POSIX_C_SOURCE. All the POSIX.1 headers use this constant to exclude any implementation-defined definitions when _POSIX_C_SOURCE is defined.
+
+The constants _POSIX_C_SOURCE and _XOPEN_SOURCE are called feature test macros. All feature test macros begin with an underscore. When used, they are typically defined in the cc command, as in cc -D_POSIX_C_SOURCE=200809L file.c
+
 ### 2.8 Primitive System Data Types
+
+Historically, certain C data types have been associated with certain UNIX system variables.
+
+The header <sys/types.h> defines some implementation-dependent data types, called the primitive system data types.
+
 ### 2.9 Differences Between Standards
+
+ISO C defines the function clock to return the amount of CPU time used by a process. The value returned is a clock_t value, but ISO C doesn’t specify its units. To convert this value to seconds, we divide it by CLOCKS_PER_SEC, which is defined in the <time.h> header. POSIX.1 defines the function times that returns both the CPU time (for the caller and all its terminated children) and the clock time. All these time values are clock_t values.
+
 ### 2.10 Summary
+
+Much has happened with the standardization of the UNIX programming environment over the past two and a half decades. We’ve described the dominant standards — ISO C, POSIX, and the Single UNIX Specification—and their effect on the four platforms that we’ll examine in this text—FreeBSD, Linux, Mac OS X, and Solaris.
+
 ## Chapter 3. File I/O
+
+
+
 ### 3.1 Introduction
+
+
+
 ### 3.2 File Descr iptors
+
+
+
 ### 3.3 open and openat Functions
+
+
+
 ### 3.4 creat Function
+
+
+
 ### 3.5 close Function
+
+
+
 ### 3.6 lseek Function
+
+
+
 ### 3.7 read Function
+
+
+
 ### 3.8 write Function
+
+
+
 ### 3.9 I/O Efficiency
+
+
+
 ### 3.10 File Shar ing
+
+
+
 ### 3.11 Atomic Operations
+
+
+
 ### 3.12 dup and dup2 Functions
+
+
+
 ### 3.13 sync, fsync, and fdatasync Functions
+
+
+
 ### 3.14 fcntl Function
+
+
+
 ### 3.15 ioctl Function
+
+
+
 ### 3.16 /dev/fd
+
+
+
 ### 3.17 Summary
+
+
+
 ## Chapter 4. Files and Directories
+
+
+
 ### 4.1 Introduction
+
+
+
 ### 4.2 stat, fstat, fstatat, and lstat Functions
+
+
+
 ### 4.3 File Types
+
+
+
 ### 4.4 Set-User-ID and Set-Group-ID
+
+
+
 ### 4.5 File Access Per missions
+
+
+
 ### 4.6 Ownership of New Files and Directories
+
+
+
 ### 4.7 access and faccessat Functions
+
+
+
 ### 4.8 umask Function
+
+
+
 ### 4.9 chmod, fchmod, and fchmodat Functions
+
+
+
 ### 4.10 Sticky Bit
+
+
+
 ### 4.11 chown, fchown, fchownat, and lchown Functions
+
+
+
 ### 4.12 File Size
+
+
+
 ### 4.13 File Tr uncation
+
+
+
 ### 4.14 File Systems
+
+
+
 ### 4.15 link, linkat, unlink, unlinkat, and remove Functions
+
+
+
 ### 4.16 rename and renameat Functions
+
+
+
 ### 4.17 Symbolic Links
+
+
+
 ### 4.18 Creating and Reading Symbolic Links
+
+
+
 ### 4.19 File Times
+
+
+
 ### 4.20 futimens, utimensat, and utimes Functions
+
+
+
 ### 4.21 mkdir, mkdirat, and rmdir Functions
+
+
+
 ### 4.22 Reading Director ies
+
+
+
 ### 4.23 chdir, fchdir, and getcwd Functions
+
+
+
 ### 4.24 Device Special Files
+
+
+
 ### 4.25 Summary of File Access Per mission Bits
+
+
+
 ### 4.26 Summary
+
+
+
 ## Chapter 5. Standard I/O Library
+
+
+
 ### 5.1 Introduction
+
+
+
 ### 5.2 Streams and FILE Objects
+
+
+
 ### 5.3 Standard Input, Standard Output, and Standard Error
+
+
+
 ### 5.4 Buffer ing
+
+
+
 ### 5.5 Opening a Stream
+
+
+
 ### 5.6 Reading and Writing a Stream
+
+
+
 ### 5.7 Line-at-a-Time I/O
+
+
+
 ### 5.8 Standard I/O Efficiency
+
+
+
 ### 5.9 Binary I/O
+
+
+
 ### 5.10 Positioning a Stream
+
+
+
 ### 5.11 For matted I/O
+
+
+
 ### 5.12 Implementation Details
+
+
+
 ### 5.13 Temporar y Files
+
+
+
 ### 5.14 Memory Streams
+
+
+
 ### 5.15 Alternatives to Standard I/O
+
+
+
 ### 5.16 Summary
+
+
+
 ## Chapter 6. System Data Files and Information
+
+
+
 ### 6.1 Introduction
+
+
+
 ### 6.2 Password File
+
+
+
 ### 6.3 Shadow Passwords
+
+
+
 ### 6.4 Group File
+
+
+
 ### 6.5 Supplementary Group IDs
+
+
+
 ### 6.6 Implementation Differences
+
+
+
 ### 6.7 Other Data Files
+
+
+
 ### 6.8 Login Accounting
+
+
+
 ### 6.9 System Identification
+
+
+
 ### 6.10 Time and Date Routines
+
+
+
 ### 6.11 Summary
+
+
+
 ## Chapter 7. Process Environment
+
+
+
 ### 7.1 Introduction
+
+
+
 ### 7.2 main Function
+
+
+
 ### 7.3 Process Termination
+
+
+
 ### 7.4 Command-Line Arguments
+
+
+
 ### 7.5 Environment List
+
+
+
 ### 7.6 Memory Lay out of a C Program
+
+
+
 ### 7.7 Shared Librar ies
+
+
+
 ### 7.8 Memory Allocation
+
+
+
 ### 7.9 Environment Var iables
+
+
+
 ### 7.10 setjmp and longjmp Functions
+
+
+
 ### 7.11 getrlimit and setrlimit Functions
+
+
+
 ### 7.12 Summary
+
+
+
 ## Chapter 8. Process Control
+
+
+
 ### 8.1 Introduction
+
+
+
 ### 8.2 Process Identifiers
+
+
+
 ### 8.3 fork Function
+
+
+
 ### 8.4 vfork Function
+
+
+
 ### 8.5 exit Functions
+
+
+
 ### 8.6 wait and waitpid Functions
+
+
+
 ### 8.7 waitid Function
+
+
+
 ### 8.8 wait3 and wait4 Functions
+
+
+
 ### 8.9 Race Conditions
+
+
+
 ### 8.10 exec Functions
+
+
+
 ### 8.11 Changing User IDs and Group IDs
+
+
+
 ### 8.12 Interpreter Files
+
+
+
 ### 8.13 system Function
+
+
+
 ### 8.14 Process Accounting
+
+
+
 ### 8.15 User Identification
+
+
+
 ### 8.16 Process Scheduling
+
+
+
 ### 8.17 Process Times
+
+
+
 ### 8.18 Summary
+
+
+
 ## Chapter 9. Process Relationships
+
+
+
 ### 9.1 Introduction
+
+
+
 ### 9.2 Ter minal Logins
+
+
+
 ### 9.3 Networ k Logins
+
+
+
 ### 9.4 Process Groups
+
+
+
 ### 9.5 Sessions
+
+
+
 ### 9.6 Controlling Terminal
+
+
+
 ### 9.7 tcgetpgrp, tcsetpgrp, and tcgetsid Functions
+
+
+
 ### 9.8 Job Control
+
+
+
 ### 9.9 Shell Execution of Programs
+
+
+
 ### 9.10 Orphaned Process Groups
+
+
+
 ### 9.11 FreeBSD Implementation
+
+
+
 ### 9.12 Summary
+
+
+
 ## Chapter 10. Signals
+
+
+
 ### 10.1 Introduction
+
+
+
 ### 10.2 Signal Concepts
+
+
+
 ### 10.3 signal Function
+
+
+
 ### 10.4 Unreliable Signals
+
+
+
 ### 10.5 Interrupted System Calls
+
+
+
 ### 10.6 Reentrant Functions
+
+
+
 ### 10.7 SIGCLD Semantics
+
+
+
 ### 10.8 Reliable-Signal Ter minology and Semantics
+
+
+
 ### 10.9 kill and raise Functions
+
+
+
 ### 10.10 alarm and pause Functions
+
+
+
 ### 10.11 Signal Sets
+
+
+
 ### 10.12 sigprocmask Function
+
+
+
 ### 10.13 sigpending Function
+
+
+
 ### 10.14 sigaction Function
+
+
+
 ### 10.15 sigsetjmp and siglongjmp Functions
+
+
+
 ### 10.16 sigsuspend Function
+
+
+
 ### 10.17 abort Function
+
+
+
 ### 10.18 system Function
+
+
+
 ### 10.19 sleep, nanosleep, and clock_nanosleep Functions
+
+
+
 ### 10.20 sigqueue Function
+
+
+
 ### 10.21 Job-Control Signals
+
+
+
 ### 10.22 Signal Names and Numbers
+
+
+
 ### 10.23 Summary
+
+
+
 ## Chapter 11. Threads
+
+
+
 ### 11.1 Introduction
+
+
+
 ### 11.2 Thread Concepts
+
+
+
 ### 11.3 Thread Identification
+
+
+
 ### 11.4 Thread Creation
+
+
+
 ### 11.5 Thread Termination
+
+
+
 ### 11.6 Thread Synchronization
+
+
+
 ### 11.6.1 Mutexes
+
+
+
 ### 11.6.2 Deadlock Avoidance
+
+
+
 ### 11.6.3 pthread_mutex_timedlock Function
+
+
+
 ### 11.6.4 Reader–Writer Locks
+
+
+
 ### 11.6.5 Reader–Writer Locking with Timeouts
+
+
+
 ### 11.6.6 Condition Variables
+
+
+
 ### 11.6.7 Spin Locks
+
+
+
 ### 11.6.8 Barriers
+
+
+
 ### 11.7 Summary
+
+
+
 ## Chapter 12. Thread Control
+
+
+
 ### 12.1 Introduction
+
+
+
 ### 12.2 Thread Limits
+
+
+
 ### 12.3 Thread Attr ibutes
+
+
+
 ### 12.4 Synchronization Attr ibutes
+
+
+
 ### 12.4.1 Mutex Attr ibutes
+
+
+
 ### 12.4.2 Reader–Writer Lock Attr ibutes
+
+
+
 ### 12.4.3 Condition Variable Attributes
+
+
+
 ### 12.4.4 Barrier Attributes
+
+
+
 ### 12.5 Reentrancy
+
+
+
 ### 12.6 Thread-Specific Data
+
+
+
 ### 12.7 Cancel Options
+
+
+
 ### 12.8 Threads and Signals
+
+
+
 ### 12.9 Threads and fork
+
+
+
 ### 12.10 Threads and I/O
+
+
+
 ### 12.11 Summary
+
+
+
 ## Chapter 13. Daemon Processes
+
+
+
 ### 13.1 Introduction
+
+
+
 ### 13.2 Daemon Character istics
+
+
+
 ### 13.3 Coding Rules
+
+
+
 ### 13.4 Error Logging
+
+
+
 ### 13.5 Single-Instance Daemons
+
+
+
 ### 13.6 Daemon Conventions
+
+
+
 ### 13.7 Client–Server Model
+
+
+
 ### 13.8 Summary
+
+
+
 ## Chapter 14. Advanced I/O
+
+
+
 ### 14.1 Introduction
+
+
+
 ### 14.2 Nonblocking I/O
+
+
+
 ### 14.3 Record Locking
+
+
+
 ### 14.4 I/O Multiplexing
+
+
+
 ### 14.4.1 select and pselect Functions
+
+
+
 ### 14.4.2 poll Function
+
+
+
 ### 14.5 Asynchronous I/O
+
+
+
 ### 14.5.1 System V Asynchronous I/O
+
+
+
 ### 14.5.2 BSD Asynchronous I/O
+
+
+
 ### 14.5.3 POSIX Asynchronous I/O
+
+
+
 ### 14.6 readv and writev Functions
+
+
+
 ### 14.7 readn and writen Functions
+
+
+
 ### 14.8 Memory-Mapped I/O
+
+
+
 ### 14.9 Summary
+
+
+
 ## Chapter 15. Interprocess Communication
+
+
+
 ### 15.1 Introduction
+
+
+
 ### 15.2 Pipes
+
+
+
 ### 15.3 popen and pclose Functions
+
+
+
 ### 15.4 Coprocesses
+
+
+
 ### 15.5 FIFOs
+
+
+
 ### 15.6 XSI IPC
+
+
+
 ### 15.6.1 Identifiers and Keys
+
+
+
 ### 15.6.2 Per mission Str ucture
+
+
+
 ### 15.6.3 Configuration Limits
+
+
+
 ### 15.6.4 Advantages and Disadvantages
+
+
+
 ### 15.7 Message Queues
+
+
+
 ### 15.8 Semaphores
+
+
+
 ### 15.9 Shared Memor y
+
+
+
 ### 15.10 POSIX Semaphores
+
+
+
 ### 15.11 Client–Server Proper ties
+
+
+
 ### 15.12 Summary
+
+
+
 ## Chapter 16. Network IPC: Sockets
+
+
+
 ### 16.1 Introduction
+
+
+
 ### 16.2 Socket Descr iptors
+
+
+
 ### 16.3 Addressing
+
+
+
 ### 16.3.1 Byte Order ing
+
+
+
 ### 16.3.2 Address Formats
+
+
+
 ### 16.3.3 Address Lookup
+
+
+
 ### 16.3.4 Associating Addresses with Sockets
+
+
+
 ### 16.4 Connection Establishment
+
+
+
 ### 16.5 Data Tr ansfer
+
+
+
 ### 16.6 Socket Options
+
+
+
 ### 16.7 Out-of-Band Data
+
+
+
 ### 16.8 Nonblocking and Asynchronous I/O
+
+
+
 ### 16.9 Summary
+
+
+
 ## Chapter 17. Advanced IPC
+
+
+
 ### 17.1 Introduction
+
+
+
 ### 17.2 UNIX Domain Sockets
+
+
+
 ### 17.2.1 Naming UNIX Domain Sockets
+
+
+
 ### 17.3 Unique Connections
+
+
+
 ### 17.4 Passing File Descriptors
+
+
+
 ### 17.5 An Open Server, Version 1
+
+
+
 ### 17.6 An Open Server, Version 2
+
+
+
 ### 17.7 Summary
+
+
+
 ## Chapter 18. Terminal I/O
+
+
+
 ### 18.1 Introduction
+
+
+
 ### 18.2 Over view
+
+
+
 ### 18.3 Special Input Characters
+
+
+
 ### 18.4 Getting and Setting Ter minal Attr ibutes
+
+
+
 ### 18.5 Ter minal Option Flags
+
+
+
 ### 18.6 stty Command
+
+
+
 ### 18.7 Baud Rate Functions
+
+
+
 ### 18.8 Line Control Functions
+
+
+
 ### 18.9 Ter minal Identification
+
+
+
 ### 18.10 Canonical Mode
+
+
+
 ### 18.11 Noncanonical Mode
+
+
+
 ### 18.12 Ter minal Window Size
+
+
+
 ### 18.13 termcap, terminfo, and curses
+
+
+
 ### 18.14 Summary
+
+
+
 ## Chapter 19. Pseudo Terminals
+
+
+
 ### 19.1 Introduction
+
+
+
 ### 19.2 Over view
+
+
+
 ### 19.3 Opening Pseudo-Ter minal Devices
+
+
+
 ### 19.4 pty_fork Function
+
+
+
 ### 19.5 pty Program
+
+
+
 ### 19.6 Using the pty Program
+
+
+
 ### 19.7 Advanced Features
+
+
+
 ### 19.8 Summary
+
+
+
 ## Chapter 20. A Database Library
+
+
+
 ### 20.1 Introduction
+
+
+
 ### 20.2 History
+
+
+
 ### 20.3 The Librar y
+
+
+
 ### 20.4 Implementation Over view
+
+
+
 ### 20.5 Centralized or Decentralized?
+
+
+
 ### 20.6 Concurrency
+
+
+
 ### 20.7 Building the Librar y
+
+
+
 ### 20.8 Source Code
+
+
+
 ### 20.9 Perfor mance
+
+
+
 ### 20.10 Summary
+
+
+
 ## Chapter 21. Communicating with a Network Printer
+
+
+
 ### 21.1 Introduction
+
+
+
 ### 21.2 The Inter net Pr inting Protocol
+
+
+
 ### 21.3 The Hyper text Transfer Protocol
+
+
+
 ### 21.4 Printer Spooling
+
+
+
 ### 21.5 Source Code
+
+
+
 ### 21.6 Summary
