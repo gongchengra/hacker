@@ -117,7 +117,7 @@ Chapter 3. File I/O 61
 
 3.9 I/O Efficiency 72
 
-3.10 File Shar ing 74
+3.10 File Sharing 74
 
 3.11 Atomic Operations 77
 
@@ -753,9 +753,9 @@ Historically, UNIX systems have maintained two different time values:
 
 UNIX System maintains three values for a process:
 
-• Clock time
-• User CPU time
-• System CPU time
+* Clock time
+* User CPU time
+* System CPU time
 
 The clock time, sometimes called wall clock time, is the amount of time the process takes to run, and its value depends on the number of other processes being run on the system. The user CPU time is the CPU time attributed to user instructions. The system CPU time is the CPU time attributed to the kernel when it executes on behalf of the process.
 
@@ -844,10 +844,10 @@ Solaris is the version of the UNIX System developed by Sun Microsystems (now Ora
 
 Other versions of the UNIX system that have been certified in the past include
 
-• AIX, IBM’s version of the UNIX System
-• HP-UX, Hewlett-Packard’s version of the UNIX System
-• IRIX, the UNIX System version shipped by Silicon Graphics
-• UnixWare, the UNIX System descended from SVR4 sold by SCO
+* AIX, IBM’s version of the UNIX System
+* HP-UX, Hewlett-Packard’s version of the UNIX System
+* IRIX, the UNIX System version shipped by Silicon Graphics
+* UnixWare, the UNIX System descended from SVR4 sold by SCO
 
 ### 2.4 Relationship of Standards and Implementations
 
@@ -898,7 +898,7 @@ include:
 
 The runtime limits are obtained by calling one of the following three functions.
 
-```
+```c
 #include <unistd.h>
 long sysconf(int name);
 long pathconf(const char *pathname, int name);
@@ -963,64 +963,256 @@ Much has happened with the standardization of the UNIX programming environment o
 
 ## Chapter 3. File I/O
 
-
-
 ### 3.1 Introduction
 
+We’ll start our discussion of the UNIX System by describing the functions available for file I/O—open a file, read a file, write a file, and so on. Most file I/O on a UNIX system can be performed using only five functions: open, read, write, lseek, and close. We then examine the effect of various buffer sizes on the read and write functions.
 
+The functions described in this chapter are often referred to as unbuffered I/O, in contrast to the standard I/O routines, which we describe in Chapter 5. The term unbuffered means that each read or write invokes a system call in the kernel. These unbuffered I/O functions are not part of ISO C, but are part of POSIX.1 and the Single UNIX Specification.
+
+Whenever we describe the sharing of resources among multiple processes, the concept of an atomic operation becomes important. We examine this concept with regard to file I/O and the arguments to the open function. This leads to a discussion of how files are shared among multiple processes and which kernel data structures are involved. After describing these features, we describe the dup, fcntl, sync, fsync, and ioctl functions.
 
 ### 3.2 File Descr iptors
 
+To the kernel, all open files are referred to by file descriptors. A file descriptor is a non-negative integer. When we open an existing file or create a new file, the kernel returns a file descriptor to the process. When we want to read or write a file, we identify the file with the file descriptor that was returned by open or creat as an argument to either read or write.
 
+By convention, UNIX System shells associate file descriptor 0 with the standard input of a process, file descriptor 1 with the standard output, and file descriptor 2 with the standard error. This convention is used by the shells and many applications; it is not a feature of the UNIX kernel.
 
 ### 3.3 open and openat Functions
 
+A file is opened or created by calling either the open function or the openat function.
 
+```c
+#include <fcntl.h>
+int open(const char *path, int oflag, ... /* mode_t mode */ );
+int openat(int fd, const char *path, int oflag, ... /* mode_t mode */ );
+```
+
+The file descriptor returned by open and openat is guaranteed to be the lowestnumbered unused descriptor. This fact is used by some applications to open a new file on standard input, standard output, or standard error.
+
+The fd parameter distinguishes the openat function from the open function. There are three possibilities:
+
+1. The path parameter specifies an absolute pathname. In this case, the fd parameter is ignored and the openat function behaves like the open function.
+2. The path parameter specifies a relative pathname and the fd parameter is a file descriptor that specifies the starting location in the file system where the relative pathname is to be evaluated. The fd parameter is obtained by opening the directory where the relative pathname is to be evaluated.
+3. The path parameter specifies a relative pathname and the fd parameter has the special value AT_FDCWD. In this case, the pathname is evaluated starting in the current working directory and the openat function behaves like the open function.
+
+The openat function is one of a class of functions added to the latest version of POSIX.1 to address two problems. First, it gives threads a way to use relative pathnames to open files in directories other than the current working directory. Second, it provides a way to avoid time-of-check-to-time-of-use (TOCTTOU) errors.
+
+The basic idea behind TOCTTOU errors is that a program is vulnerable if it makes two file-based function calls where the second call depends on the results of the first call. Because the two calls are not atomic, the file can change between the two calls, thereby invalidating the results of the first call, leading to a program error. TOCTTOU errors in the file system namespace generally deal with attempts to subvert file system permissions by tricking a privileged program into either reducing permissions on a privileged file or modifying a privileged file to open up a security hole.
 
 ### 3.4 creat Function
 
+A new file can also be created by calling the creat function.
 
+```c
+#include <fcntl.h>
+int creat(const char *path, mode_t mode);
+// Note that this function is equivalent to 
+open(path, O_WRONLY | O_CREAT | O_TRUNC, mode);
+```
 
 ### 3.5 close Function
 
+An open file is closed by calling the close function.
 
+```c
+#include <unistd.h>
+int close(int fd);
+```
+
+Closing a file also releases any record locks that the process may have on the file.
+
+When a process terminates, all of its open files are closed automatically by the kernel. Many programs take advantage of this fact and don’t explicitly close open files.
 
 ### 3.6 lseek Function
 
+Every open file has an associated ‘‘current file offset,’’ normally a non-negative integer that measures the number of bytes from the beginning of the file. (We describe some exceptions to the ‘‘non-negative’’ qualifier later in this section.) Read and write operations normally start at the current file offset and cause the offset to be incremented by the number of bytes read or written. By default, this offset is initialized to 0 when a file is opened, unless the O_APPEND option is specified.
 
+An open file’s offset can be set explicitly by calling lseek.
+
+```c
+#include <unistd.h>
+off_t lseek(int fd, off_t offset, int whence);
+```
+
+The interpretation of the offset depends on the value of the whence argument.
+
+* If whence is SEEK_SET, the file’s offset is set to offset bytes from the beginning of the file.
+* If whence is SEEK_CUR, the file’s offset is set to its current value plus the offset. The offset can be positive or negative.
+* If whence is SEEK_END, the file’s offset is set to the size of the file plus the offset. The offset can be positive or negative.
+
+Because a successful call to lseek returns the new file offset, we can seek zero bytes from the current position to determine the current offset:
+
+```c
+off_t currpos;
+currpos = lseek(fd, 0, SEEK_CUR);
+```
+
+This technique can also be used to determine if a file is capable of seeking. If the file descriptor refers to a pipe, FIFO, or socket, lseek sets errno to ESPIPE and returns −1.
+
+lseek only records the current file offset within the kernel—it does not cause any I/O to take place. This offset is then used by the next read or write operation.
+
+The file’s offset can be greater than the file’s current size, in which case the next write to the file will extend the file. This is referred to as creating a hole in a file and is allowed. Any bytes in a file that have not been written are read back as 0.
 
 ### 3.7 read Function
 
+Data is read from an open file with the read function.
 
+```c
+#include <unistd.h>
+ssize_t read(int fd, void *buf, size_t nbytes);
+// Returns: number of bytes read, 0 if end of file, −1 on error
+```
+
+There are several cases in which the number of bytes actually read is less than the amount requested:
+
+* When reading from a regular file, if the end of file is reached before the requested number of bytes has been read. For example, if 30 bytes remain until the end of file and we try to read 100 bytes, read returns 30. The next time we call read, it will return 0 (end of file).
+* When reading from a terminal device. Normally, up to one line is read at a time. 
+* When reading from a network. Buffering within the network may cause less than the requested amount to be returned.
+* When reading from a pipe or FIFO. If the pipe contains fewer bytes than requested, read will return only what is available.
+* When reading from a record-oriented device. Some record-oriented devices, such as magnetic tape, can return up to a single record at a time.
+* When interrupted by a signal and a partial amount of data has already been read. 
+
+The read operation starts at the file’s current offset. Beforeasuccessful return, the offset is incremented by the number of bytes actually read.
+POSIX.1 changed the prototype for this function in several ways. The classic definition is
+`int read(int fd, char *buf, unsigned nbytes);`
+
+* First, the second argument was changed from char * to void * to be consistent with ISO C: the type void * is used for generic pointers.
+* Next, the return value was required to be a signed integer (ssize_t) to return a positive byte count, 0 (for end of file), or −1 (for an error).
+* Finally, the third argument historically has been an unsigned integer, to allow a 16-bit implementation to read or write up to 65,534 bytes at a time. With the 1990 POSIX.1 standard, the primitive system data type ssize_t was introduced to provide the signed return value, and the unsigned size_t was used for the third argument.
 
 ### 3.8 write Function
 
+Data is written to an open file with the write function.
 
+```c
+#include <unistd.h>
+ssize_t write(int fd, const void *buf, size_t nbytes);
+// Returns: number of bytes written if OK, −1 on error
+```
+
+For a regular file, the write operation starts at the file’s current offset. If the O_APPEND option was specified when the file was opened, the file’s offset is set to the current end of file before each write operation. After a successful write, the file’s offset is incremented by the number of bytes actually written.
 
 ### 3.9 I/O Efficiency
 
+The following program copies a file, using only the read and write functions.
 
+```c
+#include "apue.h"
+#define BUFFSIZE 4096
+int main(void) {
+    int n;
+    char buf[BUFFSIZE];
+    while ((n = read(STDIN_FILENO, buf, BUFFSIZE)) > 0)
+        if (write(STDOUT_FILENO, buf, n) != n)
+            err_sys("write error");
+    if (n < 0)
+        err_sys("read error");
+    exit(0);
+}
+```
 
-### 3.10 File Shar ing
+The following caveats apply to this program.
 
+• It reads from standard input and writes to standard output, assuming that these have been set up by the shell before this program is executed. Indeed, all normal UNIX system shells provide a way to open a file for reading on standard input and to create (or rewrite) a file on standard output. This prevents the program from having to open the input and output files, and allows the user to take advantage of the shell’s I/O redirection facilities.
+• The program doesn’t close the input file or output file. Instead, the program uses the feature of the UNIX kernel that closes all open file descriptors in a process when that process terminates.
+• This example works for both text files and binary files, since there is no difference between the two to the UNIX kernel.
 
+Most file systems support some kind of read-ahead to improve performance. When sequential reads are detected, the system tries to read in more data than an application requests, assuming that the application will read it shortly.
+
+### 3.10 File Sharing
+
+The UNIX System supports the sharing of open files among different processes. Before describing the dup function, we need to describe this sharing. To do this, we’ll examine the data structures used by the kernel for all I/O.
+
+The kernel uses three data structures to represent an open file, and the relationships among them determine the effect one process has on another with regard to file sharing.
+
+1. Every process has an entry in the process table. Within each process table entry is a table of open file descriptors, which we can think of as a vector, with one entry per descriptor. Associated with each file descriptor are
+
+    a. The file descriptor flags 
+    b. A pointer to a file table entry
+2. The kernel maintains a file table for all open files. Each file table entry contains
+
+    a. The file status flags for the file, such as read, write, append, sync, and nonblocking;
+    b. The current file offset
+    c. A pointer to the v-node table entry for the file
+3. Each open file (or device) has a v-node structure that contains information about the type of file and pointers to functions that operate on the file. For most files, the v-node also contains the i-node for the file. This information is read from disk when the file is opened, so that all the pertinent information about the file is readily available. For example, the i-node contains the owner of the file, the size of the file, pointers to where the actual data blocks for the file are located on disk, and so on.
 
 ### 3.11 Atomic Operations
 
+The UNIX System provides an atomic way to do this operation if we set the O_APPEND flag when a file is opened. As we described in the previous section, this causes the kernel to position the file to its current end of file before each write. We no longer have to call lseek before each write.
 
+The Single UNIX Specification includes two functions that allow applications to seek and perform I/O atomically: pread and pwrite.
+
+```c
+#include <unistd.h>
+ssize_t pread(int fd, void *buf, size_t nbytes, off_t offset);
+// Returns: number of bytes read, 0 if end of file, −1 on error
+ssize_t pwrite(int fd, const void *buf, size_t nbytes, off_t offset);
+// Returns: number of bytes written if OK, −1 on error
+```
+
+Calling pread is equivalent to calling lseek followed by a call to read, with the following exceptions.
+
+• There is no way to interrupt the two operations that occur when we call pread.
+• The current file offset is not updated.
+
+Calling pwrite is equivalent to calling lseek followed by a call to write, with similar exceptions.
+
+In general, the term atomic operation refers to an operation that might be composed of multiple steps. If the operation is performed atomically, either all the steps are performed (on success) or none are performed (on failure). It must not be possible for only a subset of the steps to be performed.
 
 ### 3.12 dup and dup2 Functions
 
+An existing file descriptor is duplicated by either of the following functions:
 
+```c
+#include <unistd.h>
+int dup(int fd);
+int dup2(int fd, int fd2);
+// Both return: new file descriptor if OK, −1 on error
+```
+
+The new file descriptor returned by dup is guaranteed to be the lowest-numbered available file descriptor. With dup2, we specify the value of the new descriptor with the fd2 argument. If fd2 is already open, it is first closed. If fd equals fd2, then dup2 returns fd2 without closing it. Otherwise, the FD_CLOEXEC file descriptor flag is cleared for fd2, so that fd2 is left open if the process calls exec.
+
+The new file descriptor that is returned as the value of the functions shares the same file table entry as the fd argument.
 
 ### 3.13 sync, fsync, and fdatasync Functions
 
+Traditional implementations of the UNIX System have a buffer cache or page cache in the kernel through which most disk I/O passes. When we write data to a file, the data is normally copied by the kernel into one of its buffers and queued for writing to disk at some later time. This is called delayed write.
 
+The kernel eventually writes all the delayed-write blocks to disk, normally when it needs to reuse the buffer for some other disk block. To ensure consistency of the file system on disk with the contents of the buffer cache, the sync, fsync, and fdatasync functions are provided.
+
+```c
+#include <unistd.h>
+int fsync(int fd);
+int fdatasync(int fd);
+// Returns: 0 if OK, −1 on error
+void sync(void);
+```
+
+The sync function simply queues all the modified block buffers for writing and returns; it does not wait for the disk writes to take place. The function sync is normally called periodically (usually every 30 seconds) from a system daemon, often called update. This guarantees regular flushing of the kernel’s block buffers. The command sync(1) also calls the sync function.
+
+The function fsync refers only to a single file, specified by the file descriptor fd, and waits for the disk writes to complete before returning. This function is used when an application, such as a database, needs to be sure that the modified blocks have been written to the disk.
+
+The fdatasync function is similar to fsync, but it affects only the data portions of a file. With fsync, the file’s attributes are also updated synchronously.
 
 ### 3.14 fcntl Function
 
+The fcntl function can change the properties of a file that is already open.
 
+```c
+#include <fcntl.h>
+int fcntl(int fd, int cmd, ... /* int arg */ );
+// Returns: depends on cmd if OK (see following), −1 on error
+```
 
+The fcntl function is used for five different purposes.
+
+1. Duplicate an existing descriptor (cmd = F_DUPFD or F_DUPFD_CLOEXEC)
+2. Get/set file descriptor flags (cmd = F_GETFD or F_SETFD)
+3. Get/set file status flags (cmd = F_GETFL or F_SETFL)
+4. Get/set asynchronous I/O ownership (cmd = F_GETOWN or F_SETOWN)
+5. Get/set record locks (cmd = F_GETLK, F_SETLK, or F_SETLKW)
+
+ 
 ### 3.15 ioctl Function
 
 
