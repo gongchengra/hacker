@@ -1211,119 +1211,552 @@ The fcntl function is used for five different purposes.
 3. Get/set file status flags (cmd = F_GETFL or F_SETFL)
 4. Get/set asynchronous I/O ownership (cmd = F_GETOWN or F_SETOWN)
 5. Get/set record locks (cmd = F_GETLK, F_SETLK, or F_SETLKW)
-
  
 ### 3.15 ioctl Function
 
+The ioctl function has always been the catchall for I/O operations. Anything that couldn’t be expressed using one of the other functions in this chapter usually ended up being specified with an ioctl. Terminal I/O was the biggest user of this function.
 
+```c
+#include <unistd.h> /* System V */
+#include <sys/ioctl.h> /* BSD and Linux */
+int ioctl(int fd, int request, ...);
+// Returns: −1 on error, something else if OK
+```
 
 ### 3.16 /dev/fd
 
-
+Newer systems provide a directory named /dev/fd whose entries are files named 0, 1, 2, and so on. Opening the file /dev/fd/n is equivalent to duplicating descriptor n, assuming that descriptor n is open.
 
 ### 3.17 Summary
 
+This chapter has described the basic I/O functions provided by the UNIX System. These are often called the unbuffered I/O functions because each read or write invokes a system call into the kernel. Using only read and write, we looked at the effect of various I/O sizes on the amount of time required to read a file. We also looked at several ways to flush written data to disk and their effect on application performance. 
 
+Atomic operations were introduced when multiple processes append to the same file and when multiple processes create the same file. We also looked at the data structures used by the kernel to share information about open files. We’ll return to these data structures later in the text.
 
 ## Chapter 4. Files and Directories
 
-
-
 ### 4.1 Introduction
 
-
+We’ll now look at additional features of the file system and the properties of a file. We’ll start with the stat functions and go through each member of the stat structure, looking at all the attributes of a file. In this process, we’ll also describe each of the functions that modify these attributes: change the owner, change the permissions, and so on. We’ll also look in more detail at the structure of a UNIX file system and symbolic links. We finish this chapter with the functions that operate on directories, and we develop a function that descends through a directory hierarchy.
 
 ### 4.2 stat, fstat, fstatat, and lstat Functions
 
+The discussion in this chapter centers on the four stat functions and the information they return.
 
+```c
+#include <sys/stat.h>
+int stat(const char *restrict pathname, struct stat *restrict buf );
+int fstat(int fd, struct stat *buf );
+int lstat(const char *restrict pathname, struct stat *restrict buf );
+int fstatat(int fd, const char *restrict pathname,
+struct stat *restrict buf, int flag);
+// All four return: 0 if OK, −1 on error
+```
 
 ### 4.3 File Types
 
+Given a pathname, the stat function returns a structure of information about the named file. The fstat function obtains information about the file that is already open on the descriptor fd. The lstat function is similar to stat, but when the named file is a symbolic link, lstat returns information about the symbolic link, not the file referenced by the symbolic link.
 
+The fstatat function provides a way to return the file statistics for a pathname relative to an open directory represented by the fd argument. The flag argument controls whether symbolic links are followed; when the AT_SYMLINK_NOFOLLOW flag is set, fstatat will not follow symbolic links, but rather returns information about the link itself. Otherwise, the default is to follow symbolic links, returning information about the file to which the symbolic link points. If the fd argument has the value AT_FDCWD and the pathname argument is a relative pathname, then fstatat evaluates the pathname argument relative to the current directory. If the pathname argument is an absolute pathname, then the fd argument is ignored. In these two cases, fstatat behaves like either stat or lstat, depending on the value of flag.
+
+File types:
+
+1. Regular file. The most common type of file, which contains data of some form. There is no distinction to the UNIX kernel whether this data is text or binary. Any interpretation of the contents of a regular file is left to the application processing the file.
+2. Directory file. A file that contains the names of other files and pointers to information on these files. Any process that has read permission for a directory file can read the contents of the directory, but only the kernel can write directly to a directory file. Processes must use the functions described in this chapter to make changes to a directory.
+3. Block special file. A type of file providing buffered I/O access in fixed-size units to devices such as disk drives.
+4. Character special file. A type of file providing unbuffered I/O access in variable-sized units to devices. All devices on a system are either block special files or character special files.
+5. FIFO. A type of file used for communication between processes. It’s sometimes called a named pipe.
+6. Socket. A type of file used for network communication between processes. A socket can also be used for non-network communication between processes on a single host.
+7. Symbolic link. A type of file that points to another file.
 
 ### 4.4 Set-User-ID and Set-Group-ID
 
+Every process has six or more IDs associated with it.
+who we really are: 
+real user ID
+real group ID 
+used for file access permission checks:
+effective user ID
+effective group ID 
+supplementary group IDs
+saved by exec functions:
+saved set-user-ID
+saved set-group-ID 
 
+* The real user ID and real group ID identify who we really are. These two fields are taken from our entry in the password file when we log in.
+* The effective user ID, effective group ID, and supplementary group IDs determine our file access permissions.
+* The saved set-user-ID and saved set-group-ID contain copies of the effective user ID and the effective group ID, respectively, when a program is executed.
+
+Normally, the effective user ID equals the real user ID, and the effective group ID equals the real group ID.
+
+Every file has an owner and a group owner. The owner is specified by the st_uid member of the stat structure; the group owner, by the st_gid member.
+
+When we execute a program file, the effective user ID of the process is usually the real user ID, and the effective group ID is usually the real group ID. However, we can also set a special flag in the file’s mode word (st_mode) that says, ‘‘When this file is executed, set the effective user ID of the process to be the owner of the file (st_uid).’’ Similarly, we can set another bit in the file’s mode word that causes the effective group ID to be the group owner of the file (st_gid). These two bits in the file’s mode word are called the set-user-ID bit and the set-group-ID bit.
+
+Returning to the stat function, the set-user-ID bit and the set-group-ID bit are contained in the file’s st_mode value. These two bits can be tested against the constants S_ISUID and S_ISGID, respectively
 
 ### 4.5 File Access Per missions
 
+The st_mode value also encodes the access permission bits for the file. When we say file, we mean any of the file types that we described earlier. All the file types — directories, character special files, and so on—have permissions. Many people think of only regular files as having access permissions.
 
+There are nine permission bits for each file, divided into three categories.
+
+st_mode mask Meaning
+S_IRUSR user-read
+S_IWUSR user-write
+S_IXUSR user-execute
+S_IRGRP group-read
+S_IWGRP group-write
+S_IXGRP group-execute
+S_IROTH other-read
+S_IWOTH other-write
+S_IXOTH other-execute
+
+The three categories, read, write, and execute are used in various ways by different functions. We’ll summarize them here, and return to them when we describe the actual functions.
+
+* The first rule is that whenever we want to open any type of file by name, we must have execute permission in each directory mentioned in the name, including the current directory, if it is implied. This is why the execute permission bit for a directory is often called the search bit.
+* The read permission for a file determines whether we can open an existing file for reading: the O_RDONLY and O_RDWR flags for the open function.
+* The write permission for a file determines whether we can open an existing file for writing: the O_WRONLY and O_RDWR flags for the open function.
+*  We must have write permission for a file to specify the O_TRUNC flag in the open function.
+*  We cannot create a new file in a directory unless we have write permission and execute permission in the directory.
+*  To delete an existing file, we need write permission and execute permission in the directory containing the file. We do not need read permission or write permission for the file itself.
+*  Execute permission for a file must be on if we want to execute the file using any of the seven exec functions. The file also has to be a regular file.
+
+The file access tests that the kernel performs each time a process opens, creates, or deletes a file depend on the owners of the file (st_uid and st_gid), the effective IDs of the process (effective user ID and effective group ID), and the supplementary group IDs of the process, if supported. The two owner IDs are properties of the file, whereas the two effective IDs and the supplementary group IDs are properties of the process. The tests performed by the kernel are as follows:
+
+1. If the effective user ID of the process is 0 (the superuser), access is allowed. This gives the superuser free rein throughout the entire file system.
+2. If the effective user ID of the process equals the owner ID of the file (i.e., the process owns the file), access is allowed if the appropriate user access permission bit is set. Otherwise, permission is denied. By appropriate access permission bit, we mean that if the process is opening the file for reading, the user-read bit must be on. If the process is opening the file for writing, the user-write bit must be on. If the process is executing the file, the user-execute bit must be on.
+3. If the effective group ID of the process or one of the supplementary group IDs of the process equals the group ID of the file, access is allowed if the appropriate group access permission bit is set. Otherwise, permission is denied.
+4. If the appropriate other access permission bit is set, access is allowed. Otherwise, permission is denied.
 
 ### 4.6 Ownership of New Files and Directories
 
+The user ID of a new file is set to the effective user ID of the process. POSIX.1 allows an implementation to choose one of the following options to determine the group ID of a new file:
 
+1. The group ID of a new file can be the effective group ID of the process.
+2. The group ID of a new file can be the group ID of the directory in which the file is being created.
+
+Using the second option—inheriting the directory’s group ID—assures us that all files and directories created in that directory will have the same group ID as the directory. This group ownership of files and directories will then propagate down the hierarchy from that point.
 
 ### 4.7 access and faccessat Functions
 
+As we described earlier, when we open a file, the kernel performs its access tests based on the effective user and group IDs. Sometimes, however, a process wants to test accessibility based on the real user and group IDs. This is useful when a process is running as someone else, using either the set-user-ID or the set-group-ID feature. Even though a process might be set-user-ID to root, it might still want to verify that the real user can access a given file. The access and faccessat functions base their tests on the real user and group IDs.
 
+```c
+#include <unistd.h>
+int access(const char *pathname, int mode);
+int faccessat(int fd, const char *pathname, int mode, int flag);
+// Both return: 0 if OK, −1 on error
+```
+
+The mode is either the value F_OK to test if a file exists, or the bitwise OR of the following flags:
+
+mode Description
+R_OK test for read permission
+W_OK test for write permission
+X_OK test for execute permission
+
+The faccessat function behaves like access when the pathname argument is absolute or when the fd argument has the value AT_FDCWD and the pathname argument is relative. Otherwise, faccessat evaluates the pathname relative to the open directory referenced by the fd argument.
+
+The flag argument can be used to change the behavior of faccessat. If the AT_EACCESS flag is set, the access checks are made using the effective user and group IDs of the calling process instead of the real user and group IDs.
 
 ### 4.8 umask Function
 
+The umask function sets the file mode creation mask for the process and returns the previous value. (This is one of the few functions that doesn’t have an error return.)
 
+```c
+#include <sys/stat.h>
+mode_t umask(mode_t cmask);
+// Returns: previous file mode creation mask
+```
+
+Most users of UNIX systems never deal with their umask value. It is usually set once, on login, by the shell’s start-up file, and never changed. Nevertheless, when writing programs that create new files, if we want to ensure that specific access permission bits are enabled, we must modify the umask value while the process is running. For example, if we want to ensure that anyone can read a file, we should set the umask to 0. Otherwise, the umask value that is in effect when our process is running can cause permission bits to be turned off.
+
+Users can set the umask value to control the default permissions on the files they create. This value is expressed in octal, with one bit representing one permission to be masked off. Permissions can be denied by setting the corresponding bits. Some common umask values are 002 to prevent others from writing your files, 022 to prevent group members and others from writing your files, and 027 to prevent group members from writing your files and others from reading, writing, or executing your files.
+
+Mask bit Meaning
+0400 user-read
+0200 user-write
+0100 user-execute
+0040 group-read
+0020 group-write
+0010 group-execute
+0004 other-read
+0002 other-write
+0001 other-execute
+
+The Single UNIX Specification requires that the umask command support a symbolic mode of operation. Unlike the octal format, the symbolic format specifies which permissions are to be allowed (i.e., clear in the file creation mask) instead of which ones are to be denied (i.e., set in the file creation mask). Compare both forms of the command, shown below.
 
 ### 4.9 chmod, fchmod, and fchmodat Functions
 
+The chmod, fchmod, and fchmodat functions allow us to change the file access permissions for an existing file.
 
+```c
+#include <sys/stat.h>
+int chmod(const char *pathname, mode_t mode);
+int fchmod(int fd, mode_t mode);
+int fchmodat(int fd, const char *pathname, mode_t mode, int flag);
+// All three return: 0 if OK, −1 on error
+```
+
+The chmod function operates on the specified file, whereas the fchmod function operates on a file that has already been opened. The fchmodat function behaves like chmod when the pathname argument is absolute or when the fd argument has the value AT_FDCWD and the pathname argument is relative. Otherwise, fchmodat evaluates the pathname relative to the open directory referenced by the fd argument. The flag argument can be used to change the behavior of fchmodat—when the AT_SYMLINK_NOFOLLOW flag is set, fchmodat doesn’t follow symbolic links.
+
+To change the permission bits of a file, the effective user ID of the process must be equal to the owner ID of the file, or the process must have superuser permissions. The mode is specified as the bitwise OR of the constants shown as follows:
+
+mode Description
+S_ISUID set-user-ID on execution
+S_ISGID set-group-ID on execution
+S_ISVTX saved-text (sticky bit)
+S_IRWXU read, write, and execute by user (owner)
+S_IRUSR read by user (owner)
+S_IWUSR write by user (owner)
+S_IXUSR execute by user (owner)
+S_IRWXG read, write, and execute by group
+S_IRGRP read by group
+S_IWGRP write by group
+S_IXGRP execute by group
+S_IRWXO read, write, and execute by other (world)
+S_IROTH read by other (world)
+S_IWOTH write by other (world)
+S_IXOTH execute by other (world)
+
+The chmod functions automatically clear two of the permission bits under the following conditions:
+
+*  On systems, such as Solaris, that place special meaning on the sticky bit when used with regular files, if we try to set the sticky bit (S_ISVTX) on a regular file and do not have superuser privileges, the sticky bit in the mode is automatically turned off. (We describe the sticky bit in the next section.) To prevent malicious users from setting the sticky bit and adversely affecting system performance, only the superuser can set the sticky bit of a regular file.
+*  The group ID of a newly created file might potentially be a group that the calling process does not belong to. It’s possible for the group ID of the new file to be the group ID of the parent directory. Specifically, if the group ID of the new file does not equal either the effective group ID of the process or one of the process’s supplementary group IDs and if the process does not have superuser privileges, then the set-group-ID bit is automatically turned off. This prevents a user from creating a set-group-ID file owned by a group that the user doesn’t belong to.
 
 ### 4.10 Sticky Bit
 
-
+The S_ISVTX bit has an interesting history. On versions of the UNIX System that predated demand paging, this bit was known as the sticky bit. If it was set for an executable program file, then the first time the program was executed, a copy of the program’s text was saved in the swap area when the process terminated.
 
 ### 4.11 chown, fchown, fchownat, and lchown Functions
 
+The chown functions allow us to change a file’s user ID and group ID, but if either of the arguments owner or group is −1, the corresponding ID is left unchanged.
 
+```c
+#include <unistd.h>
+int chown(const char *pathname, uid_t owner, gid_t group);
+int fchown(int fd, uid_t owner, gid_t group);
+int fchownat(int fd, const char *pathname, uid_t owner, gid_t group,
+int flag);
+int lchown(const char *pathname, uid_t owner, gid_t group);
+// All four return: 0 if OK, −1 on error
+```
+
+These four functions operate similarly unless the referenced file is a symbolic link. In that case, lchown and fchownat (with the AT_SYMLINK_NOFOLLOW flag set) change the owners of the symbolic link itself, not the file pointed to by the symbolic link.
+
+The fchown function changes the ownership of the open file referenced by the fd argument. Since it operates on a file that is already open, it can’t be used to change the ownership of a symbolic link.
+
+The fchownat function behaves like either chown or lchown when the pathname argument is absolute or when the fd argument has the value AT_FDCWD and the pathname argument is relative. In these cases, fchownat acts like lchown if the AT_SYMLINK_NOFOLLOW flag is set in the flag argument, or it acts like chown if the AT_SYMLINK_NOFOLLOW flag is clear. When the fd argument is set to the file descriptor of an open directory and the pathname argument is a relative pathname, fchownat evaluates the pathname relative to the open directory.
+
+If _POSIX_CHOWN_RESTRICTED is in effect for the specified file, then
+
+1. Only a superuser process can change the user ID of the file.
+2. A nonsuperuser process can change the group ID of the file if the process owns the file (the effective user ID equals the user ID of the file), owner is specified as −1 or equals the user ID of the file, and group equals either the effective group ID of the process or one of the process’s supplementary group IDs.
+
+This means that when _POSIX_CHOWN_RESTRICTED is in effect, you can’t change the user ID of your files. You can change the group ID of files that you own, but only to groups that you belong to.
 
 ### 4.12 File Size
 
+The st_size member of the stat structure contains the size of the file in bytes. This field is meaningful only for regular files, directories, and symbolic links.
 
+For a regular file, a file size of 0 is allowed. We’ll get an end-of-file indication on the first read of the file. For a directory, the file size is usually a multiple of a number, such as 16 or 512.
+
+For a symbolic link, the file size is the number of bytes in the filename. For example, in the following case, the file size of 7 is the length of the pathname usr/lib:
+
+`lrwxrwxrwx 1 root 7 Sep 25 07:14 lib -> usr/lib`
+
+(Note that symbolic links do not contain the normal C null byte at the end of the name, as the length is always specified by st_size.)
+
+Most contemporary UNIX systems provide the fields st_blksize and st_blocks. The first is the preferred block size for I/O for the file, and the latter is the actual number of 512-byte blocks that are allocated. The standard I/O library, also tries to read or write st_blksize bytes at a time, for efficiency.
 
 ### 4.13 File Tr uncation
 
+Sometimes we would like to truncate a file by chopping off data at the end of the file. Emptying a file, which we can do with the O_TRUNC flag to open, is a special case of truncation.
 
+```c
+#include <unistd.h>
+int truncate(const char *pathname, off_t length);
+int ftruncate(int fd, off_t length);
+// Both return: 0 if OK, −1 on error
+```
+
+These two functions truncate an existing file to length bytes. If the previous size of the file was greater than length, the data beyond length is no longer accessible. Otherwise, if the previous size was less than length, the file size will increase and the data between the old end of file and the new end of file will read as 0 (i.e., a hole is probably created in the file).
 
 ### 4.14 File Systems
 
+To appreciate the concept of links to a file, we need a conceptual understanding of the structure of the UNIX file system. Understanding the difference between an i-node and a directory entry that points to an i-node is also useful. Various implementations of the UNIX file system are in use today. Solaris, for example, supports several types of disk file systems: the traditional BSD-derived UNIX file system (called UFS), a file system (called PCFS) to read and write DOS-formatted diskettes, and a file system (called HSFS) to read CD file systems. UFS is based on the Berkeley fast file system, which we describe in this section.
 
+* Two directory entries point to the same i-node entry. Every i-node has a link count that contains the number of directory entries that point to it. Only when the link count goes to 0 can the file be deleted (thereby releasing the data blocks associated with the file). This is why the operation of ‘‘unlinking a file’’ does not always mean ‘‘deleting the blocks associated with the file.’’ This is why the function that removes a directory entry is called unlink, not delete. In the stat structure, the link count is contained in the st_nlink member. Its primitive system data type is nlink_t. These types of links are called hard links.
+* The other type of link is called a symbolic link. With a symbolic link, the actual contents of the file—the data blocks—store the name of the file that the symbolic link points to. In the following example, the filename in the directory entry is the three-character string lib and the 7 bytes of data in the file are usr/lib: `lrwxrwxrwx 1 root 7 Sep 25 07:14 lib -> usr/lib`
+* The i-node contains all the information about the file: the file type, the file’s access permission bits, the size of the file, pointers to the file’s data blocks, and so on. Most of the information in the stat structure is obtained from the i-node. Only two items of interest are stored in the directory entry: the filename and the i-node number. The other items—the length of the filename and the length of the directory record—are not of interest to this discussion. The data type for the i-node number is ino_t.
+* Because the i-node number in the directory entry points to an i-node in the same file system, a directory entry can’t refer to an i-node in a different file system. This is why the ln(1) command (make a new directory entry that points to an existing file) can’t cross file systems. We describe the link function in the next section.
+* When renaming a file without changing file systems, the actual contents of the file need not be moved—all that needs to be done is to add a new directory entry that points to the existing i-node and then unlink the old directory entry. The link count will remain the same. For example, to rename the file /usr/lib/foo to /usr/foo, the contents of the file foo need not be moved if the directories /usr/lib and /usr are on the same file system. This is how the mv(1) command usually operates.
 
 ### 4.15 link, linkat, unlink, unlinkat, and remove Functions
 
+We can use either the link function or the linkat function to create a link to an existing file.
 
+```c
+#include <unistd.h>
+int link(const char *existingpath, const char *newpath);
+int linkat(int efd, const char *existingpath, int nfd, const char *newpath,
+int flag);
+// Both return: 0 if OK, −1 on error
+```
+
+These functions create a new directory entry, newpath, that references the existing file existingpath. If the newpath already exists, an error is returned. Only the last component of the newpath is created. The rest of the path must already exist.
+
+With the linkat function, the existing file is specified by both the efd and existingpath arguments, and the new pathname is specified by both the nfd and newpath arguments. By default, if either pathname is relative, it is evaluated relative to the corresponding file descriptor. If either file descriptor is set to AT_FDCWD, then the corresponding pathname, if it is a relative pathname, is evaluated relative to the current directory. If either pathname is absolute, then the corresponding file descriptor argument is ignored.
+
+When the existing file is a symbolic link, the flag argument controls whether the linkat function creates a link to the symbolic link or to the file to which the symbolic link points. If the AT_SYMLINK_FOLLOW flag is set in the flag argument, then a link is created to the target of the symbolic link. If this flag is clear, then a link is created to the symbolic link itself.
+
+The creation of the new directory entry and the increment of the link count must be an atomic operation.
+
+Most implementations require that both pathnames be on the same file system, although POSIX.1 allows an implementation to support linking across file systems. If an implementation supports the creation of hard links to directories, it is restricted to only the superuser. This constraint exists because such hard links can cause loops in the file system, which most utilities that process the file system aren’t capable of handling. Many file system implementations disallow hard links to directories for this reason.
+
+To remove an existing directory entry, we call the unlink function.
+
+```c
+#include <unistd.h>
+int unlink(const char *pathname);
+int unlinkat(int fd, const char *pathname, int flag);
+// Both return: 0 if OK, −1 on error
+```
+
+These functions remove the directory entry and decrement the link count of the file referenced by pathname. If there are other links to the file, the data in the file is still accessible through the other links. The file is not changed if an error occurs.
+
+As mentioned earlier, to unlink a file, we must have write permission and execute permission in the directory containing the directory entry, as it is the directory entry that we will be removing. Also, as mentioned in Section 4.10, if the sticky bit is set in this directory we must have write permission for the directory and meet one of the following criteria:
+
+*  Own the file
+*  Own the directory
+*  Have superuser privileges
+
+Only when the link count reaches 0 can the contents of the file be deleted. One other condition prevents the contents of a file from being deleted: as long as some process has the file open, its contents will not be deleted. When a file is closed, the kernel first checks the count of the number of processes that have the file open. If this count has reached 0, the kernel then checks the link count; if it is 0, the file’s contents are deleted.
+
+If the pathname argument is a relative pathname, then the unlinkat function evaluates the pathname relative to the directory represented by the fd file descriptor argument. If the fd argument is set to the value AT_FDCWD, then the pathname is evaluated relative to the current working directory of the calling process. If the pathname argument is an absolute pathname, then the fd argument is ignored.
+
+The flag argument gives callers a way to change the default behavior of the unlinkat function. When the AT_REMOVEDIR flag is set, then the unlinkat function can be used to remove a directory, similar to using rmdir. If this flag is clear, then unlinkat operates like unlink.
 
 ### 4.16 rename and renameat Functions
 
+A file or a directory is renamed with either the rename or renameat function.
 
+```c
+#include <stdio.h>
+int rename(const char *oldname, const char *newname);
+int renameat(int oldfd, const char *oldname, int newfd, const char *newname);
+// Both return: 0 if OK, −1 on error
+```
+
+There are several conditions to describe for these functions, depending on whether oldname refers to a file, a directory, or a symbolic link. We must also describe what happens if newname already exists.
+
+1. If oldname specifies a file that is not a directory, then we are renaming a file or a symbolic link. In this case, if newname exists, it cannot refer to a directory. If newname exists and is not a directory, it is removed, and oldname is renamed to newname. We must have write permission for the directory containing oldname and the directory containing newname, since we are changing both directories.
+2. If oldname specifies a directory, then we are renaming a directory. If newname exists, it must refer to a directory, and that directory must be empty. (When we say that a directory is empty, we mean that the only entries in the directory are dot and dot-dot.) If newname exists and is an empty directory, it is removed, and oldname is renamed to newname. Additionally, when we’re renaming a directory, newname cannot contain a path prefix that names oldname. For example, we can’t rename /usr/foo to /usr/foo/testdir, because the old name (/usr/foo) is a path prefix of the new name and cannot be removed.
+3. If either oldname or newname refers to a symbolic link, then the link itself is processed, not the file to which it resolves.
+4. We can’t rename dot or dot-dot. More precisely, neither dot nor dot-dot can appear as the last component of oldname or newname.
+5. As a special case, if oldname and newname refer to the same file, the function returns successfully without changing anything.
+
+If newname already exists, we need permissions as if we were deleting it. Also, because we’re removing the directory entry for oldname and possibly creating a directory entry for newname, we need write permission and execute permission in the directory containing oldname and in the directory containing newname.
+
+The renameat function provides the same functionality as the rename function, except when either oldname or newname refers to a relative pathname. If oldname specifies a relative pathname, it is evaluated relative to the directory referenced by oldfd. Similarly, newname is evaluated relative to the directory referenced by newfd if newname specifies a relative pathname. Either the oldfd or newfd arguments (or both) can be set to AT_FDCWD to evaluate the corresponding pathname relative to the current directory.
 
 ### 4.17 Symbolic Links
 
+A symbolic link is an indirect pointer to a file, unlike the hard links described in the previous section, which pointed directly to the i-node of the file. Symbolic links were introduced to get around the limitations of hard links.
 
+* Hard links normally require that the link and the file reside in the same file system.
+* Only the superuser can create a hard link to a directory (when supported by the underlying file system).
+
+There are no file system limitations on a symbolic link and what it points to, and anyone can create a symbolic link to a directory. Symbolic links are typically used to ‘‘move’’ a file or an entire directory hierarchy to another location on a system.
+
+When using functions that refer to a file by name, we always need to know whether the function follows a symbolic link. If the function follows a symbolic link, a pathname argument to the function refers to the file pointed to by the symbolic link. Otherwise, a pathname argument refers to the link itself, not the file pointed to by the link.
 
 ### 4.18 Creating and Reading Symbolic Links
 
+A symbolic link is created with either the symlink or symlinkat function.
 
+```c
+#include <unistd.h>
+int symlink(const char *actualpath, const char *sympath);
+int symlinkat(const char *actualpath, int fd, const char *sympath);
+// Both return: 0 if OK, −1 on error
+```
+
+A new directory entry, sympath, is created that points to actualpath. It is not required that actualpath exist when the symbolic link is created. (We saw this in the example at the end of the previous section.) Also, actualpath and sympath need not reside in the same file system.
+
+The symlinkat function is similar to symlink, but the sympath argument is evaluated relative to the directory referenced by the open file descriptor for that directory (specified by the fd argument). If the sympath argument specifies an absolute pathname or if the fd argument has the special value AT_FDCWD, then symlinkat behaves the same way as symlink.
+
+Because the open function follows a symbolic link, we need a way to open the link itself and read the name in the link. The readlink and readlinkat functions do this.
+
+```c
+#include <unistd.h>
+ssize_t readlink(const char* restrict pathname, char *restrict buf, size_t bufsize);
+ssize_t readlinkat(int fd, const char* restrict pathname, char *restrict buf, size_t bufsize);
+// Both return: number of bytes read if OK, −1 on error
+```
+
+These functions combine the actions of open, read, and close. If successful, they return the number of bytes placed into buf. The contents of the symbolic link that are returned in buf are not null terminated.
+
+The readlinkat function behaves the same way as the readlink function when the pathname argument specifies an absolute pathname or when the fd argument has the special value AT_FDCWD. However, when the fd argument is a valid file descriptor of an open directory and the pathname argument is a relative pathname, then readlinkat evaluates the pathname relative to the open directory represented by fd.
 
 ### 4.19 File Times
 
+The actual resolution stored with each file’s attributes depends on the file system implementation. For file systems that store timestamps in second granularity, the nanoseconds fields will be filled with zeros. For file systems that store timestamps in a resolution higher than seconds, the partial seconds value will be converted into nanoseconds and returned in the nanoseconds fields.
 
+Three time fields are maintained for each file.
+
+Field Description Example ls(1) option
+st_atim last-access time of file data read -u
+st_mtim last-modification time of file data write default
+st_ctim last-change time of i-node status chmod, chown -c
+
+The modification time indicates when the contents of the file were last modified. The changed-status time indicates when the i-node of the file was last modified. In this chapter, we’ve described many operations that affect the i-node without changing the actual contents of the file: changing the file access permissions, changing the user ID, changing the number of links, and so on. Because all the information in the i-node is stored separately from the actual contents of the file, we need the changed-status time, in addition to the modification time.
+
+The access time is often used by system administrators to delete files that have not been accessed for a certain amount of time. The classic example is the removal of files named a.out or core that haven’t been accessed in the past week. The find(1) command is often used for this type of operation.
+
+The modification time and the changed-status time can be used to archive only those files that have had their contents modified or their i-node modified.
+
+The ls command displays or sorts only on one of the three time values. By default, when invoked with either the -l or the -t option, it uses the modification time of a file. The -u option causes the ls command to use the access time, and the -c option causes it to use the changed-status time.
 
 ### 4.20 futimens, utimensat, and utimes Functions
 
+Several functions are available to change the access time and the modification time of a file. The futimens and utimensat functions provide nanosecond granularity for specifying timestamps, using the timespec structure.
 
+```c
+#include <sys/stat.h>
+int futimens(int fd, const struct timespec times[2]);
+int utimensat(int fd, const char *path, const struct timespec times[2], int flag);
+// Both return: 0 if OK, −1 on error
+```
+
+In both functions, the first element of the times array argument contains the access time, and the second element contains the modification time. The two time values are calendar times, which count seconds since the Epoch. Partial seconds are expressed in nanoseconds.
+
+Timestamps can be specified in one of four ways:
+
+1. The times argument is a null pointer. In this case, both timestamps are set to the current time.
+2. The times argument points to an array of two timespec structures. If either tv_nsec field has the special value UTIME_NOW, the corresponding timestamp is set to the current time. The corresponding tv_sec field is ignored.
+3. The times argument points to an array of two timespec structures. If either tv_nsec field has the special value UTIME_OMIT, then the corresponding timestamp is unchanged. The corresponding tv_sec field is ignored.
+4. The times argument points to an array of two timespec structures and the tv_nsec field contains a value other than UTIME_NOW or UTIME_OMIT. In this case, the corresponding timestamp is set to the value specified by the corresponding tv_sec and tv_nsec fields.
+
+The privileges required to execute these functions depend on the value of the times argument.
+
+* If times is a null pointer or if either tv_nsec field is set to UTIME_NOW, either the effective user ID of the process must equal the owner ID of the file, the process must have write permission for the file, or the process must be a superuser process.
+*  If times is a non-null pointer and either tv_nsec field has a value other than UTIME_NOW or UTIME_OMIT, the effective user ID of the process must equal the owner ID of the file, or the process must be a superuser process. Merely having write permission for the file is not adequate.
+*   If times is a non-null pointer and both tv_nsec fields are set to UTIME_OMIT, no permissions checks are performed.
+
+With futimens, you need to open the file to change its times. The utimensat function provides a way to change a file’s times using the file’s name. The pathname argument is evaluated relative to the fd argument, which is either a file descriptor of an open directory or the special value AT_FDCWD to force evaluation relative to the current directory of the calling process. If pathname specifies an absolute pathname, then the fd argument is ignored.
+
+The flag argument to utimensat can be used to further modify the default behavior. If the AT_SYMLINK_NOFOLLOW flag is set, then the times of the symbolic link itself are changed (if the pathname refers to a symbolic link). The default behavior is to follow a symbolic link and modify the times of the file to which the link refers.
+
+Both futimens and utimensat are included in POSIX.1. A third function, utimes, is included in the Single UNIX Specification as part of the XSI option.
+
+```c
+#include <sys/time.h>
+int utimes(const char *pathname, const struct timeval times[2]);
+// Returns: 0 if OK, −1 on error
+```
+
+The utimes function operates on a pathname. The times argument is a pointer to an array of two timestamps—access time and modification time—but they are expressed in seconds and microseconds:
+
+```c
+struct timeval {
+    time_t tv_sec; /* seconds */
+    long tv_usec; /* microseconds */
+};
+```
 
 ### 4.21 mkdir, mkdirat, and rmdir Functions
 
+Directories are created with the mkdir and mkdirat functions, and deleted with the rmdir function.
 
+```c
+#include <sys/stat.h>
+int mkdir(const char *pathname, mode_t mode);
+int mkdirat(int fd, const char *pathname, mode_t mode);
+//Both return: 0 if OK, −1 on error
+```
+
+These functions create a new, empty directory. The entries for dot and dot-dot are created automatically. The specified file access permissions, mode, are modified by the file mode creation mask of the process.
+
+A common mistake is to specify the same mode as for a file: read and write permissions only. But for a directory, we normally want at least one of the execute bits enabled, to allow access to filenames within the directory.
+
+The mkdirat function is similar to the mkdir function. When the fd argument has the special value AT_FDCWD, or when the pathname argument specifies an absolute pathname, mkdirat behaves exactly like mkdir. Otherwise, the fd argument is an open directory from which relative pathnames will be evaluated.
+
+An empty directory is deleted with the rmdir function. Recall that an empty directory is one that contains entries only for dot and dot-dot.
+
+```c
+#include <unistd.h>
+int rmdir(const char *pathname);
+// Returns: 0 if OK, −1 on error
+```
+
+If the link count of the directory becomes 0 with this call, and if no other process has the directory open, then the space occupied by the directory is freed. If one or more processes have the directory open when the link count reaches 0, the last link is removed and the dot and dot-dot entries are removed before this function returns. Additionally, no new files can be created in the directory. The directory is not freed, however, until the last process closes it. (Even though some other process has the directory open, it can’t be doing much in the directory, as the directory had to be empty for the rmdir function to succeed.)
 
 ### 4.22 Reading Director ies
 
+Directories can be read by anyone who has access permission to read the directory. But only the kernel can write to a directory, to preserve file system sanity.
 
+To simplify the process of reading a directory,aset of directory routines were developed and are part of POSIX.1. Many implementations prevent applications from using the read function to access the contents of directories, thereby further isolating applications from the implementation-specific details of directory formats.
+
+```c
+#include <dirent.h>
+DIR *opendir(const char *pathname);
+DIR *fdopendir(int fd);
+// Both return: pointer if OK, NULL on error
+struct dirent *readdir(DIR *dp);
+// Returns: pointer if OK, NULL at end of directory or error
+void rewinddir(DIR *dp);
+int closedir(DIR *dp);
+// Returns: 0 if OK, −1 on error
+long telldir(DIR *dp);
+// Returns: current location in directory associated with dp
+void seekdir(DIR *dp, long loc);
+```
+
+The telldir and seekdir functions are not part of the base POSIX.1 standard. They are included in the XSI option in the Single UNIX Specification, so all conforming UNIX System implementations are expected to provide them.
+
+The dirent structure defined in <dirent.h> is implementation dependent.
+Implementations define the structure to contain at least the following two members:
+
+```c
+ino_t d_ino; /* i-node number */
+char d_name[]; /* null-terminated filename */
+```
+
+The DIR structure is an internal structure used by these seven functions to maintain information about the directory being read. The purpose of the DIR structure is similar to that of the FILE structure maintained by the standard I/O library.
+
+The pointer to a DIR structure returned by opendir and fdopendir is then used with the other five functions. The opendir function initializes things so that the first readdir returns the first entry in the directory. When the DIR structure is created by fdopendir, the first entry returned by readdir depends on the file offset associated with the file descriptor passed to fdopendir. Note that the ordering of entries within the directory is implementation dependent and is usually not alphabetical.
 
 ### 4.23 chdir, fchdir, and getcwd Functions
 
+Every process has a current working directory. This directory is where the search for all relative pathnames starts. When a user logs in to a UNIX system, the current working directory normally starts at the directory specified by the sixth field in the /etc/passwd file — the user ’s home directory. The current working directory is an attribute of a process; the home directory is an attribute of a login name.
 
+We can change the current working directory of the calling process by calling the chdir or fchdir function.
+
+```c
+#include <unistd.h>
+int chdir(const char *pathname);
+int fchdir(int fd);
+// Both return: 0 if OK, −1 on error
+```
+
+We can specify the new current working directory either as a pathname or through an open file descriptor.
+
+Because the kernel must maintain knowledge of the current working directory, we should be able to fetch its current value. Unfortunately, the kernel doesn’t maintain the full pathname of the directory. Instead, the kernel keeps information about the directory, such as a pointer to the directory’s v-node.
+
+The getcwd function is useful when we have an application that needs to return to the location in the file system where it started out. We can save the starting location by calling getcwd before we change our working directory. After we complete our processing, we can pass the pathname obtained from getcwd to chdir to return to our starting location in the file system.
+
+The fchdir function provides us with an easy way to accomplish this task. Instead of calling getcwd, we can open the current directory and save the file descriptor before we change to a different location in the file system. When we want to return to where we started, we can simply pass the file descriptor to fchdir.
 
 ### 4.24 Device Special Files
 
+The two fields st_dev and st_rdev are often confused.
 
+*  Every file system is known by its major and minor device numbers, which are encoded in the primitive system data type dev_t. The major number identifies the device driver and sometimes encodes which peripheral board to communicate with; the minor number identifies the specific subdevice.
+*  We can usually access the major and minor device numbers through two macros defined by most implementations: major and minor. Consequently, we don’t care how the two numbers are stored in a dev_t object.
+*  The st_dev value for every filename on a system is the device number of the file system containing that filename and its corresponding i-node.
+*  Only character special files and block special files have an st_rdev value. This value contains the device number for the actual device.
 
 ### 4.25 Summary of File Access Per mission Bits
 
