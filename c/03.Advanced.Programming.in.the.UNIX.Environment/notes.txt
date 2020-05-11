@@ -784,7 +784,7 @@ In late 1989, ANSI Standard X3.159-1989 for the C programming language was appro
 The C standard is now maintained and developed by the ISO/IEC international standardization working group for the C programming language, known as ISO/IEC JTC1/SC22/WG14, or WG14 for short.
 
 In 1999, the ISO C standard was updated and approved as ISO/IEC 9899:1999,
-largely to improve support for applications that perform numerical processing. 
+largely to improve support for applications that perform numerical processing.
 
 The ISO C library can be divided into 24 areas, based on the headers defined by the standard.
 
@@ -865,14 +865,14 @@ Two types of limits are needed:
 
 1. Compile-time limits (e.g., what’s the largest value of a short integer?)
 2. Runtime limits (e.g., how many bytes in a filename?)
- 
+
 #### 2.5.1 ISO C Limits
 
 All of the compile-time limits defined by ISO C are defined in the file <limits.h>. These constants don’t change in a given system.
 
 #### 2.5.2 POSIX Limits
 
-POSIX.1 defines numerous constants that deal with implementation limits of the operating system. 
+POSIX.1 defines numerous constants that deal with implementation limits of the operating system.
 
 Although POSIX.1 defines numerous limits and constants, we’ll concern ourselves with only the ones that affect the base POSIX.1 interfaces. These limits and constants are divided into the following seven categories:
 
@@ -907,7 +907,7 @@ long fpathconf(int fd, int name);
 
 1. All three functions return −1 and set errno to EINVAL if the name isn’t one of the appropriate constants. The third column in Figures 2.11 and 2.12 lists the limit constants we’ll deal with throughout the rest of this book.
 2. Some names can return either the value of the variable (a return value ≥ 0) or an indication that the value is indeterminate. An indeterminate value is indicated by returning −1 and not changing the value of errno.
-3. The value returned for _SC_CLK_TCK is the number of clock ticks per second, for use with the return values from the times function. 
+3. The value returned for _SC_CLK_TCK is the number of clock ticks per second, for use with the return values from the times function.
 
 Some restrictions apply to the pathconf pathname argument and the fpathconf
 fd argument. If any of these restrictions isn’t met, the results are undefined.
@@ -1006,7 +1006,7 @@ A new file can also be created by calling the creat function.
 ```c
 #include <fcntl.h>
 int creat(const char *path, mode_t mode);
-// Note that this function is equivalent to 
+// Note that this function is equivalent to
 open(path, O_WRONLY | O_CREAT | O_TRUNC, mode);
 ```
 
@@ -1066,11 +1066,11 @@ ssize_t read(int fd, void *buf, size_t nbytes);
 There are several cases in which the number of bytes actually read is less than the amount requested:
 
 * When reading from a regular file, if the end of file is reached before the requested number of bytes has been read. For example, if 30 bytes remain until the end of file and we try to read 100 bytes, read returns 30. The next time we call read, it will return 0 (end of file).
-* When reading from a terminal device. Normally, up to one line is read at a time. 
+* When reading from a terminal device. Normally, up to one line is read at a time.
 * When reading from a network. Buffering within the network may cause less than the requested amount to be returned.
 * When reading from a pipe or FIFO. If the pipe contains fewer bytes than requested, read will return only what is available.
 * When reading from a record-oriented device. Some record-oriented devices, such as magnetic tape, can return up to a single record at a time.
-* When interrupted by a signal and a partial amount of data has already been read. 
+* When interrupted by a signal and a partial amount of data has already been read.
 
 The read operation starts at the file’s current offset. Beforeasuccessful return, the offset is incremented by the number of bytes actually read.
 POSIX.1 changed the prototype for this function in several ways. The classic definition is
@@ -1127,7 +1127,7 @@ The kernel uses three data structures to represent an open file, and the relatio
 
 1. Every process has an entry in the process table. Within each process table entry is a table of open file descriptors, which we can think of as a vector, with one entry per descriptor. Associated with each file descriptor are
 
-    a. The file descriptor flags 
+    a. The file descriptor flags
     b. A pointer to a file table entry
 2. The kernel maintains a file table for all open files. Each file table entry contains
 
@@ -1211,7 +1211,7 @@ The fcntl function is used for five different purposes.
 3. Get/set file status flags (cmd = F_GETFL or F_SETFL)
 4. Get/set asynchronous I/O ownership (cmd = F_GETOWN or F_SETOWN)
 5. Get/set record locks (cmd = F_GETLK, F_SETLK, or F_SETLKW)
- 
+
 ### 3.15 ioctl Function
 
 The ioctl function has always been the catchall for I/O operations. Anything that couldn’t be expressed using one of the other functions in this chapter usually ended up being specified with an ioctl. Terminal I/O was the biggest user of this function.
@@ -1229,7 +1229,7 @@ Newer systems provide a directory named /dev/fd whose entries are files named 0,
 
 ### 3.17 Summary
 
-This chapter has described the basic I/O functions provided by the UNIX System. These are often called the unbuffered I/O functions because each read or write invokes a system call into the kernel. Using only read and write, we looked at the effect of various I/O sizes on the amount of time required to read a file. We also looked at several ways to flush written data to disk and their effect on application performance. 
+This chapter has described the basic I/O functions provided by the UNIX System. These are often called the unbuffered I/O functions because each read or write invokes a system call into the kernel. Using only read and write, we looked at the effect of various I/O sizes on the amount of time required to read a file. We also looked at several ways to flush written data to disk and their effect on application performance.
 
 Atomic operations were introduced when multiple processes append to the same file and when multiple processes create the same file. We also looked at the data structures used by the kernel to share information about open files. We’ll return to these data structures later in the text.
 
@@ -1272,16 +1272,16 @@ File types:
 ### 4.4 Set-User-ID and Set-Group-ID
 
 Every process has six or more IDs associated with it.
-who we really are: 
+who we really are:
 real user ID
-real group ID 
+real group ID
 used for file access permission checks:
 effective user ID
-effective group ID 
+effective group ID
 supplementary group IDs
 saved by exec functions:
 saved set-user-ID
-saved set-group-ID 
+saved set-group-ID
 
 * The real user ID and real group ID identify who we really are. These two fields are taken from our entry in the password file when we log in.
 * The effective user ID, effective group ID, and supplementary group IDs determine our file access permissions.
@@ -1926,8 +1926,8 @@ When a process terminates normally, either by calling the exit function directly
 Once we open a stream, we can choose from among three types of unformatted I/O:
 
 1. Character-at-a-time I/O. We can read or write one character at a time, with the standard I/O functions handling all the buffering, if the stream is buffered.
-2. Line-at-a-time I/O. If we want to read or write a line at a time, we use fgets and fputs. Each line is terminated with a newline character, and we have to specify the maximum line length that we can handle when we call fgets. 
-3. Direct I/O. This type of I/O is supported by the fread and fwrite functions. For each I/O operation, we read or write some number of objects, where each object is of a specified size. These two functions are often used for binary files where we read or write a structure with each operation. 
+2. Line-at-a-time I/O. If we want to read or write a line at a time, we use fgets and fputs. Each line is terminated with a newline character, and we have to specify the maximum line length that we can handle when we call fgets.
+3. Direct I/O. This type of I/O is supported by the fread and fwrite functions. For each I/O operation, we read or write some number of objects, where each object is of a specified size. These two functions are often used for binary files where we read or write a structure with each operation.
 
 Three functions allow us to read one character at a time.
 
@@ -2151,7 +2151,7 @@ Note that it’s possible for sprintf to overflow the buffer pointed to by buf. 
 
 Although dprintf doesn’t deal with a file pointer, we include it with the rest of the related functions that handle formatted output. Note that using dprintf removes the need to call fdopen to convert a file descriptor into a file pointer for use with fprintf.
 
-The format specification controls how the remainder of the arguments will be encoded and ultimately displayed. Each argument is encoded according to a conversion specification that starts with a percent sign (%). Except for the conversion specifications, other characters in the format are copied unmodified. A conversion specification has four optional components, shown in square brackets below: 
+The format specification controls how the remainder of the arguments will be encoded and ultimately displayed. Each argument is encoded according to a conversion specification that starts with a percent sign (%). Except for the conversion specifications, other characters in the format are copied unmodified. A conversion specification has four optional components, shown in square brackets below:
 `%[flags][fldwidth][precision][lenmodifier]convtype`
 
 The fldwidth component specifies a minimum field width for the conversion. If the conversion results in fewer characters, it is padded with spaces. The field width is a non-negative decimal integer or an asterisk.
@@ -2331,111 +2331,648 @@ Memory streams are well suited for creating strings, because they prevent buffer
 
 ### 5.15 Alternatives to Standard I/O
 
+The standard I/O library is not perfect. Korn and Vo [1991] list numerous defects — some in the basic design, but most in the various implementations.
 
+One inefficiency inherent in the standard I/O library is the amount of data copying that takes place. When we use the line-at-a-time functions, fgets and fputs, the data is usually copied twice: once between the kernel and the standard I/O buffer (when the corresponding read or write is issued) and again between the standard I/O buffer and our line buffer. The Fast I/O library [fio(3) in AT&T 1990a] gets around this by having the function that reads a line return a pointer to the line instead of copying the line into another buffer. Hume [1988] reports a threefold increase in the speed of a version of the grep(1) utility simply by making this change.
+
+Korn and Vo [1991] describe another replacement for the standard I/O library: sfio. This package is similar in speed to the fio library and normally faster than the standard I/O library. The sfio package also provides some new features that aren’t found in most other packages: I/O streams generalized to represent both files and regions of memory, processing modules that can be written and stacked on an I/O stream to change the operation of a stream, and better exception handling.
 
 ### 5.16 Summary
 
-
+The standard I/O library is used by most UNIX applications. In this chapter, we looked at many of the functions provided by this library, as well as at some implementation details and efficiency considerations. Be aware of the buffering that takes place with this library, as this is the area that generates the most problems and confusion.
 
 ## Chapter 6. System Data Files and Information
 
-
-
 ### 6.1 Introduction
 
-
+A UNIX system requires numerous data files for normal operation: the password file /etc/passwd and the group file /etc/group are two files that are frequently used by various programs. For example, the password file is used every time a user logs in to a UNIX system and every time someone executes an ls -l command.
 
 ### 6.2 Password File
 
+The UNIX System’s password file, called the user database by POSIX.1. These fields are contained in a passwd structure that is defined in <pwd.h>.
 
+POSIX.1 defines two functions to fetch entries from the password file. These functions allow us to look up an entry given a user’s login name or numerical user ID.
+
+```c
+#include <pwd.h>
+struct passwd *getpwuid(uid_t uid);
+struct passwd *getpwnam(const char *name);
+// Both return: pointer if OK, NULL on error
+```
+
+The getpwuid function is used by the ls(1) program to map the numerical user ID contained in an i-node into a user’s login name. The getpwnam function is used by the login(1) program when we enter our login name.
+
+Both functions return a pointer to a passwd structure that the functions fill in. This structure is usually a static variable within the function, so its contents are overwritten each time we call either of these functions.
+
+These two POSIX.1 functions are fine if we want to look up either a login name or a user ID, but some programs need to go through the entire password file. Three functions can be used for this purpose: getpwent, setpwent, and endpwent.
+
+```c
+#include <pwd.h>
+struct passwd *getpwent(void);
+// Returns: pointer if OK, NULL on error or end of file
+void setpwent(void);
+void endpwent(void);
+```
+
+We call getpwent to return the next entry in the password file. As with the two POSIX.1 functions, getpwent returns a pointer to a structure that it has filled in. This structure is normally overwritten each time we call this function. If this is the first call to this function, it opens whatever files it uses. There is no order implied when we use this function; the entries can be in any order, because some systems use a hashed version of the file /etc/passwd.
+
+The function setpwent rewinds whatever files it uses, and endpwent closes these files. When using getpwent, we must always be sure to close these files by calling endpwent when we’re through. Although getpwent is smart enough to know when it has to open its files (the first time we call it), it never knows when we’re through.
+
+The call to setpwent at the beginning of this function is self-defense: we ensure that the files are rewound, in case the caller has already opened them by calling getpwent. We call endpwent when we’re done, because neither getpwnam nor getpwuid should leave any of the files open.
 
 ### 6.3 Shadow Passwords
 
+The encrypted password is a copy of the user’s password that has been put through a one-way encryption algorithm. Because this algorithm is one-way, we can’t guess the original password from the encrypted version.
 
+Historically, the algorithm used always generated 13 printable characters from the 64-character set [a-zA-Z0-9./] (see Morris and Thompson [1979]). Some newer systems use alternative algorithms, such as MD5 or SHA-1, to generate longer encrypted password strings. (The more characters used to store the encrypted password, the more combinations there are, and the harder it will be to guess the password by trying all possible variations.) When we place a single character in the encrypted password field, we ensure that an encrypted password will never match this value.
+
+Given an encrypted password, we can’t apply an algorithm that inverts it and returns the plaintext password. (The plaintext password is what we enter at the Password: prompt.) But we could guess a password, run it through the one-way algorithm, and compare the result to the encrypted password. If user passwords were randomly chosen, this brute-force approach wouldn’t be too successful. Users, however, tend to choose nonrandom passwords, such as spouse’s name, street names, or pet names. A common experiment is for someone to obtain a copy of the password file and try guessing the passwords.
+
+To make it more difficult to obtain the raw materials (the encrypted passwords), systems now store the encrypted password in another file, often called the shadow password file. Minimally, this file has to contain the user name and the encrypted password. Other information relating to the password is also stored here.
+
+The only two mandatory fields are the user’s login name and encrypted password. The other fields control how often the password is to change — known as ‘‘password aging’’—and how long an account is allowed to remain active.
+
+The shadow password file should not be readable by the world. Only a few programs need to access encrypted passwords —login(1) and passwd(1), for example — and these programs are often set-user-ID root. With shadow passwords, the regular password file, /etc/passwd, can be left readable by the world.
 
 ### 6.4 Group File
 
+The field gr_mem is an array of pointers to the user names that belong to this group. This array is terminated by a null pointer
 
+We can look up either a group name or a numerical group ID with the following two functions, which are defined by POSIX.1.
+
+```c
+#include <grp.h>
+struct group *getgrgid(gid_t gid);
+struct group *getgrnam(const char *name);
+// Both return: pointer if OK, NULL on error
+```
+
+Like the password file functions, both of these functions normally return pointers to a static variable, which is overwritten on each call.
+
+If we want to search the entire group file, we need some additional functions. The following three functions are like their counterparts for the password file.
+
+```c
+#include <grp.h>
+struct group *getgrent(void);
+// Returns: pointer if OK, NULL on error or end of file
+void setgrent(void);
+void endgrent(void);
+```
+
+The setgrent function opens the group file, if it’s not already open, and rewinds it. The getgrent function reads the next entry from the group file, opening the file first, if it’s not already open. The endgrent function closes the group file.
 
 ### 6.5 Supplementary Group IDs
 
+The use of groups in the UNIX System has changed over time. With Version 7, each user belonged to a single group at any point in time. When we logged in, we were assigned the real group ID corresponding to the numerical group ID in our password file entry. We could change this at any point by executing newgrp(1). If the newgrp command succeeded (refer to the manual page for the permission rules), our real group ID was changed to the new group’s ID, and this value was used for all subsequent file access permission checks. We could always go back to our original group by executing newgrp without any arguments.
 
+The advantage of using supplementary group IDs is that we no longer have to change groups explicitly. It is not uncommon to belong to multiple groups (i.e., participate in multiple projects) at the same time.
+
+Three functions are provided to fetch and set the supplementary group IDs.
+
+```c
+#include <unistd.h>
+int getgroups(int gidsetsize, gid_t grouplist[]);
+// Returns: number of supplementary group IDs if OK, −1 on error
+#include <grp.h> /* on Linux */
+#include <unistd.h> /* on FreeBSD, Mac OS X, and Solaris */
+int setgroups(int ngroups, const gid_t grouplist[]);
+#include <grp.h> /* on Linux and Solaris */
+#include <unistd.h> /* on FreeBSD and Mac OS X */
+int initgroups(const char *username, gid_t basegid);
+// Both return: 0 if OK, −1 on error
+```
+
+The getgroups function fills in the array grouplist with the supplementary group IDs. Up to gidsetsize elements are stored in the array. The number of supplementary group IDs stored in the array is returned by the function.
+
+As a special case, if gidsetsize is 0, the function returns only the number of supplementary group IDs. The array grouplist is not modified. (This allows the caller to determine the size of the grouplist array to allocate.)
+
+The setgroups function can be called by the superuser to set the supplementary group ID list for the calling process: grouplist contains the array of group IDs, and ngroups specifies the number of elements in the array. The value of ngroups cannot be larger than NGROUPS_MAX.
+
+The setgroups function is usually called from the initgroups function, which reads the entire group file—with the functions getgrent, setgrent, and endgrent, which we described earlier—and determines the group membership for username. It then calls setgroups to initialize the supplementary group ID list for the user. One must be superuser to call initgroups, since it calls setgroups. In addition to finding all the groups that username is a member of in the group file, initgroups includes basegid in the supplementary group ID list; basegid is the group ID from the password file for username.
+
+The initgroups function is called by only a few programs. The login(1) program, for example, calls it when we log in.
 
 ### 6.6 Implementation Differences
 
-
+On Mac OS X, however, /etc/passwd and /etc/master.passwd are used only in single-user mode (when the system is undergoing maintenance; single-user mode usually means that no system services are enabled). In multiuser mode—during normal operation—the Directory Services daemon provides access to account information for users and groups.
 
 ### 6.7 Other Data Files
 
+The general principle is that every data file has at least three functions:
 
+1. A get function that reads the next record, opening the file if necessary. These functions normally return a pointer to a structure. A null pointer is returned when the end of file is reached. Most of the get functions return a pointer to a static structure, so we always have to copy the structure if we want to save it.
+2. A set function that opens the file, if not already open, and rewinds the file. We use this function when we know we want to start again at the beginning of the file.
+3. An end entry that closes the data file. As we mentioned earlier, we always have to call this function when we’re done, to close all the files.
+
+Additionally, if the data file supports some form of keyed lookup, routines are provided to search for a record with a specific key. For example, two keyed lookup routines are provided for the password file: getpwnam looks for a record with a specific user name, and getpwuid looks for a record with a specific user ID.
 
 ### 6.8 Login Accounting
 
+Two data files provided with most UNIX systems are the utmp file, which keeps track of all the users currently logged in, and the wtmp file, which keeps track of all logins and logouts. With Version 7, one type of record was written to both files, a binary record consisting of the following structure:
 
+```c
+struct utmp {
+    char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
+    char ut_name[8]; /* login name */
+    long ut_time; /* seconds since Epoch */
+};
+```
+
+On login, one of these structures was filled in and written to the utmp file by the login program, and the same structure was appended to the wtmp file. On logout, the entry in the utmp file was erased—filled with null bytes—by the init process, and a new entry was appended to the wtmp file. This logout entry in the wtmp file had the ut_name field zeroed out. Special entries were appended to the wtmp file to indicate when the system was rebooted and right before and after the system’s time and date was changed. The who(1) program read the utmp file and printed its contents in a readable form. Later versions of the UNIX System provided the last(1) command, which read through the wtmp file and printed selected entries.
 
 ### 6.9 System Identification
 
+POSIX.1 defines the uname function to return information on the current host and operating system.
 
+```c
+#include <sys/utsname.h>
+int uname(struct utsname *name);
+// Returns: non-negative value if OK, −1 on error
+```
+
+We pass the address of a utsname structure to this function, and the function then fills it in. POSIX.1 defines only the minimum fields in the structure, which are all character arrays, and it’s up to each implementation to set the size of each array. Some implementations provide additional fields in the structure.
+
+```c
+struct utsname {
+    char sysname[]; /* name of the operating system */
+    char nodename[]; /* name of this node */
+    char release[]; /* current release of operating system */
+    char version[]; /* current version of this release */
+    char machine[]; /* name of hardware type */
+};
+```
+
+Historically, BSD-derived systems provided the gethostname function to return only the name of the host. This name is usually the name of the host on a TCP/IP network.
+
+```c
+#include <unistd.h>
+int gethostname(char *name, int namelen);
+// Returns: 0 if OK, −1 on error
+```
+
+The namelen argument specifies the size of the name buffer. If enough space is provided, the string returned through name is null terminated. If insufficient room is provided, however, it is unspecified whether the string is null terminated.
+
+The gethostname function, which is now defined as part of POSIX.1, specifies that the maximum host name length is HOST_NAME_MAX.
+
+If the host is connected to a TCP/IP network, the host name is normally the fully qualified domain name of the host.
+
+There is also a hostname(1) command that can fetch or set the host name. (The host name is set by the superuser using a similar function, sethostname.) The host name is normally set at bootstrap time from one of the start-up files invoked by /etc/rc or init.
 
 ### 6.10 Time and Date Routines
 
+The basic time service provided by the UNIX kernel counts the number of seconds that have passed since the Epoch: 00:00:00 January 1, 1970, Coordinated Universal Time (UTC).The UNIX System has always differed from other operating systems in (a) keeping time in UTC instead of the local time, (b) automatically handling conversions, such as daylight saving time, and (c) keeping the time and date as a single quantity. The time function returns the current time and date.
 
+```c
+#include <time.h>
+time_t time(time_t *calptr);
+// Returns: value of time if OK, −1 on error
+```
+
+The time value is always returned as the value of the function. If the argument is nonnull, the time value is also stored at the location pointed to by calptr.
+
+The real-time extensions to POSIX.1 added support for multiple system clocks. In Version 4 of the Single UNIX Specification, the interfaces used to control these clocks were moved from an option group to the base. A clock is identified by the clockid_t type.
+
+The clock_gettime function can be used to get the time of the specified clock. The time is returned in a timespec structure, introduced in Section 4.2, which expresses time values in terms of seconds and nanoseconds.
+
+```c
+#include <sys/time.h>
+int clock_gettime(clockid_t clock_id, struct timespec *tsp);
+// Returns: 0 if OK, −1 on error
+```
+
+When the clock ID is set to CLOCK_REALTIME, the clock_gettime function provides similar functionality to the time function, except with clock_gettime, we might be able to get a higher-resolution time value if the system supports it.
+
+We can use the clock_getres function to determine the resolution of a given system clock.
+
+```c
+#include <sys/time.h>
+int clock_getres(clockid_t clock_id, struct timespec *tsp);
+// Returns: 0 if OK, −1 on error
+```
+
+The clock_getres function initializes the timespec structure pointed to by the tsp argument to the resolution of the clock corresponding to the clock_id argument. For example, if the resolution is 1 millisecond, then the tv_sec field will contain 0 and the tv_nsec field will contain the value 1000000.
+
+To set the time for a particular clock, we can call the clock_settime function.
+
+```c
+#include <sys/time.h>
+int clock_settime(clockid_t clock_id, const struct timespec *tsp);
+// Returns: 0 if OK, −1 on error
+```
+
+We need the appropriate privileges to change a clock’s time. Some clocks, however, can’t be modified.
+
+Version 4 of the Single UNIX Specification specifies that the gettimeofday function is now obsolescent. However,alot of programs still use it, because it provides greater resolution (up to a microsecond) than the time function.
+
+```c
+#include <sys/time.h>
+int gettimeofday(struct timeval *restrict tp, void *restrict tzp);
+Returns: 0 always
+```
+
+The only legal value for tzp is NULL; other values result in unspecified behavior. Some platforms support the specification of a time zone through the use of tzp, but this is implementation specific and not defined by the Single UNIX Specification.
+
+The gettimeofday function stores the current time as measured from the Epoch in the memory pointed to by tp. This time is represented as a timeval structure, which stores seconds and microseconds.
+
+Once we have the integer value that counts the number of seconds since the Epoch, we normally call a function to convert it to a broken-down time structure, and then call another function to generate a human-readable time and date.
+
+The two functions localtime and gmtime convert a calendar time into what’s called a broken-down time, a tm structure.
+
+```c
+struct tm { /* a broken-down time */
+    int tm_sec; /* seconds after the minute: [0 - 60] */
+    int tm_min; /* minutes after the hour: [0 - 59] */
+    int tm_hour; /* hours after midnight: [0 - 23] */
+    int tm_mday; /* day of the month: [1 - 31] */
+    int tm_mon; /* months since January: [0 - 11] */
+    int tm_year; /* years since 1900 */
+    int tm_wday; /* days since Sunday: [0 - 6] */
+    int tm_yday; /* days since January 1: [0 - 365] */
+    int tm_isdst; /* daylight saving time flag: <0, 0, >0 */
+};
+```
+
+The reason that the seconds can be greater than 59 is to allow for a leap second. Note that all the fields except the day of the month are 0-based. The daylight saving time flag is positive if daylight saving time is in effect, 0 if it’s not in effect, and negative if the information isn’t available.
+
+```c
+#include <time.h>
+struct tm *gmtime(const time_t *calptr);
+struct tm *localtime(const time_t *calptr);
+// Both return: pointer to broken-down time, NULL on error
+```
+
+The difference between localtime and gmtime is that the first converts the calendar time to the local time, taking into account the local time zone and daylight saving time flag, whereas the latter converts the calendar time into a broken-down time expressed as UTC.
+
+The function mktime takes a broken-down time, expressed as a local time, and converts it into a time_t value.
+
+```c
+#include <time.h>
+time_t mktime(struct tm *tmptr);
+// Returns: calendar time if OK, −1 on error
+```
+
+The strftime function is a printf-like function for time values. It is complicated by the multitude of arguments available to customize the string it produces.
+
+```c
+#include <time.h>
+size_t strftime(char *restrict buf, size_t maxsize, const char *restrict format, const struct tm *restrict tmptr);
+size_t strftime_l(char *restrict buf, size_t maxsize, const char *restrict format, const struct tm *restrict tmptr, locale_t locale);
+// Both return: number of characters stored in array if room, 0 otherwise
+```
+
+The strftime and strftime_l functions are the same, except that the strftime_l function allows the caller to specify the locale as an argument. The strftime function uses the locale specified by the TZ environment variable.
+
+The tmptr argument is the time value to format, specified by a pointer to a brokendown time value. The formatted result is stored in the array buf whose size is maxsize characters. If the size of the result, including the terminating null, fits in the buffer, these functions return the number of characters stored in buf, excluding the terminating null. Otherwise, these functions return 0.
+
+The format argument controls the formatting of the time value. Like the printf functions, conversion specifiers are given as a percent sign followed by a special character. All other characters in the format string are copied to the output. Two percent signs in a row generate a single percent sign in the output. Unlike the printf functions, each conversion specified generates a different fixed-size output string — there are no field widths in the format string.
+
+Conversion specifiers for strftime:
+
+Format | Description  | Example
+------ | ------ | ------
+%a |  abbreviated weekday name  | Thu
+%A |  full weekday name  | Thursday
+%b |  abbreviated month name  | Jan
+%B |  full month name  | January
+%c |  date and time  | Thu Jan 19 21:24:52 2012
+%C |  year/100: [00–99]  | 20
+%d |  day of the month: [01–31]  | 19
+%D |  date [MM/DD/YY]  | 01/19/12
+%e |  day of month (single digit preceded by space) [1–31]  | 19
+%F |  ISO 8601 date format [YYYY–MM–DD]  | 2012-01-19
+%g |  last two digits of ISO 8601 week-based year [00–99]  | 12
+%G |  ISO 8601 week-based year  | 2012
+%h |  same as %b  | Jan
+%H |  hour of the day (24-hour format): [00–23]  | 21
+%I |  hour of the day (12-hour format): [01–12]  | 09
+%j |  day of the year: [001–366]  | 019
+%m |  month: [01–12]  | 01
+%M |  minute: [00–59]  | 24
+%n |  newline character |
+%p |  AM/PM  | PM
+%r |  locale’s time (12-hour format)  | 09:24:52 PM
+%R |  same as %H:%M  | 21:24
+%S |  second: [00–60]  | 52
+%t |  horizontal tab character
+%T |  same as %H:%M:%S  | 21:24:52
+%u |  ISO 8601 weekday [Monday = 1, 1–7]  | 4
+%U |  Sunday week number: [00–53]  | 03
+%V |  ISO 8601 week number: [01–53]  | 03
+%w |  weekday: [0 = Sunday, 0–6]  | 4
+%W |  Monday week number: [00–53]  | 03
+%x |  locale’s date  | 01/19/12
+%X |  locale’s time  | 21:24:52
+%y |  last two digits of year: [00–99]  | 12
+%Y |  year  | 2012
+%z |  offset from UTC in ISO 8601 format  | -0500
+%Z |  time zone name  | EST
+%% |  translates to a percent sign  | %
+
+The only specifiers that are not self-evident are %U, %V, and %W. The %U specifier represents the week number of the year, where the week containing the first Sunday is week 1. The %W specifier represents the week number of the year, where the week containing the first Monday is week 1. The %V specifier is different. If the week containing the first day in January has four or more days in the new year, then this is treated as week 1. Otherwise, it is treated as the last week of the previous year. In both cases, Monday is treated as the first day of the week.
+
+The strptime function is the inverse of strftime. It takes a string and converts it into a broken-down time.
+
+```c
+#include <time.h>
+char *strptime(const char *restrict buf, const char *restrict format, struct tm *restrict tmptr);
+// Returns: pointer to one character past last character parsed, NULL otherwise
+```
+
+The format argument describes the format of the string in the buffer pointed to by the buf argument. The format specification is similar, although it differs slightly from the specification for the strftime function.
+
+Conversion specifiers for strptime:
+
+Format | Description
+------ | ------
+%a |  abbreviated or full weekday name
+%A |  same as %a
+%b |  abbreviated or full month name
+%B |  same as %b
+%c |  date and time
+%C |  all but the last two digits of the year
+%d |  day of the month: [01–31]
+%D |  date [MM/DD/YY]
+%e |  same as %d
+%h |  same as %b
+%H |  hour of the day (24-hour format): [00–23]
+%I |  hour of the day (12-hour format): [01–12]
+%j |  day of the year: [001–366]
+%m |  month: [01–12]
+%M |  minute: [00–59]
+%n |  any white space
+%p |  AM/PM
+%r |  locale’s time (12-hour format, AM/PM notation)
+%R |  time as %H:%M
+%S |  second: [00–60]
+%t |  any white space
+%T |  time as %H:%M:%S
+%U |  Sunday week number: [00–53]
+%w |  weekday: [0 = Sunday, 0–6]
+%W |  Monday week number: [00–53]
+%x |  locale’s date
+%X |  locale’s time
+%y |  last two digits of year: [00–99]
+%Y |  year
+%% |  translates to a percent sign
 
 ### 6.11 Summary
 
-
+The password file and the group file are used on all UNIX systems. We’ve looked at the various functions that read these files. We’ve also talked about shadow passwords, which can enhance system security. Supplementary group IDs provide a way to participate in multiple groups at the same time. We also looked at how similar functions are provided by most systems to access other system-related data files. We discussed the POSIX.1 functions that programs can use to identify the system on which they are running. We finished the chapter by looking at the time and date functions provided by ISO C and the Single UNIX Specification.
 
 ## Chapter 7. Process Environment
 
-
-
 ### 7.1 Introduction
 
-
+In this chapter, we’ll see how the main function is called when the program is executed, how command-line arguments are passed to the new program, what the typical memory layout looks like, how to allocate additional memory, how the process can use environment variables, and various ways for the process to terminate. Additionally, we’ll look at the longjmp and setjmp functions and their interaction with the stack. We finish the chapter by examining the resource limits of a process.
 
 ### 7.2 main Function
 
+A C program starts execution with a function called main. The prototype for the main function is 
+`int main(int argc, char *argv[]);` 
+where argc is the number of command-line arguments, and argv is an array of pointers to the arguments.
 
+When a C program is executed by the kernel—by one of the exec functions, a special start-up routine is called before the main function is called.  The executable program file specifies this routine as the starting address for the program; this is set up by the link editor when it is invoked by the C compiler. This start-up routine takes values from the kernel—the command-line arguments and the environment — and sets things up so that the main function is called as shown earlier.
 
 ### 7.3 Process Termination
 
+There are eight ways for a process to terminate. Normal termination occurs in five ways:
 
+1. Return from main
+2. Calling exit
+3. Calling _exit or _Exit
+4. Return of the last thread from its start routine
+5. Calling pthread_exit from the last thread
+
+Abnormal termination occurs in three ways:
+
+6. Calling abort
+7. Receipt of a signal
+8. Response of the last thread to a cancellation request
+
+The start-up routine that we mentioned in the previous section is also written so that if the main function returns, the exit function is called. If the start-up routine were coded in C (it is often coded in assembly language) the call to main could look like
+`exit(main(argc, argv));`
+
+Three functions terminate a program normally: _exit and _Exit, which return to the kernel immediately, and exit, which performs certain cleanup processing and then returns to the kernel.
+
+```c
+#include <stdlib.h>
+void exit(int status);
+void _Exit(int status);
+#include <unistd.h>
+void _exit(int status);
+```
+
+We’ll discuss the effect of these three functions on other processes, such as the children and the parent of the terminating process.
+
+Historically, the exit function has always performed a clean shutdown of the standard I/O library: the fclose function is called for all open streams.
+
+All three exit functions expect a single integer argument, which we call the exit status. Most UNIX System shells provide a way to examine the exit status of a process. If (a) any of these functions is called without an exit status, (b) main does a return without a return value, or (c) the main function is not declared to return an integer, the exit status of the process is undefined. However, if the return type of main is an integer and main ‘‘falls off the end’’ (an implicit return), the exit status of the process is 0.
+
+Returning an integer value from the main function is equivalent to calling exit
+with the same value. Thus
+`exit(0);`
+is the same as
+`return(0);`
+from the main function.
+
+With ISO C, a process can register at least 32 functions that are automatically called by exit. These are called exit handlers and are registered by calling the atexit function.
+
+```c
+#include <stdlib.h>
+int atexit(void (*func)(void));
+// Returns: 0 if OK, nonzero on error
+```
+
+This declaration says that we pass the address of a function as the argument to atexit. When this function is called, it is not passed any arguments and is not expected to return a value. The exit function calls these functions in reverse order of their registration. Each function is called as many times as it was registered.
+
+With ISO C and POSIX.1, exit first calls the exit handlers and then closes (via fclose) all open streams. POSIX.1 extends the ISO C standard by specifying that any exit handlers installed will be cleared if the program calls any of the exec family of functions.
+
+The only way a program can be executed by the kernel is if one of the exec functions is called. The only way a process can voluntarily terminate is if _exit or _Exit is called, either explicitly or implicitly (by calling exit). A process can also be involuntarily terminated by a signal.
 
 ### 7.4 Command-Line Arguments
 
-
+When a program is executed, the process that does the exec can pass command-line arguments to the new program. This is part of the normal operation of the UNIX system shells. We have already seen this in many of the examples from earlier chapters.
 
 ### 7.5 Environment List
 
+Each program is also passed an environment list. Like the argument list, the environment list is an array of character pointers, with each pointer containing the address of a null-terminated C string. The address of the array of pointers is contained in the global variable environ:
+`extern char **environ;`
 
+Historically, most UNIX systems have provided a third argument to the main function that is the address of the environment list:
+`int main(int argc, char *argv[], char *envp[]);`
+
+Because ISO C specifies that the main function be written with two arguments, and because this third argument provides no benefit over the global variable environ, POSIX.1 specifies that environ should be used instead of the (possible) third argument.
 
 ### 7.6 Memory Lay out of a C Program
 
+Historically,a C program has been composed of the following pieces:
 
+* Text segment, consisting of the machine instructions that the CPU executes. Usually, the text segment is sharable so that only a single copy needs to be in memory for frequently executed programs, such as text editors, the C compiler, the shells, and so on. Also, the text segment is often read-only, to prevent a program from accidentally modifying its instructions.
+* Initialized data segment, usually called simply the data segment, containing variables that are specifically initialized in the program. For example, the C declaration `int maxcount = 99;` appearing outside any function causes this variable to be stored in the initialized data segment with its initial value.
+* Uninitialized data segment, often called the ‘‘bss’’ segment, named after an ancient assembler operator that stood for ‘‘block started by symbol.’’ Data in this segment is initialized by the kernel to arithmetic 0 or null pointers before the program starts executing. The C declaration `long sum[1000];` appearing outside any function causes this variable to be stored in the uninitialized data segment.
+* Stack, where automatic variables are stored, along with information that is saved each time a function is called. Each time a function is called, the address of where to return to and certain information about the caller’s environment, such as some of the machine registers, are saved on the stack. The newly called function then allocates room on the stack for its automatic and temporary variables. This is how recursive functions in C can work. Each time a recursive function calls itself, a new stack frame is used, so one set of variables doesn’t interfere with the variables from another instance of the function.
+* Heap, where dynamic memory allocation usually takes place. Historically, the heap has been located between the uninitialized data and the stack.
 
-### 7.7 Shared Librar ies
+With Linux on a 32-bit Intel x86 processor, the text segment starts at location 0x08048000, and the bottom of the stack starts just below 0xC0000000. (The stack grows from higher-numbered addresses to lower-numbered addresses on this particular architecture.) The unused virtual address space between the top of the heap and the top of the stack is large.
 
+### 7.7 Shared Libraries
 
+Most UNIX systems today support shared libraries. Arnold [1986] describes an early implementation under System V, and Gingell et al. [1987] describe a different implementation under SunOS. Shared libraries remove the common library routines from the executable file, instead maintaining a single copy of the library routine somewhere in memory that all processes reference. This reduces the size of each executable file but may add some runtime overhead, either when the program is first executed or the first time each shared library function is called. Another advantage of shared libraries is that library functions can be replaced with new versions without having to relink edit every program that uses the library (assuming that the number and type of arguments haven’t changed).
+
+Different systems provide different ways for a program to say that it wants to use or not use the shared libraries. Options for the cc(1) and ld(1) commands are typical. As an example of the size differences, the following executable file—the classic hello.c program — was first created without shared libraries:
+`gcc -static hello1.c`
 
 ### 7.8 Memory Allocation
 
+ISO C specifies three functions for memory allocation:
 
+1. malloc, which allocates a specified number of bytes of memory. The initial value of the memory is indeterminate.
+2. calloc, which allocates space for a specified number of objects of a specified size. The space is initialized to all 0 bits.
+3. realloc, which increases or decreases the size of a previously allocated area. When the size increases, it may involve moving the previously allocated area somewhere else, to provide the additional room at the end. Also, when the size increases, the initial value of the space between the old contents and the end of the new area is indeterminate.
+
+```c
+#include <stdlib.h>
+void *malloc(size_t size);
+void *calloc(size_t nobj, size_t size);
+void *realloc(void *ptr, size_t newsize);
+// All three return: non-null pointer if OK, NULL on error
+void free(void *ptr);
+```
+
+The pointer returned by the three allocation functions is guaranteed to be suitably aligned so that it can be used for any data object. For example, if the most restrictive alignment requirement on a particular system requires that doubles must start at memory locations that are multiples of 8, then all pointers returned by these three functions would be so aligned.
+
+Because the three alloc functions return a generic void * pointer, if we
+`#include <stdlib.h>` (to obtain the function prototypes), we do not explicitly have to cast the pointer returned by these functions when we assign it to a pointer of a different type. The default return value for undeclared functions is int, so using a cast without the proper function declaration could hide an error on systems where the size of type int differs from the size of a function’s return value (a pointer in this case).
+
+The function free causes the space pointed to by ptr to be deallocated. This freed space is usually put into a pool of available memory and can be allocated in a later call to one of the three alloc functions.
+
+The realloc function lets us change the size of a previously allocated area. (The most common usage is to increase an area’s size.) For example, if we allocate room for 512 elements in an array that we fill in at runtime but later find that we need more room, we can call realloc. If there is room beyond the end of the existing region for the requested space, then realloc simply allocates this additional area at the end and returns the same pointer that we passed it. But if there isn’t room, realloc allocates another area that is large enough, copies the existing 512-element array to the new area, frees the old area, and returns the pointer to the new area. Because the area may move, we shouldn’t have any pointers into this area.
+
+Note that the final argument to realloc is the new size of the region, not the difference between the old and new sizes. As a special case, if ptr is a null pointer, realloc behaves like malloc and allocates a region of the specified newsize.
+
+The allocation routines are usually implemented with the sbrk(2) system call. This system call expands (or contracts) the heap of the process.
+
+Although sbrk can expand or contract the memory of a process, most versions of malloc and free never decrease their memory size. The space that we free is available for a later allocation, but the freed space is not usually returned to the kernel; instead, that space is kept in the malloc pool.
+
+Most implementations allocate more space than requested and use the additional space for record keeping — the size of the block, a pointer to the next allocated block, and the like. As a consequence, writing past the end or before the start of an allocated area could overwrite this record-keeping information in another block. These types of errors are often catastrophic, but difficult to find, because the error may not show up until much later.
+
+Writing past the end or before the beginning of a dynamically allocated buffer can corrupt more than internal record-keeping information. The memory before and after a dynamically allocated buffer can potentially be used for other dynamically allocated objects. These objects can be unrelated to the code corrupting them, making it even more difficult to find the source of the corruption.
+
+Other possible errors that can be fatal are freeing a block that was already freed and calling free with a pointer that was not obtained from one of the three alloc functions. If a process calls malloc but forgets to call free, its memory usage will continually increase; this is called leakage. If we do not call free to return unused space, the size of a process’s address space will slowly increase until no free space is left. During this time, performance can degrade from excess paging overhead.
+
+Because memory allocation errors are difficult to track down, some systems provide versions of these functions that do additional error checking every time one of the three alloc functions or free is called. These versions of the functions are often specified by including a special library for the link editor. There are also publicly available sources that you can compile with special flags to enable additional runtime checking.
+
+Many replacements for malloc and free are available. Some systems already include libraries providing alternative memory allocator implementations. Other systems provide only the standard allocator, leaving it up to software developers to download alternatives, if desired. We discuss some of the alternatives here.
+
+SVR4-based systems, such as Solaris, include the libmalloc library, which provides a set of interfaces matching the ISO C memory allocation functions. The libmalloc library includes mallopt,afunction that allows a process to set certain variables that control the operation of the storage allocator. A function called mallinfo is also available to provide statistics on the memory allocator.
+
+Vo [1996] describes a memory allocator that allows processes to allocate memory using different techniques for different regions of memory. In addition to the functions specific to vmalloc, the library provides emulations of the ISO C memory allocation functions.
+
+Historically, the standard malloc algorithm used either a best-fit or a first-fit memory allocation strategy. Quick-fit is faster than either, but tends to use more memory. Weinstock and Wulf [1988] describe the algorithm, which is based on splitting up memory into buffers of various sizes and maintaining unused buffers on different free lists, depending on the buffer sizes. Most modern allocators are based on quick-fit.
+
+The jemalloc implementation of the malloc family of library functions is the default memory allocator in FreeBSD 8.0. It was designed to scale well when used with multithreaded applications running on multiprocessor systems. Evans [2006] describes the implementation and evaluates its performance.
+
+TCMalloc was designed as a replacement for the malloc family of functions to provide high performance, scalability, and memory efficiency. It uses thread-local caches to avoid locking overhead when allocating buffers from and releasing buffers to the cache. It also has a heap checker and a heap profiler built in to aid in debugging and analyzing dynamic memory usage. The TCMalloc library is available as open source from Google. It is briefly described by Ghemawat and Menage [2005].
+
+One additional function is also worth mentioning. The function alloca has the same calling sequence as malloc; however, instead of allocating memory from the heap, the memory is allocated from the stack frame of the current function. The advantage is that we don’t have to free the space; it goes away automatically when the function returns. The alloca function increases the size of the stack frame. The disadvantage is that some systems can’t support alloca, if it’s impossible to increase the size of the stack frame after the function has been called. Nevertheless, many software packages use it, and implementations exist for a wide variety of systems.
 
 ### 7.9 Environment Var iables
 
+As we mentioned earlier, the environment strings are usually of the form `name=value`.
 
+The UNIX kernel never looks at these strings; their interpretation is up to the various applications. The shells, for example, use numerous environment variables. Some, such as HOME and USER, are set automatically at login; others are left for us to set. We normally set environment variables in a shell start-up file to control the shell’s actions. If we set the environment variable MAILPATH, for example, it tells the Bourne shell, GNU Bourne-again shell, and Korn shell where to look for mail.
+
+ISO C defines a function that we can use to fetch values from the environment, but this standard says that the contents of the environment are implementation defined.
+
+```c
+#include <stdlib.h>
+char *getenv(const char *name);
+// Returns: pointer to value associated with name, NULL if not found
+```
+
+Note that this function returns a pointer to the value of a name=value string. We should always use getenv to fetch a specific value from the environment, instead of accessing environ directly.
+
+In addition to fetching the value of an environment variable, sometimes we may want to set an environment variable. We may want to change the value of an existing variable or add a new variable to the environment. 
+
+The prototypes for the middle three functions are
+
+```c
+#include <stdlib.h>
+int putenv(char *str);
+// Returns: 0 if OK, nonzero on error
+int setenv(const char *name, const char *value, int rewrite);
+int unsetenv(const char *name);
+// Both return: 0 if OK, −1 on error
+```
+
+The operation of these three functions is as follows:
+
+* The putenv function takes a string of the form name=value and places it in the environment list. If name already exists, its old definition is first removed.
+* The setenv function sets name to value. If name already exists in the environment, then (a) if rewrite is nonzero, the existing definition for name is first removed; or (b) if rewrite is 0, an existing definition for name is not removed, name is not set to the new value, and no error occurs.
+* The unsetenv function removes any definition of name. It is not an error if such a definition does not exist.
 
 ### 7.10 setjmp and longjmp Functions
 
+In C, we can’t goto a label that’s in another function. Instead, we must use the setjmp and longjmp functions to perform this type of branching. As we’ll see, these two functions are useful for handling error conditions that occur in a deeply nested function call.
 
+It consists of a main loop that reads lines from standard input and calls the function do_line to process each line. This function then calls get_token to fetch the next token from the input line. The first token of a line is assumed to be a command of some form, and a switch statement selects each command. For the single command shown, the function cmd_add is called.
+
+As we’ve said, this type of arrangement of the stack is typical, but not required. Stacks do not have to grow toward lower memory addresses. On systems that don’t have built-in hardware support for stacks, a C implementation might use a linked list for its stack frames.
+
+The solution to this problem is to use a nonlocal goto: the setjmp and longjmp functions. The adjective ‘‘nonlocal’’ indicates that we’re not doing a normal C goto statement within a function; instead, we’re branching back through the call frames to a function that is in the call path of the current function.
+
+```c
+#include <setjmp.h>
+int setjmp(jmp_buf env);
+// Returns: 0 if called directly, nonzero if returning from a call to longjmp
+void longjmp(jmp_buf env, int val);
+```
+
+We call setjmp from the location that we want to return to, which in this example is in the main function. In this case, setjmp returns 0 because we called it directly. In the call to setjmp, the argument env is of the special type jmp_buf. This data type is some form of array that is capable of holding all the information required to restore the status of the stack to the state when we call longjmp. Normally, the env variable is a global variable, since we’ll need to reference it from another function.
+
+When we encounter an error — say, in the cmd_add function — we call longjmp with two arguments. The first is the same env that we used in a call to setjmp, and the second, val, is a nonzero value that becomes the return value from setjmp. The second argument allows us to use more than one longjmp for each setjmp. For example, we could longjmp from cmd_add with a val of 1 and also call longjmp from get_token with a val of 2. In the main function, the return value from setjmp is either 1 or 2, and we can test this value, if we want, and determine whether the longjmp was from cmd_add or get_token.
+
+We’ve seen what the stack looks like after calling longjmp. The next question is, ‘‘What are the states of the automatic variables and register variables in the main function?’’ When we return to main as a result of the longjmp, do these variables have values corresponding to those when the setjmp was previously called (i.e., are their values rolled back), or are their values left alone so that their values are whatever they were when do_line was called (which caused cmd_add to be called, which caused longjmp to be called)? Unfortunately, the answer is ‘‘It depends.’’ Most implementations do not try to roll back these automatic variables and register variables, but the standards say only that their values are indeterminate. If you have an automatic variable that you don’t want rolled back, define it with the volatile attribute. Variables that are declared as global or static are left alone when longjmp is executed.
+
+Note that the optimizations don’t affect the global, static, and volatile variables; their values after the longjmp are the last values that they assumed. The setjmp(3) manual page on one system states that variables stored in memory will have values as of the time of the longjmp, whereas variables in the CPU and floating-point registers are restored to their values when setjmp was called. Without optimization, all five variables are stored in memory (the register hint is ignored for regival). When we enable optimization, both autoval and regival go into registers, even though the former wasn’t declared register, and the volatile variable stays in memory. The important thing to realize with this example is that you must use the volatile attribute if you’re writing portable code that uses nonlocal jumps. Anything else can change from one system to the next.
+
+Having looked at the way stack frames are usually handled, it is worth looking at a potential error in dealing with automatic variables. The basic rule is that an automatic variable can never be referenced after the function that declared it returns. Numerous warnings about this can be found throughout the UNIX System manuals.
+
+The problem is that when open_data returns, the space it used on the stack will be used by the stack frame for the next function that is called. But the standard I/O library will still be using that portion of memory for its stream buffer. Chaos is sure to result. To correct this problem, the array databuf needs to be allocated from global memory, either statically (static or extern) or dynamically (one of the alloc functions).
 
 ### 7.11 getrlimit and setrlimit Functions
 
+Every process has a set of resource limits, some of which can be queried and changed by the getrlimit and setrlimit functions.
 
+```c
+#include <sys/resource.h>
+int getrlimit(int resource, struct rlimit *rlptr);
+int setrlimit(int resource, const struct rlimit *rlptr);
+// Both return: 0 if OK, −1 on error
+```
+
+Each call to these two functions specifies a single resource and a pointer to the following structure:
+
+```c
+struct rlimit {
+    rlim_t rlim_cur; /* soft limit: current limit */
+    rlim_t rlim_max; /* hard limit: maximum value for rlim_cur */
+};
+```
+
+Three rules govern the changing of the resource limits.
+
+1. A process can change its soft limit to a value less than or equal to its hard limit. 
+2. A process can lower its hard limit to a value greater than or equal to its soft limit. This lowering of the hard limit is irreversible for normal users.
+3. Only a superuser process can raise a hard limit.
+
+An infinite limit is specified by the constant RLIM_INFINITY.
 
 ### 7.12 Summary
 
+Understanding the environment of a C program within a UNIX system’s environment is a prerequisite to understanding the process control features of the UNIX System. In this chapter, we’ve looked at how a process is started, how it can terminate, and how it’s passed an argument list and an environment. Although both the argument list and the environment are uninterpreted by the kernel, it is the kernel that passes both from the caller of exec to the new process.
 
+We’ve also examined the typical memory layout of a C program and seen how a process can dynamically allocate and free memory. It is worthwhile to look in detail at the functions available for manipulating the environment, since they involve memory allocation. The functions setjmp and longjmp were presented, providing a way to perform nonlocal branching within a process. We finished the chapter by describing the resource limits that various implementations provide.
 
 ## Chapter 8. Process Control
 
