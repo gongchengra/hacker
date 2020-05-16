@@ -17,8 +17,9 @@ ifeq "$(PLATFORM)" "solaris"
   ACCTFLAGS = -DHAS_AC_STAT
 endif
 
-PROGS =	echoall exec1 exec2 fork1 fork2 nice pruids tellwait1 tellwait2 test1 times1 vfork1 wait1
-MOREPROGS = systest1 systest3
+PROGS =	08.01.fork1 08.03.vfork1 08.06.wait1 08.08.fork2 08.12.tellwait1 08.13.tellwait2 \
+		08.16.exec1 08.17.echoall 08.20.exec2 08.25.pruids 08.28.test1 08.30.nice 08.31.times1
+MOREPROGS = 08.23.systest1 08.24.systest3
 
 all:	$(PROGS) $(MOREPROGS) system.o $(ACCT)
 
@@ -35,6 +36,6 @@ pracct:		pracct.c $(LIBAPUE)
 		$(CC) $(CFLAGS) $(ACCTFLAGS) -o pracct pracct.c $(LDFLAGS) $(LDLIBS)
 
 clean:
-	rm -f $(PROGS) $(MOREPROGS) $(TEMPFILES) *.o $(ACCT)
+	rm -f $(PROGS) $(MOREPROGS) $(TEMPFILES) *.o $(ACCT) *.exe
 
 include $(ROOT)/Make.libapue.inc
