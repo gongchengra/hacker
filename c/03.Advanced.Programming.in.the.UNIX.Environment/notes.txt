@@ -3582,39 +3582,247 @@ Given an understanding of a single process and its children, in the next chapter
 
 ## Chapter 9. Process Relationships
 
-
-
 ### 9.1 Introduction
 
+We learned in the previous chapter that there are relationships between processes. First, every process has a parent process (the initial kernel-level process is usually its own parent). The parent is notified when the child terminates, and the parent can obtain the child’s exit status. We also mentioned process groups when we described the waitpid function (Section 8.6) and explained how we can wait for any process in a process group to terminate.
 
+In this chapter, we’ll look at process groups in more detail and the concept of sessions that was introduced by POSIX.1. We’ll also look at the relationship between the login shell that is invoked for us when we log in and all the processes that we start from our login shell.
 
-### 9.2 Ter minal Logins
+It is impossible to describe these relationships without talking about signals, and to talk about signals, we need many of the concepts in this chapter. If you are unfamiliar with the UNIX System signal mechanism, you may want to skim through Chapter 10 at this point.
 
+### 9.2 Terminal Logins
 
+Let’s start by looking at the programs that are executed when we log in to a UNIX system. In early UNIX systems, such as Version 7, users logged in using dumb terminals that were connected to the host with hard-wired connections. The terminals were either local (directly connected) or remote (connected through a modem). In either case, these logins came through a terminal device driver in the kernel. For example, the common devices on PDP-11s were DH-11s and DZ-11s. A host had a fixed number of these terminal devices, so there was a known upper limit on the number of simultaneous logins.
 
-### 9.3 Networ k Logins
+As bitmapped graphical terminals became available, windowing systems were developed to provide users with new ways to interact with host computers. Applications were developed to create ‘‘terminal windows’’ to emulate character-based terminals, allowing users to interact with hosts in familiar ways (i.e., via the shell command line).
 
+Today, some platforms allow you to start a windowing system after logging in, whereas other platforms automatically start the windowing system for you. In the latter case, you might still have to log in, depending on how the windowing system is configured (some windowing systems can be configured to log you in automatically).
 
+The procedure that we now describe is used to log in to a UNIX system using a terminal. The procedure is similar regardless of the type of terminal we use—it could be a character-based terminal, a graphical terminal emulating a simple character-based terminal, or a graphical terminal running a windowing system.
+
+The BSD terminal login procedure has not changed much over the past 35 years. The system administrator creates a file, usually /etc/ttys, that has one line per terminal device. Each line specifies the name of the device and other parameters that are passed to the getty program. One parameter is the baud rate of the terminal, for example. When the system is bootstrapped, the kernel creates process ID 1, the init process, and it is init that brings the system up in multiuser mode. The init process reads the file /etc/ttys and, for every terminal device that allows a login, does a fork followed by an exec of the program getty.
+
+It is getty that calls open for the terminal device. The terminal is opened for reading and writing. If the device is a modem, the open may delay inside the device driver until the modem is dialed and the call is answered. Once the device is open, file descriptors 0, 1, and 2 are set to the device. Then getty outputs something like login: and waits for us to enter our user name. If the terminal supports multiple speeds, getty can detect special characters that tell it to change the terminal’s speed (baud rate). Consult your UNIX system manuals for additional details on the getty program and the data files (gettytab) that can drive its actions.
+
+When we enter our user name, getty’s job is complete, and it then invokes the login program, similar to
+`execle("/bin/login", "login", "-p", username, (char *)0, envp);`
+(There can be options in the gettytab file to have it invoke other programs, but the default is the login program.) init invokes getty with an empty environment; getty creates an environment for login (the envp argument) with the name of the terminal (something like TERM=foo, where the type of terminal foo is taken from the gettytab file) and any environment strings that are specified in the gettytab. The -p flag to login tells it to preserve the environment that it is passed and to add to that environment, not replace it.
+
+The login program does many things. Since it has our user name, it can call getpwnam to fetch our password file entry. Then login calls getpass(3) to display the prompt Password: and read our password (with echoing disabled, of course). It calls crypt(3) to encrypt the password that we entered and compares the encrypted result to the pw_passwd field from our shadow password file entry. If the login attempt fails because of an invalid password (after a few tries), login calls exit with an argument of 1. This termination will be noticed by the parent (init), and it will do another fork followed by an exec of getty, starting the procedure over again for this terminal.
+
+This is the traditional authentication procedure used on UNIX systems. Modern UNIX systems, however, have evolved to support multiple authentication procedures. For example, FreeBSD, Linux, Mac OS X, and Solaris all support a more flexible scheme known as PAM (Pluggable Authentication Modules). PAM allows an administrator to configure the authentication methods to be used to access services that are written to use the PAM library.
+
+If our application needs to verify that a user has the appropriate permission to perform a task, we can either hard code the authentication mechanism in the application or use the PAM library to give us the equivalent functionality. The advantage to using PAM is that administrators can configure different ways to authenticate users for different tasks, based on the local site policies.
+
+If we log in correctly, login will
+
+* Change to our home directory (chdir)
+* Change the ownership of our terminal device (chown) so we own it
+* Change the access permissions for our terminal device so we have permission to read from and write to it
+* Set our group IDs by calling setgid and initgroups
+* Initialize the environment with all the information that login has: our home directory (HOME), shell (SHELL), user name (USER and LOGNAME), and a default path (PATH)
+* Change to our user ID (setuid) and invoke our login shell, as in `execl("/bin/sh", "-sh", (char *)0)`;
+
+The login program really does more than we’ve described here. It optionally prints the message-of-the-day file, checks for new mail, and performs other tasks. In this chapter, we’re interested only in the features that we’ve described.
+
+At this point, our login shell is running. Its parent process ID is the original init process (process ID 1), so when our login shell terminates, init is notified (it is sent a SIGCHLD signal) and it starts the whole procedure over again for this terminal. File descriptors 0, 1, and 2 for our login shell are set to the terminal device.
+
+Our login shell now reads its start-up files (.profile for the Bourne shell and Korn shell; .bash_profile, .bash_login, or .profile for the GNU Bourne-again shell; and .cshrc and .login for the C shell). These start-up files usually change some of the environment variables and add many other variables to the environment. For example, most users set their own PATH and often prompt for the actual terminal type (TERM). When the start-up files are done, we finally get the shell’s prompt and can enter commands.
+
+On Mac OS X, the terminal login process follows essentially the same steps as in the BSD login process, since Mac OS X is based in part on FreeBSD. With Mac OS X, however, there are some differences:
+* The work of init is performed by launchd.
+* We are presented with a graphical-based login screen from the start.
+
+The Linux login procedure is very similar to the BSD procedure. Indeed, the Linux login command is derived from the 4.3BSD login command. The main difference between the BSD login procedure and the Linux login procedure is in the way the terminal configuration is specified.
+
+Some Linux distributions ship with a version of the init program that uses administrative files patterned after System V’s init file formats. On these systems, /etc/inittab contains the configuration information specifying the terminal devices for which init should start a getty process.
+
+Other Linux distributions, such as recent Ubuntu distributions, ship with a version of init that is known as ‘‘Upstart.’’ It uses configuration files named *.conf that are stored in the /etc/init directory. For example, the specifications for running getty on /dev/tty1 might be found in the file /etc/init/tty1.conf.
+
+Depending on the version of getty in use, the terminal characteristics are specified either on the command line (as with agetty) or in the file /etc/gettydefs (as with mgetty).
+
+Solaris supports two forms of terminal logins: (a) getty style, as described previously for BSD, and (b) ttymon logins, a feature introduced with SVR4. Normally, getty is used for the console, and ttymon is used for other terminal logins.
+
+The ttymon command is part of a larger facility termed SAF, the Service Access
+Facility. The goal of the SAF was to provide a consistent way to administer services that
+provide access to a system.
+
+### 9.3 Network Logins
+
+The main (physical) difference between logging in to a system through a serial terminal and logging in to a system through a network is that the connection between the terminal and the computer isn’t point-to-point. In this case, login is simply a service available, just like any other network service, such as FTP or SMTP.
+
+With the terminal logins that we described in the previous section, init knows which terminal devices are enabled for logins and spawns a getty process for each device. In the case of network logins, however, all the logins come through the kernel’s network interface drivers (e.g., the Ethernet driver), and we don’t know ahead of time how many of these will occur. Instead of having a process waiting for each possible login, we now have to wait for a network connection request to arrive.
+
+To allow the same software to process logins over both terminal logins and network logins, a software driver called a pseudo terminal is used to emulate the behavior of a serial terminal and map terminal operations to network operations, and vice versa.
+
+In BSD, a single process waits for most network connections: the inetd process, sometimes called the Internet superserver. In this section, we’ll look at the sequence of processes involved in network logins for a BSD system. We are not interested in the detailed network programming aspects of these processes; refer to Stevens, Fenner, and Rudoff [2004] for all the details.
+
+As part of the system start-up, init invokes a shell that executes the shell script /etc/rc. One of the daemons that is started by this shell script is inetd. Once the shell script terminates, the parent process of inetd becomes init; inetd waits for TCP/IP connection requests to arrive at the host. When a connection request arrives for it to handle, inetd does a fork and exec of the appropriate program.
+
+Let’s assume that a TCP connection request arrives for the TELNET server. TELNET is a remote login application that uses the TCP protocol. A user on another host (that is connected to the server’s host through a network of some form) or on the same host initiates the login by starting the TELNET client:
+`telnet hostname`
+The client opens a TCP connection to hostname, and the program that’s started on hostname is called the TELNET server. The client and the server then exchange data across the TCP connection using the TELNET application protocol. What has happened is that the user who started the client program is now logged in to the server’s host.
+
+The telnetd process then opens a pseudo terminal device and splits into two processes using fork. The parent handles the communication across the network connection, and the child does an exec of the login program. The parent and the child are connected through the pseudo terminal. Before doing the exec, the child sets up file descriptors 0, 1, and 2 to the pseudo terminal. If we log in correctly, login performs the same steps we described in Section 9.2: it changes to our home directory and sets our group IDs, user ID, and our initial environment. Then login replaces itself with our login shell by calling exec.
+
+The important thing to understand is that whether we log in through a terminal (Figure 9.3) or a network (Figure 9.5), we have a login shell with its standard input, standard output, and standard error connected to either a terminal device or a pseudo terminal device. We’ll see in the coming sections that this login shell is the start of a POSIX.1 session, and that the terminal or pseudo terminal is the controlling terminal for the session.
+
+Logging in to a Mac OS X system over a network is identical to logging in to a BSD system, because Mac OS X is based partially on FreeBSD. However, on Mac OS X, the telnet daemon is run from launchd.
+
+Network logins under Linux are the same as under BSD, except that some distributions use an alternative inetd process called the extended Internet services daemon, xinetd. The xinetd process provides a finer level of control over services it starts compared to inetd.
+
+The scenario for network logins under Solaris is almost identical to the steps under BSD and Linux. An inetd server is used that is similar in concept to the BSD version, except that the Solaris version runs as a restarter in the Service Management Facility (SMF). A restarter is a daemon that has the responsibility to start and monitor other daemon processes, and restart them if they fail. Although the inetd server is started by the master restarter in the SMF, the master restarter is started by init and we end up with the same overall picture as in Figure 9.5.
 
 ### 9.4 Process Groups
 
+In addition to having a process ID, each process belongs to a process group. 
 
+A process group is a collection of one or more processes, usually associated with the same job (job control is discussed in Section 9.8), that can receive signals from the same terminal. Each process group has a unique process group ID. Process group IDs are similar to process IDs: they are positive integers and can be stored in a pid_t data type. The function getpgrp returns the process group ID of the calling process.
+
+```c
+#include <unistd.h>
+pid_t getpgrp(void);
+// Returns: process group ID of calling process
+
+In older BSD-derived systems, the getpgrp function took a pid argument and returned the process group for that process. The Single UNIX Specification defines the getpgid function that mimics this behavior.
+
+```c
+#include <unistd.h>
+pid_t getpgid(pid_t pid);
+// Returns: process group ID if OK, −1 on error
+```
+
+If pid is 0, the process group ID of the calling process is returned. Thus
+`getpgid(0);`
+is equivalent to
+`getpgrp();`
+
+Each process group can have a process group leader. The leader is identified by its process group ID being equal to its process ID.
+
+It is possible for a process group leader to create a process group, create processes in the group, and then terminate. The process group still exists, as long as at least one process is in the group, regardless of whether the group leader terminates. This is called the process group lifetime—the period of time that begins when the group is created and ends when the last remaining process leaves the group. The last remaining process in the process group can either terminate or enter some other process group.
+
+A process joins an existing process group or creates a new process group by calling setpgid. (In the next section, we’ll see that setsid also creates a new process group.)
+
+```c
+#include <unistd.h>
+int setpgid(pid_t pid, pid_t pgid);
+// Returns: 0 if OK, −1 on error
+```
+
+This function sets the process group ID to pgid in the process whose process ID equals pid. If the two arguments are equal, the process specified by pid becomes a process group leader. If pid is 0, the process ID of the caller is used. Also, if pgid is 0, the process ID specified by pid is used as the process group ID.
+
+A process can set the process group ID of only itself or any of its children. Furthermore, it can’t change the process group ID of one of its children after that child has called one of the exec functions.
+
+In most job-control shells, this function is called after a fork to have the parent set the process group ID of the child, and to have the child set its own process group ID. One of these calls is redundant, but by doing both, we are guaranteed that the child is placed into its own process group before either process assumes that this has happened. If we didn’t do this, we would have a race condition, since the child’s process group membership would depend on which process executes first.
+
+When we discuss signals, we’ll see how we can send a signal to either a single process (identified by its process ID) or a process group (identified by its process group ID). Similarly, the waitpid function from Section 8.6 lets us wait for either a single process or one process from a specified process group.
 
 ### 9.5 Sessions
 
+A session is a collection of one or more process groups. The processes in a process group are usually placed there by a shell pipeline. For example, the arrangement shown in Figure 9.6 could have been generated by shell commands of the form 
 
+```c
+proc1 | proc2 &
+proc3 | proc4 | proc5
+```
+
+A process establishes a new session by calling the setsid function.
+
+```c
+#include <unistd.h>
+pid_t setsid(void);
+// Returns: process group ID if OK, −1 on error
+```
+
+If the calling process is not a process group leader, this function creates a new session. Three things happen.
+
+1. The process becomes the session leader of this new session. (A session leader is the process that creates a session.) The process is the only process in this new session. 
+2. The process becomes the process group leader of a new process group. The new process group ID is the process ID of the calling process.
+3. The process has no controlling terminal. (We’ll discuss controlling terminals in the next section.) If the process had a controlling terminal before calling setsid, that association is broken.
+
+This function returns an error if the caller is already a process group leader. To ensure this is not the case, the usual practice is to call fork and have the parent terminate and the child continue. We are guaranteed that the child is not a process group leader, because the process group ID of the parent is inherited by the child, but the child gets a new process ID. Hence, it is impossible for the child’s process ID to equal its inherited process group ID.
+
+The Single UNIX Specification talks only about a ‘‘session leader’’; there is no ‘‘session ID’’ similar to a process ID or a process group ID. Obviously,asession leader is a single process that has a unique process ID, so we could talk about a session ID that is the process ID of the session leader. This concept of a session ID was introduced in SVR4. Historically, BSD-based systems didn’t support this notion, but have since been updated to include it. The getsid function returns the process group ID of a process’s session leader.
+
+```c
+#include <unistd.h>
+pid_t getsid(pid_t pid);
+// Returns: session leader’s process group ID if OK, −1 on error
+```
+
+If pid is 0, getsid returns the process group ID of the calling process’s session leader. For security reasons, some implementations may restrict the calling process from obtaining the process group ID of the session leader if pid doesn’t belong to the same session as the caller.
 
 ### 9.6 Controlling Terminal
 
+Sessions and process groups have a few other characteristics.
 
+* A session can have a single controlling terminal. This is usually the terminal device (in the case of a terminal login) or pseudo terminal device (in the case of a network login) on which we log in.
+* The session leader that establishes the connection to the controlling terminal is called the controlling process.
+* The process groups within a session can be divided into a single foreground process group and one or more background process groups.
+* If a session has a controlling terminal, it has a single foreground process group and all other process groups in the session are background process groups.
+* Whenever we press the terminal’s interrupt key (often DELETE or Control-C), the interrupt signal is sent to all processes in the foreground process group.
+* Whenever we press the terminal’s quit key (often Control-backslash), the quit signal is sent to all processes in the foreground process group.
+* If a modem (or network) disconnect is detected by the terminal interface, the hang-up signal is sent to the controlling process (the session leader).
+
+Usually, we don’t have to worry about the controlling terminal; it is established automatically when we log in.
+
+There are times when a program wants to talk to the controlling terminal, regardless of whether the standard input or standard output is redirected. The way a program guarantees that it is talking to the controlling terminal is to open the file /dev/tty. This special file is a synonym within the kernel for the controlling terminal. Naturally, if the program doesn’t have a controlling terminal, the open of this device will fail.
+
+The classic example is the getpass(3) function, which reads a password (with terminal echoing turned off, of course). This function is called by the crypt(1) program and can be used in a pipeline. For example,
+`crypt < salaries | lpr`
+decrypts the file salaries and pipes the output to the print spooler. Because crypt reads its input file on its standard input, the standard input can’t be used to enter the password. Also, crypt is designed so that we have to enter the encryption password each time we run the program, to prevent us from saving the password in a file (which could be a security hole).
 
 ### 9.7 tcgetpgrp, tcsetpgrp, and tcgetsid Functions
 
+We need a way to tell the kernel which process group is the foreground process group, so that the terminal device driver knows where to send the terminal input and the terminal-generated signals (Figure 9.7).
 
+```c
+#include <unistd.h>
+pid_t tcgetpgrp(int fd);
+// Returns: process group ID of foreground process group if OK, −1 on error
+int tcsetpgrp(int fd, pid_t pgrpid);
+// Returns: 0 if OK, −1 on error
+```
+
+The function tcgetpgrp returns the process group ID of the foreground process group associated with the terminal open on fd.
+
+If the process has a controlling terminal, the process can call tcsetpgrp to set the foreground process group ID to pgrpid. The value of pgrpid must be the process group ID of a process group in the same session, and fd must refer to the controlling terminal of the session.
+
+Most applications don’t call these two functions directly. Instead, the functions are normally called by job-control shells.
+
+The tcgetsid function allows an application to obtain the process group ID for the session leader given a file descriptor for the controlling TTY.
+
+```c
+#include <termios.h>
+pid_t tcgetsid(int fd);
+// Returns: session leader’s process group ID if OK, −1 on error
+```
+
+Applications that need to manage controlling terminals can use tcgetsid to identify the session ID of the controlling terminal’s session leader (which is equivalent to the session leader’s process group ID).
 
 ### 9.8 Job Control
 
+Job control is a feature that was added to BSD around 1980. This feature allows us to start multiple jobs (groups of processes) from a single terminal and to control which jobs can access the terminal and which jobs are run in the background. Job control requires three forms of support:
+1. A shell that supports job control
+2. The terminal driver in the kernel must support job control
+3. The kernel must support certain job-control signals
 
+From our perspective, when using job control from a shell, we can start a job in either the foreground or the background. A job is simply a collection of processes, often a pipeline of processes. For example,
+`vi main.c`
+starts a job consisting of one process in the foreground. The commands
+`pr *.c | lpr &`
+`make all &`
+start two jobs in the background. All the processes invoked by these background jobs are in the background.
+
+As we said, to use the features provided by job control, we need to use a shell that supports job control. With older systems, it was simple to say which shells supported job control and which didn’t. The C shell supported job control, the Bourne shell didn’t, and it was an option with the Korn shell, depending on whether the host supported job control. But the C shell has been ported to systems (e.g., earlier versions of System V) that don’t support job control, and the SVR4 Bourne shell, when invoked by the name jsh instead of sh, supports job control. The Korn shell continues to support job control if the host does. The Bourne-again shell also supports job control. We’ll just talk generically about a shell that supports job control, versus one that doesn’t, when the difference between the various shells doesn’t matter.
+
+When we start a background job, the shell assigns it a job identifier and prints one or more of the process IDs. When the jobs are done and we press RETURN, the shell tells us that the jobs are complete. The reason we have to press RETURN is to have the shell print its prompt. The shell doesn’t print the changed status of background jobs at any random time—only right before it prints its prompt, to let us enter a new command line. If the shell didn’t do this, it could produce output while we were entering an input line.
+
+The interaction with the terminal driver arises because a special terminal character affects the foreground job: the suspend key (typically Control-Z). Entering this character causes the terminal driver to send the SIGTSTP signal to all processes in the foreground process group. The jobs in any background process groups aren’t affected. The terminal driver looks for three special characters, which generate signals to the foreground process group.
+
+* The interrupt character (typically DELETE or Control-C) generates SIGINT.
+* The quit character (typically Control-backslash) generates SIGQUIT.
+* The suspend character (typically Control-Z) generates SIGTSTP.
 
 ### 9.9 Shell Execution of Programs
 
