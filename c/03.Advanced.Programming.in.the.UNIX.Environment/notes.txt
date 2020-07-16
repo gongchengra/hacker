@@ -3824,52 +3824,113 @@ The interaction with the terminal driver arises because a special terminal chara
 * The quit character (typically Control-backslash) generates SIGQUIT.
 * The suspend character (typically Control-Z) generates SIGTSTP.
 
+Is job control necessary or desirable? Job control was originally designed and implemented before windowing terminals were widespread. Some people claim that a well-designed windowing system removes any need for job control. Some complain that the implementation of job control — requiring support from the kernel, the terminal driver, the shell, and some applications—isahack. Some use job control with a windowing system, claiming a need for both. Regardless of your opinion, job control is a required feature of POSIX.1.
+
 ### 9.9 Shell Execution of Programs
 
-
+Note that the order in which a shell creates processes can differ depending on the particular shell in use.
 
 ### 9.10 Orphaned Process Groups
 
-
+We’ve mentioned that a process whose parent terminates is called an orphan and is inherited by the init process. We now look at entire process groups that can be orphaned and see how POSIX.1 handles this situation.
 
 ### 9.11 FreeBSD Implementation
 
-
+Having talked about the various attributes of a process, process group, session, and controlling terminal, it’s worth looking at how all this can be implemented. We’ll look briefly at the implementation used by FreeBSD. Some details of the SVR4 implementation of these features can be found in Williams [1989]. 
 
 ### 9.12 Summary
 
-
+This chapter has described the relationships between groups of processes — sessions, which are made up of process groups. Job control is a feature supported by most UNIX systems today, and we’ve described how it’s implemented by a shell that supports job control. The controlling terminal for a process, /dev/tty, is also involved in these process relationships. We’ve made numerous references to the signals that are used in all these process relationships. The next chapter continues the discussion of signals, looking at all the UNIX System signals in detail. 
 
 ## Chapter 10. Signals
 
-
-
 ### 10.1 Introduction
 
+Signals are software interrupts. Most nontrivial application programs need to deal with signals. Signals provide a way of handling asynchronous events—for example, a user at a terminal typing the interrupt key to stop a program or the next program in a pipeline terminating prematurely.
 
+Signals have been provided since the early versions of the UNIX System, but the signal model provided with systems such as Version 7 was not reliable. Signals could get lost, and it was difficult for a process to turn off selected signals when executing critical regions of code. Both 4.3BSD and SVR3 made changes to the signal model, adding what are called reliable signals. But the changes made by Berkeley and AT&T were incompatible. Fortunately, POSIX.1 standardized the reliable-signal routines, and that is what we describe here.
+
+In this chapter, we start with an overview of signals and a description of what each signal is normally used for. Then we look at the problems with earlier implementations. It is often important to understand what is wrong with an implementation before seeing how to do things correctly. This chapter contains numerous examples that are not entirely correct and a discussion of the defects.
 
 ### 10.2 Signal Concepts
 
+First, every signal has a name. These names all begin with the three characters SIG. For example, SIGABRT is the abort signal that is generated when a process calls the abort function. SIGALRM is the alarm signal that is generated when the timer set by the alarm function goes off. Version 7 had 15 different signals; SVR4 and 4.4BSD both had 31 different signals. FreeBSD 8.0 supports 32 different signals. Mac OS X 10.6.8 and Linux 3.2.0 each support 31 different signals, whereas Solaris 10 supports 40 different signals. FreeBSD, Linux, and Solaris, however, support additional application-defined signals introduced to support real-time applications. Although the POSIX real-time extensions aren’t covered in this book (refer to Gallmeister [1995] for more information), as of SUSv4 the real-time signal interfaces have moved to the base specification.
 
+Signal names are all defined by positive integer constants (the signal number) in the header <signal.h>.
+
+No signal has a signal number of 0. We’ll see in Section 10.9 that the kill function uses the signal number of 0 for a special case. POSIX.1 calls this value the null signal.
+
+Numerous conditions can generate a signal:
+
+* The terminal-generated signals occur when users press certain terminal keys. Pressing the DELETE key on the terminal (or Control-C on many systems) normally causes the interrupt signal (SIGINT) to be generated. This is how to stop a runaway program. 
+* Hardware exceptions generate signals: divide by 0, invalid memory reference, and the like. These conditions are usually detected by the hardware, and the kernel is notified. The kernel then generates the appropriate signal for the process that was running at the time the condition occurred. For example, SIGSEGV is generated for a process that executes an invalid memory reference.
+* The kill(2) function allows a process to send any signal to another process or process group. Naturally, there are limitations: we have to be the owner of the process that we’re sending the signal to, or we have to be the superuser.
+* The kill(1) command allows us to send signals to other processes. This program is just an interface to the kill function. This command is often used to terminate a runaway background process.
+* Software conditions can generate signals when a process should be notified of various events. These aren’t hardware-generated conditions (as is the divideby-0 condition), but software conditions. Examples are SIGURG (generated when out-of-band data arrives over a network connection), SIGPIPE (generated when a process writes to a pipe that has no reader), and SIGALRM (generated when an alarm clock set by the process expires).
+
+Signals are classic examples of asynchronous events. They occur at what appear to be random times to the process. The process can’t simply test a variable (such as errno) to see whether a signal has occurred; instead, the process has to tell the kernel "if and when this signal occurs, do the following."
+
+We can tell the kernel to do one of three things when a signal occurs. We call this the disposition of the signal, or the action associated with a signal.
+
+1. Ignore the signal. This works for most signals, but two signals can never be ignored: SIGKILL and SIGSTOP. The reason these two signals can’t be ignored is to provide the kernel and the superuser with a surefire way of either killing or stopping any process. Also, if we ignore some of the signals that are generated by a hardware exception (such as illegal memory reference or divide by 0), the behavior of the process is undefined.
+2. Catch the signal. To do this, we tell the kernel to call a function of ours whenever the signal occurs. In our function, we can do whatever we want to handle the condition. If we’re writing a command interpreter, for example, when the user generates the interrupt signal at the keyboard, we probably want to return to the main loop of the program, terminating whatever command we were executing for the user. If the SIGCHLD signal is caught, it means that a child process has terminated, so the signal-catching function can call waitpid to fetch the child’s process ID and termination status. As another example, if the process has created temporary files, we may want to write a signal-catching function for the SIGTERM signal (the termination signal that is the default signal sent by the kill command) to clean up the temporary files. Note that the two signals SIGKILL and SIGSTOP can’t be caught.
+3. Let the default action apply. Every signal has a default action. Note that the default action for most signals is to terminate the process.
+
+When the default action is labeled ‘‘terminate+core,’’ it means that a memory image of the process is left in the file named core of the current working directory of the process. (Because the file is named core, it shows how long this feature has been part of the UNIX System.) This file can be used with most UNIX System debuggers to examine the state of the process at the time it terminated.
+
+The core file will not be generated if (a) the process was set-user-ID and the current user is not the owner of the program file, (b) the process was set-group-ID and the current user is not the group owner of the file, (c) the user does not have permission to write in the current working directory, (d) the file already exists and the user does not have permission to write to it, or (e) the file is too big (recall the RLIMIT_CORE limit in Section 7.11). The permissions of the core file (assuming that the file doesn’t already exist) are usually user-read and user-write, although Mac OS X sets only user-read.
 
 ### 10.3 signal Function
 
+The simplest interface to the signal features of the UNIX System is the signal function.
 
+```c
+#include <signal.h>
+void (*signal(int signo, void (*func)(int)))(int);
+// Returns: previous disposition of signal (see following) if OK, SIG_ERR on error
+```
+
+The signo argument is just the name of the signal from Figure 10.1. The value of func is (a) the constant SIG_IGN, (b) the constant SIG_DFL, or (c) the address of a function to be called when the signal occurs. If we specify SIG_IGN, we are telling the system to ignore the signal. (Remember that we cannot ignore the two signals SIGKILL and SIGSTOP.) When we specify SIG_DFL, we are setting the action associated with the signal to its default value (see the final column in Figure 10.1). When we specify the address of a function to be called when the signal occurs, we are arranging to ‘‘catch’’ the signal. We call the function either the signal handler or the signal-catching function.
+
+The prototype for the signal function states that the function requires two arguments and returns a pointer to a function that returns nothing (void). The signal function’s first argument, signo, is an integer. The second argument is a pointer to a function that takes a single integer argument and returns nothing. The function whose address is returned as the value of signal takes a single integer argument (the final (int)). In plain English, this declaration says that the signal handler is passed a single integer argument (the signal number) and that it returns nothing. When we call signal to establish the signal handler, the second argument is a pointer to the function. The return value from signal is the pointer to the previous signal handler.
+
+When a program is executed, the status of all signals is either default or ignore. Normally, all signals are set to their default action, unless the process that calls exec is ignoring the signal. Specifically, the exec functions change the disposition of any signals being caught to their default action and leave the status of all other signals alone. 
+
+When a process calls fork, the child inherits the parent’s signal dispositions. Here, since the child starts off with a copy of the parent’s memory image, the address of a signal-catching function has meaning in the child.
 
 ### 10.4 Unreliable Signals
 
-
+In earlier versions of the UNIX System (such as Version 7), signals were unreliable. By this we mean that signals could get lost: a signal could occur and the process would never know about it. Also, a process had little control over a signal: a process could catch the signal or ignore it. Sometimes, we would like to tell the kernel to block a signal: don’t ignore it, just remember if it occurs, and tell us later when we’re ready.
 
 ### 10.5 Interrupted System Calls
 
+A characteristic of earlier UNIX systems was that if a process caught a signal while the process was blocked in a ‘‘slow’’ system call, the system call was interrupted. The system call returned an error and errno was set to EINTR. This was done under the assumption that since a signal occurred and the process caught it, there is a good chance that something has happened that should wake up the blocked system call.
 
+To support this feature, the system calls are divided into two categories: the ‘‘slow’’ system calls and all the others. The slow system calls are those that can block forever.
+Included in this category are
+
+• Reads that can block the caller forever if data isn’t present with certain file types (pipes, terminal devices, and network devices)
+• Writes that can block the caller forever if the data can’t be accepted immediately by these same file types
+• Opens on certain file types that block the caller until some condition occurs (such as a terminal device open waiting until an attached modem answers the phone)
+• The pause function (which by definition puts the calling process to sleep until a signal is caught) and the wait function
+• Certain ioctl operations
+• Some of the interprocess communication functions
+
+The notable exception to these slow system calls is anything related to disk I/O. Although a read or a write of a disk file can block the caller temporarily (while the disk driver queues the request and then the request is executed), unless a hardware error occurs, the I/O operation always returns and unblocks the caller quickly.
+
+To prevent applications from having to handle interrupted system calls, 4.2BSD introduced the automatic restarting of certain interrupted system calls. The system calls that were automatically restarted are ioctl, read, readv, write, writev, wait, and waitpid. As we’ve mentioned, the first five of these functions are interrupted by a signal only if they are operating on a slow device; wait and waitpid are always interrupted when a signal is caught. Since this caused a problem for some applications that didn’t want the operation restarted if it was interrupted, 4.3BSD allowed the process to disable this feature on a per-signal basis.
 
 ### 10.6 Reentrant Functions
 
+The Single UNIX Specification specifies the functions that are guaranteed to be safe to call from within a signal handler. These functions are reentrant and are called async-signal safe by the Single UNIX Specification. Besides being reentrant, they block any signals during operation if delivery of a signal might cause inconsistencies. Figure 10.4 lists these async-signal safe functions. Most of the functions that are not included in Figure 10.4 are missing because (a) they are known to use static data structures, (b) they call malloc or free, or (c) they are part of the standard I/O library. Most implementations of the standard I/O library use global data structures in a nonreentrant way. Note that even though we call printf from signal handlers in some of our examples, it is not guaranteed to produce the expected results, since the signal handler can interrupt a call to printf from our main program.
 
+Be aware that even if we call a function listed in Figure 10.4 from a signal handler, there is only one errno variable per thread, and we might potentially modify its value. Consider a signal handler that is invoked right after main has set errno. If the signal handler calls read, for example, this call can change the value of errno, wiping out the value that was just stored in main. Therefore, as a general rule, when calling the functions listed in Figure 10.4 from a signal handler, we should save and restore errno. (Be aware that a commonly caught signal is SIGCHLD, and its signal handler usually calls one of the wait functions. All the wait functions can change errno.)
 
 ### 10.7 SIGCLD Semantics
 
+Two signals that continually generate confusion are SIGCLD and SIGCHLD. The name SIGCLD (without the H) is from System V, and this signal has different semantics from the BSD signal, named SIGCHLD. The POSIX.1 signal is also named SIGCHLD.
+
+The semantics of the BSD SIGCHLD signal are normal, in the sense that its semantics are similar to those of all other signals. When the signal occurs, the status of a child has changed, and we need to call one of the wait functions to determine what has happened.
 
 
 ### 10.8 Reliable-Signal Ter minology and Semantics
@@ -4012,19 +4073,19 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 12.3 Thread Attr ibutes
+### 12.3 Thread Attributes
 
 
 
-### 12.4 Synchronization Attr ibutes
+### 12.4 Synchronization Attributes
 
 
 
-### 12.4.1 Mutex Attr ibutes
+### 12.4.1 Mutex Attributes
 
 
 
-### 12.4.2 Reader–Writer Lock Attr ibutes
+### 12.4.2 Reader–Writer Lock Attributes
 
 
 
@@ -4072,7 +4133,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 13.2 Daemon Character istics
+### 13.2 Daemon Characteristics
 
 
 
@@ -4264,7 +4325,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 16.5 Data Tr ansfer
+### 16.5 Data Transfer
 
 
 
@@ -4328,7 +4389,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 18.2 Over view
+### 18.2 Overview
 
 
 
@@ -4336,11 +4397,11 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 18.4 Getting and Setting Ter minal Attr ibutes
+### 18.4 Getting and Setting Terminal Attr ibutes
 
 
 
-### 18.5 Ter minal Option Flags
+### 18.5 Terminal Option Flags
 
 
 
@@ -4356,7 +4417,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 18.9 Ter minal Identification
+### 18.9 Terminal Identification
 
 
 
@@ -4368,7 +4429,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 18.12 Ter minal Window Size
+### 18.12 Terminal Window Size
 
 
 
@@ -4388,7 +4449,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 19.2 Over view
+### 19.2 Overview
 
 
 
@@ -4428,7 +4489,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 20.3 The Librar y
+### 20.3 The Library
 
 
 
@@ -4444,7 +4505,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 20.7 Building the Librar y
+### 20.7 Building the Library
 
 
 
@@ -4452,7 +4513,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 20.9 Perfor mance
+### 20.9 Performance
 
 
 
@@ -4468,7 +4529,7 @@ The interaction with the terminal driver arises because a special terminal chara
 
 
 
-### 21.2 The Inter net Pr inting Protocol
+### 21.2 The Internet Printing Protocol
 
 
 
