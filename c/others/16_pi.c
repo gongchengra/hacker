@@ -22,7 +22,7 @@
  * Last Modified :
  _._._._._._._._._._._._._._._._._._._._._.*/
 #include <stdio.h>
-#define NUMBER 1000
+#define NUMBER 10000
 int array_divide_number(int *array, int number, int size) {
     int i, tmp;
     int modulo = 0;
