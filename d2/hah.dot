@@ -1,0 +1,34 @@
+digraph G {
+    // Define the nodes
+    users [label="users"];
+    AliyunDNS [label="AliyunDNS"];
+    AWS_Cloudfront [label="AWS Cloudfront"];
+    JD_servers [label="JD servers"];
+    Tmall_servers [label="Tmall servers"];
+    AWS_ELB [label="AWS ELB"];
+    AWS_web_servers [label="AWS web servers"];
+    AWS_RDS_database [label="AWS RDS database"];
+    AWS_Middleware_servers [label="AWS Middleware servers"];
+    Jackyun_Servers [label="Jackyun Servers"];
+    Warehouse_Servers [label="Warehouse Servers"];
+    Kingdee_Servers [label="Kingdee Servers"];
+    AWS_EFS [label="AWS EFS"];
+
+    // Define the directed edges
+    users -> AliyunDNS;
+    users -> JD_servers;
+    users -> Tmall_servers;
+    JD_servers -> Jackyun_Servers;
+    Tmall_servers -> Jackyun_Servers;
+    AliyunDNS -> AWS_Cloudfront;
+    AliyunDNS -> AWS_ELB;
+    AWS_EFS -> AWS_web_servers;
+    AWS_ELB -> AWS_web_servers;
+    AWS_Cloudfront -> AWS_web_servers;
+    AWS_web_servers -> AWS_RDS_database;
+    AWS_web_servers <-> AWS_Middleware_servers; // This is an undirected edge
+    Jackyun_Servers <-> AWS_Middleware_servers; // This is an undirected edge
+    Warehouse_Servers -> Jackyun_Servers;
+    Kingdee_Servers <-> AWS_Middleware_servers; // This is an undirected edge
+}
+
