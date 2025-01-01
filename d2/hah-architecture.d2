@@ -5,8 +5,8 @@ j: JD
 t: Tmall
 e: AWS ELB
 w: AWS web servers
-d: AWS RDS database
-m: AWS Middleware servers
+d: AWS RDS
+r: AWS Redis
 k: Jackyun
 u -> a
 u -> j
@@ -15,11 +15,11 @@ j -> k
 t -> k
 a -> c
 a -> e
-AWS EFS -> w
 e -> w
 c -> w
-w -> d
-w <-> m
-k <-> m
+k <-> w
 WMS -> k
-Kingdee <-> m
+Kingdee <-> w
+w -> d
+w -> r
+w -> AWS EFS
