@@ -1,48 +1,44 @@
-u: users
+u: Users
 a: AliyunDNS
 c: AWS Cloudfront
 j: JD
 t: Tmall
 e: AWS ELB
-ef: AWS EFS
-f1: cn-north-1a frontend server
-f2: cn-north-1b frontend server
-fm: frontend manager server
-b1: cn-north-1a backend server
-b2: cn-north-1b backend server
-bm: backend manager server
-d: AWS RDS database
-r: AWS Redis server
-m: AWS Middleware server
+w: AWS web servers {
+  prod: {
+    f1: cn-north-1a frontend
+    f2: cn-north-1b frontend
+    fm: frontend manager
+    b1: cn-north-1a backend
+    b2: cn-north-1b backend
+    bm: backend manager
+  }
+  stage: {
+    front2 frontend
+    front2 backend
+  }
+  CMS
+  Redmine
+  m: Middleware
+  Old Middleware
+  Bastion
+}
+d: AWS RDS
 k: Jackyun
 u -> a
+a -> c
+a -> e
+e -> w
+c -> w.prod.b1
+c -> w.prod.b2
+w -> d
+w -> AWS Redis
+w -> AWS EFS
 u -> j
 u -> t
 j -> k
 t -> k
-a -> c
-a -> e
-ef -> f1
-ef -> f2
-ef -> b1
-ef -> b2
-ef -> fm
-ef -> bm
-e -> f1
-e -> f2
-e -> b1
-e -> b2
-e -> fm
-e -> bm
-c -> b1
-c -> b2
-b1 -> d
-b2 -> d
-bm -> d
-b1 -> r
-b2 -> r
-bm -> r
-bm <-> m
-k <-> m
 WMS -> k
-Kingdee <-> m
+k <-> w.m
+Kingdee <-> w.m
+Developers -> w.Bastion
