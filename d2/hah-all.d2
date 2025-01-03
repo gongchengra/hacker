@@ -1,12 +1,10 @@
-u: users
-developers
+u: Users
 a: AliyunDNS
 c: AWS Cloudfront
 j: JD
 t: Tmall
 e: AWS ELB
 w: AWS web servers {
-  b: bastion
   prod: {
     f1: cn-north-1a frontend
     f2: cn-north-1b frontend
@@ -19,28 +17,28 @@ w: AWS web servers {
     front2 frontend
     front2 backend
   }
-  m: old AWS Middleware
-  nm: AWS Middleware
-  Redmine
   CMS
+  Redmine
+  m: Middleware
+  Old Middleware
+  Bastion
 }
 d: AWS RDS
-r: AWS Redis
 k: Jackyun
 u -> a
-u -> j
-u -> t
-developers -> w.b
-j -> k
-t -> k
 a -> c
 a -> e
 e -> w
 c -> w.prod.b1
 c -> w.prod.b2
 w -> d
-w -> r
+w -> AWS Redis
 w -> AWS EFS
-k <-> w.nm
+u -> j
+u -> t
+j -> k
+t -> k
 WMS -> k
-Kingdee <-> w.nm
+k <-> w.m
+Kingdee <-> w.m
+Developers -> w.Bastion

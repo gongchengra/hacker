@@ -1,25 +1,23 @@
-u: users
+u: Users
 a: AliyunDNS
 c: AWS Cloudfront
 j: JD
 t: Tmall
 e: AWS ELB
 w: AWS web servers
-d: AWS RDS
-r: AWS Redis
 k: Jackyun
 u -> a
 u -> j
 u -> t
-j -> k
-t -> k
 a -> c
 a -> e
-e -> w
+j -> k
+t -> k
 c -> w
+e -> w
 k <-> w
 WMS -> k
 Kingdee <-> w
-w -> d
-w -> r
+w -> AWS RDS
+w -> AWS Redis
 w -> AWS EFS
